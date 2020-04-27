@@ -42,7 +42,7 @@ export default function MapContainer() {
   };
   return (
     <div id="mapid" className="h-full">
-      <Map center={center} zoom={12} minZoom={10}>
+      <Map center={center} zoom={12} minZoom={2}>
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
@@ -96,16 +96,15 @@ export default function MapContainer() {
 
       </Map>
 
-      <div >
-        <div className="bg-white border shadow rounded-lg overflow-hidden" style={{ position: "absolute", top: "85px", right: "15px", zIndex: "100" }}>
-          <div >
-            <ul className='flex cursor-pointer'>
-              <li className={"py-2 px-6 bg-white border-r-2" + (selected.name === "ventilator" ? "" : " text-gray-500 bg-gray-200")} onClick={_ => setSelected({ name: "ventilator", current: "ventcurrent" })}>Ventilator</li>
-              <li className={"py-2 px-6 bg-white" + (selected.name === "icu" ? "" : " text-gray-500 bg-gray-200")} onClick={_ => setSelected({ name: "icu", current: "icucurrent" })}>ICU</li>
-            </ul>
-          </div>
+      <div className="bg-white border shadow rounded-lg overflow-hidden mt-10" style={{ position: "absolute", top: "85px", right: "15px", zIndex: "100" }}>
+        <div >
+          <ul className='flex cursor-pointer'>
+            <li className={"py-2 px-6 bg-white border-r-2" + (selected.name === "ventilator" ? "" : " text-gray-500 bg-gray-200")} onClick={_ => setSelected({ name: "ventilator", current: "ventcurrent" })}>Ventilator</li>
+            <li className={"py-2 px-6 bg-white" + (selected.name === "icu" ? "" : " text-gray-500 bg-gray-200")} onClick={_ => setSelected({ name: "icu", current: "icucurrent" })}>ICU</li>
+          </ul>
         </div>
       </div>
+
     </div>
   )
 }
