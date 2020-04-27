@@ -1,6 +1,6 @@
 import React from 'react';
 import Choropleth from 'react-leaflet-choropleth'
-import districtData from './data/kerala_district'
+import districtData from '../data/kerala_district'
 import {
   Circle,
   CircleMarker,

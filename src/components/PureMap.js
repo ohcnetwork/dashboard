@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import L from 'leaflet';
-import geoLocation from './geoLocation.js';
-import indiaData from './indiaData.json';
-import logo from './logo.svg';
-import './App.css';
+import geoLocation from '../data/geoLocation.js';
+import indiaData from '../data/indiaData.json';
 
 const center = [22.9734, 78.6569]
 const style = {
