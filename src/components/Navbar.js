@@ -9,7 +9,7 @@ export default function Navbar() {
             <img className="object-contain" src={require("../assets/img/coronaSafeLogo.svg")} title="CoronaSafe: Corona Literacy Mission" alt="CoronaSafe Logo: Corona Literacy Mission" />
           </a>
           <div className="flex">
-            <a href="/#"><div className="px-2 py-1 mr-2" ><div className="text-md font-semibold">Map</div></div></a>
+            <a href="/#"><div className="px-2 py-1 mr-2" ><div className="text-md font-semibold">Hospital Bed Capacity</div></div></a>
           </div>
         </div>
       </div>
