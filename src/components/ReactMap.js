@@ -71,7 +71,7 @@ export default function MapContainer(){
             })}
 
               {facilityData.map(facility => {
-                if(isFloat(facility.lat) && isFloat(facility.lng) && facility.icu > 0)
+                if(isFloat(facility.lat) && isFloat(facility.lng) && facility[selected.name] > 0)
                 return (
                   <Circle
                     key={facility.name}
