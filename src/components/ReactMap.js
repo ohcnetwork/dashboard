@@ -76,9 +76,12 @@ export default function MapContainer() {
                 key={index}
                 center={[facility.lat, facility.lng]}
                 fillColor="#d14f69"
-                fillOpacity={0.5}
+                fillOpacity={0}
                 stroke={false}
-                radius={100}
+                radius={200}
+                onMouseOver={e => {
+                  e.target.openPopup();
+                }}
               >
                 <Popup>
                   <h3>{facility.name}</h3>
