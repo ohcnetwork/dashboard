@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Navbar() {
   return (
-    <div className="bg-gray-200 border-b border-gray-300">
+    <div className="bg-blue-100 border-b border-gray-300">
       <div className="max-w-screen-sm md:max-w-6xl mx-auto p-3 md:p-4">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-end">
           <a className="w-1/2 md:w-1/6 justify-start" href="/#">

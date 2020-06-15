@@ -1,16 +1,22 @@
 import React, {useEffect} from 'react';
+import {useRoutes} from 'hookrouter';
+
 import Navbar from './components/Navbar.js'
 import ReactMap from './components/ReactMap.js'
-import ReactChoropleth from './components/ReactChoropleth.js'
-import PureMap from './components/PureMap.js'
+import Login from './components/Login'
 
-import logo from './logo.svg';
+
+const routes = {
+  '/': () => <ReactMap />,
+  '/login': () => <Login />,
+};
 
 function App() {
+  const pages = useRoutes(routes);
   return (
-    <div style={{height: '100vh'}}>
+    <div className="h-screen flex flex-col bg-gray-200">
       <Navbar />
-      <ReactMap />
+      {pages}
     </div>
   );
 }
