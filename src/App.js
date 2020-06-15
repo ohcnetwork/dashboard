@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useRoutes} from 'hookrouter';
 
 import Navbar from './components/Navbar.js'
