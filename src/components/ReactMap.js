@@ -21,6 +21,7 @@ export default function MapContainer() {
   });
   const [facilityData, setFacilityData] = useState([]);
   const [pseudoPopup, setPseudoPopup] = useState(null);
+  const [filterDistrict, setFilterDistrict] = useState();
   var yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 3);
   const roomTypes = {
@@ -37,6 +38,7 @@ export default function MapContainer() {
           Object.values(summary).map((facility) => {
             return {
               name: facility.name,
+              districtId: facility.district,
               district: facility.district_object?.name || "Unknown",
               location: facility.location,
               oxygenCapacity: facility.oxygen_capacity,
@@ -158,6 +160,10 @@ export default function MapContainer() {
           url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
         />
         {facilityData.map((facility, index) => {
+          if(filterDistrict && facility.districtId !== filterDistrict.id){
+            console.log(filterDistrict.id + "")
+            return React.null;
+          }
           const capacity = facility.capacity[selected.id];
           if (!capacity || !facility.location || capacity.total_capacity == 0)
             return React.null;
@@ -203,7 +209,7 @@ export default function MapContainer() {
                 {Object.entries(roomTypes).map(([id, name]) => {
                   if (
                     !pseudoPopup.capacity[id] ||
-                    pseudoPopup.capacity[id].total_capacity == 0
+                    pseudoPopup.capacity[id].total_capacity === 0
                   )
                     return React.null;
                   return (
@@ -259,7 +265,7 @@ export default function MapContainer() {
           zIndex: "100",
         }}
       >
-        <Navbar setSelectedCB={setSelectedFunction} selected />
+        <Navbar selectedDistrict={filterDistrict} setSelectedDistrict={setFilterDistrict} setSelectedCB={setSelectedFunction} selected/>
       </div>
 
       <div
