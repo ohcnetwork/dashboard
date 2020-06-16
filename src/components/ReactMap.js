@@ -16,8 +16,8 @@ function isFloat(n) {
 
 export default function MapContainer() {
   const [selected, setSelected] = useState({
-    name: "ventilator",
-    current: "ventcurrent",
+    id: 1,
+    name: "Ventilator",
   });
   const [facilityData, setFacilityData] = useState([]);
   const [pseudoPopup, setPseudoPopup] = useState(null);

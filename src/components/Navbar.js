@@ -83,7 +83,7 @@ export default function Navbar({ selected, setSelectedCB }) {
                       <div className="rounded-lg shadow-xs overflow-hidden">
                         <div className="z-20 relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                           {Object.entries(roomTypes).map(([id, name]) => (
-                            <a
+                            <button
                               key={id}
                               onClick={(_) => {
                                 setShowHospitalMenu(
@@ -117,7 +117,7 @@ export default function Navbar({ selected, setSelectedCB }) {
                                   {name} Beds in the state
                                 </p>
                               </div>
-                            </a>
+                            </button>
                           ))}
                         </div>
                       </div>
