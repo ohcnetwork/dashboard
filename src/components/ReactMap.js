@@ -21,7 +21,8 @@ export default function MapContainer() {
   });
   const [facilityData, setFacilityData] = useState([]);
   const [pseudoPopup, setPseudoPopup] = useState(null);
-  let date = new Date();
+  var yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 3);
   const roomTypes = {
     1: "General Bed",
     2: "Hostel",
@@ -82,7 +83,9 @@ export default function MapContainer() {
           5
       ) / 5;
     const boxColour =
-      availableCapacity === 0
+      Date.parse(capacity.modified_date) < yesterday
+        ? ["text-gray-200", "text-gray-200", "text-gray-200"]
+        : availableCapacity === 0
         ? ["text-white", "text-white", "text-white"]
         : availableCapacity < 0.3
         ? ["text-red-600", "text-white", "text-white"]
@@ -166,18 +169,6 @@ export default function MapContainer() {
                 5
             ) / 5;
           // const availableCapacity = Math.round(((facility.icu-facility.icucurrent)/facility.icu)*5)/5;
-          const boxColour =
-            availableCapacity === 0
-              ? ["text-white", "text-white", "text-white"]
-              : availableCapacity < 0.3
-              ? ["text-red-600", "text-white", "text-white"]
-              : availableCapacity < 1
-              ? ["text-orange-500", "text-orange-500", "text-white"]
-              : availableCapacity === 1
-              ? ["text-green-500", "text-green-500", "text-green-500"]
-              : availableCapacity < 5
-              ? ["text-blue-500", "text-blue-500", "text-blue-500"]
-              : ["text-white", "text-white", "text-white"];
           if (isFloat(lat) && isFloat(lng) && capacity.total_capacity > 0)
             return (
               <SVGOverlay
@@ -227,6 +218,11 @@ export default function MapContainer() {
                               <dt className="text-sm leading-5 font-medium text-gray-500 truncate">
                                 {name}
                               </dt>
+                              {console.log(
+                                Date.parse(
+                                  pseudoPopup.capacity[id].modified_date
+                                ) > yesterday
+                              )}
                               <div className="flex">
                                 <Moment
                                   date={pseudoPopup.capacity[id].modified_date}
