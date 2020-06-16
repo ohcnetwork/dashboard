@@ -280,7 +280,7 @@ export default function MapContainer() {
         <div className="px-6 py-2 front-bold">Showing {selected.name}</div>
       </div>
 
-      <div
+      {filterDistrict && <div
         className="bg-white border shadow rounded-lg overflow-hidden mt-10"
         onClick={()=>setFilterDistrict()}
         style={{
@@ -291,7 +291,7 @@ export default function MapContainer() {
         }}
       >
         <button className="px-6 py-2 front-bold">Clear Filters</button>
-      </div>
+      </div>}
     </div>
   );
 }
