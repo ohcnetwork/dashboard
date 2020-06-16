@@ -279,6 +279,19 @@ export default function MapContainer() {
       >
         <div className="px-6 py-2 front-bold">Showing {selected.name}</div>
       </div>
+
+      <div
+        className="bg-white border shadow rounded-lg overflow-hidden mt-10"
+        onClick={()=>setFilterDistrict()}
+        style={{
+          position: "absolute",
+          top: "115px",
+          right: "15px",
+          zIndex: "100",
+        }}
+      >
+        <button className="px-6 py-2 front-bold">Clear Filters</button>
+      </div>
     </div>
   );
 }
