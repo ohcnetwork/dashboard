@@ -5,12 +5,14 @@ import ReactMap from "./components/ReactMap.js";
 import Login from "./components/Login";
 import DistrictDashboard from "./components/DistrictDashboard";
 import Hospitals from "./components/Hospitals";
+import { make as Facilities__Root } from "./components/Hospital/components/Facilities__Root.bs";
 
 const routes = {
   "/": () => <DistrictDashboard />,
   "/map": () => <ReactMap />,
   "/login": () => <Login />,
   "/hospitals": () => <Hospitals />,
+  "/a": () => <Facilities__Root />,
 };
 
 function App() {

@@ -1,0 +1,28 @@
+# ninja log v5
+# start_time end_time mtime command hash
+1	14	1592749512475579269	src/components/Hospital/types/Facility.reast	a0bad1a96743852b
+0	15	1592749512475579269	src/components/Hospital/types/Capacity.reast	e78c8cb06d3d37fb
+1	15	1592749512475579269	src/components/Hospital/components/Facilities__Root.reast	9dcd64a70ba8d647
+14	16	1592749512479579347	src/components/Hospital/types/Facility.d	1b1ed30ed6630de2
+15	16	1592749512479579347	src/components/Hospital/types/Capacity.d	e2a5fd1bf3e73707
+15	17	1592749512479579347	src/components/Hospital/components/Facilities__Root.d	7e6cbc5a9860916f
+17	24	1592749512487579503	src/components/Hospital/types/Capacity.cmj	fb3b73309112fe39
+17	24	1592749512487579503	src/components/Hospital/types/Capacity.cmi	fb3b73309112fe39
+17	24	1592749512487579503	/home/bodhi/code/facility-maps/src/components/Hospital/types/Capacity.bs.js	fb3b73309112fe39
+24	31	1592749512491579581	src/components/Hospital/types/Facility.cmj	c4ca4d1c31edd69c
+24	31	1592749512491579581	src/components/Hospital/types/Facility.cmi	c4ca4d1c31edd69c
+24	31	1592749512491579581	/home/bodhi/code/facility-maps/src/components/Hospital/types/Facility.bs.js	c4ca4d1c31edd69c
+18	48	1592749512511579971	src/components/Hospital/components/Facilities__Root.cmj	a02ddc8808ffd79d
+18	48	1592749512511579971	src/components/Hospital/components/Facilities__Root.cmi	a02ddc8808ffd79d
+18	48	1592749512511579971	/home/bodhi/code/facility-maps/src/components/Hospital/components/Facilities__Root.bs.js	a02ddc8808ffd79d
+1	19	1592749613737468135	src/components/Hospital/types/Facility.reast	a0bad1a96743852b
+19	22	1592749613737468135	src/components/Hospital/types/Facility.d	1b1ed30ed6630de2
+0	43	1592749636329867974	src/components/Hospital/types/Facility.reast	a0bad1a96743852b
+43	50	1592749636329867974	src/components/Hospital/types/Facility.d	1b1ed30ed6630de2
+0	50	1592749643994001976	src/components/Hospital/types/Facility.reast	a0bad1a96743852b
+51	57	1592749643994001976	src/components/Hospital/types/Facility.d	1b1ed30ed6630de2
+1	44	1592749659458269897	src/components/Hospital/types/Facility.reast	a0bad1a96743852b
+44	51	1592749659458269897	src/components/Hospital/types/Facility.d	1b1ed30ed6630de2
+51	77	1592749659490270448	src/components/Hospital/types/Facility.cmj	c4ca4d1c31edd69c
+51	77	1592749659490270448	src/components/Hospital/types/Facility.cmi	c4ca4d1c31edd69c
+51	77	1592749659490270448	/home/bodhi/code/facility-maps/src/components/Hospital/types/Facility.bs.js	c4ca4d1c31edd69c

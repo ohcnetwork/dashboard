@@ -1,0 +1,24 @@
+{
+  "name": "facility-map",
+  "reason": {
+    "react-jsx": 3
+  },
+  "sources": {
+    "dir": "src/",
+    "subdirs": true
+  },
+  "package-specs": [
+    {
+      "module": "commonjs",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "namespace": false,
+  "bs-dependencies": ["reason-react", "bs-fetch", "@glennsl/bs-json"],
+  "refmt": 3,
+  "warnings": {
+    "number": "-48",
+    "error": "+8"
+  }
+}
