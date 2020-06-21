@@ -4,11 +4,13 @@ import Navbar from "./components/Navbar.js";
 import ReactMap from "./components/ReactMap.js";
 import Login from "./components/Login";
 import DistrictDashboard from "./components/DistrictDashboard";
+import Hospitals from "./components/Hospitals";
 
 const routes = {
   "/": () => <DistrictDashboard />,
   "/map": () => <ReactMap />,
   "/login": () => <Login />,
+  "/hospitals": () => <Hospitals />,
 };
 
 function App() {
@@ -22,7 +24,7 @@ function App() {
             className="flex-1 overflow-y-auto pt-2 pb-6 focus:outline-none md:py-6"
             tabIndex="0"
           >
-            <div className="flex-col bg-gray-200">{pages}</div>
+            <div className="flex-col">{pages}</div>
           </main>
         </div>
       ) : (
