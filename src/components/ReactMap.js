@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { navigate } from "hookrouter";
 import { Map, Popup, SVGOverlay, TileLayer } from "react-leaflet";
 import PopCircle from "../custom/PopCircle";
-import Navbar from "./Navbar.js";
+import MapNav from "./MapNav.js";
 import Moment from "react-moment";
 
 import { findClosest } from "../utils/locationUtils";
@@ -160,8 +160,8 @@ export default function MapContainer() {
           url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
         />
         {facilityData.map((facility, index) => {
-          if(filterDistrict && facility.districtId !== filterDistrict.id){
-            console.log(filterDistrict.id + "")
+          if (filterDistrict && facility.districtId !== filterDistrict.id) {
+            console.log(filterDistrict.id + "");
             return React.null;
           }
           const capacity = facility.capacity[selected.id];
@@ -265,7 +265,12 @@ export default function MapContainer() {
           zIndex: "100",
         }}
       >
-        <Navbar selectedDistrict={filterDistrict} setSelectedDistrict={setFilterDistrict} setSelectedCB={setSelectedFunction} selected/>
+        <MapNav
+          selectedDistrict={filterDistrict}
+          setSelectedDistrict={setFilterDistrict}
+          setSelectedCB={setSelectedFunction}
+          selected
+        />
       </div>
 
       <div
@@ -280,18 +285,20 @@ export default function MapContainer() {
         <div className="px-6 py-2 front-bold">Showing {selected.name}</div>
       </div>
 
-      {filterDistrict && <div
-        className="bg-white border shadow rounded-lg overflow-hidden mt-10"
-        onClick={()=>setFilterDistrict()}
-        style={{
-          position: "absolute",
-          top: "115px",
-          right: "15px",
-          zIndex: "100",
-        }}
-      >
-        <button className="px-6 py-2 front-bold">Clear Filters</button>
-      </div>}
+      {filterDistrict && (
+        <div
+          className="bg-white border shadow rounded-lg overflow-hidden mt-10"
+          onClick={() => setFilterDistrict()}
+          style={{
+            position: "absolute",
+            top: "115px",
+            right: "15px",
+            zIndex: "100",
+          }}
+        >
+          <button className="px-6 py-2 front-bold">Clear Filters</button>
+        </div>
+      )}
     </div>
   );
 }
