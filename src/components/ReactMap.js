@@ -165,16 +165,9 @@ export default function MapContainer() {
             return React.null;
           }
           const capacity = facility.capacity[selected.id];
-          if (!capacity || !facility.location || capacity.total_capacity == 0)
+          if (!capacity || !facility.location || capacity.total_capacity === 0)
             return React.null;
           const { latitude: lat, longitude: lng } = facility.location;
-          const availableCapacity =
-            Math.round(
-              ((capacity.total_capacity - capacity.current_capacity) /
-                capacity.total_capacity) *
-                5
-            ) / 5;
-          // const availableCapacity = Math.round(((facility.icu-facility.icucurrent)/facility.icu)*5)/5;
           if (isFloat(lat) && isFloat(lng) && capacity.total_capacity > 0)
             return (
               <SVGOverlay
