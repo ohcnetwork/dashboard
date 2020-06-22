@@ -17,7 +17,8 @@
     "react-leaflet-heatmap-layer": "^2.0.0",
     "react-moment": "^0.9.7",
     "react-scripts": "^3.4.1",
-    "tailwindcss": "^1.2.0"
+    "tailwindcss": "^1.2.0",
+    "snyk": "^1.346.0"
   },
   "scripts": {
     "purge:css": "env NODE_ENV=production postcss src/tailwind.css -o src/index.css",
@@ -26,7 +27,9 @@
     "start": "npm run build:css && react-scripts start",
     "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -50,5 +53,6 @@
     "tailwindcss": "^1.2.0",
     "cssnano": "^4.1.10",
     "@fullhuman/postcss-purgecss": "^2.1.2"
-  }
+  },
+  "snyk": true
 }
