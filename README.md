@@ -1,6 +1,6 @@
 # CoronaSafe Dashboard
 ### Objective
-The dashboard presents actionable intel using data tracked by [coronasafe/care][https://github.com/coronasafe/care] to administrators in order to take decisions based on ground conditions
+The dashboard presents actionable intel using data tracked by [coronasafe/care](https://github.com/coronasafe/care) to administrators in order to take decisions based on ground conditions
 
 # Project Setup
 In the project directory, you can run:
