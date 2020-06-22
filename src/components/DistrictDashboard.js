@@ -237,7 +237,7 @@ export default function DistrictDashboard() {
                 {totalVentilator}
               </div>
               <span className="px-4 py-1 bg-green-400 rounded-r text-white shadow">
-                Current
+                Total
               </span>
               <div className="bg-gray-50 px-4 py-4 sm:px-6 text-center -mt-3">
                 Number of Ventilators
@@ -245,7 +245,7 @@ export default function DistrictDashboard() {
             </div>
             <div className="bg-white overflow-hidden shadow rounded-lg mx-2 mt-4">
               <div className="px-4 py-5 sm:p-6   text-4xl font-semibold text-center">
-                {roomUsed}
+                {ventilatorUsed}
               </div>
               <span className="px-4 py-1 bg-blue-400 rounded-r text-white shadow">
                 Used
@@ -261,7 +261,7 @@ export default function DistrictDashboard() {
                 {totalIcu}
               </div>
               <span className="px-4 py-1 bg-green-400 rounded-r text-white shadow">
-                Current
+                Total
               </span>
               <div className="bg-gray-50 px-4 py-4 sm:px-6 text-center -mt-3">
                 Number of ICU's
@@ -285,7 +285,7 @@ export default function DistrictDashboard() {
                 {totalRoom}
               </div>
               <span className="px-4 py-1 bg-green-400 rounded-r text-white shadow">
-                Current
+                Total
               </span>
               <div className="bg-gray-50 px-4 py-4 sm:px-6 text-center -mt-3">
                 Number of Rooms
@@ -309,7 +309,7 @@ export default function DistrictDashboard() {
                 {totalBed}
               </div>
               <span className="px-4 py-1 bg-green-400 rounded-r text-white shadow">
-                Current
+                Total
               </span>
               <div className="bg-gray-50 px-4 py-4 sm:px-6 text-center -mt-3">
                 Number of Beds
