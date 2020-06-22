@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {A} from "hookrouter";
 const img = require("../logo.svg");
 
 export default function Navbar() {
@@ -41,8 +42,8 @@ export default function Navbar() {
                   </a>
                 </div>
                 <nav className="mt-5 px-2">
-                  <a
-                    href="#"
+                  <A
+                    href="/"
                     className="group flex items-center px-2 py-2 text-base leading-6 font-medium text-gray-900 rounded-md bg-gray-100 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150"
                   >
                     <svg
@@ -59,8 +60,8 @@ export default function Navbar() {
                       />
                     </svg>
                     Dashboard
-                  </a>
-                  <a
+                  </A>
+                  <A
                     href="./map"
                     className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-100 transition ease-in-out duration-150"
                   >
@@ -78,8 +79,8 @@ export default function Navbar() {
                       />
                     </svg>
                     State Map
-                  </a>
-                  <a
+                  </A>
+                  <A
                     href="./hospitals"
                     className="mt-1 group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150"
                   >
@@ -97,7 +98,7 @@ export default function Navbar() {
                       />
                     </svg>
                     Hospital Capacity
-                  </a>
+                  </A>
                 </nav>
               </div>
             </div>
@@ -115,8 +116,8 @@ export default function Navbar() {
               </a>
             </div>
             <nav className="mt-5 flex-1 px-2 bg-white">
-              <a
-                href="#"
+              <A
+                href="/"
                 className="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-900 rounded-md bg-gray-100 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150"
               >
                 <svg
@@ -133,8 +134,8 @@ export default function Navbar() {
                   />
                 </svg>
                 Dashboard
-              </a>
-              <a
+              </A>
+              <A
                 href="./map"
                 className="mt-1 group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150"
               >
@@ -152,8 +153,8 @@ export default function Navbar() {
                   />
                 </svg>
                 State Map
-              </a>
-              <a
+              </A>
+              <A
                 href="./hospitals"
                 className="mt-1 group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150"
               >
@@ -171,7 +172,7 @@ export default function Navbar() {
                   />
                 </svg>
                 Hospital Capacity
-              </a>
+              </A>
             </nav>
           </div>
         </div>

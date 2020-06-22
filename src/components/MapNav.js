@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {A} from "hookrouter";
 const img = require("../logo.svg");
 
 export default function MapNav({
@@ -40,15 +41,15 @@ export default function MapNav({
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
             <div className="lg:w-0 lg:flex-1">
-              <a href="./" className="flex">
+              <A href="/" className="flex">
                 <img className="h-8 w-auto sm:h-10" src={img} alt="Workflow" />
-              </a>
+              </A>
             </div>
             <div className="-mr-2 -my-2 md:hidden">
-              <a
+              <span
                 onClick={(_) => setShowNav((showNav) => !showNav)}
                 type="button"
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                className="cursor-pointer inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
               >
                 <svg
                   className="h-6 w-6"
@@ -63,17 +64,16 @@ export default function MapNav({
                     d="M4 6h16M4 12h16M4 18h16"
                   />
                 </svg>
-              </a>
+              </span>
             </div>
             <nav className="hidden md:flex space-x-10">
               <div className="relative">
                 {/* <!-- Item active: "text-gray-900", Item inactive: "text-gray-500" --> */}
-                <a
-                  type="button"
+                <span
                   onClick={(_) =>
                     setShowHospitalMenu((menuState) => !menuState)
                   }
-                  className="text-gray-500 group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  className="cursor-pointer text-gray-500 group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   <span>Hospitals Beds</span>
                   {/* <!-- Item active: "text-gray-600", Item inactive: "text-gray-400" --> */}
@@ -88,14 +88,14 @@ export default function MapNav({
                       clipRule="evenodd"
                     />
                   </svg>
-                </a>
+                </span>
                 {showHospitalMenu && (
                   <div className="absolute -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
                     <div className="rounded-lg shadow-lg">
                       <div className="rounded-lg shadow-xs overflow-hidden">
                         <div className="z-20 relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                           {Object.entries(roomTypes).map(([id, name]) => (
-                            <a
+                            <span
                               key={id}
                               onClick={(_) => {
                                 setShowHospitalMenu(
@@ -105,7 +105,7 @@ export default function MapNav({
                               }}
                               className={
                                 (selected.id === id ? "bg-gray-300" : "") +
-                                " -m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-100 transition ease-in-out duration-150"
+                                " cursor-pointer -m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-100 transition ease-in-out duration-150"
                               }
                             >
                               <svg
@@ -129,7 +129,7 @@ export default function MapNav({
                                   {name} Beds in the state
                                 </p>
                               </div>
-                            </a>
+                            </span>
                           ))}
                         </div>
                       </div>
@@ -142,12 +142,12 @@ export default function MapNav({
             <nav className="hidden md:flex space-x-10">
               <div className="relative">
                 {/* <!-- Item active: "text-gray-900", Item inactive: "text-gray-500" --> */}
-                <a
+                <span
                   type="button"
                   onClick={(_) =>
                     setShowDistrictMenu((menuState) => !menuState)
                   }
-                  className="text-gray-500 group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
+                  className="cursor-pointer text-gray-500 group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
                 >
                   <span>District</span>
                   {/* <!-- Item active: "text-gray-600", Item inactive: "text-gray-400" --> */}
@@ -162,14 +162,14 @@ export default function MapNav({
                       clipRule="evenodd"
                     />
                   </svg>
-                </a>
+                </span>
                 {showDistrictMenu && (
                   <div className="absolute -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
                     <div className="rounded-lg shadow-lg">
                       <div className="rounded-lg shadow-xs overflow-hidden">
                         <div className="z-20 relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                           {districts.map(({ id, name }) => (
-                            <a
+                            <span
                               key={id}
                               onClick={(_) => {
                                 setShowDistrictMenu((menuState) => !menuState);
@@ -177,7 +177,7 @@ export default function MapNav({
                               }}
                               className={
                                 (selected.id === id ? "bg-gray-300" : "") +
-                                " -m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-100 transition ease-in-out duration-150"
+                                " cursor-pointer -m-3 p-3 flex items-start space-x-4 rounded-lg hover:bg-gray-100 transition ease-in-out duration-150"
                               }
                             >
                               <svg
@@ -193,7 +193,7 @@ export default function MapNav({
                                   {name}
                                 </p>
                               </div>
-                            </a>
+                            </span>
                           ))}
                         </div>
                       </div>
@@ -232,7 +232,7 @@ export default function MapNav({
                 <div className="pt-5 pb-6 px-5 space-y-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <img className="h-8 w-auto" src={img} alt="Workflow" />
+                      <img className="h-8 w-auto" src={img} alt="Coronasafe" />
                     </div>
                     <div className="-mr-2">
                       <button
@@ -260,13 +260,13 @@ export default function MapNav({
                     <span className="text-xl py-2 font-bold">Type</span>
                     <nav className="grid row-gap-8 mb-4">
                       {Object.entries(roomTypes).map(([id, name]) => (
-                        <a
+                        <span
                           key={id}
                           onClick={(_) => {
                             setShowNav((showNav) => !showNav);
                             setSelectedCB(id, name);
                           }}
-                          className="-m-3 p-3 flex items-center space-x-3 rounded-md hover:bg-gray-100 transition ease-in-out duration-150"
+                          className="cursor-pointer -m-3 p-3 flex items-center space-x-3 rounded-md hover:bg-gray-100 transition ease-in-out duration-150"
                         >
                           <svg
                             className="flex-shrink-0 h-6 w-6 text-indigo-600"
@@ -284,7 +284,7 @@ export default function MapNav({
                           <div className="text-base leading-6 font-medium text-gray-900">
                             {name}
                           </div>
-                        </a>
+                        </span>
                       ))}
                     </nav>
                     <span className="text-xl p-2 font-bold mt-4">District</span>

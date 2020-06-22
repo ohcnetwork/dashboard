@@ -1,6 +1,6 @@
-# Facility Maps | CoronaSafe
+# CoronaSafe Dashboard
 ### Objective
-The facility map allows tracking the capacities of all the hospitals in Kerala
+The dashboard presents actionable intel using data tracked by [coronasafe/care][https://github.com/coronasafe/care] to administrators in order to take decisions based on ground conditions
 
 # Project Setup
 In the project directory, you can run:

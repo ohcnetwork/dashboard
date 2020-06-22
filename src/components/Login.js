@@ -22,9 +22,9 @@ export default function Login() {
     <div className="flex items-center justify-center flex-1 py-20">
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 flex max-w-xl flex-col  mt-20">
         <div className="flex items-center">
-          <a href="#" className="mx-auto">
+          <span className="mx-auto cursor-pointer">
             <img className="h-10 w-auto" src={img} alt="Workflow" />
-          </a>
+          </span>
         </div>
         <div className="mt-4 font-bold text-3xl text-center">
           Authorized login
