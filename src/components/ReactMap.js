@@ -81,9 +81,7 @@ export default function MapContainer() {
     const availableCapacity =
       Math.round(
         ((capacity.total_capacity - capacity.current_capacity) /
-          capacity.total_capacity) *
-          5
-      ) / 5;
+          capacity.total_capacity) * 5) / 5;
     const boxColour =
       Date.parse(capacity.modified_date) < yesterday
         ? ["text-gray-200", "text-gray-200", "text-gray-200"]
@@ -91,9 +89,9 @@ export default function MapContainer() {
         ? ["text-white", "text-white", "text-white"]
         : availableCapacity < 0.3
         ? ["text-red-600", "text-white", "text-white"]
-        : availableCapacity < 1
+        : availableCapacity < 0.8
         ? ["text-orange-500", "text-orange-500", "text-white"]
-        : availableCapacity === 1
+        : availableCapacity <= 1
         ? ["text-green-500", "text-green-500", "text-green-500"]
         : availableCapacity < 5
         ? ["text-blue-500", "text-blue-500", "text-blue-500"]
@@ -230,7 +228,7 @@ export default function MapContainer() {
                               </div>
                               <dd className="flex items-baseline">
                                 <div className="text-2xl leading-8 font-semibold text-gray-900">
-                                  {pseudoPopup.capacity[id].current_capacity}/
+                                  {pseudoPopup.capacity[id].total_capacity - pseudoPopup.capacity[id].current_capacity}/
                                   {pseudoPopup.capacity[id].total_capacity}
                                 </div>
                                 <div className="ml-2 flex items-baseline text-sm leading-5 font-semibold text-green-600">
