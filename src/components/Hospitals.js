@@ -5,6 +5,7 @@ import { getCapacitySummary } from "../utils/api";
 
 export default function Hospitals() {
   const [facilityData, setFacilityData] = useState([]);
+  const [moreAvailable, setMoreAvailable] = useState(true);
   const [showDropDown, setShowDropDown] = useState(false);
   const [filterDistrict, setFilterDistrict] = useState({
     id: 7,
@@ -40,9 +41,15 @@ export default function Hospitals() {
   useEffect(() => {
     getCapacitySummary()
       .then((summary) => {
-        setFacilityData(
-          Object.values(summary).map((facility) => {
-            return {
+        const dictionary = summary.results.reduce((acc, {data: facility}) => {
+          if(acc[facility.id]){
+            setMoreAvailable(false);
+            return acc;
+          }
+
+          return {
+            ...acc,
+            [facility.id]: {
               name: facility.name,
               districtId: facility.district,
               district: facility.district_object?.name || "Unknown",
@@ -50,16 +57,22 @@ export default function Hospitals() {
               oxygenCapacity: facility.oxygen_capacity,
               localbody: facility.local_body_object?.name || "Unknown",
               modified: facility.modified_date,
-              facilityType: facility.facility_type,
               capacity: facility.availability.reduce((cAcc, cCur) => {
                 return {
                   ...cAcc,
                   [cCur.room_type]: cCur,
                 };
               }, {}),
-            };
-          })
-        );
+              roomModified: facility.availability.reduce((cAcc, cCur) => {
+                return {
+                  ...cAcc,
+                  [cCur.room_type]: cCur,
+                };
+              }, {}),
+            }
+          }
+        },{})
+        setFacilityData(Object.values(dictionary));
       })
       .catch((ex) => {
         console.error("Data Unavailable", ex);
@@ -103,17 +116,17 @@ export default function Hospitals() {
                 <div className="py-1">
                   {districts.map((d) => {
                     return (
-                      <a
+                      <span
                         key={d.id}
                         onClick={() => {
                           setShowDropDown(!showDropDown);
                           setFilterDistrict(d);
                         }}
-                        className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                        className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900 cursor-pointer"
                         role="menuitem"
                       >
                         {d.name}
-                      </a>
+                      </span>
                     );
                   })}
                 </div>
@@ -196,6 +209,15 @@ export default function Hospitals() {
                 </tbody>
               </table>
             </div>
+
+            { moreAvailable &&
+              <ul class="flex w-full p-4">
+                <li class="mx-auto px-3 py-2 bg-gray-200 text-gray-500 rounded-lg">
+                    <a class="flex items-center font-bold" href="#more">
+                        <span class="mx-1">more</span>
+                    </a>
+                </li>
+              </ul> }
           </div>
         </div>
       </div>

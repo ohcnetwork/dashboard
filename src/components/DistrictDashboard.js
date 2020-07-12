@@ -5,6 +5,7 @@ import { getCapacitySummary } from "../utils/api";
 
 export default function DistrictDashboard() {
   const [facilityData, setFacilityData] = useState([]);
+  const [moreAvailable, setMoreAvailable] = useState(true);
   const [showDropDown, setShowDropDown] = useState(false);
   const [filterDistrict, setFilterDistrict] = useState({
     id: 7,
@@ -40,9 +41,15 @@ export default function DistrictDashboard() {
   useEffect(() => {
     getCapacitySummary()
       .then((summary) => {
-        setFacilityData(
-          Object.values(summary).map((facility) => {
-            return {
+        const dictionary = summary.results.reduce((acc, {data: facility}) => {
+          if(acc[facility.id]){
+            setMoreAvailable(false);
+            return acc;
+          }
+
+          return {
+            ...acc,
+            [facility.id]: {
               name: facility.name,
               districtId: facility.district,
               district: facility.district_object?.name || "Unknown",
@@ -50,16 +57,22 @@ export default function DistrictDashboard() {
               oxygenCapacity: facility.oxygen_capacity,
               localbody: facility.local_body_object?.name || "Unknown",
               modified: facility.modified_date,
-              facilityType: facility.facility_type,
               capacity: facility.availability.reduce((cAcc, cCur) => {
                 return {
                   ...cAcc,
                   [cCur.room_type]: cCur,
                 };
               }, {}),
-            };
-          })
-        );
+              roomModified: facility.availability.reduce((cAcc, cCur) => {
+                return {
+                  ...cAcc,
+                  [cCur.room_type]: cCur,
+                };
+              }, {}),
+            }
+          }
+        },{})
+        setFacilityData(Object.values(dictionary));
       })
       .catch((ex) => {
         console.error("Data Unavailable", ex);

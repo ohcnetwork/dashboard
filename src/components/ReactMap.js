@@ -20,6 +20,7 @@ export default function MapContainer() {
     name: "Ventilator",
   });
   const [facilityData, setFacilityData] = useState([]);
+  const [moreAvailable, setMoreAvailable] = useState(true);
   const [pseudoPopup, setPseudoPopup] = useState(null);
   const [filterDistrict, setFilterDistrict] = useState();
   var yesterday = new Date();
@@ -34,9 +35,15 @@ export default function MapContainer() {
   useEffect(() => {
     getCapacitySummary()
       .then((summary) => {
-        setFacilityData(
-          Object.values(summary).map((facility) => {
-            return {
+        const dictionary = summary.results.reduce((acc, {data: facility}) => {
+          if(acc[facility.id]){
+            setMoreAvailable(false);
+            return acc;
+          }
+
+          return {
+            ...acc,
+            [facility.id]: {
               name: facility.name,
               districtId: facility.district,
               district: facility.district_object?.name || "Unknown",
@@ -56,9 +63,10 @@ export default function MapContainer() {
                   [cCur.room_type]: cCur,
                 };
               }, {}),
-            };
-          })
-        );
+            }
+          }
+        },{})
+        setFacilityData(Object.values(dictionary));
       })
       .catch((ex) => {
         console.error("Data Unavailable", ex);
