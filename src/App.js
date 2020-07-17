@@ -52,7 +52,6 @@ function App() {
   const { auth, logout, login } = useContext(AuthContext);
 
   useEffect(() => {
-    console.log(auth);
     if (!ready) {
       if (auth.logged) {
         careRefreshToken(auth.token, auth.refresh)
@@ -63,7 +62,6 @@ function App() {
                 setReady(true);
               })
               .catch((e) => {
-                console.log(e);
                 throw e;
               });
           })

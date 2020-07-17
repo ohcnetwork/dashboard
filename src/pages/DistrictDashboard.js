@@ -32,7 +32,6 @@ function DistrictDashboard() {
   const [filterDistrict, setFilterDistrict] = useState(
     auth.userData.district_object
   );
-  console.log(filterDistrict);
   const [filteredFacilities, setFilteredFacilities] = useState([]);
   const [facilitiesTrivia, setFacilitiesTrivia] = useState({
     oxygen: defaultTrivia,

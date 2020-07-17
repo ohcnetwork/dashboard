@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { Button, Input, Label } from "windmill-react-ui";
+import { Button, HelperText, Input, Label } from "windmill-react-ui";
 import { AuthContext } from "../context/AuthContext";
 import { careLogin, getCurrentUser } from "../utils/api";
 
 function Login() {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, setError, errors } = useForm();
   const { login } = useContext(AuthContext);
   let history = useHistory();
   const onSubmit = (data) => {
@@ -15,7 +15,6 @@ function Login() {
         getCurrentUser(lresp.access)
           .then((uresp) => {
             login(lresp.access, lresp.refresh, uresp);
-            console.log("Completed Request", lresp);
             history.replace("/app/distdashboard");
           })
           .catch((e) => {
@@ -23,7 +22,7 @@ function Login() {
           });
       })
       .catch((ex) => {
-        console.error("Couldn't Login", ex);
+        setError("login", ex);
       });
   };
 
@@ -39,12 +38,13 @@ function Login() {
               <span>Username</span>
               <Input
                 name="username"
-                ref={register}
+                ref={register({ required: true })}
                 className="mt-1 "
                 placeholder="johsn@doe.com"
+                valid={errors.username ? false : true}
               />
             </Label>
-            {errors.username && "Last name is required."}
+            {errors.username && <HelperText valid={false}>Required</HelperText>}
             <Label className="mt-4">
               <span>Password</span>
               <Input
@@ -52,13 +52,17 @@ function Login() {
                 type="password"
                 placeholder="***************"
                 name="password"
-                ref={register}
+                ref={register({ required: true })}
+                valid={errors.password ? false : true}
               />
             </Label>
-            {errors.password && "Please enter number for age."}
+            {errors.password && <HelperText valid={false}>Required</HelperText>}
             <Button className="mt-4 " block type="submit">
               Log in
             </Button>
+            {errors.login && (
+              <HelperText valid={false}>Invalid Credentials</HelperText>
+            )}
           </form>
         </main>
       </div>
