@@ -40,7 +40,7 @@ function Login() {
                 name="username"
                 ref={register({ required: true })}
                 className="mt-1 "
-                placeholder="johsn@doe.com"
+                placeholder="johsndoe"
                 valid={errors.username ? false : true}
               />
             </Label>
