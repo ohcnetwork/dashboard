@@ -32,7 +32,7 @@ function Login() {
         <main className="flex items-center justify-center ">
           <form onSubmit={handleSubmit(onSubmit)}>
             <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
-              Login
+              Login with Care Credentials
             </h1>
             <Label>
               <span>Username</span>
