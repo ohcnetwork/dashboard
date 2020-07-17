@@ -2,34 +2,33 @@
   "name": "coronasafe-dashboard",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@tailwindcss/ui": "^0.3.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "hookrouter": "^1.2.3",
-    "leaflet": "^1.6.0",
-    "moment": "^2.26.0",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "react-leaflet": "^2.6.3",
-    "react-leaflet-choropleth": "^2.0.1",
-    "react-leaflet-heatmap-layer": "^2.0.0",
-    "react-moment": "^0.9.7",
-    "react-scripts": "^3.4.1",
-    "tailwindcss": "^1.2.0"
-  },
   "scripts": {
-    "purge:css": "env NODE_ENV=production postcss src/tailwind.css -o src/index.css",
-    "build:css": "postcss src/tailwind.css -o src/index.css",
-    "watch:css": "postcss src/tailwind.css -o src/index.css -w",
-    "start": "npm run build:css && react-scripts start",
-    "build": "npm run build:css && react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "poi --prod",
+    "dev": "poi --serve",
+    "start": "serve -s build"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "apexcharts": "^3.19.3",
+    "axios": "^0.19.2",
+    "classnames": "2.2.6",
+    "faker": "4.1.0",
+    "react": "^16.13.1",
+    "react-apexcharts": "^1.3.7",
+    "react-dom": "^16.13.1",
+    "react-feather": "^2.0.8",
+    "react-hook-form": "^6.0.6",
+    "react-router-dom": "5.2.0",
+    "register-service-worker": "^1.7.1",
+    "windmill-react-ui": "0.1.1"
+  },
+  "devDependencies": {
+    "@poi/plugin-pwa": "^12.0.3",
+    "@svgr/webpack": "^5.4.0",
+    "autoprefixer": "9.8.5",
+    "cssnano": "4.1.10",
+    "poi": "^12.9.0",
+    "react-hot-loader": "^4.12.21",
+    "tailwindcss": "1.5.1"
   },
   "browserslist": {
     "production": [
@@ -42,13 +41,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "autoprefixer": "^9.7.6",
-    "concurrently": "^5.1.0",
-    "postcss-cli": "^7.1.0",
-    "tailwindcss": "^1.2.0",
-    "cssnano": "^4.1.10",
-    "@fullhuman/postcss-purgecss": "^2.1.2"
   }
 }
