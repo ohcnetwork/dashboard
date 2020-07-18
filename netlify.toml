@@ -1,6 +1,12 @@
 [build]
 publish = "dist/"
 
+[context.production]
+environment = { POI_APP_CARE_BASE_URL = "https://care.coronasafe.network" }
+
+[context.deploy-preview]
+environment = { POI_APP_CARE_BASE_URL = "https://care.coronasafe.in" }
+
 [[redirects]]
 from = "/*"
 to = "/index.html"

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://care.coronasafe.network";
+const API_BASE_URL =
+  process.env.POI_APP_CARE_BASE_URL || "https://care.coronasafe.in";
 const STAT_BASE_URL = "https://keralastats.coronasafe.live";
 
 const request = (options, token) => {
@@ -52,7 +53,7 @@ export function careFacilitySummary(token) {
 export function carePatientSummary(token) {
   return request(
     {
-      url: API_BASE_URL + "/api/v1/patient_summary/",
+      url: API_BASE_URL + "/api/v1/patient_summary/?limit=2000",
       method: "GET",
     },
     token
