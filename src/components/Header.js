@@ -13,7 +13,7 @@ function Header() {
   let history = useHistory();
 
   return (
-    <header className="z-40 h-12 py-2 overflow-hidden bg-white shadow-sm dark:bg-gray-800">
+    <header className="z-40 h-12 py-2 overflow-hidden bg-white shadow-md dark:bg-gray-800">
       <div className="flex justify-between px-2 text-purple-600 dark:text-purple-300">
         <div className="flex justify-between flex-shrink-0">
           <button
