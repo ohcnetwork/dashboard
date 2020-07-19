@@ -100,10 +100,8 @@ function Patient({ filterDistrict, date }) {
                 let delta = c["today_patients_" + patientTypes[i]];
                 return (
                   <div className="flex">
-                    <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                      {c["total_patients_" + patientTypes[i]]}
-                    </p>
-                    <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                    <p className="">{c["total_patients_" + patientTypes[i]]}</p>
+                    <span className="ml-2 text-sm">
                       {delta == 0 ? "-" : delta > 0 ? `+${delta}` : delta}
                     </span>
                   </div>
