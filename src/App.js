@@ -1,5 +1,5 @@
 import React, { lazy, useContext, useEffect, useState } from "react";
-import { hot } from "react-hot-loader";
+import { hot } from "react-hot-loader/root";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -9,7 +9,7 @@ import {
 import AccessibleNavigationAnnouncer from "./components/AccessibleNavigationAnnouncer";
 import ThemedSuspense from "./components/ThemedSuspense";
 import { AuthContext } from "./context/AuthContext";
-import { getCurrentUser, careRefreshToken } from "./utils/api";
+import { careGetCurrentUser, careRefreshToken } from "./utils/api";
 const Layout = lazy(() => import("./containers/Layout"));
 const Login = lazy(() => import("./pages/Login"));
 
@@ -56,7 +56,7 @@ function App() {
       if (auth.logged) {
         careRefreshToken(auth.token, auth.refresh)
           .then((lresp) => {
-            getCurrentUser(lresp.access)
+            careGetCurrentUser(lresp.access)
               .then((uresp) => {
                 login(lresp.access, lresp.refresh, uresp);
                 setReady(true);
@@ -93,4 +93,4 @@ function App() {
   );
 }
 
-export default hot(module)(App);
+export default hot(App);

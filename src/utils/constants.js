@@ -21,3 +21,32 @@ export const roomTypes = {
   10: "ICU",
   20: "Ventilator",
 };
+
+export const availabilityTypes = {
+  1: "bed",
+  3: "room",
+  10: "icu",
+  20: "ventilator",
+};
+
+export const patientTypes = {
+  home: "home_quarantine",
+  isolation: "isolation",
+  icu: "icu",
+  ventilator: "ventilator",
+};
+
+export const patientLang = {
+  home: "Home quarantine",
+  isolation: "Isolation",
+  icu: "ICU",
+  ventilator: "Ventilator",
+};
+
+export const testsTypes = {
+  result_awaited: "Result awaited",
+  test_discarded: "Tests discarded",
+  total_patients: "Total patients",
+  result_negative: "Negative results",
+  result_positive: "Positive results",
+};

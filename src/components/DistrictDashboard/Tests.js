@@ -1,20 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { careFacilitySummary } from "../../utils/api";
-import { availabilityTypes } from "../../utils/constants";
+import { careTestsSummary } from "../../utils/api";
+import { testsTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
-import RadialCard from "../Chart/RadialCard";
+import { InfoCard } from "../Cards/InfoCard";
 import Table from "../Table";
 import { SectionTitle } from "../Typography/Title";
 
-function Capacity({ filterDistrict, date }) {
+function Tests({ filterDistrict, date }) {
   const initialFacilitiesTrivia = {
     count: 0,
-    oxygen: 0,
-    ventilator: { total: 0, used: 0 },
-    icu: { total: 0, used: 0 },
-    room: { total: 0, used: 0 },
-    bed: { total: 0, used: 0 },
+    result_awaited: 0,
+    test_discarded: 0,
+    total_patients: 0,
+    result_negative: 0,
+    result_positive: 0,
   };
 
   const { auth } = useContext(AuthContext);
@@ -26,7 +26,7 @@ function Capacity({ filterDistrict, date }) {
   });
 
   useEffect(() => {
-    careFacilitySummary(
+    careTestsSummary(
       auth.token,
       dateString(getNDateBefore(date, 1)),
       dateString(getNDateAfter(date, 1))
@@ -35,17 +35,7 @@ function Capacity({ filterDistrict, date }) {
         setFacilities(
           resp.results.map(({ data: facility, created_date }) => ({
             date: dateString(new Date(created_date)),
-            id: facility.id,
-            name: facility.name,
-            districtId: facility.district,
-            facilityType: facility.facility_type || "Unknown",
-            oxygenCapacity: facility.oxygen_capacity,
-            capacity: facility.availability.reduce((cAcc, cCur) => {
-              return {
-                ...cAcc,
-                [cCur.room_type]: cCur,
-              };
-            }, {}),
+            ...facility,
           }))
         );
       })
@@ -58,18 +48,15 @@ function Capacity({ filterDistrict, date }) {
     if (facilities.length == 0) {
       return;
     }
-    let _f = facilities.filter((f) => f.districtId === filterDistrict.id);
+    let _f = facilities.filter((f) => f.district === filterDistrict.name);
     setFilteredFacilities(_f);
     let _t = _f.reduce(
       (a, c) => {
         let key = c.date === dateString(date) ? "current" : "previous";
         a[key].count += 1;
-        a[key].oxygen += c.oxygenCapacity || 0;
-        Object.keys(availabilityTypes).forEach((k) => {
-          a[key][availabilityTypes[k]].used +=
-            c.capacity[k]?.current_capacity || 0;
-          a[key][availabilityTypes[k]].total +=
-            c.capacity[k]?.total_capacity || 0;
+        Object.keys(testsTypes).forEach((k) => {
+          a[key][k] += c[k];
+          a[key][k] += c[k];
         });
         return a;
       },
@@ -88,24 +75,37 @@ function Capacity({ filterDistrict, date }) {
           Facility Count: {facilitiesTrivia.current.count}
         </SectionTitle>
         <SectionTitle>
-          Oxygen Capacity: {facilitiesTrivia.current.oxygen}
+          Patient Count: {facilitiesTrivia.current.total_patients}
         </SectionTitle>
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        {["ventilator", "icu", "room", "bed"].map((k) => (
-          <RadialCard
-            label={k[0].toUpperCase() + k.slice(1) + "s used"}
-            dataKey={k}
-            data={facilitiesTrivia}
-            key={k}
-          />
-        ))}
+        {Object.keys(testsTypes).map((k, i) => {
+          if (k != "total_patients") {
+            return (
+              <InfoCard
+                key={i}
+                title={testsTypes[k]}
+                value={facilitiesTrivia.current[k]}
+                delta={
+                  facilitiesTrivia.current[k] - facilitiesTrivia.previous[k]
+                }
+              />
+            );
+          }
+        })}
       </div>
 
       <SectionTitle>Facilities</SectionTitle>
       <Table
         className="mb-8"
-        columns={["Name", "Oxygen", "Ventilator", "ICU", "Room", "Bed"]}
+        columns={[
+          "Name",
+          "Total Patients",
+          "ICU",
+          "Ventilator",
+          "Home Quarantine",
+          "Isolation",
+        ]}
         data={filteredFacilities.reduce((a, c) => {
           if (c.date !== dateString(date)) {
             return a;
@@ -113,18 +113,8 @@ function Capacity({ filterDistrict, date }) {
           return [
             ...a,
             [
-              <div className="flex flex-col">
-                <p className="font-semibold">{c.name}</p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  {c.facilityType}
-                </p>
-              </div>,
-              c.oxygenCapacity,
-              ...Object.keys(availabilityTypes).map((i) =>
-                c.capacity[i]?.total_capacity
-                  ? `${c.capacity[i]?.current_capacity}/${c.capacity[i]?.total_capacity}`
-                  : "-"
-              ),
+              <p className="font-semibold">{c.facility_name}</p>,
+              ...Object.keys(testsTypes).map((i) => c[i]),
             ],
           ];
         }, [])}
@@ -133,4 +123,4 @@ function Capacity({ filterDistrict, date }) {
   );
 }
 
-export default Capacity;
+export default Tests;

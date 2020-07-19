@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { Button, HelperText, Input, Label } from "windmill-react-ui";
 import { AuthContext } from "../context/AuthContext";
-import { careLogin, getCurrentUser } from "../utils/api";
+import { careGetCurrentUser, careLogin } from "../utils/api";
 
 function Login() {
   const { register, handleSubmit, setError, errors } = useForm();
@@ -12,7 +12,7 @@ function Login() {
   const onSubmit = (data) => {
     careLogin(data)
       .then((lresp) => {
-        getCurrentUser(lresp.access)
+        careGetCurrentUser(lresp.access)
           .then((uresp) => {
             login(lresp.access, lresp.refresh, uresp);
             history.replace("/app/distdashboard");
