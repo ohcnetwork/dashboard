@@ -23,6 +23,7 @@
     "react-feather": "^2.0.8",
     "react-hook-form": "^6.0.8",
     "react-intersection-observer": "^8.26.2",
+    "react-multi-select-component": "^3.0.0",
     "react-router-dom": "5.2.0",
     "react-simple-maps": "^2.1.2",
     "react-svg-tooltip": "0.0.11",

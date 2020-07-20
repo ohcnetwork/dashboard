@@ -41,7 +41,6 @@ function DistrictDashboard() {
     auth.userData.user_type
   );
   const [ref, inView, entry] = useInView({
-    /* Optional options */
     threshold: 0,
   });
 
