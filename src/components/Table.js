@@ -16,6 +16,9 @@ function Table({ columns = [], data = [[]], className }) {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
+    if (data.length == 0) {
+      return;
+    }
     setTableData(
       data.slice((page - 1) * resultsPerPage, page * resultsPerPage)
     );
@@ -44,7 +47,7 @@ function Table({ columns = [], data = [[]], className }) {
         </TableBody>
       </WTable>
       <TableFooter>
-        {tableData.length > 0 ? (
+        {data.length > 0 ? (
           <Pagination
             totalResults={data.length}
             resultsPerPage={resultsPerPage}
