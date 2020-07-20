@@ -23,10 +23,10 @@ export const roomTypes = {
 };
 
 export const availabilityTypes = {
-  1: "bed",
-  3: "room",
-  10: "icu",
-  20: "ventilator",
+  20: "Ventilator",
+  10: "ICU",
+  3: "Room",
+  1: "Bed",
 };
 
 export const patientTypes = {
