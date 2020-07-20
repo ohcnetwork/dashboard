@@ -101,7 +101,7 @@ function Filter({
 
               <Card className="flex flex-col h-64 p-2 mb-2 overflow-y-auto ">
                 {facilityTypesFilterOptions.map((d, i) => (
-                  <Label check>
+                  <Label key={i} check>
                     <Input
                       onClick={() => {
                         let _t = _filterFacilityTypes.findIndex((t) => t === d);
