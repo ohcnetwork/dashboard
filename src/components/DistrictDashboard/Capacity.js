@@ -72,9 +72,9 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         a[key].count += 1;
         a[key].oxygen += c.oxygenCapacity || 0;
         Object.keys(availabilityTypes).forEach((k) => {
-          a[key][availabilityTypes[k]].used +=
+          a[key][availabilityTypes[k].toLowerCase()].used +=
             c.capacity[k]?.current_capacity || 0;
-          a[key][availabilityTypes[k]].total +=
+          a[key][availabilityTypes[k].toLowerCase()].total +=
             c.capacity[k]?.total_capacity || 0;
         });
         return a;
@@ -111,7 +111,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       <SectionTitle>Facilities</SectionTitle>
       <Table
         className="mb-8"
-        columns={["Name", "Oxygen", "Ventilator", "ICU", "Room", "Bed"]}
+        columns={["Name", "Oxygen", ...Object.values(availabilityTypes).reverse()]}
         data={filteredFacilities.reduce((a, c) => {
           if (c.date !== dateString(date)) {
             return a;
@@ -126,7 +126,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
                 </p>
               </div>,
               c.oxygenCapacity,
-              ...Object.keys(availabilityTypes).map((i) =>
+              ...Object.keys(availabilityTypes).reverse().map((i) =>
                 c.capacity[i]?.total_capacity
                   ? `${c.capacity[i]?.current_capacity}/${c.capacity[i]?.total_capacity}`
                   : "-"
