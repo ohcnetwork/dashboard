@@ -11,7 +11,7 @@ import {
 } from "windmill-react-ui";
 
 function Table({ columns = [], data = [[]], className }) {
-  const resultsPerPage = 10;
+  const resultsPerPage = 25;
   const [page, setPage] = useState(1);
   const [tableData, setTableData] = useState([]);
 

@@ -1,11 +1,10 @@
-import DateRangePicker from "@wojtekmaj/react-daterange-picker/dist/entry.nostyle";
 import React, { useContext, useState } from "react";
-import DatePicker from "react-date-picker/dist/entry.nostyle";
-import { Calendar, ChevronDown } from "react-feather";
-import { Button, Dropdown, DropdownItem } from "windmill-react-ui";
+import { ChevronDown } from "react-feather";
+import { Button, Dropdown, DropdownItem, Transition } from "windmill-react-ui";
 import Capacity from "../components/DistrictDashboard/Capacity";
 import CapacityTimeseries from "../components/DistrictDashboard/CapacityTimeseries";
 import Covid from "../components/DistrictDashboard/Covid";
+import Filter from "../components/DistrictDashboard/Filter";
 import Patient from "../components/DistrictDashboard/Patient";
 import PatientTimeseries from "../components/DistrictDashboard/PatientTimeseries";
 import Tests from "../components/DistrictDashboard/Tests";
@@ -14,6 +13,7 @@ import { PageTitle } from "../components/Typography/Title";
 import { AuthContext } from "../context/AuthContext";
 import { districts } from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
+import { useInView } from "react-intersection-observer";
 
 const CONTENT = {
   CAPACITY: 1,
@@ -40,6 +40,10 @@ function DistrictDashboard() {
   const isStateAdmin = ["StateLabAdmin", "StateAdmin"].includes(
     auth.userData.user_type
   );
+  const [ref, inView, entry] = useInView({
+    /* Optional options */
+    threshold: 0,
+  });
 
   const renderContent = () => {
     switch (content) {
@@ -68,8 +72,21 @@ function DistrictDashboard() {
     }
   };
 
+  const ConditionalFilter = ({ floating }) => (
+    <Filter
+      floating={floating}
+      timeseries={timeseries}
+      setTimeseries={setTimeseries}
+      date={date}
+      dateOnChange={dateOnChange}
+      dates={dates}
+      datesOnChange={datesOnChange}
+      maxDate={previousDate}
+    />
+  );
+
   return (
-    <>
+    <div>
       <PageTitle>District Dashboard</PageTitle>
       <div className="flex flex-row items-center justify-between px-4 py-2 mb-2 bg-purple-600 rounded-lg shadow-md">
         <p className="font-semibold text-white">{filterDistrict.name}</p>
@@ -126,56 +143,12 @@ function DistrictDashboard() {
           </div>
         </div>
       </div>
-      <div className="flex flex-row items-center justify-between px-4 py-2 mb-8 rounded-lg shadow-md dark:bg-gray-800">
-        <p className="dark:text-gray-400">Filters</p>
-        <div className="flex space-x-2">
-          <div className="bg-white rounded-lg dark:bg-gray-900 dark:text-gray-700">
-            <Button
-              layout="link"
-              onClick={() => setTimeseries(false)}
-              className="rounded-r-none shadow-xs"
-              disabled={!timeseries}
-            >
-              <span className="capitalize">Single</span>
-            </Button>
-            <Button
-              layout="link"
-              onClick={() => setTimeseries(true)}
-              className="rounded-l-none shadow-xs"
-              disabled={timeseries}
-            >
-              <span className="capitalize">Range</span>
-            </Button>
-          </div>
-          {!timeseries ? (
-            <DatePicker
-              autoFocus={false}
-              calendarIcon={<Calendar />}
-              clearIcon={null}
-              calendarClassName="p-1 font-sans bg-white rounded-lg dark:bg-gray-900 dark:text-gray-400"
-              tileClassName="font-sans rounded-lg p-2"
-              className="px-1 font-sans bg-white rounded-lg shadow-xs dark:bg-gray-900 dark:text-gray-400"
-              onChange={dateOnChange}
-              value={date}
-              maxDate={previousDate}
-            />
-          ) : (
-            <DateRangePicker
-              autoFocus={false}
-              calendarIcon={<Calendar />}
-              clearIcon={null}
-              calendarClassName="p-1 font-sans bg-white rounded-lg dark:bg-gray-900 dark:text-gray-400"
-              tileClassName="font-sans rounded-lg p-2"
-              className="px-1 font-sans bg-white rounded-lg shadow-xs dark:bg-gray-900 dark:text-gray-400"
-              onChange={datesOnChange}
-              value={dates}
-              maxDate={previousDate}
-            />
-          )}
-        </div>
+      <div ref={ref}>
+        <ConditionalFilter floating={false} />
       </div>
+      {!inView && <ConditionalFilter floating={true} />}
       {renderContent()}
-    </>
+    </div>
   );
 }
 
