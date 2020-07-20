@@ -75,4 +75,5 @@ export const facilityTypes = [
   "Corona Testing Labs",
   "Corona Care Centre",
   "First Line Treatment Centre",
+  "Unknown",
 ];

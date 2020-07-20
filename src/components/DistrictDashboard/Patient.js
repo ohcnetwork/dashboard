@@ -7,7 +7,7 @@ import { InfoCard } from "../Cards/InfoCard";
 import Table from "../Table";
 import { SectionTitle } from "../Typography/Title";
 
-function Patient({ filterDistrict, date }) {
+function Patient({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
     count: 0,
     ventilator: { total: 0, today: 0 },
@@ -32,9 +32,12 @@ function Patient({ filterDistrict, date }) {
     )
       .then((resp) => {
         setFacilities(
-          resp.results.map(({ data: facility, created_date }) => ({
+          resp.results.map(({ data, facility, created_date }) => ({
             date: dateString(new Date(created_date)),
-            ...facility,
+            ...data,
+            id: facility.id,
+            facilityType: facility.facility_type || "Unknown",
+            location: facility.location,
           }))
         );
       })
@@ -47,7 +50,11 @@ function Patient({ filterDistrict, date }) {
     if (facilities.length == 0) {
       return;
     }
-    let _f = facilities.filter((f) => f.district === filterDistrict.name);
+    let _f = facilities.filter(
+      (f) =>
+        f.district === filterDistrict.name &&
+        filterFacilityTypes.includes(f.facilityType)
+    );
     setFilteredFacilities(_f);
     let _t = _f.reduce(
       (a, c) => {
@@ -65,7 +72,7 @@ function Patient({ filterDistrict, date }) {
       }
     );
     setFacilitiesTrivia(_t);
-  }, [facilities, filterDistrict]);
+  }, [facilities, filterDistrict, filterFacilityTypes]);
 
   return (
     <>
@@ -95,7 +102,12 @@ function Patient({ filterDistrict, date }) {
           return [
             ...a,
             [
-              <p className="font-semibold">{c.facility_name}</p>,
+              <div className="flex flex-col">
+                <p className="font-semibold">{c.facility_name}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  {c.facilityType}
+                </p>
+              </div>,
               ...Object.keys(patientTypes).map((i) => {
                 let delta = c["today_patients_" + patientTypes[i]];
                 return (

@@ -23,10 +23,11 @@ const ColdYAxis = cold(YAxis);
 const ColdBarChart = cold(BarChart);
 const ColdCharts = cold(Charts);
 
-function PatientTimeseries({ filterDistrict, dates }) {
+function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const { auth } = useContext(AuthContext);
   const [facilities, setFacilities] = useState([]);
   const [chartable, setChartable] = useState([]);
+  const [empty, setEmpty] = useState(false);
 
   useEffect(() => {
     carePatientSummary(
@@ -36,9 +37,12 @@ function PatientTimeseries({ filterDistrict, dates }) {
     )
       .then((resp) => {
         setFacilities(
-          resp.results.map(({ data: facility, created_date }) => ({
+          resp.results.map(({ data, facility, created_date }) => ({
             date: dateString(new Date(created_date)),
-            ...facility,
+            ...data,
+            id: facility.id,
+            facilityType: facility.facility_type || "Unknown",
+            location: facility.location,
           }))
         );
       })
@@ -51,7 +55,16 @@ function PatientTimeseries({ filterDistrict, dates }) {
     if (facilities.length == 0) {
       return;
     }
-    let _f = facilities.filter((f) => f.district === filterDistrict.name);
+    let _f = facilities.filter(
+      (f) =>
+        f.district === filterDistrict.name &&
+        filterFacilityTypes.includes(f.facilityType)
+    );
+    if (_f.length == 0) {
+      setEmpty(true);
+      return;
+    }
+    setEmpty(false);
     const dictionary = _f.reduce((acc, cur) => {
       if (acc[cur.date]) {
         Object.keys(patientTypes).forEach((k) => {
@@ -89,7 +102,7 @@ function PatientTimeseries({ filterDistrict, dates }) {
         })
     );
     setChartable(_chartable);
-  }, [facilities, filterDistrict]);
+  }, [facilities, filterDistrict, filterFacilityTypes]);
 
   const styleBar = {
     today: {
@@ -158,43 +171,49 @@ function PatientTimeseries({ filterDistrict, dates }) {
   };
 
   return (
-    <div className="min-w-full min-h-full">
-      {chartable.map((s, i) => (
-        <div key={i}>
-          <SectionTitle>{s.name() + "s"}</SectionTitle>
-          <Card className="mb-8 bg-pur">
-            <CardBody>
-              <ColdResizable>
-                <ColdChartContainer
-                  timeRange={s.timerange()}
-                  timeAxisStyle={styleAxis}
-                >
-                  <ColdChartRow height="150">
-                    <ColdYAxis
-                      id="bar"
-                      label={s.name() + "s"}
-                      transition={300}
-                      min={0}
-                      max={s.max("total") + (s.max("total") * 30) / 100}
-                      width="70"
-                      type="linear"
-                      style={styleAxis}
-                    />
-                    <ColdCharts>
-                      <ColdBarChart
-                        axis="bar"
-                        style={styleBar}
-                        columns={["today", "total"]}
-                        series={s}
-                      />
-                    </ColdCharts>
-                  </ColdChartRow>
-                </ColdChartContainer>
-              </ColdResizable>
-            </CardBody>
-          </Card>
+    <div>
+      {!empty ? (
+        <div className="min-w-full min-h-full">
+          {chartable.map((s, i) => (
+            <div key={i}>
+              <SectionTitle>{s.name() + "s"}</SectionTitle>
+              <Card className="mb-8 bg-pur">
+                <CardBody>
+                  <ColdResizable>
+                    <ColdChartContainer
+                      timeRange={s.timerange()}
+                      timeAxisStyle={styleAxis}
+                    >
+                      <ColdChartRow height="150">
+                        <ColdYAxis
+                          id="bar"
+                          label={s.name() + "s"}
+                          transition={300}
+                          min={0}
+                          max={s.max("total") + (s.max("total") * 30) / 100}
+                          width="70"
+                          type="linear"
+                          style={styleAxis}
+                        />
+                        <ColdCharts>
+                          <ColdBarChart
+                            axis="bar"
+                            style={styleBar}
+                            columns={["today", "total"]}
+                            series={s}
+                          />
+                        </ColdCharts>
+                      </ColdChartRow>
+                    </ColdChartContainer>
+                  </ColdResizable>
+                </CardBody>
+              </Card>
+            </div>
+          ))}
         </div>
-      ))}
+      ) : (
+        <div>No Data</div>
+      )}
     </div>
   );
 }
