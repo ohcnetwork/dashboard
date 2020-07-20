@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { ChevronDown } from "react-feather";
-import { Button, Dropdown, DropdownItem, Transition } from "windmill-react-ui";
+import { useInView } from "react-intersection-observer";
+import { Button, Dropdown, DropdownItem } from "windmill-react-ui";
 import Capacity from "../components/DistrictDashboard/Capacity";
 import CapacityTimeseries from "../components/DistrictDashboard/CapacityTimeseries";
 import Covid from "../components/DistrictDashboard/Covid";
@@ -11,9 +12,8 @@ import Tests from "../components/DistrictDashboard/Tests";
 import TestsTimeseries from "../components/DistrictDashboard/TestsTimeseries";
 import { PageTitle } from "../components/Typography/Title";
 import { AuthContext } from "../context/AuthContext";
-import { districts } from "../utils/constants";
+import { districts, facilityTypes } from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
-import { useInView } from "react-intersection-observer";
 
 const CONTENT = {
   CAPACITY: 1,
@@ -31,6 +31,7 @@ function DistrictDashboard() {
   const [filterDistrict, setFilterDistrict] = useState(
     auth.userData.district_object
   );
+  const [filterFacilityTypes, setFilterFacilityTypes] = useState(facilityTypes);
   const [content, setContent] = useState(CONTENT.CAPACITY);
   const [dates, datesOnChange] = useState([
     getNDateBefore(previousDate, 14),
@@ -48,9 +49,17 @@ function DistrictDashboard() {
     switch (content) {
       case CONTENT.CAPACITY:
         return !timeseries ? (
-          <Capacity filterDistrict={filterDistrict} date={date} />
+          <Capacity
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            date={date}
+          />
         ) : (
-          <CapacityTimeseries filterDistrict={filterDistrict} dates={dates} />
+          <CapacityTimeseries
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            dates={dates}
+          />
         );
       case CONTENT.PATIENT:
         return !timeseries ? (
@@ -81,6 +90,8 @@ function DistrictDashboard() {
       dates={dates}
       datesOnChange={datesOnChange}
       maxDate={previousDate}
+      filterFacilityTypes={filterFacilityTypes}
+      setFilterFacilityTypes={setFilterFacilityTypes}
     />
   );
 
@@ -134,7 +145,13 @@ function DistrictDashboard() {
               className="z-40"
             >
               {districts.map((d, i) => (
-                <DropdownItem key={i} onClick={() => setFilterDistrict(d)}>
+                <DropdownItem
+                  key={i}
+                  onClick={() => {
+                    setFilterDistrict(d);
+                    setIsOpen(false);
+                  }}
+                >
                   <span>{d.name}</span>
                 </DropdownItem>
               ))}

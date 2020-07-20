@@ -5,7 +5,7 @@
   "scripts": {
     "build": "poi --prod",
     "dev": "poi --serve",
-    "start": "serve -s build"
+    "start": "serve -s dist"
   },
   "dependencies": {
     "@vx/text": "0.0.198",
@@ -14,6 +14,7 @@
     "axios": "^0.19.2",
     "classnames": "2.2.6",
     "faker": "4.1.0",
+    "fuzzysort": "^1.1.4",
     "polylabel": "^1.1.0",
     "pondjs": "^0.9.0",
     "react": "^16.13.1",
@@ -23,7 +24,6 @@
     "react-feather": "^2.0.8",
     "react-hook-form": "^6.0.8",
     "react-intersection-observer": "^8.26.2",
-    "react-multi-select-component": "^3.0.0",
     "react-router-dom": "5.2.0",
     "react-simple-maps": "^2.1.2",
     "react-svg-tooltip": "0.0.11",

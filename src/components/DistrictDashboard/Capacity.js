@@ -8,7 +8,7 @@ import Map from "../DistrictDashboard/Map";
 import Table from "../Table";
 import { SectionTitle } from "../Typography/Title";
 
-function Capacity({ filterDistrict, date }) {
+function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
     count: 0,
     oxygen: 0,
@@ -60,7 +60,11 @@ function Capacity({ filterDistrict, date }) {
     if (facilities.length == 0) {
       return;
     }
-    let _f = facilities.filter((f) => f.districtId === filterDistrict.id);
+    let _f = facilities.filter(
+      (f) =>
+        f.districtId === filterDistrict.id &&
+        filterFacilityTypes.includes(f.facilityType)
+    );
     setFilteredFacilities(_f);
     let _t = _f.reduce(
       (a, c) => {
@@ -81,7 +85,7 @@ function Capacity({ filterDistrict, date }) {
       }
     );
     setFacilitiesTrivia(_t);
-  }, [facilities, filterDistrict]);
+  }, [facilities, filterDistrict, filterFacilityTypes]);
 
   return (
     <>

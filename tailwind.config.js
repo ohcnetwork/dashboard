@@ -3,7 +3,6 @@ const windmillPlugin = require("windmill-react-ui/plugin");
 
 module.exports = {
   purge: {
-    enabled: false,
     content: [
       "src/**/*.js",
       "node_modules/windmill-react-ui/lib/defaultTheme.js",

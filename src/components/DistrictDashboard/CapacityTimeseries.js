@@ -25,11 +25,11 @@ const ColdBarChart = cold(BarChart);
 const ColdCharts = cold(Charts);
 const ColdLineChart = cold(LineChart);
 
-function CapacityTimeseries({ filterDistrict, dates }) {
+function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const { auth } = useContext(AuthContext);
   const [facilities, setFacilities] = useState([]);
   const [chartable, setChartable] = useState([]);
-
+  const [empty, setEmpty] = useState(false);
   useEffect(() => {
     careFacilitySummary(
       auth.token,
@@ -63,7 +63,16 @@ function CapacityTimeseries({ filterDistrict, dates }) {
     if (facilities.length == 0) {
       return;
     }
-    let _f = facilities.filter((f) => f.districtId === filterDistrict.id);
+    let _f = facilities.filter(
+      (f) =>
+        f.districtId === filterDistrict.id &&
+        filterFacilityTypes.includes(f.facilityType)
+    );
+    if (_f.length == 0) {
+      setEmpty(true);
+      return;
+    }
+    setEmpty(false);
     const dictionary = _f.reduce((acc, cur) => {
       if (acc[cur.date]) {
         acc[cur.date].oxygen.total += cur.oxygenCapacity || 0;
@@ -106,7 +115,7 @@ function CapacityTimeseries({ filterDistrict, dates }) {
         })
     );
     setChartable(_chartable);
-  }, [facilities, filterDistrict]);
+  }, [facilities, filterDistrict, filterFacilityTypes]);
 
   const styleBar = {
     used: {
@@ -197,60 +206,66 @@ function CapacityTimeseries({ filterDistrict, dates }) {
   };
 
   return (
-    <div className="min-w-full min-h-full">
-      {chartable.map((s, i) => (
-        <div key={i}>
-          <SectionTitle>{s.name() + "s"}</SectionTitle>
-          <Card className="mb-8 bg-pur">
-            <CardBody>
-              <ColdResizable>
-                <ColdChartContainer
-                  timeRange={s.timerange()}
-                  timeAxisStyle={styleAxis}
-                >
-                  <ColdChartRow height="150">
-                    <ColdYAxis
-                      id="line"
-                      label="% Available"
-                      transition={300}
-                      min={0}
-                      max={100}
-                      width="70"
-                      type="linear"
-                      style={styleAxis}
-                      showGrid={true}
-                    />
-                    <ColdYAxis
-                      id="bar"
-                      label={s.name() + "s"}
-                      transition={300}
-                      min={0}
-                      max={s.max("total") + (s.max("total") * 30) / 100}
-                      width="70"
-                      type="linear"
-                      style={styleAxis}
-                    />
-                    <ColdCharts>
-                      <ColdBarChart
-                        axis="bar"
-                        style={styleBar}
-                        columns={["used", "total"]}
-                        series={s}
-                      />
-                      <ColdLineChart
-                        axis="line"
-                        style={styleLine}
-                        columns={["avail"]}
-                        series={s}
-                      />
-                    </ColdCharts>
-                  </ColdChartRow>
-                </ColdChartContainer>
-              </ColdResizable>
-            </CardBody>
-          </Card>
+    <div>
+      {!empty ? (
+        <div className="min-w-full min-h-full">
+          {chartable.map((s, i) => (
+            <div key={i}>
+              <SectionTitle>{s.name() + "s"}</SectionTitle>
+              <Card className="mb-8 bg-pur">
+                <CardBody>
+                  <ColdResizable>
+                    <ColdChartContainer
+                      timeRange={s.timerange()}
+                      timeAxisStyle={styleAxis}
+                    >
+                      <ColdChartRow height="150">
+                        <ColdYAxis
+                          id="line"
+                          label="% Available"
+                          transition={300}
+                          min={0}
+                          max={100}
+                          width="70"
+                          type="linear"
+                          style={styleAxis}
+                          showGrid={true}
+                        />
+                        <ColdYAxis
+                          id="bar"
+                          label={s.name() + "s"}
+                          transition={300}
+                          min={0}
+                          max={s.max("total") + (s.max("total") * 30) / 100}
+                          width="70"
+                          type="linear"
+                          style={styleAxis}
+                        />
+                        <ColdCharts>
+                          <ColdBarChart
+                            axis="bar"
+                            style={styleBar}
+                            columns={["used", "total"]}
+                            series={s}
+                          />
+                          <ColdLineChart
+                            axis="line"
+                            style={styleLine}
+                            columns={["avail"]}
+                            series={s}
+                          />
+                        </ColdCharts>
+                      </ColdChartRow>
+                    </ColdChartContainer>
+                  </ColdResizable>
+                </CardBody>
+              </Card>
+            </div>
+          ))}
         </div>
-      ))}
+      ) : (
+        <div>Empty</div>
+      )}
     </div>
   );
 }
