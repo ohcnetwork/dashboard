@@ -15,7 +15,12 @@ function RadialCard({ label, data, dataKey }) {
   const diff = current_used - previous_used;
   let _label = label;
   if (data.current.count > 0) {
-    _label += diff > 0 ? ` ⬆ ${Math.abs(diff)}` : diff != 0 ? ` ⬇ ${Math.abs(diff)}` : "";
+    _label +=
+      diff > 0
+        ? ` ⬆ ${Math.abs(diff)}`
+        : !isNaN(diff) && diff != 0
+        ? ` ⬇ ${Math.abs(diff)}`
+        : "";
   }
 
   return (
