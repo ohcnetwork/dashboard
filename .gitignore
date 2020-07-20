@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+.idea
 # production
 /build
 /dist
