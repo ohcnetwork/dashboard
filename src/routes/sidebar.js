@@ -6,11 +6,6 @@ const routes = [
     icon: Home,
     name: "District Dashboard",
   },
-  {
-    path: "/app/map",
-    icon: Map,
-    name: "Map",
-  },
 ];
 
 export default routes;

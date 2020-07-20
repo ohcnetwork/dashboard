@@ -4,6 +4,7 @@ import { careFacilitySummary } from "../../utils/api";
 import { availabilityTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
+import Map from "../DistrictDashboard/Map";
 import Table from "../Table";
 import { SectionTitle } from "../Typography/Title";
 
@@ -38,6 +39,7 @@ function Capacity({ filterDistrict, date }) {
             id: facility.id,
             name: facility.name,
             districtId: facility.district,
+            location: facility.location,
             facilityType: facility.facility_type || "Unknown",
             oxygenCapacity: facility.oxygen_capacity,
             capacity: facility.availability.reduce((cAcc, cCur) => {
@@ -129,6 +131,15 @@ function Capacity({ filterDistrict, date }) {
           ];
         }, [])}
       ></Table>
+
+      <SectionTitle>Map</SectionTitle>
+      <Map
+        className="mb-8"
+        facilities={filteredFacilities.filter(
+          (f) => f.date === dateString(date)
+        )}
+        filterDistrict={filterDistrict}
+      ></Map>
     </>
   );
 }

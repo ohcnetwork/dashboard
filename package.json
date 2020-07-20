@@ -8,11 +8,13 @@
     "start": "serve -s build"
   },
   "dependencies": {
+    "@vx/text": "0.0.198",
     "@wojtekmaj/react-daterange-picker": "^3.0.0",
     "apexcharts": "^3.19.3",
     "axios": "^0.19.2",
     "classnames": "2.2.6",
     "faker": "4.1.0",
+    "polylabel": "^1.1.0",
     "pondjs": "^0.9.0",
     "react": "^16.13.1",
     "react-apexcharts": "^1.3.7",
@@ -22,8 +24,11 @@
     "react-hook-form": "^6.0.8",
     "react-intersection-observer": "^8.26.2",
     "react-router-dom": "5.2.0",
+    "react-simple-maps": "^2.1.2",
+    "react-svg-tooltip": "0.0.11",
     "react-timeseries-charts": "^0.16.1",
     "register-service-worker": "^1.7.1",
+    "topojson": "^3.0.2",
     "windmill-react-ui": "0.1.1"
   },
   "devDependencies": {
