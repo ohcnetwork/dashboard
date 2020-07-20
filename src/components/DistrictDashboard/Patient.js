@@ -1,3 +1,5 @@
+import * as dayjs from "dayjs";
+import "dayjs/locale/en-in";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { carePatientSummary } from "../../utils/api";
@@ -38,6 +40,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
             id: facility.id,
             facilityType: facility.facility_type || "Unknown",
             location: facility.location,
+            modifiedDate: data.modified_date,
           }))
         );
       })
@@ -94,7 +97,14 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
       <SectionTitle>Facilities</SectionTitle>
       <Table
         className="mb-8"
-        columns={["Name", "ICU", "Ventilator", "Home Quarantine", "Isolation"]}
+        columns={[
+          "Name",
+          "Last Updated",
+          "ICU",
+          "Ventilator",
+          "Home Quarantine",
+          "Isolation",
+        ]}
         data={filteredFacilities.reduce((a, c) => {
           if (c.date !== dateString(date)) {
             return a;
@@ -108,6 +118,9 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
                   {c.facilityType}
                 </p>
               </div>,
+              dayjs(c.modifiedDate)
+                .locale("en-in")
+                .format("h:mm:ssA DD/MM/YYYY"),
               ...Object.keys(patientTypes).map((i) => {
                 let delta = c["today_patients_" + patientTypes[i]];
                 return (

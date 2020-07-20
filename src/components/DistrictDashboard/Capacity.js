@@ -1,3 +1,5 @@
+import * as dayjs from "dayjs";
+import "dayjs/locale/en-in";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { careFacilitySummary } from "../../utils/api";
@@ -42,6 +44,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             location: facility.location,
             facilityType: facility.facility_type || "Unknown",
             oxygenCapacity: facility.oxygen_capacity,
+            modifiedDate: facility.modified_date,
             capacity: facility.availability.reduce((cAcc, cCur) => {
               return {
                 ...cAcc,
@@ -111,7 +114,12 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       <SectionTitle>Facilities</SectionTitle>
       <Table
         className="mb-8"
-        columns={["Name", "Oxygen", ...Object.values(availabilityTypes).reverse()]}
+        columns={[
+          "Name",
+          "Last Updated",
+          "Oxygen",
+          ...Object.values(availabilityTypes).reverse(),
+        ]}
         data={filteredFacilities.reduce((a, c) => {
           if (c.date !== dateString(date)) {
             return a;
@@ -125,12 +133,17 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
                   {c.facilityType}
                 </p>
               </div>,
+              dayjs(c.modifiedDate)
+                .locale("en-in")
+                .format("h:mm:ssA DD/MM/YYYY"),
               c.oxygenCapacity,
-              ...Object.keys(availabilityTypes).reverse().map((i) =>
-                c.capacity[i]?.total_capacity
-                  ? `${c.capacity[i]?.current_capacity}/${c.capacity[i]?.total_capacity}`
-                  : "-"
-              ),
+              ...Object.keys(availabilityTypes)
+                .reverse()
+                .map((i) =>
+                  c.capacity[i]?.total_capacity
+                    ? `${c.capacity[i]?.current_capacity}/${c.capacity[i]?.total_capacity}`
+                    : "-"
+                ),
             ],
           ];
         }, [])}
