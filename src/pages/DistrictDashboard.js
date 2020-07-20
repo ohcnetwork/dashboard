@@ -63,15 +63,31 @@ function DistrictDashboard() {
         );
       case CONTENT.PATIENT:
         return !timeseries ? (
-          <Patient filterDistrict={filterDistrict} date={date} />
+          <Patient
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            date={date}
+          />
         ) : (
-          <PatientTimeseries filterDistrict={filterDistrict} dates={dates} />
+          <PatientTimeseries
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            dates={dates}
+          />
         );
       case CONTENT.TESTS:
         return !timeseries ? (
-          <Tests filterDistrict={filterDistrict} date={date} />
+          <Tests
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            date={date}
+          />
         ) : (
-          <TestsTimeseries filterDistrict={filterDistrict} dates={dates} />
+          <TestsTimeseries
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            dates={dates}
+          />
         );
       case CONTENT.COVID:
         return <Covid filterDistrict={filterDistrict} />;

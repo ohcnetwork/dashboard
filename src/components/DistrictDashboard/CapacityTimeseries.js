@@ -30,6 +30,7 @@ function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const [facilities, setFacilities] = useState([]);
   const [chartable, setChartable] = useState([]);
   const [empty, setEmpty] = useState(false);
+
   useEffect(() => {
     careFacilitySummary(
       auth.token,
@@ -264,7 +265,7 @@ function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
           ))}
         </div>
       ) : (
-        <div>Empty</div>
+        <div>No Data</div>
       )}
     </div>
   );
