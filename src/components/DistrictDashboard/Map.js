@@ -13,7 +13,7 @@ import { feature } from "topojson";
 import { Card, CardBody } from "windmill-react-ui";
 import { getDistrict, getLSGD } from "../../utils/utils";
 
-function Map({ filterDistrict, facilities, className }) {
+function Map({ district, facilities, className }) {
   const [topojson, setTopojson] = useState({});
   const [markers, setMarkers] = useState([]);
   const [projectionConfig, setProjectionConfig] = useState({});
@@ -46,9 +46,7 @@ function Map({ filterDistrict, facilities, className }) {
             }}
             height={400}
           >
-            <ZoomableGroup
-              center={projectionConfig[filterDistrict.name] || [0, 0]}
-            >
+            <ZoomableGroup center={projectionConfig[district] || [0, 0]}>
               <Geographies
                 className="text-purple-600 fill-current dark:text-gray-400"
                 geography={topojson}
@@ -56,16 +54,14 @@ function Map({ filterDistrict, facilities, className }) {
               >
                 {({ geographies }) =>
                   geographies
-                    .filter(
-                      (d) => d.properties.DISTRICT === filterDistrict.name
-                    )
+                    .filter((d) => d.properties.DISTRICT === district)
                     .map((geo) => (
                       <Geography key={geo.rsmKey} geography={geo} />
                     ))
                 }
               </Geographies>
               {markers
-                .filter((d) => d.properties.DISTRICT === filterDistrict.name)
+                .filter((d) => d.properties.DISTRICT === district)
                 .map((e) => (
                   <Marker
                     key={e.properties.id}
@@ -96,7 +92,7 @@ function Map({ filterDistrict, facilities, className }) {
                         <svg
                           x={5}
                           y={5}
-                          width="80"
+                          width={80}
                           height="20"
                           viewBox="0 0 80 20"
                         >
@@ -109,7 +105,7 @@ function Map({ filterDistrict, facilities, className }) {
                             fill="white"
                             fontSize="7"
                             scaleToFit={true}
-                            width="80"
+                            width={80}
                           >
                             {`Name: ${name}`}
                           </Text>

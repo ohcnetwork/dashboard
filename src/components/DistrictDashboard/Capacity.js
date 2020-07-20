@@ -142,7 +142,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         facilities={filteredFacilities.filter(
           (f) => f.date === dateString(date)
         )}
-        filterDistrict={filterDistrict}
+        district={filterDistrict.name}
       ></Map>
     </>
   );
