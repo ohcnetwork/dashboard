@@ -1,14 +1,15 @@
 import * as dayjs from "dayjs";
 import "dayjs/locale/en-in";
 import React, { useContext, useEffect, useState } from "react";
+import { animated, config, useSpring } from "react-spring";
 import { AuthContext } from "../../context/AuthContext";
 import { careFacilitySummary } from "../../utils/api";
 import { availabilityTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
 import Map from "../DistrictDashboard/Map";
-import FacilityTable from "./FacilityTable";
 import { SectionTitle } from "../Typography/Title";
+import FacilityTable from "./FacilityTable";
 
 function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
@@ -26,6 +27,16 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const [facilitiesTrivia, setFacilitiesTrivia] = useState({
     current: initialFacilitiesTrivia,
     previous: initialFacilitiesTrivia,
+  });
+
+  const { count, oxygen } = useSpring({
+    from: { count: 0, oxygen: 0 },
+    to: {
+      count: facilitiesTrivia.current.count || 0,
+      oxygen: facilitiesTrivia.current.oxygen || 0,
+    },
+    delay: 0,
+    config: config.slow,
   });
 
   useEffect(() => {
@@ -94,10 +105,14 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     <>
       <div className="flex flex-row justify-between">
         <SectionTitle>
-          Facility Count: {facilitiesTrivia.current.count}
+          <animated.span>
+            {count.interpolate((x) => `Facility Count: ${Math.round(x)}`)}
+          </animated.span>
         </SectionTitle>
         <SectionTitle>
-          Oxygen Capacity: {facilitiesTrivia.current.oxygen}
+          <animated.span>
+            {oxygen.interpolate((x) => `Oxygen Capacity: ${Math.round(x)}`)}
+          </animated.span>
         </SectionTitle>
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">

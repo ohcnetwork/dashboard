@@ -1,13 +1,14 @@
 import * as dayjs from "dayjs";
 import "dayjs/locale/en-in";
 import React, { useContext, useEffect, useState } from "react";
+import { animated, config, useSpring } from "react-spring";
 import { AuthContext } from "../../context/AuthContext";
 import { carePatientSummary } from "../../utils/api";
 import { patientTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
-import FacilityTable from "./FacilityTable";
 import { SectionTitle } from "../Typography/Title";
+import FacilityTable from "./FacilityTable";
 
 function Patient({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
@@ -24,6 +25,15 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
   const [facilitiesTrivia, setFacilitiesTrivia] = useState({
     current: initialFacilitiesTrivia,
     previous: initialFacilitiesTrivia,
+  });
+
+  const { count } = useSpring({
+    from: { count: 0 },
+    to: {
+      count: facilitiesTrivia.current.count || 0,
+    },
+    delay: 0,
+    config: config.slow,
   });
 
   useEffect(() => {
@@ -80,7 +90,9 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
   return (
     <>
       <SectionTitle>
-        Facility Count: {facilitiesTrivia.current.count}
+        <animated.span>
+          {count.interpolate((x) => `Facility Count: ${Math.round(x)}`)}
+        </animated.span>
       </SectionTitle>
 
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
