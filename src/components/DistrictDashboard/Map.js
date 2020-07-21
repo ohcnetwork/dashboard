@@ -96,7 +96,6 @@ function Map({ district, facilities, className }) {
                           height="20"
                           viewBox="0 0 80 20"
                         >
-                          >
                           <rect width="100%" height="100%" fill="black" />
                           <Text
                             verticalAnchor="start"
