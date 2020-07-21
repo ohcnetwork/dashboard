@@ -101,12 +101,12 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         </SectionTitle>
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        {["ventilator", "icu", "room", "bed"].map((k) => (
+        {Object.values(availabilityTypes).map((k) => (
           <RadialCard
-            label={k[0].toUpperCase() + k.slice(1) + "s used"}
-            dataKey={k}
+            label={k + "s used"}
+            dataKey={k.toLowerCase()}
             data={facilitiesTrivia}
-            key={k}
+            key={k.toLowerCase()}
           />
         ))}
       </div>
