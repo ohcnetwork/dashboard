@@ -6,8 +6,8 @@ import { careTestsSummary } from "../../utils/api";
 import { testsTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
-import Table from "../Table";
-import { SectionTitle } from "../Typography/Title";
+import FacilityTable from "./FacilityTable";
+import { SectionTitle, PageTitle } from "../Typography/Title";
 
 function Tests({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
@@ -105,8 +105,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
         })}
       </div>
 
-      <SectionTitle>Facilities</SectionTitle>
-      <Table
+      <FacilityTable
         className="mb-8"
         columns={["Name", "Last Updated", ...Object.values(testsTypes)]}
         data={filteredFacilities.reduce((a, c) => {
@@ -116,12 +115,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
           return [
             ...a,
             [
-              <div className="flex flex-col">
-                <p className="font-semibold">{c.facility_name}</p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  {c.facilityType}
-                </p>
-              </div>,
+              [c.facility_name, c.facilityType],
               dayjs(c.modifiedDate)
                 .locale("en-in")
                 .format("h:mm:ssA DD/MM/YYYY"),
@@ -129,7 +123,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
             ],
           ];
         }, [])}
-      ></Table>
+      ></FacilityTable>
     </>
   );
 }

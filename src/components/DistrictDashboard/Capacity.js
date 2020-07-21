@@ -7,7 +7,7 @@ import { availabilityTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
 import Map from "../DistrictDashboard/Map";
-import Table from "../Table";
+import FacilityTable from "./FacilityTable";
 import { SectionTitle } from "../Typography/Title";
 
 function Capacity({ filterDistrict, filterFacilityTypes, date }) {
@@ -111,8 +111,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         ))}
       </div>
 
-      <SectionTitle>Facilities</SectionTitle>
-      <Table
+      <FacilityTable
         className="mb-8"
         columns={[
           "Name",
@@ -127,12 +126,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           return [
             ...a,
             [
-              <div className="flex flex-col">
-                <p className="font-semibold">{c.name}</p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  {c.facilityType}
-                </p>
-              </div>,
+              [c.name, c.facilityType],
               dayjs(c.modifiedDate)
                 .locale("en-in")
                 .format("h:mm:ssA DD/MM/YYYY"),
@@ -147,7 +141,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             ],
           ];
         }, [])}
-      ></Table>
+      ></FacilityTable>
 
       <SectionTitle>Map</SectionTitle>
       <Map

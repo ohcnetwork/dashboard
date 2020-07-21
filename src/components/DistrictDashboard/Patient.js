@@ -6,7 +6,7 @@ import { carePatientSummary } from "../../utils/api";
 import { patientTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
-import Table from "../Table";
+import FacilityTable from "./FacilityTable";
 import { SectionTitle } from "../Typography/Title";
 
 function Patient({ filterDistrict, filterFacilityTypes, date }) {
@@ -94,8 +94,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
         ))}
       </div>
 
-      <SectionTitle>Facilities</SectionTitle>
-      <Table
+      <FacilityTable
         className="mb-8"
         columns={["Name", "Last Updated", ...Object.values(patientTypes)]}
         data={filteredFacilities.reduce((a, c) => {
@@ -105,12 +104,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
           return [
             ...a,
             [
-              <div className="flex flex-col">
-                <p className="font-semibold">{c.facility_name}</p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  {c.facilityType}
-                </p>
-              </div>,
+              [c.facility_name, c.facilityType],
               dayjs(c.modifiedDate)
                 .locale("en-in")
                 .format("h:mm:ssA DD/MM/YYYY"),
@@ -128,7 +122,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
             ],
           ];
         }, [])}
-      ></Table>
+      ></FacilityTable>
     </>
   );
 }
