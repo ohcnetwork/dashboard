@@ -9,17 +9,13 @@
   },
   "dependencies": {
     "@vx/text": "0.0.198",
+    "@windmill/react-ui": "^0.3.1",
     "@wojtekmaj/react-daterange-picker": "^3.0.0",
-    "apexcharts": "^3.19.3",
     "axios": "^0.19.2",
-    "classnames": "2.2.6",
     "dayjs": "^1.8.29",
-    "faker": "4.1.0",
     "fuzzysort": "^1.1.4",
     "polylabel": "^1.1.0",
-    "pondjs": "^0.9.0",
     "react": "^16.13.1",
-    "react-apexcharts": "^1.3.7",
     "react-date-picker": "^8.0.1",
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.8",
@@ -27,11 +23,11 @@
     "react-intersection-observer": "^8.26.2",
     "react-router-dom": "5.2.0",
     "react-simple-maps": "^2.1.2",
+    "react-spring": "^8.0.27",
     "react-svg-tooltip": "0.0.11",
-    "react-timeseries-charts": "^0.16.1",
+    "recharts": "^1.8.5",
     "register-service-worker": "^1.7.1",
-    "topojson": "^3.0.2",
-    "windmill-react-ui": "0.1.1"
+    "topojson": "^3.0.2"
   },
   "devDependencies": {
     "@poi/plugin-pwa": "^12.0.3",

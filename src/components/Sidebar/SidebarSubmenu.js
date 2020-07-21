@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ChevronDown } from "react-feather";
 import { Link } from "react-router-dom";
-import { Transition } from "windmill-react-ui";
+import { Transition } from "@windmill/react-ui";
 
 function SidebarSubmenu({ route }) {
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);

@@ -10,7 +10,7 @@ import {
   HelperText,
   Input,
   Label,
-} from "windmill-react-ui";
+} from "@windmill/react-ui";
 import { facilityTypes } from "../../utils/constants";
 
 function Filter({
@@ -166,6 +166,7 @@ function Filter({
               value={date}
               onChange={dateOnChange}
               maxDate={maxDate}
+              format="dd/MM/yyyy"
             />
           ) : (
             <DateRangePicker
@@ -178,6 +179,7 @@ function Filter({
               value={dates}
               onChange={datesOnChange}
               maxDate={maxDate}
+              format="dd/MM/yyyy"
             />
           )}
         </div>

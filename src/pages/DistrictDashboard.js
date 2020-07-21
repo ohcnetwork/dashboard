@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { ChevronDown } from "react-feather";
 import { useInView } from "react-intersection-observer";
-import { Button, Dropdown, DropdownItem } from "windmill-react-ui";
+import { Button, Dropdown, DropdownItem } from "@windmill/react-ui";
 import Capacity from "../components/DistrictDashboard/Capacity";
 import CapacityTimeseries from "../components/DistrictDashboard/CapacityTimeseries";
 import Covid from "../components/DistrictDashboard/Covid";
