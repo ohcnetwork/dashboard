@@ -14,7 +14,6 @@
     "dayjs": "^1.8.29",
     "fuzzysort": "^1.1.4",
     "polylabel": "^1.1.0",
-    "pondjs": "^0.9.0",
     "react": "^16.13.1",
     "react-date-picker": "^8.0.1",
     "react-dom": "^16.13.1",
@@ -25,7 +24,7 @@
     "react-simple-maps": "^2.1.2",
     "react-spring": "^8.0.27",
     "react-svg-tooltip": "0.0.11",
-    "react-timeseries-charts": "^0.16.1",
+    "recharts": "^1.8.5",
     "register-service-worker": "^1.7.1",
     "topojson": "^3.0.2",
     "windmill-react-ui": "0.1.1"
