@@ -10,7 +10,7 @@ import {
 } from "react-simple-maps";
 import { Tooltip } from "react-svg-tooltip";
 import { feature } from "topojson";
-import { Card, CardBody } from "windmill-react-ui";
+import { Card, CardBody } from "@windmill/react-ui";
 import { getDistrict, getLSGD } from "../../utils/utils";
 
 function Map({ district, facilities, className }) {
@@ -96,7 +96,6 @@ function Map({ district, facilities, className }) {
                           height="20"
                           viewBox="0 0 80 20"
                         >
-                          >
                           <rect width="100%" height="100%" fill="black" />
                           <Text
                             verticalAnchor="start"

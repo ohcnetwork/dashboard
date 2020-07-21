@@ -15,13 +15,6 @@ export const districts = [
   { id: 14, name: "Kasaragod" },
 ];
 
-export const roomTypes = {
-  1: "General Bed",
-  3: "Single Room with Attached Bathroom",
-  10: "ICU",
-  20: "Ventilator",
-};
-
 export const availabilityTypes = {
   20: "Ventilator",
   10: "ICU",
@@ -30,14 +23,7 @@ export const availabilityTypes = {
 };
 
 export const patientTypes = {
-  home: "home_quarantine",
-  isolation: "isolation",
-  icu: "icu",
-  ventilator: "ventilator",
-};
-
-export const patientLang = {
-  home: "Home quarantine",
+  home_quarantine: "Home quarantine",
   isolation: "Isolation",
   icu: "ICU",
   ventilator: "Ventilator",

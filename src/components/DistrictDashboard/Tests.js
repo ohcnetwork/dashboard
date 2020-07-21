@@ -1,13 +1,14 @@
 import * as dayjs from "dayjs";
 import "dayjs/locale/en-in";
 import React, { useContext, useEffect, useState } from "react";
+import { animated, config, useSpring } from "react-spring";
 import { AuthContext } from "../../context/AuthContext";
 import { careTestsSummary } from "../../utils/api";
 import { testsTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
-import Table from "../Table";
 import { SectionTitle } from "../Typography/Title";
+import FacilityTable from "./FacilityTable";
 
 function Tests({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
@@ -25,6 +26,16 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
   const [facilitiesTrivia, setFacilitiesTrivia] = useState({
     current: initialFacilitiesTrivia,
     previous: initialFacilitiesTrivia,
+  });
+
+  const { count, patients } = useSpring({
+    from: { count: 0, patients: 0 },
+    to: {
+      count: facilitiesTrivia.current.count || 0,
+      patients: facilitiesTrivia.current.total_patients || 0,
+    },
+    delay: 0,
+    config: config.slow,
   });
 
   useEffect(() => {
@@ -82,10 +93,14 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
     <>
       <div className="flex flex-row justify-between">
         <SectionTitle>
-          Facility Count: {facilitiesTrivia.current.count}
+          <animated.span>
+            {count.interpolate((x) => `Facility Count: ${Math.round(x)}`)}
+          </animated.span>
         </SectionTitle>
         <SectionTitle>
-          Patient Count: {facilitiesTrivia.current.total_patients}
+          <animated.span>
+            {patients.interpolate((x) => `Patient Count: ${Math.round(x)}`)}
+          </animated.span>
         </SectionTitle>
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
@@ -105,18 +120,9 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
         })}
       </div>
 
-      <SectionTitle>Facilities</SectionTitle>
-      <Table
+      <FacilityTable
         className="mb-8"
-        columns={[
-          "Name",
-          "Last Updated",
-          "Total Patients",
-          "ICU",
-          "Ventilator",
-          "Home Quarantine",
-          "Isolation",
-        ]}
+        columns={["Name", "Last Updated", ...Object.values(testsTypes)]}
         data={filteredFacilities.reduce((a, c) => {
           if (c.date !== dateString(date)) {
             return a;
@@ -124,12 +130,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
           return [
             ...a,
             [
-              <div className="flex flex-col">
-                <p className="font-semibold">{c.facility_name}</p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  {c.facilityType}
-                </p>
-              </div>,
+              [c.facility_name, c.facilityType],
               dayjs(c.modifiedDate)
                 .locale("en-in")
                 .format("h:mm:ssA DD/MM/YYYY"),
@@ -137,7 +138,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
             ],
           ];
         }, [])}
-      ></Table>
+      ></FacilityTable>
     </>
   );
 }

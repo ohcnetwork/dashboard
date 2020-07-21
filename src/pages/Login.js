@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { Button, HelperText, Input, Label } from "windmill-react-ui";
+import { Button, HelperText, Input, Label } from "@windmill/react-ui";
 import { AuthContext } from "../context/AuthContext";
 import { careGetCurrentUser, careLogin } from "../utils/api";
 

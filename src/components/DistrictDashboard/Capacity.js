@@ -1,14 +1,15 @@
 import * as dayjs from "dayjs";
 import "dayjs/locale/en-in";
 import React, { useContext, useEffect, useState } from "react";
+import { animated, config, useSpring } from "react-spring";
 import { AuthContext } from "../../context/AuthContext";
 import { careFacilitySummary } from "../../utils/api";
 import { availabilityTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
 import Map from "../DistrictDashboard/Map";
-import Table from "../Table";
 import { SectionTitle } from "../Typography/Title";
+import FacilityTable from "./FacilityTable";
 
 function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
@@ -26,6 +27,16 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const [facilitiesTrivia, setFacilitiesTrivia] = useState({
     current: initialFacilitiesTrivia,
     previous: initialFacilitiesTrivia,
+  });
+
+  const { count, oxygen } = useSpring({
+    from: { count: 0, oxygen: 0 },
+    to: {
+      count: facilitiesTrivia.current.count || 0,
+      oxygen: facilitiesTrivia.current.oxygen || 0,
+    },
+    delay: 0,
+    config: config.slow,
   });
 
   useEffect(() => {
@@ -94,25 +105,28 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     <>
       <div className="flex flex-row justify-between">
         <SectionTitle>
-          Facility Count: {facilitiesTrivia.current.count}
+          <animated.span>
+            {count.interpolate((x) => `Facility Count: ${Math.round(x)}`)}
+          </animated.span>
         </SectionTitle>
         <SectionTitle>
-          Oxygen Capacity: {facilitiesTrivia.current.oxygen}
+          <animated.span>
+            {oxygen.interpolate((x) => `Oxygen Capacity: ${Math.round(x)}`)}
+          </animated.span>
         </SectionTitle>
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        {["ventilator", "icu", "room", "bed"].map((k) => (
+        {Object.values(availabilityTypes).map((k) => (
           <RadialCard
-            label={k[0].toUpperCase() + k.slice(1) + "s used"}
-            dataKey={k}
+            label={k + "s used"}
+            dataKey={k.toLowerCase()}
             data={facilitiesTrivia}
-            key={k}
+            key={k.toLowerCase()}
           />
         ))}
       </div>
 
-      <SectionTitle>Facilities</SectionTitle>
-      <Table
+      <FacilityTable
         className="mb-8"
         columns={[
           "Name",
@@ -127,12 +141,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           return [
             ...a,
             [
-              <div className="flex flex-col">
-                <p className="font-semibold">{c.name}</p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  {c.facilityType}
-                </p>
-              </div>,
+              [c.name, c.facilityType],
               dayjs(c.modifiedDate)
                 .locale("en-in")
                 .format("h:mm:ssA DD/MM/YYYY"),
@@ -147,7 +156,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             ],
           ];
         }, [])}
-      ></Table>
+      ></FacilityTable>
 
       <SectionTitle>Map</SectionTitle>
       <Map

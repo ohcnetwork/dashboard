@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { register } from "register-service-worker";
-import { Windmill } from "windmill-react-ui";
+import { Windmill } from "@windmill/react-ui";
 import App from "./App";
 import "./assets/css/tailwind.css";
 import ThemedSuspense from "./components/ThemedSuspense";
