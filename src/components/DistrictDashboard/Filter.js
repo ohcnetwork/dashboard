@@ -166,6 +166,7 @@ function Filter({
               value={date}
               onChange={dateOnChange}
               maxDate={maxDate}
+              format="dd/MM/yyyy"
             />
           ) : (
             <DateRangePicker
@@ -178,6 +179,7 @@ function Filter({
               value={dates}
               onChange={datesOnChange}
               maxDate={maxDate}
+              format="dd/MM/yyyy"
             />
           )}
         </div>
