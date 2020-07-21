@@ -10,7 +10,7 @@ import {
   TableFooter,
   TableHeader,
   TableRow,
-} from "windmill-react-ui";
+} from "@windmill/react-ui";
 import { SectionTitle } from "../Typography/Title";
 
 function FacilityTable({ columns = [], data, className }) {

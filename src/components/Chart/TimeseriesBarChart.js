@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Card, CardBody, WindmillContext } from "windmill-react-ui";
+import { Card, CardBody, WindmillContext } from "@windmill/react-ui";
 import { SectionTitle } from "../Typography/Title";
 
 function TimeseriesBarChart({ name, data, dataKeys, colors }) {

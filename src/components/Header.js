@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { LogOut, Menu, Moon, Sun } from "react-feather";
-import { WindmillContext } from "windmill-react-ui";
+import { WindmillContext } from "@windmill/react-ui";
 import { ReactComponent as CoronaSafeLogo } from "../assets/icons/coronaSafeLogo.svg";
 import { AuthContext } from "../context/AuthContext";
 import { SidebarContext } from "../context/SidebarContext";

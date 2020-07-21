@@ -10,7 +10,7 @@ import {
 } from "react-simple-maps";
 import { Tooltip } from "react-svg-tooltip";
 import { feature } from "topojson";
-import { Card, CardBody } from "windmill-react-ui";
+import { Card, CardBody } from "@windmill/react-ui";
 import { getDistrict, getLSGD } from "../../utils/utils";
 
 function Map({ district, facilities, className }) {

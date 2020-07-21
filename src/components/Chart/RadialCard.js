@@ -1,6 +1,6 @@
 import React from "react";
 import { animated, config, useSpring } from "react-spring";
-import { Card } from "windmill-react-ui";
+import { Card } from "@windmill/react-ui";
 
 function RadialCard({ label, data, dataKey }) {
   const current_used = Math.round(

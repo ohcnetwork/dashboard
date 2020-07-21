@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { Card, CardBody } from "windmill-react-ui";
+import { Card, CardBody } from "@windmill/react-ui";
 import { AuthContext } from "../../context/AuthContext";
 import { careTestsSummary } from "../../utils/api";
 import { testsTypes } from "../../utils/constants";

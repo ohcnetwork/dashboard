@@ -10,7 +10,7 @@ import {
   HelperText,
   Input,
   Label,
-} from "windmill-react-ui";
+} from "@windmill/react-ui";
 import { facilityTypes } from "../../utils/constants";
 
 function Filter({

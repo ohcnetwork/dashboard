@@ -1,23 +1,17 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-const windmillPlugin = require("windmill-react-ui/plugin");
+const windmill = require("@windmill/react-ui/config");
 
-module.exports = {
-  purge: {
-    content: [
-      "src/**/*.js",
-      "node_modules/windmill-react-ui/lib/defaultTheme.js",
-    ],
-    options: {
-      whitelist: ["theme-dark"],
-    },
-  },
+module.exports = windmill({
+  purge: ["src/**/*.js"],
   theme: {
     extend: {
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
       },
+      boxShadow: {
+        bottom:
+          "0 5px 6px -7px rgba(0, 0, 0, 0.6), 0 2px 4px -5px rgba(0, 0, 0, 0.06)",
+      },
     },
   },
-  variants: {},
-  plugins: [windmillPlugin()],
-};
+});
