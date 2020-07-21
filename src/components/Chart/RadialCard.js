@@ -11,16 +11,6 @@ function RadialCard({ label, data, dataKey }) {
   );
   const diff = current_used - previous_used;
 
-  let delta = "";
-  if (data.current.count > 0) {
-    delta =
-      diff > 0
-        ? ` ⬆ ${Math.abs(diff)}`
-        : !isNaN(diff) && diff != 0
-        ? ` ⬇ ${Math.abs(diff)}`
-        : "";
-  }
-
   let _p = Math.round(
     (data.current[dataKey].used / data.current[dataKey].total) * 100
   );
@@ -59,9 +49,19 @@ function RadialCard({ label, data, dataKey }) {
           <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
             {label}
           </p>
-          <animated.p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-            {innerProgress.interpolate((x) => `${Math.round(x)}%${delta}`)}
-          </animated.p>
+          <div className="inline-flex">
+            <animated.span className="mr-1 text-lg font-semibold text-gray-700 dark:text-gray-200">
+              {innerProgress.interpolate((x) => `${Math.round(x)}%`)}
+            </animated.span>
+            {data.current.count > 0 &&
+              (diff > 0 ? (
+                <span className="text-green-400">{`⯅${Math.abs(diff)}`}</span>
+              ) : !isNaN(diff) && diff != 0 ? (
+                <span className="text-red-400">{`⯆${Math.abs(diff)}`}</span>
+              ) : (
+                <span></span>
+              ))}
+          </div>
         </div>
       </div>
       <div className="grid content-center justify-center w-1/4 grid-cols-1 py-4 pr-6 space-y-2 text-right">
