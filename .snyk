@@ -1,0 +1,8 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.16.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - windmill-react-ui > @tailwindcss/custom-forms > lodash:
+        patched: '2020-07-21T05:09:43.639Z'
