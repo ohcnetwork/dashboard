@@ -11,16 +11,6 @@ function RadialCard({ label, data, dataKey }) {
   );
   const diff = current_used - previous_used;
 
-  let delta = "";
-  if (data.current.count > 0) {
-    delta =
-      diff > 0
-        ? ` ${(<span>⯅ ${Math.abs(diff)}</span>)}`
-        : !isNaN(diff) && diff != 0
-        ? ` ⯆ ${Math.abs(diff)}`
-        : "";
-  }
-
   let _p = Math.round(
     (data.current[dataKey].used / data.current[dataKey].total) * 100
   );
