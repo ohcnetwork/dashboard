@@ -108,15 +108,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
       <SectionTitle>Facilities</SectionTitle>
       <Table
         className="mb-8"
-        columns={[
-          "Name",
-          "Last Updated",
-          "Total Patients",
-          "ICU",
-          "Ventilator",
-          "Home Quarantine",
-          "Isolation",
-        ]}
+        columns={["Name", "Last Updated", ...Object.values(testsTypes)]}
         data={filteredFacilities.reduce((a, c) => {
           if (c.date !== dateString(date)) {
             return a;

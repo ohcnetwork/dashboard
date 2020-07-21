@@ -3,7 +3,7 @@ import "dayjs/locale/en-in";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { carePatientSummary } from "../../utils/api";
-import { patientLang, patientTypes } from "../../utils/constants";
+import { patientTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import Table from "../Table";
@@ -15,7 +15,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
     ventilator: { total: 0, today: 0 },
     icu: { total: 0, today: 0 },
     isolation: { total: 0, today: 0 },
-    home: { total: 0, today: 0 },
+    home_quarantine: { total: 0, today: 0 },
   };
 
   const { auth } = useContext(AuthContext);
@@ -64,8 +64,8 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
         let key = c.date === dateString(date) ? "current" : "previous";
         a[key].count += 1;
         Object.keys(patientTypes).forEach((k) => {
-          a[key][k].today += c["today_patients_" + patientTypes[k]];
-          a[key][k].total += c["total_patients_" + patientTypes[k]];
+          a[key][k].today += c["today_patients_" + k];
+          a[key][k].total += c["total_patients_" + k];
         });
         return a;
       },
@@ -84,10 +84,10 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
       </SectionTitle>
 
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        {Object.keys(patientLang).map((k, i) => (
+        {Object.keys(patientTypes).map((k, i) => (
           <InfoCard
             key={i}
-            title={patientLang[k]}
+            title={patientTypes[k]}
             value={facilitiesTrivia.current[k].total}
             delta={facilitiesTrivia.current[k].today}
           />
@@ -97,14 +97,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
       <SectionTitle>Facilities</SectionTitle>
       <Table
         className="mb-8"
-        columns={[
-          "Name",
-          "Last Updated",
-          "ICU",
-          "Ventilator",
-          "Home Quarantine",
-          "Isolation",
-        ]}
+        columns={["Name", "Last Updated", ...Object.values(patientTypes)]}
         data={filteredFacilities.reduce((a, c) => {
           if (c.date !== dateString(date)) {
             return a;
@@ -121,11 +114,11 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
               dayjs(c.modifiedDate)
                 .locale("en-in")
                 .format("h:mm:ssA DD/MM/YYYY"),
-              ...Object.keys(patientTypes).map((i) => {
-                let delta = c["today_patients_" + patientTypes[i]];
+              ...Object.keys(patientTypes).map((k) => {
+                let delta = c["today_patients_" + k];
                 return (
                   <div className="flex">
-                    <p className="">{c["total_patients_" + patientTypes[i]]}</p>
+                    <p className="">{c["total_patients_" + k]}</p>
                     <span className="ml-2 text-sm">
                       {delta == 0 ? "-" : delta > 0 ? `+${delta}` : delta}
                     </span>
