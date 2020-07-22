@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-
-import { Card, CardBody } from "@windmill/react-ui";
 import { AuthContext } from "../../context/AuthContext";
 import { careTestsSummary } from "../../utils/api";
 import { testsTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import TimeseriesLineChart from "../Chart/TimeseriesLineChart";
+import NoData from "../NoData";
+import ThemedSuspense from "../ThemedSuspense";
 
 function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const { auth } = useContext(AuthContext);
   const [facilities, setFacilities] = useState([]);
   const [chartable, setChartable] = useState(null);
   const [empty, setEmpty] = useState(false);
+  const [fetched, setFetched] = useState(false);
 
   useEffect(() => {
     careTestsSummary(
@@ -29,6 +30,7 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
             location: facility.location,
           }))
         );
+        setFetched(true);
       })
       .catch((ex) => {
         console.error("Data Unavailable", ex);
@@ -84,10 +86,10 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
     setChartable(_chartable);
   }, [facilities, filterDistrict, filterFacilityTypes]);
 
-  return (
-    <div>
-      {!empty ? (
-        chartable && (
+  return fetched ? (
+    !empty ? (
+      <div className="min-w-full min-h-full">
+        {chartable && (
           <TimeseriesLineChart
             name={chartable.name + "s"}
             data={chartable.data}
@@ -100,11 +102,13 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
             ]}
             colors={["green", "red", "purple", "orange", "blue"]}
           />
-        )
-      ) : (
-        <div>No Data</div>
-      )}
-    </div>
+        )}
+      </div>
+    ) : (
+      <NoData />
+    )
+  ) : (
+    <ThemedSuspense />
   );
 }
 

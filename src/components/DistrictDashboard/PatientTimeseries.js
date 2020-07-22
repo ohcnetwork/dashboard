@@ -4,12 +4,15 @@ import { carePatientSummary } from "../../utils/api";
 import { patientTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import TimeseriesBarChart from "../Chart/TimeseriesBarChart";
+import NoData from "../NoData";
+import ThemedSuspense from "../ThemedSuspense";
 
 function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const { auth } = useContext(AuthContext);
   const [facilities, setFacilities] = useState([]);
   const [chartable, setChartable] = useState([]);
   const [empty, setEmpty] = useState(false);
+  const [fetched, setFetched] = useState(false);
 
   useEffect(() => {
     carePatientSummary(
@@ -27,6 +30,7 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
             location: facility.location,
           }))
         );
+        setFetched(true);
       })
       .catch((ex) => {
         console.error("Data Unavailable", ex);
@@ -82,24 +86,24 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
     setChartable(_chartable);
   }, [facilities, filterDistrict, filterFacilityTypes]);
 
-  return (
-    <div>
-      {!empty ? (
-        <div className="min-w-full min-h-full">
-          {chartable.map((s, i) => (
-            <TimeseriesBarChart
-              key={i}
-              name={s.name + "s"}
-              data={s.data}
-              dataKeys={["today", "total"]}
-              colors={["#955df5", "#7e3af2"]}
-            />
-          ))}
-        </div>
-      ) : (
-        <div>No Data</div>
-      )}
-    </div>
+  return fetched ? (
+    !empty ? (
+      <div className="min-w-full min-h-full">
+        {chartable.map((s, i) => (
+          <TimeseriesBarChart
+            key={i}
+            name={s.name + "s"}
+            data={s.data}
+            dataKeys={["today", "total"]}
+            colors={["#955df5", "#7e3af2"]}
+          />
+        ))}
+      </div>
+    ) : (
+      <NoData />
+    )
+  ) : (
+    <ThemedSuspense />
   );
 }
 

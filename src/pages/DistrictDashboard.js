@@ -1,19 +1,26 @@
-import React, { useContext, useState } from "react";
+import { Button, Dropdown, DropdownItem } from "@windmill/react-ui";
+import React, { lazy, Suspense, useContext, useState } from "react";
 import { ChevronDown } from "react-feather";
 import { useInView } from "react-intersection-observer";
-import { Button, Dropdown, DropdownItem } from "@windmill/react-ui";
-import Capacity from "../components/DistrictDashboard/Capacity";
-import CapacityTimeseries from "../components/DistrictDashboard/CapacityTimeseries";
-import Covid from "../components/DistrictDashboard/Covid";
-import Filter from "../components/DistrictDashboard/Filter";
-import Patient from "../components/DistrictDashboard/Patient";
-import PatientTimeseries from "../components/DistrictDashboard/PatientTimeseries";
-import Tests from "../components/DistrictDashboard/Tests";
-import TestsTimeseries from "../components/DistrictDashboard/TestsTimeseries";
+import ThemedSuspense from "../components/ThemedSuspense";
 import { PageTitle } from "../components/Typography/Title";
 import { AuthContext } from "../context/AuthContext";
 import { districts, facilityTypes } from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
+const Capacity = lazy(() => import("../components/DistrictDashboard/Capacity"));
+const CapacityTimeseries = lazy(() =>
+  import("../components/DistrictDashboard/CapacityTimeseries")
+);
+const Covid = lazy(() => import("../components/DistrictDashboard/Covid"));
+const Filter = lazy(() => import("../components/DistrictDashboard/Filter"));
+const Patient = lazy(() => import("../components/DistrictDashboard/Patient"));
+const PatientTimeseries = lazy(() =>
+  import("../components/DistrictDashboard/PatientTimeseries")
+);
+const Tests = lazy(() => import("../components/DistrictDashboard/Tests"));
+const TestsTimeseries = lazy(() =>
+  import("../components/DistrictDashboard/TestsTimeseries")
+);
 
 const CONTENT = {
   CAPACITY: 1,
@@ -179,7 +186,7 @@ function DistrictDashboard() {
         <ConditionalFilter floating={false} />
       </div>
       {!inView && <ConditionalFilter floating={true} />}
-      {renderContent()}
+      <Suspense fallback={ThemedSuspense}>{renderContent()}</Suspense>
     </div>
   );
 }
