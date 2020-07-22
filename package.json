@@ -8,7 +8,7 @@
     "start": "serve -s dist"
   },
   "dependencies": {
-    "@vx/text": "0.0.198",
+    "@vx/tooltip": "0.0.198",
     "@windmill/react-ui": "^0.3.1",
     "@wojtekmaj/react-daterange-picker": "^3.0.0",
     "axios": "^0.19.2",
