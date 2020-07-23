@@ -1,7 +1,8 @@
 import { Button, Dropdown, DropdownItem } from "@windmill/react-ui";
-import React, { lazy, Suspense, useContext, useState } from "react";
+import React, { lazy, Suspense, useContext, useEffect, useState } from "react";
 import { ChevronDown } from "react-feather";
 import { useInView } from "react-intersection-observer";
+import { useParams } from "react-router-dom";
 import ThemedSuspense from "../components/ThemedSuspense";
 import { PageTitle } from "../components/Typography/Title";
 import { AuthContext } from "../context/AuthContext";
@@ -31,7 +32,7 @@ const CONTENT = {
 
 function DistrictDashboard() {
   const previousDate = getNDateBefore(new Date(), 1);
-
+  const params = useParams();
   const { auth } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [timeseries, setTimeseries] = useState(false);
@@ -39,7 +40,9 @@ function DistrictDashboard() {
     auth.userData.district_object
   );
   const [filterFacilityTypes, setFilterFacilityTypes] = useState(facilityTypes);
-  const [content, setContent] = useState(CONTENT.CAPACITY);
+  const [content, setContent] = useState(
+    CONTENT[params.content?.toUpperCase()] || CONTENT.CAPACITY
+  );
   const [dates, datesOnChange] = useState([
     getNDateBefore(previousDate, 14),
     previousDate,
@@ -51,6 +54,21 @@ function DistrictDashboard() {
   const [ref, inView, entry] = useInView({
     threshold: 0,
   });
+
+  useEffect(() => {
+    setContent(CONTENT[params.content?.toUpperCase()] || CONTENT.CAPACITY);
+  }, [params.content]);
+
+  useEffect(() => {
+    window.history.replaceState(
+      null,
+      "Care Dashboard",
+      "/app/district/" +
+        Object.entries(CONTENT)
+          .find((a) => a[1] === content)[0]
+          .toLowerCase()
+    );
+  }, [content]);
 
   const renderContent = () => {
     switch (content) {

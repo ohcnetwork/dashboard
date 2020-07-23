@@ -5,7 +5,11 @@ const Page404 = lazy(() => import("../pages/404"));
 
 const routes = [
   {
-    path: "/distdashboard",
+    path: "/district",
+    component: DistrictDashboard,
+  },
+  {
+    path: "/district/:content",
     component: DistrictDashboard,
   },
   {
