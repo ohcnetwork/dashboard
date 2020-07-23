@@ -27,6 +27,7 @@
     "react-svg-tooltip": "0.0.11",
     "recharts": "^1.8.5",
     "register-service-worker": "^1.7.1",
+    "swr": "^0.2.3",
     "topojson": "^3.0.2"
   },
   "devDependencies": {

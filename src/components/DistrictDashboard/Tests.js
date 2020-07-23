@@ -1,7 +1,6 @@
-import * as dayjs from "dayjs";
-import "dayjs/locale/en-in";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { animated, config, useSpring } from "react-spring";
+import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careTestsSummary } from "../../utils/api";
 import { testsTypes } from "../../utils/constants";
@@ -21,12 +20,46 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
   };
 
   const { auth } = useContext(AuthContext);
-  const [facilities, setFacilities] = useState([]);
-  const [filteredFacilities, setFilteredFacilities] = useState([]);
-  const [facilitiesTrivia, setFacilitiesTrivia] = useState({
-    current: initialFacilitiesTrivia,
-    previous: initialFacilitiesTrivia,
-  });
+  const token = auth.token;
+  const { data, error } = useSWR(
+    ["Tests", date, token],
+    (url, date, token) =>
+      careTestsSummary(
+        token,
+        dateString(getNDateBefore(date, 1)),
+        dateString(getNDateAfter(date, 1))
+      ).then((r) => r),
+    { suspense: true, loadingTimeout: 10000 }
+  );
+
+  const facilities = data.results.map(({ data, facility, created_date }) => ({
+    date: dateString(new Date(created_date)),
+    ...data,
+    id: facility.id,
+    facilityType: facility.facility_type || "Unknown",
+    location: facility.location,
+    modifiedDate: data.modified_date,
+  }));
+  const filteredFacilities = facilities.filter(
+    (f) =>
+      f.district === filterDistrict.name &&
+      filterFacilityTypes.includes(f.facilityType)
+  );
+  const facilitiesTrivia = filteredFacilities.reduce(
+    (a, c) => {
+      let key = c.date === dateString(date) ? "current" : "previous";
+      a[key].count += 1;
+      Object.keys(testsTypes).forEach((k) => {
+        a[key][k] += c[k];
+        a[key][k] += c[k];
+      });
+      return a;
+    },
+    {
+      current: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
+      previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
+    }
+  );
 
   const { count, patients } = useSpring({
     from: { count: 0, patients: 0 },
@@ -37,57 +70,6 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
     delay: 0,
     config: config.slow,
   });
-
-  useEffect(() => {
-    careTestsSummary(
-      auth.token,
-      dateString(getNDateBefore(date, 1)),
-      dateString(getNDateAfter(date, 1))
-    )
-      .then((resp) => {
-        setFacilities(
-          resp.results.map(({ data, facility, created_date }) => ({
-            date: dateString(new Date(created_date)),
-            ...data,
-            id: facility.id,
-            facilityType: facility.facility_type || "Unknown",
-            location: facility.location,
-            modifiedDate: data.modified_date,
-          }))
-        );
-      })
-      .catch((ex) => {
-        console.error("Data Unavailable", ex);
-      });
-  }, [date]);
-
-  useEffect(() => {
-    if (facilities.length == 0) {
-      return;
-    }
-    let _f = facilities.filter(
-      (f) =>
-        f.district === filterDistrict.name &&
-        filterFacilityTypes.includes(f.facilityType)
-    );
-    setFilteredFacilities(_f);
-    let _t = _f.reduce(
-      (a, c) => {
-        let key = c.date === dateString(date) ? "current" : "previous";
-        a[key].count += 1;
-        Object.keys(testsTypes).forEach((k) => {
-          a[key][k] += c[k];
-          a[key][k] += c[k];
-        });
-        return a;
-      },
-      {
-        current: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
-        previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
-      }
-    );
-    setFacilitiesTrivia(_t);
-  }, [facilities, filterDistrict, filterFacilityTypes]);
 
   return (
     <>
@@ -131,9 +113,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
             ...a,
             [
               [c.facility_name, c.facilityType],
-              dayjs(c.modifiedDate)
-                .locale("en-in")
-                .format("h:mm:ssA DD/MM/YYYY"),
+              c.modifiedDate,
               ...Object.keys(testsTypes).map((i) => c[i]),
             ],
           ];

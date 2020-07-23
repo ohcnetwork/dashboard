@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import useSWR from "swr";
 import { covidGetLatest } from "../../utils/api";
 import { InfoCard } from "../Cards/InfoCard";
 import { SectionTitle } from "../Typography/Title";
 
 function Covid({ filterDistrict }) {
-  const [covidStats, setCovidStats] = useState({ summary: {}, delta: {} });
-
-  useEffect(() => {
-    covidGetLatest().then((stats) => setCovidStats(stats));
-  }, []);
-
+  const { data: covidStats, error } = useSWR(
+    ["Covid"],
+    (url) => covidGetLatest().then((r) => r),
+    { suspense: true, loadingTimeout: 10000 }
+  );
+  
   return (
     <>
       <SectionTitle>Covid Stats</SectionTitle>

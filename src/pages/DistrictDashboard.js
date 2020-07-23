@@ -186,7 +186,7 @@ function DistrictDashboard() {
         <ConditionalFilter floating={false} />
       </div>
       {!inView && <ConditionalFilter floating={true} />}
-      <Suspense fallback={ThemedSuspense}>{renderContent()}</Suspense>
+      <Suspense fallback={<ThemedSuspense />}>{renderContent()}</Suspense>
     </div>
   );
 }
