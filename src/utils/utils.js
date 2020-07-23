@@ -1,17 +1,23 @@
 import axios from "axios";
 
 export const getNDateBefore = (d, n) => {
-  var dt = new Date(d);
+  const dt = new Date(d);
   return new Date(dt.setDate(dt.getDate() - n));
 };
 
 export const getNDateAfter = (d, n) => {
-  var dt = new Date(d);
+  const dt = new Date(d);
   return new Date(dt.setDate(dt.getDate() + n));
 };
 
 export const dateString = (d) => {
-  return d.toISOString().substring(0, 10);
+  return (
+    d.getFullYear() +
+    "-" +
+    ("0" + (d.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + d.getDate()).slice(-2)
+  );
 };
 
 export const getLSGD = () => {

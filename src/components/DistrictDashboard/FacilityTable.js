@@ -1,5 +1,3 @@
-import fuzzysort from "fuzzysort";
-import React, { useEffect, useState } from "react";
 import {
   Input,
   Pagination,
@@ -11,6 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@windmill/react-ui";
+import fuzzysort from "fuzzysort";
+import React, { useEffect, useState } from "react";
 import { SectionTitle } from "../Typography/Title";
 
 function FacilityTable({ columns = [], data, className }) {
@@ -73,8 +73,8 @@ function FacilityTable({ columns = [], data, className }) {
                     <TableCell key={j}>
                       <div>
                         {j == 0 ? (
-                          <div className="flex flex-col">
-                            <p className="font-semibold">{r[0]}</p>
+                          <div className="flex flex-col w-64">
+                            <p className="font-semibold truncate">{r[0]}</p>
                             <p className="text-xs text-gray-600 dark:text-gray-400">
                               {r[1]}
                             </p>

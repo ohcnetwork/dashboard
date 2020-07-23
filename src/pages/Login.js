@@ -1,7 +1,7 @@
+import { Button, HelperText, Input, Label } from "@windmill/react-ui";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { Button, HelperText, Input, Label } from "@windmill/react-ui";
 import { AuthContext } from "../context/AuthContext";
 import { careGetCurrentUser, careLogin } from "../utils/api";
 
@@ -15,7 +15,7 @@ function Login() {
         careGetCurrentUser(lresp.access)
           .then((uresp) => {
             login(lresp.access, lresp.refresh, uresp);
-            history.replace("/app/distdashboard");
+            history.replace("/app/district/capacity");
           })
           .catch((e) => {
             throw e;

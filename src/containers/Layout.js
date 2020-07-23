@@ -38,7 +38,7 @@ function Layout() {
                   />
                 ) : null;
               })}
-              <Redirect exact from="/app" to="/app/distdashboard" />
+              <Redirect exact from="/app" to="/app/district" />
               <Route component={Page404} />
             </Switch>
           </Suspense>

@@ -63,3 +63,10 @@ export const facilityTypes = [
   "First Line Treatment Centre",
   "Unknown",
 ];
+
+export const CONTENT = {
+  CAPACITY: 1,
+  PATIENT: 3,
+  TESTS: 4,
+  COVID: 2,
+};
