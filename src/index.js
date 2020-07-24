@@ -36,6 +36,13 @@ register(process.env.PUBLIC_URL + "service-worker.js", {
   },
   updated(registration) {
     console.log("New content is available; please refresh.");
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (this.refreshing) {
+        return;
+      }
+      this.refreshing = true;
+      window.location.reload();
+    });
   },
   offline() {
     console.log(

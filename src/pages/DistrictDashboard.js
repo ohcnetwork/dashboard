@@ -8,6 +8,7 @@ import { PageTitle } from "../components/Typography/Title";
 import { AuthContext } from "../context/AuthContext";
 import { districts, facilityTypes } from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
+import { SWRConfig } from "swr";
 const Capacity = lazy(() => import("../components/DistrictDashboard/Capacity"));
 const CapacityTimeseries = lazy(() =>
   import("../components/DistrictDashboard/CapacityTimeseries")
@@ -204,7 +205,17 @@ function DistrictDashboard() {
         <ConditionalFilter floating={false} />
       </div>
       {!inView && <ConditionalFilter floating={true} />}
-      <Suspense fallback={<ThemedSuspense />}>{renderContent()}</Suspense>
+      <Suspense fallback={<ThemedSuspense />}>
+        <SWRConfig
+          value={{
+            suspense: true,
+            loadingTimeout: 10000,
+            refreshInterval: 300000,
+          }}
+        >
+          {renderContent()}
+        </SWRConfig>
+      </Suspense>
     </div>
   );
 }

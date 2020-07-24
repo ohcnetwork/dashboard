@@ -81,7 +81,7 @@ function Map({ district, facilities, className }) {
         return (
           <div className="mb-1" id={a}>
             <p className="font-semibold">{availabilityTypes[a]}</p>
-            {f.capacity[a] ? (
+            {f.capacity[a]?.total_capacity ? (
               <>
                 <p>
                   Current: <strong>{current}</strong>
@@ -204,7 +204,7 @@ function Map({ district, facilities, className }) {
                           stroke: "black",
                           strokeWidth: (0.1 * 1) / zoom,
                         };
-                        return j ? (
+                        return j?.total_capacity ? (
                           <rect
                             fill={getColor({
                               ratio: j.current_capacity / j.total_capacity,

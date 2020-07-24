@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
-import { careFacilitySummary } from "../../utils/api";
+import { careSummary } from "../../utils/api";
 import { availabilityTypes } from "../../utils/constants";
 import { dateString, getNDateAfter } from "../../utils/utils";
 import TimeseriesBarChart from "../Chart/TimeseriesBarChart";
@@ -9,16 +9,16 @@ import NoData from "../NoData";
 
 function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const { auth } = useContext(AuthContext);
-  const token = auth.token;
   const { data, error } = useSWR(
-    ["CapacityTimeseries", dates, token],
-    (url, dates, token) =>
-      careFacilitySummary(
+    ["CapacityTimeseries", dates, auth.token, filterDistrict.id],
+    (url, dates, token, district) =>
+      careSummary(
         token,
+        "facility",
         dateString(dates[0]),
-        dateString(getNDateAfter(dates[1], 1))
-      ).then((r) => r),
-    { suspense: true, loadingTimeout: 10000 }
+        dateString(getNDateAfter(dates[1], 1)),
+        district
+      ).then((r) => r)
   );
   const facilities = data.results.map(
     ({ data: facility, created_date: date }) => ({
@@ -36,10 +36,8 @@ function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       }, {}),
     })
   );
-  const filtered = facilities.filter(
-    (f) =>
-      f.districtId === filterDistrict.id &&
-      filterFacilityTypes.includes(f.facilityType)
+  const filtered = facilities.filter((f) =>
+    filterFacilityTypes.includes(f.facilityType)
   );
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
