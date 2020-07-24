@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { animated, config, useSpring } from "react-spring";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
-import { careTestsSummary } from "../../utils/api";
+import { careSummary } from "../../utils/api";
 import { testsTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
@@ -20,16 +20,16 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
   };
 
   const { auth } = useContext(AuthContext);
-  const token = auth.token;
   const { data, error } = useSWR(
-    ["Tests", date, token],
-    (url, date, token) =>
-      careTestsSummary(
+    ["Tests", date, auth.token, filterDistrict.id],
+    (url, date, token, district) =>
+      careSummary(
         token,
+        "tests",
         dateString(getNDateBefore(date, 1)),
-        dateString(getNDateAfter(date, 1))
-      ).then((r) => r),
-    { suspense: true, loadingTimeout: 10000 }
+        dateString(getNDateAfter(date, 1)),
+        district
+      ).then((r) => r)
   );
 
   const facilities = data.results.map(({ data, facility, created_date }) => ({
@@ -40,10 +40,8 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
     location: facility.location,
     modifiedDate: data.modified_date,
   }));
-  const filteredFacilities = facilities.filter(
-    (f) =>
-      f.district === filterDistrict.name &&
-      filterFacilityTypes.includes(f.facilityType)
+  const filteredFacilities = facilities.filter((f) =>
+    filterFacilityTypes.includes(f.facilityType)
   );
   const facilitiesTrivia = filteredFacilities.reduce(
     (a, c) => {

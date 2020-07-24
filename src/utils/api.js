@@ -39,53 +39,34 @@ export function careLogin(data) {
   });
 }
 
-export function careFacilitySummary(token, start_date, end_date) {
-  return request(
-    {
-      url: API_BASE_URL + "/api/v1/facility_summary/?limit=2000",
-      method: "GET",
-      params: {
-        start_date,
-        end_date,
-      },
-    },
-    token
-  );
-}
-
-export function carePatientSummary(token, start_date, end_date) {
-  return request(
-    {
-      url: API_BASE_URL + "/api/v1/patient_summary/?limit=2000",
-      method: "GET",
-      params: {
-        start_date,
-        end_date,
-      },
-    },
-    token
-  );
-}
-
-export function careTestsSummary(token, start_date, end_date) {
-  return request(
-    {
-      url: API_BASE_URL + "/api/v1/tests_summary/?limit=2000",
-      method: "GET",
-      params: {
-        start_date,
-        end_date,
-      },
-    },
-    token
-  );
-}
-
 export function careGetCurrentUser(token) {
   return request(
     {
       url: API_BASE_URL + "/api/v1/users/getcurrentuser/",
       method: "GET",
+    },
+    token
+  );
+}
+
+export function careSummary(
+  token,
+  type,
+  start_date,
+  end_date,
+  district,
+  limit = 2000
+) {
+  return request(
+    {
+      url: API_BASE_URL + `/api/v1/${type}_summary`,
+      method: "GET",
+      params: {
+        start_date,
+        end_date,
+        district,
+        limit,
+      },
     },
     token
   );
