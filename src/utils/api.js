@@ -72,9 +72,16 @@ export function careSummary(
   );
 }
 
-export function covidGetLatest() {
+export function covidGetHistories() {
   return request({
-    url: STAT_BASE_URL + "/latest.json",
+    url: STAT_BASE_URL + "/histories.json",
+    method: "GET",
+  });
+}
+
+export function covidGetHotspotHistories() {
+  return request({
+    url: STAT_BASE_URL + "/hotspots_histories.json",
     method: "GET",
   });
 }
