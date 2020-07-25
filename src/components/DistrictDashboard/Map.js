@@ -114,7 +114,7 @@ function Map({ district, facilities, className }) {
   return (
     <Card className={className}>
       <CardBody className="relative">
-        <div className="absolute bottom-0 right-0 flex flex-col items-end p-5 space-y-1 text-xs">
+        <div className="absolute bottom-0 right-0 flex flex-col items-end p-5 space-y-1 text-xs pointer-events-none">
           <div
             style={{ backgroundColor: "#00FF00" }}
             className="w-12 h-6 p-1 leading-none text-center border border-black"
