@@ -32,7 +32,7 @@ const CONTENT = {
 };
 
 function DistrictDashboard() {
-  const previousDate = getNDateBefore(new Date(), 1);
+  const todayDate = new Date();
   const params = useParams();
   const { auth } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -45,10 +45,10 @@ function DistrictDashboard() {
     CONTENT[params.content?.toUpperCase()] || CONTENT.CAPACITY
   );
   const [dates, datesOnChange] = useState([
-    getNDateBefore(previousDate, 14),
-    previousDate,
+    getNDateBefore(todayDate, 14),
+    todayDate,
   ]);
-  const [date, dateOnChange] = useState(previousDate);
+  const [date, dateOnChange] = useState(todayDate);
   const isStateAdmin = ["StateLabAdmin", "StateAdmin"].includes(
     auth.userData.user_type
   );
@@ -131,7 +131,7 @@ function DistrictDashboard() {
       dateOnChange={dateOnChange}
       dates={dates}
       datesOnChange={datesOnChange}
-      maxDate={previousDate}
+      maxDate={todayDate}
       filterFacilityTypes={filterFacilityTypes}
       setFilterFacilityTypes={setFilterFacilityTypes}
     />
