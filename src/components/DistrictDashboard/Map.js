@@ -224,8 +224,8 @@ function Map({ district, facilities, className }) {
         {tooltipOpen && (
           <TooltipWithBounds
             key={Math.random()}
-            top={tooltipTop}
-            left={tooltipLeft}
+            top={tooltipTop - 125}
+            left={tooltipLeft - 175}
             style={{
               ...defaultStyles,
               minWidth: 60,
