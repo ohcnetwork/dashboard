@@ -14,6 +14,9 @@ const CapacityTimeseries = lazy(() =>
   import("../components/DistrictDashboard/CapacityTimeseries")
 );
 const Covid = lazy(() => import("../components/DistrictDashboard/Covid"));
+const CovidTimeseries = lazy(() =>
+  import("../components/DistrictDashboard/CovidTimeseries")
+);
 const Filter = lazy(() => import("../components/DistrictDashboard/Filter"));
 const Patient = lazy(() => import("../components/DistrictDashboard/Patient"));
 const PatientTimeseries = lazy(() =>
@@ -116,7 +119,11 @@ function DistrictDashboard() {
           />
         );
       case CONTENT.COVID:
-        return <Covid filterDistrict={filterDistrict} />;
+        return !timeseries ? (
+          <Covid filterDistrict={filterDistrict} date={date} />
+        ) : (
+          <CovidTimeseries filterDistrict={filterDistrict} dates={dates} />
+        );
       default:
         return <div />;
     }
