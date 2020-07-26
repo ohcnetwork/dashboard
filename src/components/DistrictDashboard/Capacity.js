@@ -1,7 +1,7 @@
 import { Button } from "@windmill/react-ui";
 import * as dayjs from "dayjs";
 import "dayjs/locale/en-in";
-import React, { lazy, useContext, useState } from "react";
+import React, { lazy, useContext, useState, Suspense } from "react";
 import { ArrowRight } from "react-feather";
 import { animated, config, useSpring, useTransition } from "react-spring";
 import useSWR from "swr";
@@ -10,10 +10,11 @@ import { careSummary } from "../../utils/api";
 import { availabilityTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
-import Map from "../DistrictDashboard/Map";
 import { SectionTitle } from "../Typography/Title";
 import FacilityTable from "./FacilityTable";
+import ThemedSuspense from "../ThemedSuspense";
 const CapacityForecast = lazy(() => import("./CapacityForecast"));
+const Map = lazy(() => import("../DistrictDashboard/Map"));
 
 function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
@@ -183,13 +184,15 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           }, [])}
         ></FacilityTable>
         <SectionTitle>Map</SectionTitle>
-        <Map
-          className="mb-8"
-          facilities={filteredFacilities.filter(
-            (f) => f.date === dateString(date)
-          )}
-          district={filterDistrict.name}
-        ></Map>
+        <Suspense fallback={ThemedSuspense} >
+          <Map
+            className="mb-8"
+            facilities={filteredFacilities.filter(
+              (f) => f.date === dateString(date)
+            )}
+            district={filterDistrict.name}
+          ></Map>
+        </Suspense>
       </animated.div>
     )
   );
