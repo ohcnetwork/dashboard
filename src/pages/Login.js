@@ -6,7 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 import { careGetCurrentUser, careLogin } from "../utils/api";
 
 function Login() {
-  const { register, handleSubmit, setError, errors } = useForm();
+  const { register, handleSubmit, setError, clearErrors, errors } = useForm();
   const { login } = useContext(AuthContext);
   let history = useHistory();
   const onSubmit = (data) => {
@@ -30,7 +30,7 @@ function Login() {
     <div className="flex items-center min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="flex p-6 mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800 sm:p-10">
         <main className="flex items-center justify-center ">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form>
             <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
               Login with Care Credentials
             </h1>
@@ -57,7 +57,14 @@ function Login() {
               />
             </Label>
             {errors.password && <HelperText valid={false}>Required</HelperText>}
-            <Button className="mt-4 " block type="submit">
+            <Button
+              className="mt-4 "
+              block
+              onClick={(e) => {
+                errors.login && clearErrors("login");
+                handleSubmit(onSubmit)();
+              }}
+            >
               Log in
             </Button>
             {errors.login && (

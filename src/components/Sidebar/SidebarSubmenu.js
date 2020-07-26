@@ -1,7 +1,7 @@
+import { Transition } from "@windmill/react-ui";
 import React, { useState } from "react";
 import { ChevronDown } from "react-feather";
-import { Link } from "react-router-dom";
-import { Transition } from "@windmill/react-ui";
+import { NavLink, Route } from "react-router-dom";
 
 function SidebarSubmenu({ route }) {
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
@@ -12,6 +12,12 @@ function SidebarSubmenu({ route }) {
 
   return (
     <li className="relative px-6 py-3" key={route.name}>
+      <Route path={route.path} exact={route.exact}>
+        <span
+          className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+          aria-hidden="true"
+        ></span>
+      </Route>
       <button
         className="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
         onClick={handleDropdownMenuClick}
@@ -41,9 +47,13 @@ function SidebarSubmenu({ route }) {
               className="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
               key={r.name}
             >
-              <Link className="w-full" to={r.path}>
+              <NavLink
+                className="w-full"
+                to={r.path}
+                activeClassName="text-gray-800 dark:text-gray-100"
+              >
                 {r.name}
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>

@@ -11,8 +11,9 @@
     "@vx/tooltip": "0.0.198",
     "@windmill/react-ui": "^0.3.1",
     "@wojtekmaj/react-daterange-picker": "^3.0.0",
+    "arima": "^0.1.0",
     "axios": "^0.19.2",
-    "dayjs": "^1.8.29",
+    "dayjs": "^1.8.30",
     "fuzzysort": "^1.1.4",
     "polylabel": "^1.1.0",
     "react": "^16.13.1",
@@ -24,8 +25,9 @@
     "react-router-dom": "5.2.0",
     "react-simple-maps": "^2.1.2",
     "react-spring": "^8.0.27",
+    "react-suspense-worker": "0.0.1",
     "react-svg-tooltip": "0.0.11",
-    "recharts": "^1.8.5",
+    "recharts": "^2.0.0-beta.6",
     "register-service-worker": "^1.7.1",
     "swr": "^0.2.3",
     "topojson": "^3.0.2"
@@ -37,7 +39,8 @@
     "cssnano": "4.1.10",
     "poi": "^12.9.0",
     "react-hot-loader": "^4.12.21",
-    "tailwindcss": "1.5.1"
+    "tailwindcss": "1.5.2",
+    "worker-plugin": "^4.0.3"
   },
   "browserslist": {
     "production": [
