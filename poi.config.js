@@ -5,10 +5,16 @@ module.exports = {
   plugins: [
     {
       resolve: "@poi/plugin-pwa",
-      options: {},
+      options: {
+        workboxOptions: {
+          clientsClaim: true,
+          skipWaiting: true,
+        },
+      },
     },
   ],
   configureWebpack: {
+    output: { globalObject: "self" },
     node: {
       fs: "empty",
     },

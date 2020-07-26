@@ -1,6 +1,7 @@
-import React from "react";
-import { animated, config, useSpring } from "react-spring";
 import { Card } from "@windmill/react-ui";
+import React from "react";
+import { ChevronsDown, ChevronsUp } from "react-feather";
+import { animated, config, useSpring } from "react-spring";
 
 function RadialCard({ label, data, dataKey }) {
   const current_used = Math.round(
@@ -55,9 +56,15 @@ function RadialCard({ label, data, dataKey }) {
             </animated.span>
             {data.current.count > 0 &&
               (diff > 0 ? (
-                <span className="text-green-400">{`⯅${Math.abs(diff)}`}</span>
+                <span className="text-red-400">
+                  <ChevronsUp className="inline h-full" />
+                  {Math.abs(diff)}%
+                </span>
               ) : !isNaN(diff) && diff != 0 ? (
-                <span className="text-red-400">{`⯆${Math.abs(diff)}`}</span>
+                <span className="text-green-400">
+                  <ChevronsDown className="inline h-full" />
+                  {Math.abs(diff)}%
+                </span>
               ) : (
                 <span></span>
               ))}
