@@ -28,7 +28,7 @@ function CapacityForecast({
   setForecast,
 }) {
   const { auth } = useContext(AuthContext);
-  const [timespan, setTimespan] = useState({ past: 7, forecast: 14 });
+  const [timespan, setTimespan] = useState({ past: 14, forecast: 14 });
   const { data, error } = useSWR(
     ["CapacityForecast", date, auth.token, filterDistrict.id, timespan.past],
     (url, date, token, district, days) =>
@@ -132,7 +132,7 @@ function CapacityForecast({
   return filtered.length > 0 ? (
     <>
       <div className="flex flex-row justify-end h-6 space-x-2">
-        <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
+        {/* <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
           <span className="mx-2 text-sm font-medium leading-none">Past</span>
           <div className="flex h-full bg-purple-600 rounded-lg">
             <Button
@@ -152,7 +152,7 @@ function CapacityForecast({
               <span className="text-gray-200 capitalize">14 Days</span>
             </Button>
           </div>
-        </div>
+        </div> */}
         <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
           <span className="mx-2 text-sm font-medium leading-none">
             Forecast
