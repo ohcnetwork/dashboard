@@ -9,6 +9,7 @@ import { AuthContext } from "../context/AuthContext";
 import { districts, facilityTypes } from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
 import { SWRConfig } from "swr";
+import { animated, config, useSpring, useTransition } from "react-spring";
 const Capacity = lazy(() => import("../components/DistrictDashboard/Capacity"));
 const CapacityTimeseries = lazy(() =>
   import("../components/DistrictDashboard/CapacityTimeseries")
@@ -143,7 +144,11 @@ function DistrictDashboard() {
       setFilterFacilityTypes={setFilterFacilityTypes}
     />
   );
-
+  const transitions = useTransition(content, null, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 1 },
+  });
   return (
     <div>
       <PageTitle>District Dashboard</PageTitle>
@@ -220,7 +225,9 @@ function DistrictDashboard() {
             refreshInterval: 300000,
           }}
         >
-          {renderContent()}
+          {transitions.map(({ key, props }) => (
+            <animated.div key={key} style={props}>{renderContent()}</animated.div>
+          ))}
         </SWRConfig>
       </Suspense>
     </div>

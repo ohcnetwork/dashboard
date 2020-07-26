@@ -95,7 +95,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
 
   return transitions.map(({ item, key, props }) =>
     item ? (
-      <animated.div style={props}>
+      <animated.div key={key} style={props}>
         <CapacityForecast
           filterDistrict={filterDistrict}
           filterFacilityTypes={filterFacilityTypes}
@@ -104,7 +104,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         />
       </animated.div>
     ) : (
-      <animated.div style={props}>
+      <animated.div key={key} style={props}>
         <div className="flex flex-row justify-end h-6 mb-8 space-x-2">
           <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
             <span className="mx-2 text-sm font-medium leading-none">
