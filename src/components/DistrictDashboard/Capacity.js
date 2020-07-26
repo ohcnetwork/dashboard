@@ -1,6 +1,6 @@
 import { Button } from "@windmill/react-ui";
 import * as dayjs from "dayjs";
-import "dayjs/locale/en-in";
+import relativeTime from "dayjs/plugin/relativeTime";
 import React, { lazy, Suspense, useContext, useState } from "react";
 import { ArrowRight } from "react-feather";
 import { animated, config, useSpring, useTransition } from "react-spring";
@@ -12,9 +12,10 @@ import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
 import ThemedSuspense from "../ThemedSuspense";
 import { SectionTitle } from "../Typography/Title";
-import FacilityTable from "./FacilityTable";
+const FacilityTable = lazy(() => import("./FacilityTable"));
 const CapacityForecast = lazy(() => import("./CapacityForecast"));
 const Map = lazy(() => import("../DistrictDashboard/Map"));
+dayjs.extend(relativeTime);
 
 function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
@@ -48,7 +49,9 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     location: facility.location,
     facilityType: facility.facility_type || "Unknown",
     oxygenCapacity: facility.oxygen_capacity,
-    modifiedDate: facility.modified_date,
+    modifiedDate: Math.max(
+      ...facility.availability.map((a) => new Date(a.modified_date))
+    ),
     capacity: facility.availability.reduce((cAcc, cCur) => {
       return {
         ...cAcc,
@@ -152,37 +155,38 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             />
           ))}
         </div>
-        <FacilityTable
-          className="mb-8"
-          columns={[
-            "Name",
-            "Last Updated",
-            "Oxygen",
-            ...Object.values(availabilityTypes).reverse(),
-          ]}
-          data={filteredFacilities.reduce((a, c) => {
-            if (c.date !== dateString(date)) {
-              return a;
-            }
-            return [
-              ...a,
-              [
-                [c.name, c.facilityType],
-                dayjs(c.modifiedDate)
-                  .locale("en-in")
-                  .format("h:mm:ssA DD/MM/YYYY"),
-                c.oxygenCapacity,
-                ...Object.keys(availabilityTypes)
-                  .reverse()
-                  .map((i) =>
-                    c.capacity[i]?.total_capacity
-                      ? `${c.capacity[i]?.current_capacity}/${c.capacity[i]?.total_capacity}`
-                      : "-"
-                  ),
-              ],
-            ];
-          }, [])}
-        ></FacilityTable>
+        <Suspense fallback={<ThemedSuspense />}>
+          <FacilityTable
+            className="mb-8"
+            columns={[
+              "Name",
+              "Last Updated",
+              "Oxygen",
+              ...Object.values(availabilityTypes).reverse(),
+            ]}
+            data={filteredFacilities.reduce((a, c) => {
+              if (c.date !== dateString(date)) {
+                return a;
+              }
+              return [
+                ...a,
+                [
+                  [c.name, c.facilityType],
+                  dayjs(c.modifiedDate).fromNow(),
+                  c.oxygenCapacity,
+                  ...Object.keys(availabilityTypes)
+                    .reverse()
+                    .map((i) =>
+                      c.capacity[i]?.total_capacity
+                        ? `${c.capacity[i]?.current_capacity}/${c.capacity[i]?.total_capacity}`
+                        : "-"
+                    ),
+                ],
+              ];
+            }, [])}
+          ></FacilityTable>
+        </Suspense>
+
         <SectionTitle>Map</SectionTitle>
         <Suspense fallback={<ThemedSuspense />}>
           <Map

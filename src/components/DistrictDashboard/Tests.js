@@ -1,4 +1,7 @@
-import React, { useContext } from "react";
+import * as dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import relativeTime from "dayjs/plugin/relativeTime";
+import React, { lazy, Suspense, useContext } from "react";
 import { animated, config, useSpring } from "react-spring";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
@@ -6,8 +9,10 @@ import { careSummary } from "../../utils/api";
 import { testsTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
-import { SectionTitle } from "../Typography/Title";
-import FacilityTable from "./FacilityTable";
+import ThemedSuspense from "../ThemedSuspense";
+const FacilityTable = lazy(() => import("./FacilityTable"));
+dayjs.extend(relativeTime);
+dayjs.extend(customParseFormat);
 
 function Tests({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
@@ -109,24 +114,24 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
           }
         })}
       </div>
-
-      <FacilityTable
-        className="mb-8"
-        columns={["Name", "Last Updated", ...Object.values(testsTypes)]}
-        data={filteredFacilities.reduce((a, c) => {
-          if (c.date !== dateString(date)) {
-            return a;
-          }
-          return [
-            ...a,
-            [
-              [c.facility_name, c.facilityType],
-              c.modifiedDate,
-              ...Object.keys(testsTypes).map((i) => c[i]),
-            ],
-          ];
-        }, [])}
-      ></FacilityTable>
+      <Suspense fallback={<ThemedSuspense />}>
+        <FacilityTable
+          className="mb-8"
+          columns={["Name", ...Object.values(testsTypes)]}
+          data={filteredFacilities.reduce((a, c) => {
+            if (c.date !== dateString(date)) {
+              return a;
+            }
+            return [
+              ...a,
+              [
+                [c.facility_name, c.facilityType],
+                ...Object.keys(testsTypes).map((i) => c[i]),
+              ],
+            ];
+          }, [])}
+        ></FacilityTable>
+      </Suspense>
     </>
   );
 }
