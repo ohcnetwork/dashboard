@@ -184,7 +184,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           }, [])}
         ></FacilityTable>
         <SectionTitle>Map</SectionTitle>
-        <Suspense fallback={ThemedSuspense} >
+        <Suspense fallback={<ThemedSuspense />}>
           <Map
             className="mb-8"
             facilities={filteredFacilities.filter(

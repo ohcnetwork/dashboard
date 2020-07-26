@@ -27,7 +27,7 @@
     "react-spring": "^8.0.27",
     "react-suspense-worker": "0.0.1",
     "react-svg-tooltip": "0.0.11",
-    "recharts": "^1.8.5",
+    "recharts": "^2.0.0-beta.6",
     "register-service-worker": "^1.7.1",
     "swr": "^0.2.3",
     "topojson": "^3.0.2"
