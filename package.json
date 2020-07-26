@@ -13,7 +13,7 @@
     "@wojtekmaj/react-daterange-picker": "^3.0.0",
     "arima": "^0.1.0",
     "axios": "^0.19.2",
-    "dayjs": "^1.8.29",
+    "dayjs": "^1.8.30",
     "fuzzysort": "^1.1.4",
     "polylabel": "^1.1.0",
     "react": "^16.13.1",
@@ -39,7 +39,7 @@
     "cssnano": "4.1.10",
     "poi": "^12.9.0",
     "react-hot-loader": "^4.12.21",
-    "tailwindcss": "1.5.1",
+    "tailwindcss": "1.5.2",
     "worker-plugin": "^4.0.3"
   },
   "browserslist": {
