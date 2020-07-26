@@ -1,7 +1,7 @@
 import { Button } from "@windmill/react-ui";
 import * as dayjs from "dayjs";
 import "dayjs/locale/en-in";
-import React, { lazy, useContext, useState, Suspense } from "react";
+import React, { lazy, Suspense, useContext, useState } from "react";
 import { ArrowRight } from "react-feather";
 import { animated, config, useSpring, useTransition } from "react-spring";
 import useSWR from "swr";
@@ -10,9 +10,9 @@ import { careSummary } from "../../utils/api";
 import { availabilityTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
+import ThemedSuspense from "../ThemedSuspense";
 import { SectionTitle } from "../Typography/Title";
 import FacilityTable from "./FacilityTable";
-import ThemedSuspense from "../ThemedSuspense";
 const CapacityForecast = lazy(() => import("./CapacityForecast"));
 const Map = lazy(() => import("../DistrictDashboard/Map"));
 
