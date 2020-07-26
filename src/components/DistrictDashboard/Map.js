@@ -79,7 +79,7 @@ function Map({ district, facilities, className }) {
         let total = f.capacity[a]?.total_capacity || 1;
         let used = ((current / total) * 100).toFixed(2);
         return (
-          <div className="mb-1" id={a}>
+          <div className="mb-1" key={a}>
             <p className="font-semibold">{availabilityTypes[a]}</p>
             {f.capacity[a]?.total_capacity ? (
               <>
@@ -103,7 +103,7 @@ function Map({ district, facilities, className }) {
                 </p>
               </>
             ) : (
-              <p>Not available</p>
+              <p key={a}>Not available</p>
             )}
           </div>
         );
@@ -135,7 +135,10 @@ function Map({ district, facilities, className }) {
           </div>
           <div className="grid grid-cols-4 gap-0">
             {Object.keys(availabilityTypes).map((a) => (
-              <div className="h-6 p-1 leading-none text-center bg-white border border-black">
+              <div
+                key={a}
+                className="h-6 p-1 leading-none text-center bg-white border border-black"
+              >
                 {availabilityTypes[a]}
               </div>
             ))}
@@ -170,7 +173,7 @@ function Map({ district, facilities, className }) {
                 .filter((d) => d.properties.DISTRICT === district)
                 .map((e) => (
                   <Marker
-                    key={e.properties.id}
+                    key={e.id}
                     coordinates={polylabel(e.geometry.coordinates)}
                   >
                     <text fontSize={3} textAnchor="middle">
@@ -206,13 +209,14 @@ function Map({ district, facilities, className }) {
                         };
                         return j?.total_capacity ? (
                           <rect
+                            key={i}
                             fill={getColor({
                               ratio: j.current_capacity / j.total_capacity,
                             })}
                             {...props}
                           />
                         ) : (
-                          <rect {...props} fill="gray" />
+                          <rect key={i} {...props} fill="gray" />
                         );
                       })}
                     </g>
