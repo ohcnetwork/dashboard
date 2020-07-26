@@ -1,4 +1,7 @@
-import React, { useContext } from "react";
+import * as dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import relativeTime from "dayjs/plugin/relativeTime";
+import React, { lazy, Suspense, useContext } from "react";
 import { animated, config, useSpring } from "react-spring";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
@@ -6,8 +9,10 @@ import { careSummary } from "../../utils/api";
 import { patientTypes } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
-import { SectionTitle } from "../Typography/Title";
-import FacilityTable from "./FacilityTable";
+import ThemedSuspense from "../ThemedSuspense";
+const FacilityTable = lazy(() => import("./FacilityTable"));
+dayjs.extend(relativeTime);
+dayjs.extend(customParseFormat);
 
 function Patient({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
@@ -57,7 +62,6 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
       previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
     }
   );
-
   const { count } = useSpring({
     from: { count: 0 },
     to: {
@@ -69,11 +73,18 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
 
   return (
     <>
-      <SectionTitle>
-        <animated.span>
-          {count.interpolate((x) => `Facility Count: ${Math.round(x)}`)}
-        </animated.span>
-      </SectionTitle>
+      <div className="flex flex-row justify-end h-6 mb-8 space-x-2">
+        <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
+          <span className="mx-2 text-sm font-medium leading-none">
+            Facility Count
+          </span>
+          <div className="flex items-center h-full bg-purple-600 rounded-lg">
+            <animated.span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium leading-5 text-white align-bottom rounded-md shadow-xs">
+              {count.interpolate((x) => Math.round(x))}
+            </animated.span>
+          </div>
+        </div>
+      </div>
 
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
         {Object.keys(patientTypes).map((k, i) => (
@@ -85,34 +96,35 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
           />
         ))}
       </div>
-
-      <FacilityTable
-        className="mb-8"
-        columns={["Name", "Last Updated", ...Object.values(patientTypes)]}
-        data={filteredFacilities.reduce((a, c) => {
-          if (c.date !== dateString(date)) {
-            return a;
-          }
-          return [
-            ...a,
-            [
-              [c.facility_name, c.facilityType],
-              c.modifiedDate,
-              ...Object.keys(patientTypes).map((k) => {
-                let delta = c["today_patients_" + k];
-                return (
-                  <div className="flex">
-                    <p className="">{c["total_patients_" + k]}</p>
-                    <span className="ml-2 text-sm">
-                      {delta == 0 ? "-" : delta > 0 ? `+${delta}` : delta}
-                    </span>
-                  </div>
-                );
-              }),
-            ],
-          ];
-        }, [])}
-      ></FacilityTable>
+      <Suspense fallback={<ThemedSuspense />}>
+        <FacilityTable
+          className="mb-8"
+          columns={["Name", "Last Updated", ...Object.values(patientTypes)]}
+          data={filteredFacilities.reduce((a, c) => {
+            if (c.date !== dateString(date)) {
+              return a;
+            }
+            return [
+              ...a,
+              [
+                [c.facility_name, c.facilityType],
+                dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
+                ...Object.keys(patientTypes).map((k) => {
+                  let delta = c["today_patients_" + k];
+                  return (
+                    <div className="flex">
+                      <p className="">{c["total_patients_" + k]}</p>
+                      <span className="ml-2 text-sm">
+                        {delta == 0 ? "-" : delta > 0 ? `+${delta}` : delta}
+                      </span>
+                    </div>
+                  );
+                }),
+              ],
+            ];
+          }, [])}
+        ></FacilityTable>
+      </Suspense>
     </>
   );
 }

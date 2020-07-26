@@ -1,3 +1,5 @@
+const WorkerPlugin = require("worker-plugin");
+
 module.exports = {
   entry: "src/index",
   plugins: [
@@ -6,4 +8,10 @@ module.exports = {
       options: {},
     },
   ],
+  configureWebpack: {
+    node: {
+      fs: "empty",
+    },
+    plugins: [new WorkerPlugin()],
+  },
 };
