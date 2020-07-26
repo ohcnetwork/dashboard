@@ -189,6 +189,11 @@ function CapacityForecast({
           </div>
         </div>
       </div>
+      <div className="my-4 text-xs text-center text-red-600">
+        This is a work in progress version for a utilization forecasting system.
+        These numbers should not be considered for decision making as it can
+        vary as we haven't considered all variables to project it.
+      </div>
       <div className="grid gap-6 mb-8 md:grid-cols-1 xl:grid-cols-1">
         {Object.values(availabilityTypes)
           .reverse()
