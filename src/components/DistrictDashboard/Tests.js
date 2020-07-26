@@ -71,17 +71,27 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
 
   return (
     <>
-      <div className="flex flex-row justify-between">
-        <SectionTitle>
-          <animated.span>
-            {count.interpolate((x) => `Facility Count: ${Math.round(x)}`)}
-          </animated.span>
-        </SectionTitle>
-        <SectionTitle>
-          <animated.span>
-            {patients.interpolate((x) => `Patient Count: ${Math.round(x)}`)}
-          </animated.span>
-        </SectionTitle>
+      <div className="flex flex-row justify-end h-6 mb-8 space-x-2">
+        <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
+          <span className="mx-2 text-sm font-medium leading-none">
+            Facility Count
+          </span>
+          <div className="flex items-center h-full bg-purple-600 rounded-lg">
+            <animated.span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium leading-5 text-white align-bottom rounded-md shadow-xs">
+              {count.interpolate((x) => Math.round(x))}
+            </animated.span>
+          </div>
+        </div>
+        <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
+          <span className="mx-2 text-sm font-medium leading-none">
+            Patient Count
+          </span>
+          <div className="flex items-center h-full bg-purple-600 rounded-lg">
+            <animated.span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium leading-5 text-white align-bottom rounded-md shadow-xs">
+              {patients.interpolate((x) => Math.round(x))}
+            </animated.span>
+          </div>
+        </div>
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
         {Object.keys(testsTypes).map((k, i) => {
