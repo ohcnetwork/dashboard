@@ -27,6 +27,10 @@ const Tests = lazy(() => import("../components/DistrictDashboard/Tests"));
 const TestsTimeseries = lazy(() =>
   import("../components/DistrictDashboard/TestsTimeseries")
 );
+const Triage = lazy(() => import("../components/DistrictDashboard/Triage"));
+const TriageTimeseries = lazy(() =>
+  import("../components/DistrictDashboard/TriageTimeseries")
+);
 
 function DistrictDashboard() {
   const todayDate = new Date();
@@ -109,6 +113,20 @@ function DistrictDashboard() {
           />
         ) : (
           <TestsTimeseries
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            dates={dates}
+          />
+        );
+      case CONTENT.TRIAGE:
+        return !timeseries ? (
+          <Triage
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            date={date}
+          />
+        ) : (
+          <TriageTimeseries
             filterDistrict={filterDistrict}
             filterFacilityTypes={filterFacilityTypes}
             dates={dates}

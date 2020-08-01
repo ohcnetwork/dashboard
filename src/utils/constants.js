@@ -37,6 +37,17 @@ export const TESTS_TYPES = {
   result_positive: "Positive results",
 };
 
+export const TRIAGE_TYPES = {
+  avg_patients_visited: "Average patients visited",
+  avg_patients_referred: "Average patients referred",
+  avg_patients_isolation: "Average patients isolation",
+  avg_patients_home_quarantine: "Average patients home quarantine",
+  total_patients_visited: "Total patients visited",
+  total_patients_referred: "Total patients referred",
+  total_patients_isolation: "Total patients isolation",
+  total_patients_home_quarantine: "Total patients home quarantine",
+};
+
 export const FACILITY_TYPES = [
   "Educational Inst",
   "Private Hospital",
@@ -66,7 +77,8 @@ export const FACILITY_TYPES = [
 
 export const CONTENT = {
   CAPACITY: 1,
-  PATIENT: 3,
-  TESTS: 4,
-  COVID: 2,
+  PATIENT: 2,
+  TESTS: 3,
+  TRIAGE: 4,
+  COVID: 5,
 };
