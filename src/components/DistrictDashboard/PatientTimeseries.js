@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
-import { patientTypes } from "../../utils/constants";
+import { PATIENT_TYPES } from "../../utils/constants";
 import { dateString, getNDateAfter } from "../../utils/utils";
 import TimeseriesBarChart from "../Chart/TimeseriesBarChart";
 import NoData from "../NoData";
@@ -33,7 +33,7 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   );
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
-      Object.keys(patientTypes).forEach((k) => {
+      Object.keys(PATIENT_TYPES).forEach((k) => {
         acc[cur.date][k].today += cur["today_patients_" + k];
         acc[cur.date][k].total += cur["total_patients_" + k];
       });
@@ -45,7 +45,7 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       isolation: { total: 0, today: 0 },
       home_quarantine: { total: 0, today: 0 },
     };
-    Object.keys(patientTypes).forEach((k) => {
+    Object.keys(PATIENT_TYPES).forEach((k) => {
       _t[k].today += cur["today_patients_" + k];
       _t[k].total += cur["total_patients_" + k];
     });
@@ -54,8 +54,8 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       [cur.date]: _t,
     };
   }, {});
-  const chartable = Object.keys(patientTypes).map((k) => ({
-    name: patientTypes[k],
+  const chartable = Object.keys(PATIENT_TYPES).map((k) => ({
+    name: PATIENT_TYPES[k],
     data: Object.entries(datewise)
       .reverse()
       .map(([d, value]) => ({

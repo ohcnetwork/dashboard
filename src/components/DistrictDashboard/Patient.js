@@ -6,7 +6,7 @@ import { animated, config, useSpring } from "react-spring";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
-import { patientTypes } from "../../utils/constants";
+import { PATIENT_TYPES } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import ThemedSuspense from "../ThemedSuspense";
@@ -51,7 +51,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
     (a, c) => {
       let key = c.date === dateString(date) ? "current" : "previous";
       a[key].count += 1;
-      Object.keys(patientTypes).forEach((k) => {
+      Object.keys(PATIENT_TYPES).forEach((k) => {
         a[key][k].today += c["today_patients_" + k];
         a[key][k].total += c["total_patients_" + k];
       });
@@ -87,10 +87,10 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
       </div>
 
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        {Object.keys(patientTypes).map((k, i) => (
+        {Object.keys(PATIENT_TYPES).map((k, i) => (
           <InfoCard
             key={i}
-            title={patientTypes[k]}
+            title={PATIENT_TYPES[k]}
             value={facilitiesTrivia.current[k].total}
             delta={facilitiesTrivia.current[k].today}
           />
@@ -99,7 +99,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
       <Suspense fallback={<ThemedSuspense />}>
         <FacilityTable
           className="mb-8"
-          columns={["Name", "Last Updated", ...Object.values(patientTypes)]}
+          columns={["Name", "Last Updated", ...Object.values(PATIENT_TYPES)]}
           data={filteredFacilities.reduce((a, c) => {
             if (c.date !== dateString(date)) {
               return a;
@@ -109,7 +109,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
               [
                 [c.facility_name, c.facilityType],
                 dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
-                ...Object.keys(patientTypes).map((k) => {
+                ...Object.keys(PATIENT_TYPES).map((k) => {
                   let delta = c["today_patients_" + k];
                   return (
                     <div className="flex">

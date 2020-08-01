@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
-import { availabilityTypes } from "../../utils/constants";
+import { AVAILABILITY_TYPES } from "../../utils/constants";
 import { dateString, getNDateAfter } from "../../utils/utils";
 import TimeseriesBarChart from "../Chart/TimeseriesBarChart";
 import NoData from "../NoData";
@@ -42,8 +42,8 @@ function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
       acc[cur.date].oxygen.total += cur.oxygenCapacity || 0;
-      Object.keys(availabilityTypes).forEach((k) => {
-        let key = availabilityTypes[k].toLowerCase();
+      Object.keys(AVAILABILITY_TYPES).forEach((k) => {
+        let key = AVAILABILITY_TYPES[k].toLowerCase();
         acc[cur.date][key].used += cur.capacity[k]?.current_capacity || 0;
         acc[cur.date][key].total += cur.capacity[k]?.total_capacity || 0;
       });
@@ -56,8 +56,8 @@ function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       room: { total: 0, used: 0 },
       bed: { total: 0, used: 0 },
     };
-    Object.keys(availabilityTypes).forEach((k) => {
-      let key = availabilityTypes[k].toLowerCase();
+    Object.keys(AVAILABILITY_TYPES).forEach((k) => {
+      let key = AVAILABILITY_TYPES[k].toLowerCase();
       _t[key].used += cur.capacity[k]?.current_capacity || 0;
       _t[key].total += cur.capacity[k]?.total_capacity || 0;
     });
@@ -66,7 +66,7 @@ function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       [cur.date]: _t,
     };
   }, {});
-  const chartable = Object.values(availabilityTypes).map((k) => ({
+  const chartable = Object.values(AVAILABILITY_TYPES).map((k) => ({
     name: k,
     data: Object.entries(datewise)
       .reverse()

@@ -10,7 +10,7 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import { feature } from "topojson";
-import { availabilityTypes } from "../../utils/constants";
+import { AVAILABILITY_TYPES } from "../../utils/constants";
 import { getDistrict, getLSGD } from "../../utils/utils";
 
 function Map({ district, facilities, className }) {
@@ -74,13 +74,13 @@ function Map({ district, facilities, className }) {
           Current: <strong>{f.oxygenCapacity}</strong>
         </p>
       </div>
-      {Object.keys(availabilityTypes).map((a) => {
+      {Object.keys(AVAILABILITY_TYPES).map((a) => {
         let current = f.capacity[a]?.current_capacity || 1;
         let total = f.capacity[a]?.total_capacity || 1;
         let used = ((current / total) * 100).toFixed(2);
         return (
           <div className="mb-1" key={a}>
-            <p className="font-semibold">{availabilityTypes[a]}</p>
+            <p className="font-semibold">{AVAILABILITY_TYPES[a]}</p>
             {f.capacity[a]?.total_capacity ? (
               <>
                 <p>
@@ -134,12 +134,12 @@ function Map({ district, facilities, className }) {
             None
           </div>
           <div className="grid grid-cols-4 gap-0">
-            {Object.keys(availabilityTypes).map((a) => (
+            {Object.keys(AVAILABILITY_TYPES).map((a) => (
               <div
                 key={a}
                 className="h-6 p-1 leading-none text-center bg-white border border-black"
               >
-                {availabilityTypes[a]}
+                {AVAILABILITY_TYPES[a]}
               </div>
             ))}
           </div>
@@ -198,7 +198,7 @@ function Map({ district, facilities, className }) {
                     onMouseOut={hideTooltip}
                   >
                     <g alignmentBaseline="middle" id={f.id}>
-                      {Object.keys(availabilityTypes).map((a, i) => {
+                      {Object.keys(AVAILABILITY_TYPES).map((a, i) => {
                         let j = f.capacity[a];
                         const props = {
                           transform: `translate(${(4 * i * 1) / zoom}, 0)`,

@@ -78,7 +78,7 @@ function App() {
   return (
     <>
       {!ready ? (
-        <ThemedSuspense></ThemedSuspense>
+        <ThemedSuspense className="min-h-screen my-auto dark:bg-gray-900" />
       ) : (
         <Router>
           <AccessibleNavigationAnnouncer />

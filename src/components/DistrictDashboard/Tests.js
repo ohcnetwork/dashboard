@@ -6,7 +6,7 @@ import { animated, config, useSpring } from "react-spring";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
-import { testsTypes } from "../../utils/constants";
+import { TESTS_TYPES } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import ThemedSuspense from "../ThemedSuspense";
@@ -52,7 +52,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
     (a, c) => {
       let key = c.date === dateString(date) ? "current" : "previous";
       a[key].count += 1;
-      Object.keys(testsTypes).forEach((k) => {
+      Object.keys(TESTS_TYPES).forEach((k) => {
         a[key][k] += c[k];
         a[key][k] += c[k];
       });
@@ -99,12 +99,12 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
         </div>
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        {Object.keys(testsTypes).map((k, i) => {
+        {Object.keys(TESTS_TYPES).map((k, i) => {
           if (k != "total_patients") {
             return (
               <InfoCard
                 key={i}
-                title={testsTypes[k]}
+                title={TESTS_TYPES[k]}
                 value={facilitiesTrivia.current[k]}
                 delta={
                   facilitiesTrivia.current[k] - facilitiesTrivia.previous[k]
@@ -117,7 +117,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
       <Suspense fallback={<ThemedSuspense />}>
         <FacilityTable
           className="mb-8"
-          columns={["Name", ...Object.values(testsTypes)]}
+          columns={["Name", ...Object.values(TESTS_TYPES)]}
           data={filteredFacilities.reduce((a, c) => {
             if (c.date !== dateString(date)) {
               return a;
@@ -126,7 +126,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
               ...a,
               [
                 [c.facility_name, c.facilityType],
-                ...Object.keys(testsTypes).map((i) => c[i]),
+                ...Object.keys(TESTS_TYPES).map((i) => c[i]),
               ],
             ];
           }, [])}
