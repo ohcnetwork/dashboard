@@ -71,7 +71,7 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
         chartable.map((s, i) => (
           <TimeseriesBarChart
             key={i}
-            name={s.name + "s"}
+            name={s.name}
             data={s.data}
             dataKeys={["today", "total"]}
             colors={["#955df5", "#7e3af2"]}

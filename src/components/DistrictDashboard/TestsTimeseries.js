@@ -68,7 +68,7 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
     <div className="min-w-full min-h-full">
       {filtered.length > 0 ? (
         <TimeseriesLineChart
-          name={chartable.name + "s"}
+          name={chartable.name}
           data={chartable.data}
           dataKeys={[
             "result_awaited",
