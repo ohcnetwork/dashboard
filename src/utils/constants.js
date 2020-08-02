@@ -1,4 +1,4 @@
-export const districts = [
+export const DISTRICTS = [
   { id: 1, name: "Thiruvananthapuram" },
   { id: 2, name: "Kollam" },
   { id: 3, name: "Pathanamthitta" },
@@ -15,21 +15,21 @@ export const districts = [
   { id: 14, name: "Kasaragod" },
 ];
 
-export const availabilityTypes = {
+export const AVAILABILITY_TYPES = {
   20: "Ventilator",
   10: "ICU",
   3: "Room",
   1: "Bed",
 };
 
-export const patientTypes = {
+export const PATIENT_TYPES = {
   home_quarantine: "Home quarantine",
   isolation: "Isolation",
   icu: "ICU",
   ventilator: "Ventilator",
 };
 
-export const testsTypes = {
+export const TESTS_TYPES = {
   result_awaited: "Result awaited",
   test_discarded: "Tests discarded",
   total_patients: "Total patients",
@@ -37,7 +37,18 @@ export const testsTypes = {
   result_positive: "Positive results",
 };
 
-export const facilityTypes = [
+export const TRIAGE_TYPES = {
+  avg_patients_visited: "Average patients visited",
+  avg_patients_referred: "Average patients referred",
+  avg_patients_isolation: "Average patients isolation",
+  avg_patients_home_quarantine: "Average patients home quarantine",
+  total_patients_visited: "Total patients visited",
+  total_patients_referred: "Total patients referred",
+  total_patients_isolation: "Total patients isolation",
+  total_patients_home_quarantine: "Total patients home quarantine",
+};
+
+export const FACILITY_TYPES = [
   "Educational Inst",
   "Private Hospital",
   "Other",
@@ -66,7 +77,8 @@ export const facilityTypes = [
 
 export const CONTENT = {
   CAPACITY: 1,
-  PATIENT: 3,
-  TESTS: 4,
-  COVID: 2,
+  PATIENT: 2,
+  TESTS: 3,
+  TRIAGE: 4,
+  COVID: 5,
 };

@@ -3,13 +3,13 @@ import React, { lazy, Suspense, useContext, useEffect, useState } from "react";
 import { ChevronDown } from "react-feather";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
+import { animated, useTransition } from "react-spring";
+import { SWRConfig } from "swr";
 import ThemedSuspense from "../components/ThemedSuspense";
 import { PageTitle } from "../components/Typography/Title";
 import { AuthContext } from "../context/AuthContext";
-import { districts, facilityTypes } from "../utils/constants";
+import { CONTENT, DISTRICTS, FACILITY_TYPES } from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
-import { SWRConfig } from "swr";
-import { animated, config, useSpring, useTransition } from "react-spring";
 const Capacity = lazy(() => import("../components/DistrictDashboard/Capacity"));
 const CapacityTimeseries = lazy(() =>
   import("../components/DistrictDashboard/CapacityTimeseries")
@@ -27,13 +27,10 @@ const Tests = lazy(() => import("../components/DistrictDashboard/Tests"));
 const TestsTimeseries = lazy(() =>
   import("../components/DistrictDashboard/TestsTimeseries")
 );
-
-const CONTENT = {
-  CAPACITY: 1,
-  PATIENT: 3,
-  TESTS: 4,
-  COVID: 2,
-};
+const Triage = lazy(() => import("../components/DistrictDashboard/Triage"));
+const TriageTimeseries = lazy(() =>
+  import("../components/DistrictDashboard/TriageTimeseries")
+);
 
 function DistrictDashboard() {
   const todayDate = new Date();
@@ -44,7 +41,9 @@ function DistrictDashboard() {
   const [filterDistrict, setFilterDistrict] = useState(
     auth.userData.district_object
   );
-  const [filterFacilityTypes, setFilterFacilityTypes] = useState(facilityTypes);
+  const [filterFacilityTypes, setFilterFacilityTypes] = useState(
+    FACILITY_TYPES
+  );
   const [content, setContent] = useState(
     CONTENT[params.content?.toUpperCase()] || CONTENT.CAPACITY
   );
@@ -119,6 +118,20 @@ function DistrictDashboard() {
             dates={dates}
           />
         );
+      case CONTENT.TRIAGE:
+        return !timeseries ? (
+          <Triage
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            date={date}
+          />
+        ) : (
+          <TriageTimeseries
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            dates={dates}
+          />
+        );
       case CONTENT.COVID:
         return !timeseries ? (
           <Covid filterDistrict={filterDistrict} date={date} />
@@ -142,6 +155,7 @@ function DistrictDashboard() {
       maxDate={todayDate}
       filterFacilityTypes={filterFacilityTypes}
       setFilterFacilityTypes={setFilterFacilityTypes}
+      content={content}
     />
   );
   const transitions = useTransition(content, null, {
@@ -198,7 +212,7 @@ function DistrictDashboard() {
               onClose={() => setIsOpen(false)}
               className="z-40"
             >
-              {districts.map((d, i) => (
+              {DISTRICTS.map((d, i) => (
                 <DropdownItem
                   key={i}
                   onClick={() => {
@@ -217,7 +231,7 @@ function DistrictDashboard() {
         <ConditionalFilter floating={false} />
       </div>
       {!inView && <ConditionalFilter floating={true} />}
-      <Suspense fallback={<ThemedSuspense />}>
+      <Suspense fallback={<ThemedSuspense className="h-full my-auto" />}>
         <SWRConfig
           value={{
             suspense: true,
@@ -226,7 +240,9 @@ function DistrictDashboard() {
           }}
         >
           {transitions.map(({ key, props }) => (
-            <animated.div key={key} style={props}>{renderContent()}</animated.div>
+            <animated.div key={key} style={props}>
+              {renderContent()}
+            </animated.div>
           ))}
         </SWRConfig>
       </Suspense>

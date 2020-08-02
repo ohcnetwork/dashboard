@@ -7,7 +7,7 @@ import { animated, config, useSpring, useTransition } from "react-spring";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
-import { availabilityTypes } from "../../utils/constants";
+import { AVAILABILITY_TYPES } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
 import ThemedSuspense from "../ThemedSuspense";
@@ -67,10 +67,10 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       let key = c.date === dateString(date) ? "current" : "previous";
       a[key].count += 1;
       a[key].oxygen += c.oxygenCapacity || 0;
-      Object.keys(availabilityTypes).forEach((k) => {
-        a[key][availabilityTypes[k].toLowerCase()].used +=
+      Object.keys(AVAILABILITY_TYPES).forEach((k) => {
+        a[key][AVAILABILITY_TYPES[k].toLowerCase()].used +=
           c.capacity[k]?.current_capacity || 0;
-        a[key][availabilityTypes[k].toLowerCase()].total +=
+        a[key][AVAILABILITY_TYPES[k].toLowerCase()].total +=
           c.capacity[k]?.total_capacity || 0;
       });
       return a;
@@ -146,7 +146,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           </div>
         </div>
         <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-          {Object.values(availabilityTypes).map((k) => (
+          {Object.values(AVAILABILITY_TYPES).map((k) => (
             <RadialCard
               label={k + "s used"}
               dataKey={k.toLowerCase()}
@@ -162,7 +162,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
               "Name",
               "Last Updated",
               "Oxygen",
-              ...Object.values(availabilityTypes).reverse(),
+              ...Object.values(AVAILABILITY_TYPES).reverse(),
             ]}
             data={filteredFacilities.reduce((a, c) => {
               if (c.date !== dateString(date)) {
@@ -174,7 +174,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
                   [c.name, c.facilityType],
                   dayjs(c.modifiedDate).fromNow(),
                   c.oxygenCapacity,
-                  ...Object.keys(availabilityTypes)
+                  ...Object.keys(AVAILABILITY_TYPES)
                     .reverse()
                     .map((i) =>
                       c.capacity[i]?.total_capacity

@@ -1,9 +1,9 @@
 import React from "react";
 
-function ThemedSuspense() {
+function ThemedSuspense({ className }) {
   return (
-    <div className="flex justify-center w-full h-screen p-6 overflow-hidden dark:bg-gray-900">
-      <div className="self-center lds-ripple">
+    <div className={`flex justify-center p-6 overflow-hidden ${className}`}>
+      <div className="flex self-center lds-ripple">
         <div></div>
         <div></div>
       </div>

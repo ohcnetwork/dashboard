@@ -17,11 +17,11 @@ function Header() {
       <div className="flex justify-between px-2 text-purple-600 dark:text-purple-300">
         <div className="flex justify-between flex-shrink-0">
           <button
-            className="mr-6 rounded-md focus:outline-none focus:shadow-outline-purple"
+            className="p-1 mr-6 rounded-md focus:outline-none focus:shadow-outline-purple"
             onClick={toggleSidebar}
             aria-label="Menu"
           >
-            <Menu className="w-6 h-6" aria-hidden="true" />
+            <Menu className="w-5 h-5" aria-hidden="true" />
           </button>
           <button
             aria-label="Care Dashboard"
@@ -49,22 +49,22 @@ function Header() {
             <p className="text-xs">{auth.userData.username}</p>
           </div>
           <button
-            className="rounded-md focus:outline-none focus:shadow-outline-purple"
+            className="p-1 rounded-md focus:outline-none focus:shadow-outline-purple"
             onClick={toggleMode}
             aria-label="Toggle color mode"
           >
             {mode === "dark" ? (
-              <Sun className="w-6 h-6" aria-hidden="true" />
+              <Sun className="w-5 h-5" aria-hidden="true" />
             ) : (
-              <Moon className="w-6 h-6" aria-hidden="true" />
+              <Moon className="w-5 h-5" aria-hidden="true" />
             )}
           </button>
           <button
-            className="rounded-md focus:outline-none focus:shadow-outline-purple"
+            className="p-1 rounded-md focus:outline-none focus:shadow-outline-purple"
             onClick={() => logout()}
             aria-label="Logout"
           >
-            <LogOut className="w-6 h-6" aria-hidden="true" />
+            <LogOut className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
       </div>

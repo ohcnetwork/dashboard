@@ -6,7 +6,7 @@ import { animated, config, useSpring } from "react-spring";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
-import { TESTS_TYPES } from "../../utils/constants";
+import { TRIAGE_TYPES } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import ThemedSuspense from "../ThemedSuspense";
@@ -14,23 +14,26 @@ const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
-function Tests({ filterDistrict, filterFacilityTypes, date }) {
+function Triage({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
     count: 0,
-    result_awaited: 0,
-    test_discarded: 0,
-    total_patients: 0,
-    result_negative: 0,
-    result_positive: 0,
+    avg_patients_visited: 0,
+    avg_patients_referred: 0,
+    avg_patients_isolation: 0,
+    total_patients_visited: 0,
+    total_patients_referred: 0,
+    total_patients_isolation: 0,
+    avg_patients_home_quarantine: 0,
+    total_patients_home_quarantine: 0,
   };
 
   const { auth } = useContext(AuthContext);
   const { data, error } = useSWR(
-    ["Tests", date, auth.token, filterDistrict.id],
+    ["Triage", date, auth.token, filterDistrict.id],
     (url, date, token, district) =>
       careSummary(
         token,
-        "tests",
+        "triage",
         dateString(getNDateBefore(date, 1)),
         dateString(getNDateAfter(date, 1)),
         district
@@ -52,7 +55,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
     (a, c) => {
       let key = c.date === dateString(date) ? "current" : "previous";
       a[key].count += 1;
-      Object.keys(TESTS_TYPES).forEach((k) => {
+      Object.keys(TRIAGE_TYPES).forEach((k) => {
         a[key][k] += c[k];
         a[key][k] += c[k];
       });
@@ -64,11 +67,10 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
     }
   );
 
-  const { count, patients } = useSpring({
-    from: { count: 0, patients: 0 },
+  const { count } = useSpring({
+    from: { count: 0 },
     to: {
       count: facilitiesTrivia.current.count || 0,
-      patients: facilitiesTrivia.current.total_patients || 0,
     },
     delay: 0,
     config: config.slow,
@@ -87,24 +89,14 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
             </animated.span>
           </div>
         </div>
-        <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
-          <span className="mx-2 text-sm font-medium leading-none">
-            Patient Count
-          </span>
-          <div className="flex items-center h-full bg-purple-600 rounded-lg">
-            <animated.span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium leading-5 text-white align-bottom rounded-md shadow-xs">
-              {patients.interpolate((x) => Math.round(x))}
-            </animated.span>
-          </div>
-        </div>
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        {Object.keys(TESTS_TYPES).map((k, i) => {
+        {Object.keys(TRIAGE_TYPES).map((k, i) => {
           if (k != "total_patients") {
             return (
               <InfoCard
                 key={i}
-                title={TESTS_TYPES[k]}
+                title={TRIAGE_TYPES[k]}
                 value={facilitiesTrivia.current[k]}
                 delta={
                   facilitiesTrivia.current[k] - facilitiesTrivia.previous[k]
@@ -114,10 +106,19 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
           }
         })}
       </div>
+
       <Suspense fallback={<ThemedSuspense />}>
         <FacilityTable
           className="mb-8"
-          columns={["Name", ...Object.values(TESTS_TYPES)]}
+          columns={[
+            "Name",
+            ...[
+              "Patients visited",
+              "Patients referred",
+              "Patients isolation",
+              "Patients home quarantine",
+            ],
+          ]}
           data={filteredFacilities.reduce((a, c) => {
             if (c.date !== dateString(date)) {
               return a;
@@ -126,7 +127,9 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
               ...a,
               [
                 [c.facility_name, c.facilityType],
-                ...Object.keys(TESTS_TYPES).map((i) => c[i]),
+                ...["visited", "referred", "isolation", "home_quarantine"].map(
+                  (i) => `${c["avg_patients_" + i]}/${c["total_patients_" + i]}`
+                ),
               ],
             ];
           }, [])}
@@ -136,4 +139,4 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
   );
 }
 
-export default Tests;
+export default Triage;

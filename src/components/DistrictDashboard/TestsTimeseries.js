@@ -2,14 +2,13 @@ import React, { useContext } from "react";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
-import { testsTypes } from "../../utils/constants";
+import { TESTS_TYPES } from "../../utils/constants";
 import { dateString, getNDateAfter } from "../../utils/utils";
 import TimeseriesLineChart from "../Chart/TimeseriesLineChart";
 import NoData from "../NoData";
 
 function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const { auth } = useContext(AuthContext);
-  const token = auth.token;
   const { data, error } = useSWR(
     ["TestsTimeseries", dates, auth.token, filterDistrict.id],
     (url, dates, token, district) =>
@@ -34,7 +33,7 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   );
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
-      Object.keys(testsTypes).forEach((k) => {
+      Object.keys(TESTS_TYPES).forEach((k) => {
         acc[cur.date][k] += cur[k];
         acc[cur.date][k] += cur[k];
       });
@@ -47,7 +46,7 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       result_negative: 0,
       result_positive: 0,
     };
-    Object.keys(testsTypes).forEach((k) => {
+    Object.keys(TESTS_TYPES).forEach((k) => {
       _t[k] += cur[k];
       _t[k] += cur[k];
     });
@@ -69,7 +68,7 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
     <div className="min-w-full min-h-full">
       {filtered.length > 0 ? (
         <TimeseriesLineChart
-          name={chartable.name + "s"}
+          name={chartable.name}
           data={chartable.data}
           dataKeys={[
             "result_awaited",

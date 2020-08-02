@@ -3,19 +3,11 @@ import React, { useContext, useState } from "react";
 import { ArrowLeft } from "react-feather";
 import { animated, config, useSpring } from "react-spring";
 import { wrap } from "react-suspense-worker";
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
-import { availabilityTypes } from "../../utils/constants";
+import { AVAILABILITY_TYPES } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import NoData from "../NoData";
 
@@ -61,8 +53,8 @@ function CapacityForecast({
   );
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
-      Object.keys(availabilityTypes).forEach((k) => {
-        let key = availabilityTypes[k].toLowerCase();
+      Object.keys(AVAILABILITY_TYPES).forEach((k) => {
+        let key = AVAILABILITY_TYPES[k].toLowerCase();
         acc[cur.date][key].used += cur.capacity[k]?.current_capacity || 0;
         acc[cur.date][key].total += cur.capacity[k]?.total_capacity || 0;
       });
@@ -74,8 +66,8 @@ function CapacityForecast({
       room: { total: 0, used: 0 },
       bed: { total: 0, used: 0 },
     };
-    Object.keys(availabilityTypes).forEach((k) => {
-      let key = availabilityTypes[k].toLowerCase();
+    Object.keys(AVAILABILITY_TYPES).forEach((k) => {
+      let key = AVAILABILITY_TYPES[k].toLowerCase();
       _t[key].used += cur.capacity[k]?.current_capacity || 0;
       _t[key].total += cur.capacity[k]?.total_capacity || 0;
     });
@@ -86,7 +78,7 @@ function CapacityForecast({
   }, {});
   const reversed = Object.entries(datewise).reverse();
   let timeseries = {};
-  Object.values(availabilityTypes).forEach((k) => {
+  Object.values(AVAILABILITY_TYPES).forEach((k) => {
     timeseries[k] = reversed.map(([d, value]) => ({
       date: d,
       usage:
@@ -96,7 +88,7 @@ function CapacityForecast({
   let max = {};
   let min = {};
   let avg = {};
-  for (const k of Object.values(availabilityTypes)) {
+  for (const k of Object.values(AVAILABILITY_TYPES)) {
     max[k] = Math.max(...timeseries[k].map((e) => e.usage));
     min[k] = Math.min(...timeseries[k].map((e) => e.usage));
     avg[k] =
@@ -108,7 +100,7 @@ function CapacityForecast({
   let forecasted_min = {};
   let forecasted_avg = {};
   if (filtered.length > 0) {
-    for (const k of Object.values(availabilityTypes)) {
+    for (const k of Object.values(AVAILABILITY_TYPES)) {
       // https://github.com/zemlyansky/arima
       forecasted[k] = arima(
         timeseries[k].map((e) => e.usage),
@@ -195,7 +187,7 @@ function CapacityForecast({
         vary as we haven't considered all variables to project it.
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-1 xl:grid-cols-1">
-        {Object.values(availabilityTypes)
+        {Object.values(AVAILABILITY_TYPES)
           .reverse()
           .map((k, i) => (
             <SingleCapacityForecast
