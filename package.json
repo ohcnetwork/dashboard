@@ -17,6 +17,7 @@
     "fuzzysort": "^1.1.4",
     "polylabel": "^1.1.0",
     "react": "^16.13.1",
+    "react-csv": "^2.0.3",
     "react-date-picker": "^8.0.1",
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.8",
