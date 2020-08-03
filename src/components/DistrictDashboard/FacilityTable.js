@@ -1,4 +1,5 @@
 import {
+  Button,
   Input,
   Pagination,
   Table as WTable,
@@ -11,9 +12,9 @@ import {
 } from "@windmill/react-ui";
 import fuzzysort from "fuzzysort";
 import React, { useEffect, useState } from "react";
-import { SectionTitle } from "../Typography/Title";
+import { CSVLink } from "react-csv";
 
-function FacilityTable({ columns = [], data, className }) {
+function FacilityTable({ columns = [], data, className, exported = null }) {
   const resultsPerPage = 25;
   const [filteredData, setFilteredData] = useState(data);
   const [page, setPage] = useState(1);
@@ -31,10 +32,18 @@ function FacilityTable({ columns = [], data, className }) {
 
   return (
     <div className={className}>
-      <div className="flex flex-row justify-between pb-2">
-        <SectionTitle>Facilities</SectionTitle>
-        <div className="flex self-center w-64 ">
+      <div className="flex items-center justify-between pb-2">
+        <h2 className="text-lg font-semibold text-gray-600 dark:text-gray-300">
+          Facilities
+        </h2>
+        <div className="flex items-center space-x-2">
+          {exported && (
+            <CSVLink data={exported.data} filename={exported.filename}>
+              <Button>Export</Button>
+            </CSVLink>
+          )}
           <Input
+            className="flex self-center w-64"
             placeholder="Search Facilities"
             onChange={(e) => {
               setFilteredData(
@@ -52,7 +61,7 @@ function FacilityTable({ columns = [], data, className }) {
                   : data
               );
             }}
-          ></Input>
+          />
         </div>
       </div>
 

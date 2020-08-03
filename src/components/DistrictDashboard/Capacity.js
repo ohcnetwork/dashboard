@@ -47,6 +47,8 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     name: facility.name,
     districtId: facility.district,
     location: facility.location,
+    address: facility.address,
+    phone_number: facility.phone_number,
     facilityType: facility.facility_type || "Unknown",
     oxygenCapacity: facility.oxygen_capacity,
     modifiedDate: Math.max(
@@ -184,6 +186,37 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
                 ],
               ];
             }, [])}
+            exported={{
+              filename: "capacity_export.csv",
+              data: filteredFacilities.reduce((a, c) => {
+                if (c.date !== dateString(date)) {
+                  return a;
+                }
+                return [
+                  ...a,
+                  {
+                    "Hospital/CFLTC Name": c.name,
+                    "Hospital/CFLTC Address": c.address,
+                    "Govt/Pvt": c.facilityType.startsWith("Govt")
+                      ? "Govt"
+                      : "Pvt",
+                    "Hops/CFLTC":
+                      c.facilityType === "First Line Treatment Centre"
+                        ? "CFLTC"
+                        : "Hops",
+                    Mobile: c.phone_number,
+                    ...Object.keys(AVAILABILITY_TYPES).reduce((t, x) => {
+                      let y = { ...t };
+                      y[`Current ${AVAILABILITY_TYPES[x]}`] =
+                        c.capacity[x]?.current_capacity || 0;
+                      y[`Total ${AVAILABILITY_TYPES[x]}`] =
+                        c.capacity[x]?.total_capacity || 0;
+                      return y;
+                    }, {}),
+                  },
+                ];
+              }, []),
+            }}
           ></FacilityTable>
         </Suspense>
 
