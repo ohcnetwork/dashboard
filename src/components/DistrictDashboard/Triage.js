@@ -45,6 +45,7 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
     ...data,
     id: facility.id,
     facilityType: facility.facility_type || "Unknown",
+    phone_number: facility.phone_number,
     location: facility.location,
     modifiedDate: data.modified_date,
   }));
@@ -112,6 +113,7 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
           className="mb-8"
           columns={[
             "Name",
+            "Last Updated",
             ...[
               "Patients visited",
               "Patients referred",
@@ -126,7 +128,8 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
             return [
               ...a,
               [
-                [c.facility_name, c.facilityType],
+                [c.facility_name, c.facilityType, c.phone_number],
+                dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
                 ...["visited", "referred", "isolation", "home_quarantine"].map(
                   (i) => `${c["avg_patients_" + i]}/${c["total_patients_" + i]}`
                 ),

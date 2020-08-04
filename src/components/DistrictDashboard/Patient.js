@@ -41,6 +41,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
     ...data,
     id: facility.id,
     facilityType: facility.facility_type || "Unknown",
+    phone_number: facility.phone_number,
     location: facility.location,
     modifiedDate: data.modified_date,
   }));
@@ -107,7 +108,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
             return [
               ...a,
               [
-                [c.facility_name, c.facilityType],
+                [c.facility_name, c.facilityType, c.phone_number],
                 dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
                 ...Object.keys(PATIENT_TYPES).map((k) => {
                   let delta = c["today_patients_" + k];

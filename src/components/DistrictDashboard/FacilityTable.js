@@ -87,6 +87,9 @@ function FacilityTable({ columns = [], data, className, exported = null }) {
                             <p className="text-xs text-gray-600 dark:text-gray-400">
                               {r[1]}
                             </p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400">
+                              {r[2]}
+                            </p>
                           </div>
                         ) : (
                           r
