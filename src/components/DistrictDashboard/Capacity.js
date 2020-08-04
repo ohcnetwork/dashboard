@@ -173,7 +173,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
               return [
                 ...a,
                 [
-                  [c.name, c.facilityType],
+                  [c.name, c.facilityType, c.phone_number],
                   dayjs(c.modifiedDate).fromNow(),
                   c.oxygenCapacity,
                   ...Object.keys(AVAILABILITY_TYPES)

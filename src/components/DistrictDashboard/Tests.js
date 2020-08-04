@@ -42,6 +42,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
     ...data,
     id: facility.id,
     facilityType: facility.facility_type || "Unknown",
+    phone_number: facility.phone_number,
     location: facility.location,
     modifiedDate: data.modified_date,
   }));
@@ -117,7 +118,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
       <Suspense fallback={<ThemedSuspense />}>
         <FacilityTable
           className="mb-8"
-          columns={["Name", ...Object.values(TESTS_TYPES)]}
+          columns={["Name", "Last Updated", ...Object.values(TESTS_TYPES)]}
           data={filteredFacilities.reduce((a, c) => {
             if (c.date !== dateString(date)) {
               return a;
@@ -125,7 +126,8 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
             return [
               ...a,
               [
-                [c.facility_name, c.facilityType],
+                [c.facility_name, c.facilityType, c.phone_number],
+                dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
                 ...Object.keys(TESTS_TYPES).map((i) => c[i]),
               ],
             ];
