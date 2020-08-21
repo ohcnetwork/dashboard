@@ -47,6 +47,7 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
     facilityType: facility.facility_type || "Unknown",
     phone_number: facility.phone_number,
     location: facility.location,
+    address: facility.address,
     modifiedDate: data.modified_date,
   }));
   const filteredFacilities = facilities.filter((f) =>
@@ -131,11 +132,42 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
                 [c.facility_name, c.facilityType, c.phone_number],
                 dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
                 ...["visited", "referred", "isolation", "home_quarantine"].map(
-                  (i) => `${c["avg_patients_" + i]}/${c["total_patients_" + i]}`
+                  (i) =>
+                    `${c["avg_patients_" + i] || 0}/${c[
+                      "total_patients_" + i
+                    ] || 0}`
                 ),
               ],
             ];
           }, [])}
+          exported={{
+            filename: "triage_export.csv",
+            data: filteredFacilities.reduce((a, c) => {
+              if (c.date !== dateString(date)) {
+                return a;
+              }
+              return [
+                ...a,
+                {
+                  "Hospital/CFLTC Name": c.facility_name,
+                  "Hospital/CFLTC Address": c.address,
+                  "Govt/Pvt": c.facilityType.startsWith("Govt")
+                    ? "Govt"
+                    : "Pvt",
+                  "Hops/CFLTC":
+                    c.facilityType === "First Line Treatment Centre"
+                      ? "CFLTC"
+                      : "Hops",
+                  Mobile: c.phone_number,
+                  ...Object.keys(TRIAGE_TYPES).reduce((t, x) => {
+                    let y = { ...t };
+                    y[TRIAGE_TYPES[x]] = c[x] || 0;
+                    return y;
+                  }, {}),
+                },
+              ];
+            }, []),
+          }}
         ></FacilityTable>
       </Suspense>
     </>

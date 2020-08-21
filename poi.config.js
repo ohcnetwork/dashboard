@@ -2,6 +2,7 @@ const WorkerPlugin = require("worker-plugin");
 
 module.exports = {
   entry: "src/index",
+  reactRefresh: true,
   plugins: [
     {
       resolve: "@poi/plugin-pwa",

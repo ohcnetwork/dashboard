@@ -9,11 +9,11 @@
   },
   "dependencies": {
     "@vx/tooltip": "0.0.198",
-    "@windmill/react-ui": "^0.3.1",
+    "@windmill/react-ui": "^0.3.2",
     "@wojtekmaj/react-daterange-picker": "^3.0.0",
     "arima": "^0.1.0",
-    "axios": "^0.19.2",
-    "dayjs": "^1.8.31",
+    "axios": "^0.20.0",
+    "dayjs": "^1.8.34",
     "fuzzysort": "^1.1.4",
     "polylabel": "^1.1.0",
     "react": "^16.13.1",
@@ -21,8 +21,8 @@
     "react-date-picker": "^8.0.1",
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.8",
-    "react-hook-form": "^6.2.0",
-    "react-intersection-observer": "^8.26.2",
+    "react-hook-form": "^6.4.1",
+    "react-intersection-observer": "^8.27.1",
     "react-router-dom": "5.2.0",
     "react-simple-maps": "^2.1.2",
     "react-spring": "^8.0.27",
@@ -30,7 +30,7 @@
     "react-svg-tooltip": "0.0.11",
     "recharts": "^2.0.0-beta.6",
     "register-service-worker": "^1.7.1",
-    "swr": "^0.3.0",
+    "swr": "^0.3.1",
     "topojson": "^3.0.2"
   },
   "devDependencies": {
@@ -38,10 +38,9 @@
     "@svgr/webpack": "^5.4.0",
     "autoprefixer": "9.8.6",
     "cssnano": "4.1.10",
-    "poi": "^12.9.0",
-    "react-hot-loader": "^4.12.21",
-    "tailwindcss": "1.6.0",
-    "worker-plugin": "^4.0.3"
+    "poi": "^12.10.2",
+    "tailwindcss": "1.7.3",
+    "worker-plugin": "^5.0.0"
   },
   "browserslist": {
     "production": [
