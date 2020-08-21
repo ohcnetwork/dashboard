@@ -44,6 +44,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
     facilityType: facility.facility_type || "Unknown",
     phone_number: facility.phone_number,
     location: facility.location,
+    address: facility.address,
     modifiedDate: data.modified_date,
   }));
   const filteredFacilities = facilities.filter((f) =>
@@ -132,6 +133,34 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
               ],
             ];
           }, [])}
+          exported={{
+            filename: "tests_export.csv",
+            data: filteredFacilities.reduce((a, c) => {
+              if (c.date !== dateString(date)) {
+                return a;
+              }
+              return [
+                ...a,
+                {
+                  "Hospital/CFLTC Name": c.facility_name,
+                  "Hospital/CFLTC Address": c.address,
+                  "Govt/Pvt": c.facilityType.startsWith("Govt")
+                    ? "Govt"
+                    : "Pvt",
+                  "Hops/CFLTC":
+                    c.facilityType === "First Line Treatment Centre"
+                      ? "CFLTC"
+                      : "Hops",
+                  Mobile: c.phone_number,
+                  ...Object.keys(TESTS_TYPES).reduce((t, x) => {
+                    let y = { ...t };
+                    y[x] = c[x];
+                    return y;
+                  }, {}),
+                },
+              ];
+            }, []),
+          }}
         ></FacilityTable>
       </Suspense>
     </>
