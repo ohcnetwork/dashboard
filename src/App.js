@@ -1,5 +1,4 @@
 import React, { lazy, useContext, useEffect, useState } from "react";
-import { hot } from "react-hot-loader/root";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -93,4 +92,4 @@ function App() {
   );
 }
 
-export default hot(App);
+export default App;

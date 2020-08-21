@@ -38,8 +38,7 @@
     "@svgr/webpack": "^5.4.0",
     "autoprefixer": "9.8.6",
     "cssnano": "4.1.10",
-    "poi": "^12.9.0",
-    "react-hot-loader": "^4.12.21",
+    "poi": "^12.10.2",
     "tailwindcss": "1.7.3",
     "worker-plugin": "^5.0.0"
   },
