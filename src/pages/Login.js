@@ -91,7 +91,7 @@ function Login() {
             {loading ? (
               <Loader className="w-5 h-5 animate-spin" />
             ) : (
-              <span>Login in</span>
+              <span>Login</span>
             )}
           </Button>
           {errors.login && (
