@@ -237,6 +237,9 @@ function DistrictDashboard() {
             suspense: true,
             loadingTimeout: 10000,
             refreshInterval: 300000,
+            onError: (error, key) => {
+              console.error(error, key);
+            },
           }}
         >
           {transitions.map(({ key, props }) => (
