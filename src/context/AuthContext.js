@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import Cookies from "js-cookie";
 
 const ACCESS_TOKEN = "care_access_token";
 const REFRESH_TOKEN = "care_refresh_token";
@@ -6,22 +7,22 @@ const REFRESH_TOKEN = "care_refresh_token";
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-  let token = localStorage.getItem(ACCESS_TOKEN);
-  let refresh = localStorage.getItem(REFRESH_TOKEN);
+  let token = Cookies.get(ACCESS_TOKEN);
+  let refresh = Cookies.get(REFRESH_TOKEN);
   let logged = token && refresh ? true : false;
   let userData = {};
 
   const [auth, setAuth] = useState({ logged, token, refresh, userData });
 
   function login(token, refresh, userData) {
-    localStorage.setItem(ACCESS_TOKEN, token);
-    localStorage.setItem(REFRESH_TOKEN, refresh);
+    Cookies.set(ACCESS_TOKEN, token);
+    Cookies.set(REFRESH_TOKEN, refresh);
     setAuth({ logged: true, token, refresh, userData });
   }
 
   function logout() {
-    localStorage.removeItem(ACCESS_TOKEN);
-    localStorage.removeItem(REFRESH_TOKEN);
+    Cookies.remove(ACCESS_TOKEN);
+    Cookies.remove(REFRESH_TOKEN);
     setAuth({ logged: false });
   }
 
