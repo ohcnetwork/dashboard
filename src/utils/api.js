@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "redaxios";
 
 const API_BASE_URL = process.env.POI_APP_CARE_BASE_URL || "";
 const STAT_BASE_URL = "https://keralastats.coronasafe.live";
