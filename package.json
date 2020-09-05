@@ -29,6 +29,7 @@
     "react-suspense-worker": "0.0.1",
     "react-svg-tooltip": "0.0.11",
     "recharts": "^2.0.0-beta.6",
+    "redaxios": "^0.3.0",
     "register-service-worker": "^1.7.1",
     "store": "^2.0.12",
     "swr": "^0.3.1",
