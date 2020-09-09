@@ -59,7 +59,7 @@ export function careSummary(
 ) {
   return request(
     {
-      url: API_BASE_URL + `/api/v1/${type}_summary`,
+      url: API_BASE_URL + `/api/v1/${type}_summary/`,
       method: "GET",
       params: {
         start_date,
