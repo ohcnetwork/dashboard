@@ -73,6 +73,7 @@ export const FACILITY_TYPES = [
   "Corona Care Centre",
   "First Line Treatment Centre",
   "Second Line Treatment Center",
+  "Covid Management Center",
   "Unknown",
 ];
 
