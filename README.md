@@ -9,10 +9,11 @@
 The dashboard presents actionable intel using data tracked by [coronasafe/care](https://github.com/coronasafe/care) to administrators in order to take decisions based on ground conditions
 
 # Project Setup
-In the project directory, you can run:
+In the project directory(`'cd dashboard'` ) , you can run:
 
 Run `'npm install'` to install the dependencies.
-Run `'npm start'` to start running the project on a development server.
+<br>
+Run `'npm start'` to start running the project on a development server.(to install all dependencies)
 
 
-Run `'npm build'` to create an optimized production build.
+Run `'npm run build'` to create an optimized production build.
