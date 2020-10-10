@@ -71,8 +71,10 @@ export const FACILITY_TYPES = [
   "Govt Medical College Hospitals",
   "Corona Testing Labs",
   "Corona Care Centre",
+  "COVID-19 Domiciliary Care Center",
   "First Line Treatment Centre",
   "Second Line Treatment Center",
+  "Shifting Centre",
   "Covid Management Center",
   "Unknown",
 ];
