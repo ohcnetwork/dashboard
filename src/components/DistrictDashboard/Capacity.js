@@ -25,10 +25,14 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     oxygen: 0,
     actualLivePatients: 0,
     actualDischargedPatients: 0,
-    ventilator: { total: 0, used: 0 },
-    icu: { total: 0, used: 0 },
-    room: { total: 0, used: 0 },
-    bed: { total: 0, used: 0 },
+    1: { total: 0, used: 0 },
+    2: { total: 0, used: 0 },
+    3: { total: 0, used: 0 },
+    10: { total: 0, used: 0 },
+    20: { total: 0, used: 0 },
+    30: { total: 0, used: 0 },
+    40: { total: 0, used: 0 },
+    50: { total: 0, used: 0 },
   };
 
   const { auth } = useContext(AuthContext);
@@ -78,10 +82,8 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       a[key].actualLivePatients += c.actualLivePatients || 0;
       a[key].actualDischargedPatients += c.actualDischargedPatients || 0;
       Object.keys(AVAILABILITY_TYPES).forEach((k) => {
-        a[key][AVAILABILITY_TYPES[k].toLowerCase()].used +=
-          c.capacity[k]?.current_capacity || 0;
-        a[key][AVAILABILITY_TYPES[k].toLowerCase()].total +=
-          c.capacity[k]?.total_capacity || 0;
+        a[key][k].used += c.capacity[k]?.current_capacity || 0;
+        a[key][k].total += c.capacity[k]?.total_capacity || 0;
       });
       return a;
     },
@@ -137,12 +139,13 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           </Pill>
         </div>
         <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-          {Object.values(AVAILABILITY_TYPES).map((k) => (
+          {Object.keys(AVAILABILITY_TYPES).map((k) => (
             <RadialCard
-              label={k + "s used"}
-              dataKey={k.toLowerCase()}
-              data={facilitiesTrivia}
-              key={k.toLowerCase()}
+              label={AVAILABILITY_TYPES[k]}
+              count={facilitiesTrivia.current.count}
+              current={facilitiesTrivia.current[k]}
+              previous={facilitiesTrivia.previous[k]}
+              key={k}
             />
           ))}
         </div>
@@ -155,7 +158,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
               "Oxygen",
               "Live Patients",
               "Discharged Patients",
-              ...Object.values(AVAILABILITY_TYPES).reverse(),
+              ...Object.values(AVAILABILITY_TYPES),
             ]}
             data={filteredFacilities.reduce((a, c) => {
               if (c.date !== dateString(date)) {
@@ -169,13 +172,11 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
                   c.oxygenCapacity,
                   c.actualLivePatients,
                   c.actualDischargedPatients,
-                  ...Object.keys(AVAILABILITY_TYPES)
-                    .reverse()
-                    .map((i) =>
-                      c.capacity[i]?.total_capacity
-                        ? `${c.capacity[i]?.current_capacity}/${c.capacity[i]?.total_capacity}`
-                        : "-"
-                    ),
+                  ...Object.keys(AVAILABILITY_TYPES).map((i) =>
+                    c.capacity[i]?.total_capacity
+                      ? `${c.capacity[i]?.current_capacity}/${c.capacity[i]?.total_capacity}`
+                      : "-"
+                  ),
                 ],
               ];
             }, [])}
