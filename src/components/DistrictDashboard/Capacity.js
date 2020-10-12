@@ -21,6 +21,8 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
     count: 0,
     oxygen: 0,
+    actualLivePatients: 0,
+    actualDischargedPatients: 0,
     ventilator: { total: 0, used: 0 },
     icu: { total: 0, used: 0 },
     room: { total: 0, used: 0 },
@@ -60,6 +62,8 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         [cCur.room_type]: cCur,
       };
     }, {}),
+    actualLivePatients: facility.actual_live_patients,
+    actualDischargedPatients: facility.actual_discharged_patients,
   }));
   const filteredFacilities = facilities.filter((f) =>
     filterFacilityTypes.includes(f.facilityType)
@@ -69,6 +73,8 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       let key = c.date === dateString(date) ? "current" : "previous";
       a[key].count += 1;
       a[key].oxygen += c.oxygenCapacity || 0;
+      a[key].actualLivePatients += c.actualLivePatients || 0;
+      a[key].actualDischargedPatients += c.actualDischargedPatients || 0;
       Object.keys(AVAILABILITY_TYPES).forEach((k) => {
         a[key][AVAILABILITY_TYPES[k].toLowerCase()].used +=
           c.capacity[k]?.current_capacity || 0;
@@ -83,11 +89,24 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     }
   );
 
-  const { count, oxygen } = useSpring({
-    from: { count: 0, oxygen: 0 },
+  const {
+    count,
+    oxygen,
+    actualLivePatients,
+    actualDischargedPatients,
+  } = useSpring({
+    from: {
+      count: 0,
+      oxygen: 0,
+      actualLivePatients: 0,
+      actualDischargedPatients: 0,
+    },
     to: {
       count: facilitiesTrivia.current.count || 0,
       oxygen: facilitiesTrivia.current.oxygen || 0,
+      actualLivePatients: facilitiesTrivia.current.actualLivePatients || 0,
+      actualDischargedPatients:
+        facilitiesTrivia.current.actualDischargedPatients || 0,
     },
     delay: 0,
     config: config.slow,
@@ -134,6 +153,26 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           </div>
           <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
             <span className="mx-2 text-sm font-medium leading-none">
+              Live Patients
+            </span>
+            <div className="flex items-center h-full bg-purple-600 rounded-lg">
+              <animated.span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium leading-5 text-white align-bottom rounded-md shadow-xs">
+                {actualLivePatients.interpolate((x) => Math.round(x))}
+              </animated.span>
+            </div>
+          </div>
+          <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
+            <span className="mx-2 text-sm font-medium leading-none">
+              Discharged Patients
+            </span>
+            <div className="flex items-center h-full bg-purple-600 rounded-lg">
+              <animated.span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium leading-5 text-white align-bottom rounded-md shadow-xs">
+                {actualDischargedPatients.interpolate((x) => Math.round(x))}
+              </animated.span>
+            </div>
+          </div>
+          <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
+            <span className="mx-2 text-sm font-medium leading-none">
               Forecast
             </span>
             <div className="flex h-full bg-purple-600 rounded-lg">
@@ -164,6 +203,8 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
               "Name",
               "Last Updated",
               "Oxygen",
+              "Live Patients",
+              "Discharged Patients",
               ...Object.values(AVAILABILITY_TYPES).reverse(),
             ]}
             data={filteredFacilities.reduce((a, c) => {
@@ -176,6 +217,8 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
                   [c.name, c.facilityType, c.phone_number],
                   dayjs(c.modifiedDate).fromNow(),
                   c.oxygenCapacity,
+                  c.actualLivePatients,
+                  c.actualDischargedPatients,
                   ...Object.keys(AVAILABILITY_TYPES)
                     .reverse()
                     .map((i) =>

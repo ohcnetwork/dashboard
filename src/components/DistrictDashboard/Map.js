@@ -74,6 +74,18 @@ function Map({ district, facilities, className }) {
           Current: <strong>{f.oxygenCapacity}</strong>
         </p>
       </div>
+      <div className="mb-1">
+        <p className="font-semibold">Live Patients</p>
+        <p>
+          Current: <strong>{f.actualLivePatients}</strong>
+        </p>
+      </div>
+      <div className="mb-1">
+        <p className="font-semibold">Discharged Patients</p>
+        <p>
+          Current: <strong>{f.actualDischargedPatients}</strong>
+        </p>
+      </div>
       {Object.keys(AVAILABILITY_TYPES).map((a) => {
         let current = f.capacity[a]?.current_capacity || 1;
         let total = f.capacity[a]?.total_capacity || 1;
