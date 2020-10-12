@@ -3,13 +3,15 @@ import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import React, { lazy, Suspense, useContext, useState } from "react";
 import { ArrowRight } from "react-feather";
-import { animated, config, useSpring, useTransition } from "react-spring";
+import { animated, useTransition } from "react-spring";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { AVAILABILITY_TYPES } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
+import { Pill } from "../Pill/Pill";
+import { ValuePill } from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
 import { SectionTitle } from "../Typography/Title";
 const FacilityTable = lazy(() => import("./FacilityTable"));
@@ -89,29 +91,6 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     }
   );
 
-  const {
-    count,
-    oxygen,
-    actualLivePatients,
-    actualDischargedPatients,
-  } = useSpring({
-    from: {
-      count: 0,
-      oxygen: 0,
-      actualLivePatients: 0,
-      actualDischargedPatients: 0,
-    },
-    to: {
-      count: facilitiesTrivia.current.count || 0,
-      oxygen: facilitiesTrivia.current.oxygen || 0,
-      actualLivePatients: facilitiesTrivia.current.actualLivePatients || 0,
-      actualDischargedPatients:
-        facilitiesTrivia.current.actualDischargedPatients || 0,
-    },
-    delay: 0,
-    config: config.slow,
-  });
-
   const transitions = useTransition(forecast, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
@@ -131,60 +110,31 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     ) : (
       <animated.div key={key} style={props}>
         <div className="flex flex-row justify-end h-6 mb-8 space-x-2">
-          <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
-            <span className="mx-2 text-sm font-medium leading-none">
-              Facility Count
-            </span>
-            <div className="flex items-center h-full bg-purple-600 rounded-lg">
-              <animated.span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium leading-5 text-white align-bottom rounded-md shadow-xs">
-                {count.interpolate((x) => Math.round(x))}
-              </animated.span>
-            </div>
-          </div>
-          <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
-            <span className="mx-2 text-sm font-medium leading-none">
-              Oxygen Capacity
-            </span>
-            <div className="flex items-center h-full bg-purple-600 rounded-lg">
-              <animated.span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium leading-5 text-white align-bottom rounded-md shadow-xs">
-                {oxygen.interpolate((x) => Math.round(x))}
-              </animated.span>
-            </div>
-          </div>
-          <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
-            <span className="mx-2 text-sm font-medium leading-none">
-              Live Patients
-            </span>
-            <div className="flex items-center h-full bg-purple-600 rounded-lg">
-              <animated.span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium leading-5 text-white align-bottom rounded-md shadow-xs">
-                {actualLivePatients.interpolate((x) => Math.round(x))}
-              </animated.span>
-            </div>
-          </div>
-          <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
-            <span className="mx-2 text-sm font-medium leading-none">
-              Discharged Patients
-            </span>
-            <div className="flex items-center h-full bg-purple-600 rounded-lg">
-              <animated.span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium leading-5 text-white align-bottom rounded-md shadow-xs">
-                {actualDischargedPatients.interpolate((x) => Math.round(x))}
-              </animated.span>
-            </div>
-          </div>
-          <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
-            <span className="mx-2 text-sm font-medium leading-none">
-              Forecast
-            </span>
-            <div className="flex h-full bg-purple-600 rounded-lg">
-              <Button
-                size="small"
-                onClick={() => setForecast(true)}
-                className="shadow-xs"
-              >
-                <ArrowRight className="h-4" />
-              </Button>
-            </div>
-          </div>
+          <ValuePill
+            title={"Facility Count"}
+            value={facilitiesTrivia.current.count}
+          />
+          <ValuePill
+            title={"Oxygen Capacity"}
+            value={facilitiesTrivia.current.oxygen}
+          />
+          <ValuePill
+            title={"Live Patients"}
+            value={facilitiesTrivia.current.actualLivePatients}
+          />
+          <ValuePill
+            title={"Discharged Patients"}
+            value={facilitiesTrivia.current.actualDischargedPatients}
+          />
+          <Pill title={"Forecast"}>
+            <Button
+              size="small"
+              onClick={() => setForecast(true)}
+              className="shadow-xs"
+            >
+              <ArrowRight className="h-4" />
+            </Button>
+          </Pill>
         </div>
         <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
           {Object.values(AVAILABILITY_TYPES).map((k) => (

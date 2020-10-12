@@ -3,13 +3,22 @@ import React, { useContext, useState } from "react";
 import { ArrowLeft } from "react-feather";
 import { animated, config, useSpring } from "react-spring";
 import { wrap } from "react-suspense-worker";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { AVAILABILITY_TYPES } from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import NoData from "../NoData";
+import { Pill } from "../Pill/Pill";
 
 const arima = wrap(new Worker("../../utils/arima.worker", { type: "module" }));
 
@@ -124,32 +133,8 @@ function CapacityForecast({
   return filtered.length > 0 ? (
     <>
       <div className="flex flex-row justify-end h-6 space-x-2">
-        {/* <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
-          <span className="mx-2 text-sm font-medium leading-none">Past</span>
-          <div className="flex h-full bg-purple-600 rounded-lg">
-            <Button
-              size="small"
-              onClick={() => setTimespan({ ...timespan, past: 7 })}
-              className="rounded-r-none shadow-xs"
-              disabled={timespan.past === 7}
-            >
-              <span className="text-gray-200 capitalize">7 Days</span>
-            </Button>
-            <Button
-              size="small"
-              onClick={() => setTimespan({ ...timespan, past: 14 })}
-              className="rounded-l-none shadow-xs"
-              disabled={timespan.past !== 7}
-            >
-              <span className="text-gray-200 capitalize">14 Days</span>
-            </Button>
-          </div>
-        </div> */}
-        <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
-          <span className="mx-2 text-sm font-medium leading-none">
-            Forecast
-          </span>
-          <div className="flex h-full bg-purple-600 rounded-lg">
+        <Pill title="Forecast">
+          <>
             <Button
               size="small"
               onClick={() => setTimespan({ ...timespan, forecast: 7 })}
@@ -166,20 +151,17 @@ function CapacityForecast({
             >
               <span className="text-gray-200 capitalize">14 Days</span>
             </Button>
-          </div>
-        </div>
-        <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
-          <span className="mx-2 text-sm font-medium leading-none">Go back</span>
-          <div className="flex h-full bg-purple-600 rounded-lg">
-            <Button
-              size="small"
-              onClick={() => setForecast(false)}
-              className="shadow-xs"
-            >
-              <ArrowLeft className="h-4" />
-            </Button>
-          </div>
-        </div>
+          </>
+        </Pill>
+        <Pill title="Go back">
+          <Button
+            size="small"
+            onClick={() => setForecast(false)}
+            className="shadow-xs"
+          >
+            <ArrowLeft className="h-4" />
+          </Button>
+        </Pill>
       </div>
       <div className="my-4 text-xs text-center text-red-600">
         This is a work in progress version for a utilization forecasting system.
