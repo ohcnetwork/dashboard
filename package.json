@@ -13,7 +13,7 @@
     "@wojtekmaj/react-daterange-picker": "^3.0.0",
     "arima": "^0.1.0",
     "axios": "^0.20.0",
-    "dayjs": "^1.8.36",
+    "dayjs": "^1.9.1",
     "fuzzysort": "^1.1.4",
     "polylabel": "^1.1.0",
     "react": "^16.13.1",
@@ -21,8 +21,8 @@
     "react-date-picker": "^8.0.3",
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.8",
-    "react-hook-form": "^6.8.6",
-    "react-intersection-observer": "^8.28.6",
+    "react-hook-form": "^6.9.2",
+    "react-intersection-observer": "^8.29.0",
     "react-router-dom": "5.2.0",
     "react-simple-maps": "^2.1.2",
     "react-spring": "^8.0.27",
@@ -39,7 +39,7 @@
     "autoprefixer": "9.8.6",
     "cssnano": "4.1.10",
     "poi": "^12.10.2",
-    "tailwindcss": "^1.8.10",
+    "tailwindcss": "^1.8.13",
     "worker-plugin": "^5.0.0"
   },
   "browserslist": {
