@@ -63,22 +63,24 @@ function CapacityForecast({
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
       Object.keys(AVAILABILITY_TYPES).forEach((k) => {
-        let key = AVAILABILITY_TYPES[k].toLowerCase();
-        acc[cur.date][key].used += cur.capacity[k]?.current_capacity || 0;
-        acc[cur.date][key].total += cur.capacity[k]?.total_capacity || 0;
+        acc[cur.date][k].used += cur.capacity[k]?.current_capacity || 0;
+        acc[cur.date][k].total += cur.capacity[k]?.total_capacity || 0;
       });
       return acc;
     }
     let _t = {
-      ventilator: { total: 0, used: 0 },
-      icu: { total: 0, used: 0 },
-      room: { total: 0, used: 0 },
-      bed: { total: 0, used: 0 },
+      1: { total: 0, used: 0 },
+      2: { total: 0, used: 0 },
+      3: { total: 0, used: 0 },
+      10: { total: 0, used: 0 },
+      20: { total: 0, used: 0 },
+      30: { total: 0, used: 0 },
+      40: { total: 0, used: 0 },
+      50: { total: 0, used: 0 },
     };
     Object.keys(AVAILABILITY_TYPES).forEach((k) => {
-      let key = AVAILABILITY_TYPES[k].toLowerCase();
-      _t[key].used += cur.capacity[k]?.current_capacity || 0;
-      _t[key].total += cur.capacity[k]?.total_capacity || 0;
+      _t[k].used += cur.capacity[k]?.current_capacity || 0;
+      _t[k].total += cur.capacity[k]?.total_capacity || 0;
     });
     return {
       ...acc,
@@ -87,17 +89,16 @@ function CapacityForecast({
   }, {});
   const reversed = Object.entries(datewise).reverse();
   let timeseries = {};
-  Object.values(AVAILABILITY_TYPES).forEach((k) => {
+  Object.keys(AVAILABILITY_TYPES).forEach((k) => {
     timeseries[k] = reversed.map(([d, value]) => ({
       date: d,
-      usage:
-        (value[k.toLowerCase()].used / value[k.toLowerCase()].total) * 100 || 0,
+      usage: (value[k].used / value[k].total) * 100 || 0,
     }));
   });
   let max = {};
   let min = {};
   let avg = {};
-  for (const k of Object.values(AVAILABILITY_TYPES)) {
+  for (const k of Object.keys(AVAILABILITY_TYPES)) {
     max[k] = Math.max(...timeseries[k].map((e) => e.usage));
     min[k] = Math.min(...timeseries[k].map((e) => e.usage));
     avg[k] =
@@ -109,7 +110,7 @@ function CapacityForecast({
   let forecasted_min = {};
   let forecasted_avg = {};
   if (filtered.length > 0) {
-    for (const k of Object.values(AVAILABILITY_TYPES)) {
+    for (const k of Object.keys(AVAILABILITY_TYPES)) {
       // https://github.com/zemlyansky/arima
       forecasted[k] = arima(
         timeseries[k].map((e) => e.usage),
@@ -169,26 +170,24 @@ function CapacityForecast({
         vary as we haven't considered all variables to project it.
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-1 xl:grid-cols-1">
-        {Object.values(AVAILABILITY_TYPES)
-          .reverse()
-          .map((k, i) => (
-            <SingleCapacityForecast
-              key={i}
-              title={k}
-              past={{
-                data: timeseries[k],
-                avg: avg[k],
-                max: max[k],
-                min: min[k],
-              }}
-              forecasted={{
-                data: forecasted[k],
-                avg: forecasted_avg[k],
-                max: forecasted_max[k],
-                min: forecasted_min[k],
-              }}
-            />
-          ))}
+        {Object.keys(AVAILABILITY_TYPES).map((k) => (
+          <SingleCapacityForecast
+            key={k}
+            title={AVAILABILITY_TYPES[k]}
+            past={{
+              data: timeseries[k],
+              avg: avg[k],
+              max: max[k],
+              min: min[k],
+            }}
+            forecasted={{
+              data: forecasted[k],
+              avg: forecasted_avg[k],
+              max: forecasted_max[k],
+              min: forecasted_min[k],
+            }}
+          />
+        ))}
       </div>
     </>
   ) : (

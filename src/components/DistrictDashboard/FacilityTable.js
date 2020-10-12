@@ -1,15 +1,4 @@
-import {
-  Button,
-  Input,
-  Pagination,
-  Table as WTable,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableFooter,
-  TableHeader,
-  TableRow,
-} from "@windmill/react-ui";
+import { Button, Input, Pagination, Table as WTable, TableBody, TableCell, TableContainer, TableFooter, TableHeader, TableRow } from "@windmill/react-ui";
 import fuzzysort from "fuzzysort";
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
@@ -66,7 +55,7 @@ function FacilityTable({ columns = [], data, className, exported = null }) {
       </div>
 
       <TableContainer>
-        <WTable>
+        <WTable className="w-full overflow-hidden text-sm">
           <TableHeader>
             <tr>
               {columns.map((item, i) => (
@@ -82,8 +71,8 @@ function FacilityTable({ columns = [], data, className, exported = null }) {
                     <TableCell key={j}>
                       <div>
                         {j == 0 ? (
-                          <div className="flex flex-col w-64">
-                            <p className="font-semibold truncate">{r[0]}</p>
+                          <div className="flex flex-col w-32">
+                            <p className="font-semibold ">{r[0]}</p>
                             <p className="text-xs text-gray-600 dark:text-gray-400">
                               {r[1]}
                             </p>

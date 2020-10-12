@@ -16,10 +16,14 @@ export const DISTRICTS = [
 ];
 
 export const AVAILABILITY_TYPES = {
-  20: "Ventilator",
-  10: "ICU",
-  3: "Room",
-  1: "Bed",
+  1: "Rooms",
+  2: "Hostels",
+  3: "Rooms w/ Bathroom",
+  10: "ICUs",
+  20: "Ventilators",
+  30: "Covid Beds",
+  40: "KASP Beds",
+  50: "KASP ICU Beds",
 };
 
 export const PATIENT_TYPES = {

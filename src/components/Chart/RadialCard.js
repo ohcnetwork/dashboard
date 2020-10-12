@@ -3,24 +3,18 @@ import React from "react";
 import { ChevronsDown, ChevronsUp } from "react-feather";
 import { animated, config, useSpring } from "react-spring";
 
-function RadialCard({ label, data, dataKey }) {
-  const current_used = Math.round(
-    (data.current[dataKey].used / data.current[dataKey].total) * 100
-  );
-  const previous_used = Math.round(
-    (data.previous[dataKey].used / data.previous[dataKey].total) * 100
-  );
+function RadialCard({ label, count, current, previous }) {
+  const current_used = Math.round((current.used / current.total) * 100);
+  const previous_used = Math.round((previous.used / previous.total) * 100);
   const diff = current_used - previous_used;
 
-  let _p = Math.round(
-    (data.current[dataKey].used / data.current[dataKey].total) * 100
-  );
+  let _p = Math.round((current.used / current.total) * 100);
 
   const { used, total, progress, innerProgress } = useSpring({
     from: { used: 0, total: 0, progress: "0, 100", innerProgress: 0 },
     to: {
-      used: data.current[dataKey].used,
-      total: data.current[dataKey].total,
+      used: current.used,
+      total: current.total,
       progress: `${isNaN(_p) ? 0 : _p}, 100`,
       innerProgress: isNaN(_p) ? 0 : _p,
     },
@@ -32,8 +26,8 @@ function RadialCard({ label, data, dataKey }) {
 
   return (
     <Card className="flex items-center justify-between">
-      <div className="relative flex content-center justify-center w-3/4 p-4">
-        <svg viewBox="0 0 36 36" className="wheel" width="100%">
+      <div className="relative flex content-center justify-center w-3/4 p-2">
+        <svg viewBox="0 0 36 36" className="wheel" width="80%">
           <path
             className="text-gray-100 stroke-current stroke-2 dark:text-gray-400"
             fill="none"
@@ -47,14 +41,14 @@ function RadialCard({ label, data, dataKey }) {
           />
         </svg>
         <div className="absolute flex flex-col items-center self-center">
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">
             {label}
           </p>
           <div className="inline-flex">
             <animated.span className="mr-1 text-lg font-semibold text-gray-700 dark:text-gray-200">
               {innerProgress.interpolate((x) => `${Math.round(x)}%`)}
             </animated.span>
-            {data.current.count > 0 &&
+            {count > 0 &&
               (diff > 0 ? (
                 <span className="text-red-400">
                   <ChevronsUp className="inline h-full" />
