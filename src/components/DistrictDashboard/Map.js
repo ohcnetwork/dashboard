@@ -245,8 +245,11 @@ function Map({ district, facilities, className }) {
             style={{
               ...defaultStyles,
               minWidth: 60,
-              backgroundColor: mode === "dark" ? "#7e3af2" : "white",
-              color: mode === "dark" ? "white" : "#4c4f52",
+              backgroundColor:
+                mode === "dark"
+                  ? "var(--color-purple-500)"
+                  : "var(--color-white)",
+              color: mode === "dark" ? "white" : "var(--color-gray-600)",
             }}
           >
             {genToolTip(facilities.find((x) => x.id == tooltipData))}

@@ -14,4 +14,5 @@ module.exports = windmill({
       },
     },
   },
+  plugins: [require("tailwind-css-variables")()],
 });

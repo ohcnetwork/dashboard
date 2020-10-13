@@ -116,7 +116,7 @@ function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
               name={s.name}
               data={s.data}
               dataKeys={["used", "total"]}
-              colors={["#955df5", "#7e3af2"]}
+              colors={["var(--color-purple-400)", "var(--color-purple-500)"]}
             />
           ))}
           <TimeseriesLineChart

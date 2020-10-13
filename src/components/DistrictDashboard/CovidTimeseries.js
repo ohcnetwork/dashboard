@@ -22,7 +22,7 @@ function CovidTimeseries({ filterDistrict, dates }) {
     .split("-")
     .reverse()
     .join("-");
-    
+
   let dataHistoriesIdx1 = 0;
   let dataHistoriesIdx2 = dataHistories.histories.length - 1;
   dataHistories.histories.forEach((h, i) => {
@@ -69,14 +69,14 @@ function CovidTimeseries({ filterDistrict, dates }) {
         ...summary,
       };
     });
-    let chartable = Object.keys(lang).map((k) => ({
-      name: lang[k],
-      data: _dataHistories.map((d) => ({
-        date: d.date,
-        total: d.summary[k],
-        delta: d.delta[k],
-      })),
-    }));
+  let chartable = Object.keys(lang).map((k) => ({
+    name: lang[k],
+    data: _dataHistories.map((d) => ({
+      date: d.date,
+      total: d.summary[k],
+      delta: d.delta[k],
+    })),
+  }));
 
   let dataHotspotsIdx1 = 0;
   let dataHotspotsIdx2 = dataHotspots.histories.length - 1;
@@ -107,14 +107,14 @@ function CovidTimeseries({ filterDistrict, dates }) {
               name={k.name}
               data={k.data}
               dataKeys={["delta", "total"]}
-              colors={["#955df5", "#7e3af2"]}
+              colors={["var(--color-purple-400)", "var(--color-purple-600)"]}
             />
           ))}
           <TimeseriesBarChart
             name="Hotspots"
             data={_dataHotspots}
             dataKeys={["count"]}
-            colors={["#955df5"]}
+            colors={["var(--color-purple-400)"]}
           />
         </div>
       ) : (

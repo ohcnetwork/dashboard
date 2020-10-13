@@ -35,15 +35,24 @@ function TimeseriesLineChart({ name, data, dataKeys, colors }) {
               <YAxis />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: mode === "dark" ? "#1a1c23" : "#f4f5f7",
-                  color: mode === "dark" ? "#f4f5f7" : "#1a1c23",
+                  backgroundColor:
+                    mode === "dark"
+                      ? "var(--color-gray-800)"
+                      : "var(--color-gray-100)",
+                  color:
+                    mode === "dark"
+                      ? "var(--color-gray-100)"
+                      : "var(--color-gray-800)",
                   borderRadius: "0.5rem",
                   borderStyle: "none",
                 }}
               />
               <Legend
                 wrapperStyle={{
-                  color: mode === "dark" ? "#f4f5f7" : "#1a1c23",
+                  color:
+                    mode === "dark"
+                      ? "var(--color-gray-100)"
+                      : "var(--color-gray-800)",
                 }}
               />
               {dataKeys.map((k, i) => (

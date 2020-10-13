@@ -39,6 +39,7 @@
     "autoprefixer": "9.8.6",
     "cssnano": "4.1.10",
     "poi": "^12.10.2",
+    "tailwind-css-variables": "^2.0.3",
     "tailwindcss": "^1.8.13",
     "worker-plugin": "^5.0.0"
   },
