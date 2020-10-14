@@ -171,7 +171,7 @@ function Filter({
               clearIcon={null}
               calendarClassName="p-1 font-sans bg-white rounded-lg dark:bg-gray-900 text-gray-600 dark:text-gray-400"
               tileClassName="font-sans rounded-lg p-2"
-              className="inline-flex items-center justify-center px-2 font-sans text-sm font-medium leading-5 text-gray-600 align-bottom transition-colors duration-150 bg-white border border-transparent rounded-lg shadow-xs cursor-pointer dark:bg-gray-900 dark:text-gray-400 focus:outline-none active:bg-transparent hover:bg-gray-100 focus:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
+              className="px-2 font-sans text-sm font-medium text-gray-600 transition-colors duration-150 border border-transparent rounded-lg shadow-xs cursor-pointer dark:bg-gray-900 dark:text-gray-400 focus-within:outline-none active:bg-transparent hover:bg-gray-100 focus-within:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
               value={date}
               onChange={dateOnChange}
               maxDate={maxDate}
@@ -184,9 +184,9 @@ function Filter({
                 <Calendar className="text-gray-600 dark:text-gray-400" />
               }
               clearIcon={null}
-              calendarClassName="p-1 font-sans bg-white rounded-lg dark:bg-gray-900 text-gray-600 dark:text-gray-400"
+              calendarClassName="p-1 font-sans rounded-lg dark:bg-gray-900 text-gray-600 dark:text-gray-400"
               tileClassName="font-sans rounded-lg p-2"
-              className="inline-flex items-center justify-center px-2 font-sans text-sm font-medium leading-5 text-gray-600 align-bottom transition-colors duration-150 bg-white border border-transparent rounded-lg shadow-xs cursor-pointer dark:bg-gray-900 dark:text-gray-400 focus:outline-none active:bg-transparent hover:bg-gray-100 focus:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
+              className="px-2 font-sans text-sm font-medium text-gray-600 transition-colors duration-150 border border-transparent rounded-lg shadow-xs cursor-pointer dark:bg-gray-900 dark:text-gray-400 focus-within:outline-none active:bg-transparent hover:bg-gray-100 focus-within:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
               value={dates}
               onChange={datesOnChange}
               maxDate={maxDate}

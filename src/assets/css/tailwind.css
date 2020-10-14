@@ -304,6 +304,7 @@
   @apply max-w-full;
   @apply text-center;
   @apply bg-none;
+  @apply my-1;
 }
 .react-calendar__tile:disabled {
   @apply text-transparent;
@@ -338,6 +339,9 @@
 }
 .react-calendar--selectRange .react-calendar__tile--hover {
   @apply bg-gray-300;
+}
+.react-calendar button {
+  @apply my-1;
 }
 
 /*! purgecss end ignore */
