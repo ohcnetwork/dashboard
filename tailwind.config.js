@@ -17,6 +17,9 @@ module.exports = windmill({
       },
     },
   },
+  experimental: {
+    applyComplexClasses: true,
+  },
   plugins: [
     require("tailwind-css-variables")({
       colors: "color",
