@@ -65,14 +65,16 @@ function Covid({ filterDistrict, date }) {
     <>
       <div className="flex flex-row justify-between">
         <SectionTitle>District Covid Stats</SectionTitle>
-        <SectionTitle>
-          Could't fetch data for{" "}
-          {dateString(date)
-            .split("-")
-            .reverse()
-            .join("/")}
-          , showing data of previous date
-        </SectionTitle>
+        {latest.date != reversedDateString && (
+          <SectionTitle>
+            Could't fetch data for{" "}
+            {dateString(date)
+              .split("-")
+              .reverse()
+              .join("/")}
+            , showing data of previous date
+          </SectionTitle>
+        )}
       </div>
       <div className="grid gap-3 mb-4 md:grid-cols-5 xl:grid-cols-5">
         {Object.keys(lang)
