@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, WindmillContext } from "@windmill/react-ui";
+import { Button, Card, CardBody, WindmillContext } from "@saanuregh/react-ui";
 import React, { useContext, useState } from "react";
 import { ArrowLeft } from "react-feather";
 import { animated, config, useSpring } from "react-spring";
@@ -255,7 +255,7 @@ function SingleCapacityForecast({ title, past, forecasted }) {
                 <Line
                   type="monotone"
                   dataKey="usage"
-                  stroke="var(--color-purple-400)"
+                  stroke="var(--color-green-400)"
                   strokeWidth={2}
                 />
               </LineChart>
@@ -299,13 +299,13 @@ function SingleCapacityForecast({ title, past, forecasted }) {
                     <Line
                       type="monotone"
                       dataKey="usage"
-                      stroke="var(--color-purple-400)"
+                      stroke="var(--color-green-400)"
                       strokeWidth={2}
                     />
                     <Line
                       type="monotone"
                       dataKey="forecasted"
-                      stroke="var(--color-purple-400)"
+                      stroke="var(--color-green-400)"
                       strokeWidth={2}
                       strokeDasharray="3 3"
                     />

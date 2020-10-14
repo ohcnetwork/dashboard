@@ -107,14 +107,14 @@ function CovidTimeseries({ filterDistrict, dates }) {
               name={k.name}
               data={k.data}
               dataKeys={["delta", "total"]}
-              colors={["var(--color-purple-400)", "var(--color-purple-600)"]}
+              colors={["var(--color-green-400)", "var(--color-green-500)"]}
             />
           ))}
           <TimeseriesBarChart
             name="Hotspots"
             data={_dataHotspots}
             dataKeys={["count"]}
-            colors={["var(--color-purple-400)"]}
+            colors={["var(--color-green-400)"]}
           />
         </div>
       ) : (

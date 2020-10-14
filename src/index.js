@@ -1,4 +1,4 @@
-import { Windmill } from "@windmill/react-ui";
+import { Windmill } from "@saanuregh/react-ui";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { register } from "register-service-worker";

@@ -1,4 +1,4 @@
-import { Card } from "@windmill/react-ui";
+import { Card } from "@saanuregh/react-ui";
 import React from "react";
 import { ChevronsDown, ChevronsUp } from "react-feather";
 import { animated, config, useSpring } from "react-spring";
@@ -34,7 +34,7 @@ function RadialCard({ label, count, current, previous }) {
             d={circlePath}
           />
           <animated.path
-            className="text-purple-600 stroke-current stroke-2"
+            className="text-green-500 stroke-current stroke-2"
             fill="none"
             strokeDasharray={progress}
             d={circlePath}

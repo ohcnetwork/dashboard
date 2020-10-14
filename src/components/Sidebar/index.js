@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Backdrop, Transition } from "@windmill/react-ui";
+import { Backdrop, Transition } from "@saanuregh/react-ui";
 import { SidebarContext } from "../../context/SidebarContext";
 import SidebarContent from "./SidebarContent";
 

@@ -9,7 +9,7 @@
 }
 .lds-ripple div {
   position: absolute;
-  @apply border-purple-500;
+  @apply border-green-500;
   border-width: 4px;
   border-style: solid;
   opacity: 1;
@@ -41,7 +41,7 @@
 
 /* date picker */
 .react-date-picker {
-  display: inline-flex;
+  @apply inline-flex;
   position: relative;
 }
 .react-date-picker,
@@ -57,10 +57,9 @@
   @apply text-yellow-200;
 }
 .react-date-picker__wrapper {
-  display: flex;
-  flex-grow: 1;
-  flex-shrink: 0;
-  border: thin transparent;
+  @apply flex;
+  @apply flex-grow;
+  @apply flex-shrink-0;
 }
 .react-date-picker__inputGroup {
   min-width: calc((4px * 3) + 0.54em * 8 + 0.217em * 2);
@@ -105,7 +104,7 @@
 }
 .react-date-picker__button:enabled:hover .react-date-picker__button__icon,
 .react-date-picker__button:enabled:focus .react-date-picker__button__icon {
-  stroke: var(--color-purple-600);
+  stroke: var(--color-green-500);
 }
 .react-date-picker__button:disabled .react-date-picker__button__icon {
   stroke: var(--color-yellow-600);
@@ -125,6 +124,7 @@
   display: none;
 }
 .react-date-picker__calendar .react-calendar {
+  @apply border-green-500;
   border-width: thin;
 }
 
@@ -140,16 +140,15 @@
   box-sizing: border-box;
 }
 .react-daterange-picker--disabled {
-  background-color: transparent;
-  color: transparent;
+  @apply text-transparent;
+  @apply bg-transparent;
 }
 .react-daterange-picker__wrapper {
-  display: flex;
-  flex-grow: 1;
-  flex-shrink: 0;
-  align-items: center;
-  border-style: thin;
-  @apply border-red-600;
+  @apply flex;
+  @apply flex-grow;
+  @apply flex-shrink-0;
+  @apply items-center;
+  @apply px-1;
 }
 .react-daterange-picker__inputGroup {
   min-width: calc((4px * 3) + 0.54em * 8 + 0.217em * 2);
@@ -179,7 +178,7 @@
   margin: 0;
 }
 .react-daterange-picker__inputGroup__input:invalid {
-  background: transparent;
+  @apply bg-transparent;
   fill-opacity: 0;
 }
 .react-daterange-picker__inputGroup__input--hasLeadingZero {
@@ -201,8 +200,8 @@
   stroke: var(--color-white);
 }
 .react-daterange-picker__button:disabled .react-daterange-picker__button__icon {
-  color: transparent;
-  stroke: transparent;
+  @apply text-transparent;
+  @apply stroke-current;
 }
 .react-daterange-picker__button svg {
   display: inherit;
@@ -219,6 +218,7 @@
   display: none;
 }
 .react-daterange-picker__calendar .react-calendar {
+  @apply border-green-500;
   border-width: thin;
 }
 
@@ -226,10 +226,6 @@
 .react-calendar {
   width: 350px;
   max-width: 100%;
-  @apply bg-white;
-  border-style: solid;
-  border-width: 1px;
-  @apply border-gray-400;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.125em;
 }
@@ -270,11 +266,11 @@
 }
 .react-calendar__navigation button:enabled:hover,
 .react-calendar__navigation button:enabled:focus {
-  background-color: transparent;
+  @apply bg-transparent;
 }
 .react-calendar__navigation button[disabled] {
-  color: transparent;
-  background-color: transparent;
+  @apply text-transparent;
+  @apply bg-transparent;
 }
 .react-calendar__month-view__weekdays {
   text-align: center;
@@ -305,13 +301,13 @@
   padding: 2em 0.5em;
 }
 .react-calendar__tile {
-  max-width: 100%;
-  text-align: center;
-  background: none;
+  @apply max-w-full;
+  @apply text-center;
+  @apply bg-none;
 }
 .react-calendar__tile:disabled {
-  color: transparent;
-  background-color: transparent;
+  @apply text-transparent;
+  @apply bg-transparent;
 }
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
@@ -325,20 +321,20 @@
   @apply bg-gray-600;
 }
 .react-calendar__tile--hasActive {
-  @apply bg-purple-600;
+  @apply bg-green-500;
   @apply text-white;
 }
 .react-calendar__tile--hasActive:enabled:hover,
 .react-calendar__tile--hasActive:enabled:focus {
-  @apply bg-purple-500;
+  @apply bg-green-500;
 }
 .react-calendar__tile--active {
-  @apply bg-purple-600;
+  @apply bg-green-500;
   @apply text-white;
 }
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
-  @apply bg-purple-500;
+  @apply bg-green-500;
 }
 .react-calendar--selectRange .react-calendar__tile--hover {
   @apply bg-gray-300;

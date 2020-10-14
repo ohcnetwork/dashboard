@@ -20,7 +20,7 @@ function SidebarContent() {
               >
                 <Route path={route.path} exact={route.exact}>
                   <span
-                    className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                    className="absolute inset-y-0 left-0 w-1 bg-green-500 rounded-tr-lg rounded-br-lg"
                     aria-hidden="true"
                   ></span>
                 </Route>

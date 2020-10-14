@@ -77,7 +77,13 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
             "result_negative",
             "result_positive",
           ]}
-          colors={["green", "red", "purple", "orange", "blue"]}
+          colors={[
+            "var(--color-green-500)",
+            "var(--color-red-500)",
+            "var(--color-yellow-500)",
+            "var(--color-purple-500)",
+            "var(--color-blue-500)",
+          ]}
         />
       ) : (
         <NoData />

@@ -1,4 +1,4 @@
-import { Button, Input, Pagination, Table as WTable, TableBody, TableCell, TableContainer, TableFooter, TableHeader, TableRow } from "@windmill/react-ui";
+import { Button, Input, Pagination, Table as WTable, TableBody, TableCell, TableContainer, TableFooter, TableHeader, TableRow } from "@saanuregh/react-ui";
 import fuzzysort from "fuzzysort";
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";

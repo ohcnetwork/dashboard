@@ -1,4 +1,4 @@
-import { Button, Dropdown, DropdownItem } from "@windmill/react-ui";
+import { Button, Dropdown, DropdownItem } from "@saanuregh/react-ui";
 import React, { lazy, Suspense, useContext, useEffect, useState } from "react";
 import { ChevronDown } from "react-feather";
 import { useInView } from "react-intersection-observer";
@@ -166,7 +166,7 @@ function DistrictDashboard() {
   return (
     <div>
       <PageTitle>District Dashboard</PageTitle>
-      <div className="flex flex-row items-center justify-between px-4 py-2 mb-2 bg-purple-600 rounded-lg shadow-md">
+      <div className="flex flex-row items-center justify-between px-4 py-2 mb-2 bg-green-500 rounded-lg shadow-md">
         <p className="font-semibold text-white">{filterDistrict.name}</p>
         <div className="flex space-x-2">
           <div className="bg-white rounded-lg dark:bg-gray-900 dark:text-gray-700">
