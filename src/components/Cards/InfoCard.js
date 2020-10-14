@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody } from "@windmill/react-ui";
+import { Card, CardBody } from "@saanuregh/react-ui";
 import { animated, config, useSpring } from "react-spring";
 
 export function InfoCard({ title, value, delta = null, small = false }) {

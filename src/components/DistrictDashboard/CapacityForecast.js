@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, WindmillContext } from "@windmill/react-ui";
+import { Button, Card, CardBody, WindmillContext } from "@saanuregh/react-ui";
 import React, { useContext, useState } from "react";
 import { ArrowLeft } from "react-feather";
 import { animated, config, useSpring } from "react-spring";
@@ -255,7 +255,7 @@ function SingleCapacityForecast({ title, past, forecasted }) {
                 <Line
                   type="monotone"
                   dataKey="usage"
-                  stroke="#955df5"
+                  stroke="var(--color-green-400)"
                   strokeWidth={2}
                 />
               </LineChart>
@@ -285,8 +285,13 @@ function SingleCapacityForecast({ title, past, forecasted }) {
                     <Tooltip
                       contentStyle={{
                         backgroundColor:
-                          mode === "dark" ? "#1a1c23" : "#f4f5f7",
-                        color: mode === "dark" ? "#f4f5f7" : "#1a1c23",
+                          mode === "dark"
+                            ? "var(--color-gray-800)"
+                            : "var(--color-gray-100)",
+                        color:
+                          mode === "dark"
+                            ? "var(--color-gray-100)"
+                            : "var(--color-gray-800)",
                         borderRadius: "0.5rem",
                         borderStyle: "none",
                       }}
@@ -294,13 +299,13 @@ function SingleCapacityForecast({ title, past, forecasted }) {
                     <Line
                       type="monotone"
                       dataKey="usage"
-                      stroke="#955df5"
+                      stroke="var(--color-green-400)"
                       strokeWidth={2}
                     />
                     <Line
                       type="monotone"
                       dataKey="forecasted"
-                      stroke="#955df5"
+                      stroke="var(--color-green-400)"
                       strokeWidth={2}
                       strokeDasharray="3 3"
                     />

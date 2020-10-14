@@ -1,4 +1,4 @@
-import { Button } from "@windmill/react-ui";
+import { Button } from "@saanuregh/react-ui";
 import * as dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import React, { lazy, Suspense, useContext, useState } from "react";
@@ -132,7 +132,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             <Button
               size="small"
               onClick={() => setForecast(true)}
-              className="shadow-xs"
+              className="bg-transparent shadow-xs"
             >
               <ArrowRight className="h-4" />
             </Button>

@@ -74,7 +74,7 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
             name={s.name}
             data={s.data}
             dataKeys={["today", "total"]}
-            colors={["#955df5", "#7e3af2"]}
+            colors={["var(--color-green-400)", "var(--color-green-500)"]}
           />
         ))
       ) : (

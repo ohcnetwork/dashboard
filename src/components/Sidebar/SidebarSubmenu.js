@@ -1,4 +1,4 @@
-import { Transition } from "@windmill/react-ui";
+import { Transition } from "@saanuregh/react-ui";
 import React, { useState } from "react";
 import { ChevronDown } from "react-feather";
 import { NavLink, Route } from "react-router-dom";
@@ -14,7 +14,7 @@ function SidebarSubmenu({ route }) {
     <li className="relative px-6 py-3" key={route.name}>
       <Route path={route.path} exact={route.exact}>
         <span
-          className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+          className="absolute inset-y-0 left-0 w-1 bg-green-500 rounded-tr-lg rounded-br-lg"
           aria-hidden="true"
         ></span>
       </Route>

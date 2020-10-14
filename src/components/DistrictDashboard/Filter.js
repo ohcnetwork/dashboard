@@ -5,7 +5,7 @@ import {
   HelperText,
   Input,
   Label,
-} from "@windmill/react-ui";
+} from "@saanuregh/react-ui";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker/dist/entry.nostyle";
 import fuzzysort from "fuzzysort";
 import React, { useState } from "react";
@@ -171,7 +171,7 @@ function Filter({
               clearIcon={null}
               calendarClassName="p-1 font-sans bg-white rounded-lg dark:bg-gray-900 text-gray-600 dark:text-gray-400"
               tileClassName="font-sans rounded-lg p-2"
-              className="px-1 font-sans text-gray-600 bg-white rounded-lg shadow-xs dark:bg-gray-900 dark:text-gray-400"
+              className="px-2 font-sans text-sm font-medium text-gray-600 transition-colors duration-150 border border-transparent rounded-lg shadow-xs cursor-pointer dark:bg-gray-900 dark:text-gray-400 focus-within:outline-none active:bg-transparent hover:bg-gray-100 focus-within:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
               value={date}
               onChange={dateOnChange}
               maxDate={maxDate}
@@ -184,9 +184,9 @@ function Filter({
                 <Calendar className="text-gray-600 dark:text-gray-400" />
               }
               clearIcon={null}
-              calendarClassName="p-1 font-sans bg-white rounded-lg dark:bg-gray-900 text-gray-600 dark:text-gray-400"
+              calendarClassName="p-1 font-sans rounded-lg dark:bg-gray-900 text-gray-600 dark:text-gray-400"
               tileClassName="font-sans rounded-lg p-2"
-              className="px-1 font-sans text-gray-600 bg-white rounded-lg shadow-xs dark:bg-gray-900 dark:text-gray-400"
+              className="px-2 font-sans text-sm font-medium text-gray-600 transition-colors duration-150 border border-transparent rounded-lg shadow-xs cursor-pointer dark:bg-gray-900 dark:text-gray-400 focus-within:outline-none active:bg-transparent hover:bg-gray-100 focus-within:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
               value={dates}
               onChange={datesOnChange}
               maxDate={maxDate}

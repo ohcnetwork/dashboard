@@ -4,7 +4,7 @@ import {
   Input,
   Label,
   WindmillContext,
-} from "@windmill/react-ui";
+} from "@saanuregh/react-ui";
 import React, { useContext, useState } from "react";
 import { Loader, Moon, Sun } from "react-feather";
 import { useForm } from "react-hook-form";
@@ -41,7 +41,7 @@ function Login() {
     <div className="relative flex items-center min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="absolute bottom-0 right-0 p-3">
         <button
-          className="p-1 text-gray-700 rounded-md focus:outline-none focus:shadow-outline-purple dark:text-gray-200"
+          className="p-1 text-gray-700 rounded-md focus:outline-none focus:shadow-outline-green dark:text-gray-200"
           onClick={toggleMode}
           aria-label="Toggle color mode"
         >

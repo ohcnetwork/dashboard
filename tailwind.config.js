@@ -1,8 +1,11 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-const windmill = require("@windmill/react-ui/config");
+const windmill = require("@saanuregh/react-ui/config");
 
 module.exports = windmill({
-  purge: ["src/**/*.js"],
+  purge: [
+    "src/**/*.js",
+    "node_modules/@saanuregh/react-ui/lib/defaultTheme.js",
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -14,4 +17,29 @@ module.exports = windmill({
       },
     },
   },
+  plugins: [
+    require("tailwind-css-variables")({
+      colors: "color",
+      screens: false,
+      fontFamily: false,
+      fontSize: false,
+      fontWeight: false,
+      lineHeight: false,
+      letterSpacing: false,
+      backgroundSize: false,
+      borderWidth: false,
+      borderRadius: false,
+      width: false,
+      height: false,
+      minWidth: false,
+      minHeight: false,
+      maxWidth: false,
+      maxHeight: false,
+      padding: false,
+      margin: false,
+      boxShadow: false,
+      zIndex: false,
+      opacity: false,
+    }),
+  ],
 });

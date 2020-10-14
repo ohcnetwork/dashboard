@@ -1,5 +1,5 @@
 import { defaultStyles, TooltipWithBounds, useTooltip } from "@vx/tooltip";
-import { Card, CardBody, WindmillContext } from "@windmill/react-ui";
+import { Card, CardBody, WindmillContext } from "@saanuregh/react-ui";
 import polylabel from "polylabel";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -169,7 +169,7 @@ function Map({ district, facilities, className }) {
               onMoveEnd={({ zoom }) => setZoom(zoom / 2)}
             >
               <Geographies
-                className="text-purple-600 fill-current dark:text-gray-400"
+                className="text-green-500 fill-current dark:text-gray-400"
                 geography={topojson}
                 pointerEvents="none"
               >
@@ -245,8 +245,11 @@ function Map({ district, facilities, className }) {
             style={{
               ...defaultStyles,
               minWidth: 60,
-              backgroundColor: mode === "dark" ? "#7e3af2" : "white",
-              color: mode === "dark" ? "white" : "#4c4f52",
+              backgroundColor:
+                mode === "dark"
+                  ? "var(--color-green-500)"
+                  : "var(--color-white)",
+              color: mode === "dark" ? "white" : "var(--color-gray-600)",
             }}
           >
             {genToolTip(facilities.find((x) => x.id == tooltipData))}
