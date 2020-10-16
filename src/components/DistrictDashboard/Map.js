@@ -1,5 +1,5 @@
-import { defaultStyles, TooltipWithBounds, useTooltip } from "@vx/tooltip";
 import { Card, CardBody, WindmillContext } from "@saanuregh/react-ui";
+import { defaultStyles, TooltipWithBounds, useTooltip } from "@vx/tooltip";
 import polylabel from "polylabel";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -10,7 +10,10 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import { feature } from "topojson";
-import { AVAILABILITY_TYPES } from "../../utils/constants";
+import {
+  AVAILABILITY_TYPES,
+  AVAILABILITY_TYPES_ORDERED,
+} from "../../utils/constants";
 import { getDistrict, getLSGD } from "../../utils/utils";
 
 function Map({ district, facilities, className }) {
@@ -86,7 +89,7 @@ function Map({ district, facilities, className }) {
           Current: <strong>{f.actualDischargedPatients}</strong>
         </p>
       </div>
-      {Object.keys(AVAILABILITY_TYPES).map((a) => {
+      {AVAILABILITY_TYPES_ORDERED.map((a) => {
         let current = f.capacity[a]?.current_capacity || 1;
         let total = f.capacity[a]?.total_capacity || 1;
         let used = ((current / total) * 100).toFixed(2);
@@ -145,11 +148,11 @@ function Map({ district, facilities, className }) {
           >
             None
           </div>
-          <div className="grid grid-cols-4 gap-0">
-            {Object.keys(AVAILABILITY_TYPES).map((a) => (
+          <div className="grid w-2/3 grid-cols-8 gap-0">
+            {AVAILABILITY_TYPES_ORDERED.map((a) => (
               <div
                 key={a}
-                className="h-6 p-1 leading-none text-center bg-white border border-black"
+                className="p-1 leading-none text-center bg-white border border-black"
               >
                 {AVAILABILITY_TYPES[a]}
               </div>
@@ -210,7 +213,7 @@ function Map({ district, facilities, className }) {
                     onMouseOut={hideTooltip}
                   >
                     <g alignmentBaseline="middle" id={f.id}>
-                      {Object.keys(AVAILABILITY_TYPES).map((a, i) => {
+                      {AVAILABILITY_TYPES_ORDERED.map((a, i) => {
                         let j = f.capacity[a];
                         const props = {
                           transform: `translate(${(4 * i * 1) / zoom}, 0)`,

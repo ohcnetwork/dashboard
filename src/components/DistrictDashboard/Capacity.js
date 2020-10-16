@@ -7,7 +7,10 @@ import { animated, useTransition } from "react-spring";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
-import { AVAILABILITY_TYPES } from "../../utils/constants";
+import {
+  AVAILABILITY_TYPES,
+  AVAILABILITY_TYPES_ORDERED,
+} from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
 import { Pill } from "../Pill/Pill";
@@ -139,7 +142,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           </Pill>
         </div>
         <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-          {Object.keys(AVAILABILITY_TYPES).map((k) => (
+          {AVAILABILITY_TYPES_ORDERED.map((k) => (
             <RadialCard
               label={AVAILABILITY_TYPES[k]}
               count={facilitiesTrivia.current.count}
@@ -158,7 +161,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
               "Oxygen",
               "Live Patients",
               "Discharged Patients",
-              ...Object.values(AVAILABILITY_TYPES),
+              ...AVAILABILITY_TYPES_ORDERED.map((k) => AVAILABILITY_TYPES[k]),
             ]}
             data={filteredFacilities.reduce((a, c) => {
               if (c.date !== dateString(date)) {
@@ -172,7 +175,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
                   c.oxygenCapacity,
                   c.actualLivePatients,
                   c.actualDischargedPatients,
-                  ...Object.keys(AVAILABILITY_TYPES).map((i) =>
+                  ...AVAILABILITY_TYPES_ORDERED.map((i) =>
                     c.capacity[i]?.total_capacity
                       ? `${c.capacity[i]?.current_capacity}/${c.capacity[i]?.total_capacity}`
                       : "-"
@@ -199,7 +202,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
                         ? "CFLTC"
                         : "Hops",
                     Mobile: c.phone_number,
-                    ...Object.keys(AVAILABILITY_TYPES).reduce((t, x) => {
+                    ...AVAILABILITY_TYPES_ORDERED.reduce((t, x) => {
                       let y = { ...t };
                       y[`Current ${AVAILABILITY_TYPES[x]}`] =
                         c.capacity[x]?.current_capacity || 0;

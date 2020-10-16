@@ -15,13 +15,15 @@ export const DISTRICTS = [
   { id: 14, name: "Kasaragod" },
 ];
 
+export const AVAILABILITY_TYPES_ORDERED = [20, 10, 1, 30, 3, 2, 40, 50]
+
 export const AVAILABILITY_TYPES = {
-  20: "Ventilators",
-  10: "ICUs",
   1: "Rooms",
-  30: "Covid Beds",
-  3: "Rooms w/ Bathroom",
   2: "Hostels",
+  3: "Rooms w/ Bathroom",
+  10: "ICUs",
+  20: "Ventilators",
+  30: "Covid Beds",
   40: "KASP Beds",
   50: "KASP ICU Beds",
 };
