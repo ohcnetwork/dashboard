@@ -2,7 +2,10 @@ import React, { useContext } from "react";
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
-import { AVAILABILITY_TYPES } from "../../utils/constants";
+import {
+  AVAILABILITY_TYPES,
+  AVAILABILITY_TYPES_ORDERED,
+} from "../../utils/constants";
 import { dateString, getNDateAfter } from "../../utils/utils";
 import TimeseriesBarChart from "../Chart/TimeseriesBarChart";
 import TimeseriesLineChart from "../Chart/TimeseriesLineChart";
@@ -77,7 +80,7 @@ function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       [cur.date]: _t,
     };
   }, {});
-  const chartable = Object.keys(AVAILABILITY_TYPES).map((k) => ({
+  const chartable = AVAILABILITY_TYPES_ORDERED.map((k) => ({
     name: AVAILABILITY_TYPES[k],
     data: Object.entries(datewise)
       .reverse()

@@ -15,7 +15,10 @@ import {
 import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
-import { AVAILABILITY_TYPES } from "../../utils/constants";
+import {
+  AVAILABILITY_TYPES,
+  AVAILABILITY_TYPES_ORDERED,
+} from "../../utils/constants";
 import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import NoData from "../NoData";
 import { Pill } from "../Pill/Pill";
@@ -170,7 +173,7 @@ function CapacityForecast({
         vary as we haven't considered all variables to project it.
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-1 xl:grid-cols-1">
-        {Object.keys(AVAILABILITY_TYPES).map((k) => (
+        {AVAILABILITY_TYPES_ORDERED.map((k) => (
           <SingleCapacityForecast
             key={k}
             title={AVAILABILITY_TYPES[k]}
