@@ -16,12 +16,12 @@ export const DISTRICTS = [
 ];
 
 export const AVAILABILITY_TYPES = {
-  1: "Rooms",
-  2: "Hostels",
-  3: "Rooms w/ Bathroom",
-  10: "ICUs",
   20: "Ventilators",
+  10: "ICUs",
+  1: "Rooms",
   30: "Covid Beds",
+  3: "Rooms w/ Bathroom",
+  2: "Hostels",
   40: "KASP Beds",
   50: "KASP ICU Beds",
 };
