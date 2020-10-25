@@ -164,7 +164,7 @@ function DistrictDashboard() {
     leave: { opacity: 1 },
   });
   return (
-    <div>
+    <div className="overflow-auto">
       <PageTitle>District Dashboard</PageTitle>
       <div className="flex flex-row items-center justify-between px-4 py-2 mb-2 bg-green-500 rounded-lg shadow-md">
         <p className="font-semibold text-white">{filterDistrict.name}</p>
@@ -231,7 +231,7 @@ function DistrictDashboard() {
         <ConditionalFilter floating={false} />
       </div>
       {!inView && <ConditionalFilter floating={true} />}
-      <Suspense fallback={<ThemedSuspense className="h-full my-auto" />}>
+      <Suspense fallback={<ThemedSuspense />}>
         <SWRConfig
           value={{
             suspense: true,

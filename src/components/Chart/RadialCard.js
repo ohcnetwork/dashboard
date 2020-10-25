@@ -26,8 +26,8 @@ function RadialCard({ label, count, current, previous }) {
 
   return (
     <Card className="flex items-center justify-between">
-      <div className="relative flex content-center justify-center w-3/4 p-2">
-        <svg viewBox="0 0 36 36" className="wheel" width="80%">
+      <div className="relative flex content-center justify-center w-4/5 m-2">
+        <svg viewBox="0 0 36 36" className="w-4/5">
           <path
             className="text-gray-100 stroke-current stroke-2 dark:text-gray-400"
             fill="none"
@@ -40,45 +40,48 @@ function RadialCard({ label, count, current, previous }) {
             d={circlePath}
           />
         </svg>
-        <div className="absolute flex flex-col items-center self-center">
-          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">
+        <div className="absolute inline-flex flex-col items-center self-center w-3/5 text-sm text-center xl:text-lg">
+          <p className="font-medium text-center text-gray-600 text-xxs xl:text-xs dark:text-gray-400">
             {label}
           </p>
-          <div className="inline-flex">
-            <animated.span className="mr-1 text-lg font-semibold text-gray-700 dark:text-gray-200">
+          <div className="space-x-1">
+            <animated.span className="font-semibold text-center text-gray-700 dark:text-gray-200">
               {innerProgress.interpolate((x) => `${Math.round(x)}%`)}
             </animated.span>
             {count > 0 &&
+              !isNaN(diff) &&
+              diff != 0 &&
               (diff > 0 ? (
                 <span className="text-red-400">
                   <ChevronsUp className="inline h-full" />
                   {Math.abs(diff)}%
                 </span>
-              ) : !isNaN(diff) && diff != 0 ? (
+              ) : (
                 <span className="text-green-400">
                   <ChevronsDown className="inline h-full" />
                   {Math.abs(diff)}%
                 </span>
-              ) : (
-                <span></span>
               ))}
           </div>
         </div>
       </div>
-      <div className="grid content-center justify-center w-1/4 grid-cols-1 py-4 pr-6 space-y-2 text-right">
+      <div
+        style={{ direction: "rtl" }}
+        className="grid w-1/4 grid-cols-1 mr-4 space-y-1 text-right xl:space-y-2"
+      >
         <div className="flex-col">
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+          <p className="text-xs font-medium text-gray-600 xl:text-sm dark:text-gray-400">
             Used
           </p>
-          <animated.p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+          <animated.p className="text-xs font-semibold text-gray-700 xl:text-lg dark:text-gray-200">
             {used.interpolate((x) => Math.round(x))}
           </animated.p>
         </div>
         <div className="flex-col">
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+          <p className="text-xs font-medium text-gray-600 xl:text-sm dark:text-gray-400">
             Total
           </p>
-          <animated.p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+          <animated.p className="text-xs font-semibold text-gray-700 xl:text-lg dark:text-gray-200">
             {total.interpolate((x) => Math.round(x))}
           </animated.p>
         </div>

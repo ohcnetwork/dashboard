@@ -78,7 +78,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
           value={facilitiesTrivia.current.total_patients}
         />
       </div>
-      <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-4 gap-6 mb-8">
         {Object.keys(TESTS_TYPES).map((k, i) => {
           if (k != "total_patients") {
             return (

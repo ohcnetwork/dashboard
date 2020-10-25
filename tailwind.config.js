@@ -8,6 +8,9 @@ module.exports = windmill({
   ],
   theme: {
     extend: {
+      fontSize: {
+        xxs: ".65rem",
+      },
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
       },

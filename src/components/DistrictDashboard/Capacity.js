@@ -52,28 +52,32 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       ).then((r) => r)
   );
 
-  const facilities = data.results.map(({ data: facility, created_date }) => ({
-    date: dateString(new Date(created_date)),
-    id: facility.id,
-    name: facility.name,
-    districtId: facility.district,
-    location: facility.location,
-    address: facility.address,
-    phone_number: facility.phone_number,
-    facilityType: facility.facility_type || "Unknown",
-    oxygenCapacity: facility.oxygen_capacity,
-    modifiedDate: Math.max(
-      ...facility.availability.map((a) => new Date(a.modified_date))
-    ),
-    capacity: facility.availability.reduce((cAcc, cCur) => {
-      return {
-        ...cAcc,
-        [cCur.room_type]: cCur,
-      };
-    }, {}),
-    actualLivePatients: facility.actual_live_patients,
-    actualDischargedPatients: facility.actual_discharged_patients,
-  }));
+  const facilities = data.results.map(
+    ({ data: facility, created_date, modified_date }) => ({
+      date: dateString(new Date(created_date)),
+      id: facility.id,
+      name: facility.name,
+      districtId: facility.district,
+      location: facility.location,
+      address: facility.address,
+      phone_number: facility.phone_number,
+      facilityType: facility.facility_type || "Unknown",
+      oxygenCapacity: facility.oxygen_capacity,
+      modifiedDate: facility.availability.length
+        ? Math.max(
+            ...facility.availability.map((a) => new Date(a.modified_date))
+          )
+        : facility.modified_date,
+      capacity: facility.availability.reduce((cAcc, cCur) => {
+        return {
+          ...cAcc,
+          [cCur.room_type]: cCur,
+        };
+      }, {}),
+      actualLivePatients: facility.actual_live_patients,
+      actualDischargedPatients: facility.actual_discharged_patients,
+    })
+  );
   const filteredFacilities = facilities.filter((f) =>
     filterFacilityTypes.includes(f.facilityType)
   );
@@ -141,7 +145,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             </Button>
           </Pill>
         </div>
-        <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-4 gap-6 mb-8">
           {AVAILABILITY_TYPES_ORDERED.map((k) => (
             <RadialCard
               label={AVAILABILITY_TYPES[k]}

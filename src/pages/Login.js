@@ -38,7 +38,9 @@ function Login() {
   };
 
   return (
-    <div className="relative flex items-center min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div
+      className="relative flex items-center min-h-screen transition-colors duration-200 ease-linear bg-gray-50 dark:bg-gray-900"
+    >
       <div className="absolute bottom-0 right-0 p-3">
         <button
           className="p-1 text-gray-700 rounded-md focus:outline-none focus:shadow-outline-green dark:text-gray-200"

@@ -69,86 +69,90 @@ function Map({ district, facilities, className }) {
   }, []);
 
   const genToolTip = (f) => (
-    <div className="flex flex-col">
-      <p className="mb-2 text-base font-semibold">{f.name}</p>
-      <div className="mb-1">
-        <p className="font-semibold">Oxygen capacity</p>
-        <p>
-          Current: <strong>{f.oxygenCapacity}</strong>
-        </p>
+    <div className="text-xxs">
+      <p className="mb-1 font-black">{f.name}</p>
+      <div>
+        <div>
+          <p className="font-semibold">Oxygen capacity</p>
+          <p>
+            Current: <strong>{f.oxygenCapacity}</strong>
+          </p>
+        </div>
+        <div>
+          <p className="font-semibold">Live Patients</p>
+          <p>
+            Current: <strong>{f.actualLivePatients}</strong>
+          </p>
+        </div>
+        <div>
+          <p className="font-semibold">Discharged Patients</p>
+          <p>
+            Current: <strong>{f.actualDischargedPatients}</strong>
+          </p>
+        </div>
+        {AVAILABILITY_TYPES_ORDERED.map((a) => {
+          let current = f.capacity[a]?.current_capacity || 1;
+          let total = f.capacity[a]?.total_capacity || 1;
+          let used = ((current / total) * 100).toFixed(2);
+          return (
+            <div key={a}>
+              <p className="font-semibold">{AVAILABILITY_TYPES[a]}</p>
+              {f.capacity[a]?.total_capacity ? (
+                <>
+                  <p>
+                    Current: <strong>{current}</strong>
+                  </p>
+                  <p>
+                    Total: <strong>{total}</strong>
+                  </p>
+                  <p>
+                    Used:{" "}
+                    <strong
+                      style={{
+                        color: getColor({
+                          ratio: current / total,
+                        }),
+                      }}
+                    >
+                      {used}%
+                    </strong>
+                  </p>
+                </>
+              ) : (
+                <p key={a}>Not available</p>
+              )}
+            </div>
+          );
+        })}
       </div>
-      <div className="mb-1">
-        <p className="font-semibold">Live Patients</p>
-        <p>
-          Current: <strong>{f.actualLivePatients}</strong>
-        </p>
-      </div>
-      <div className="mb-1">
-        <p className="font-semibold">Discharged Patients</p>
-        <p>
-          Current: <strong>{f.actualDischargedPatients}</strong>
-        </p>
-      </div>
-      {AVAILABILITY_TYPES_ORDERED.map((a) => {
-        let current = f.capacity[a]?.current_capacity || 1;
-        let total = f.capacity[a]?.total_capacity || 1;
-        let used = ((current / total) * 100).toFixed(2);
-        return (
-          <div className="mb-1" key={a}>
-            <p className="font-semibold">{AVAILABILITY_TYPES[a]}</p>
-            {f.capacity[a]?.total_capacity ? (
-              <>
-                <p>
-                  Current: <strong>{current}</strong>
-                </p>
-                <p>
-                  Total: <strong>{total}</strong>
-                </p>
-                <p>
-                  Used:{" "}
-                  <strong
-                    style={{
-                      color: getColor({
-                        ratio: current / total,
-                      }),
-                    }}
-                  >
-                    {used}%
-                  </strong>
-                </p>
-              </>
-            ) : (
-              <p key={a}>Not available</p>
-            )}
-          </div>
-        );
-      })}
     </div>
   );
 
   return (
-    <Card className={className}>
+    <Card className={`${className} overflow-visible`}>
       <CardBody className="relative">
-        <div className="absolute bottom-0 right-0 flex flex-col items-end p-5 space-y-1 text-xs pointer-events-none">
-          <div
-            style={{ backgroundColor: "#00FF00" }}
-            className="w-12 h-6 p-1 leading-none text-center border border-black"
-          >
-            Full
+        <div className="absolute bottom-0 right-0 flex flex-col items-end p-5 space-y-1 pointer-events-none text-xxs">
+          <div className="w-12">
+            <div
+              style={{ backgroundColor: "#00FF00" }}
+              className="p-1 leading-none text-center border border-black "
+            >
+              Full
+            </div>
+            <div
+              style={{ backgroundColor: "#FF0000" }}
+              className="p-1 leading-none text-center border border-black "
+            >
+              Empty
+            </div>
+            <div
+              style={{ backgroundColor: "gray" }}
+              className="p-1 leading-none text-center border border-black "
+            >
+              None
+            </div>
           </div>
-          <div
-            style={{ backgroundColor: "#FF0000" }}
-            className="w-12 h-6 p-1 leading-none text-center border border-black"
-          >
-            Empty
-          </div>
-          <div
-            style={{ backgroundColor: "gray" }}
-            className="w-12 h-6 p-1 leading-none text-center border border-black"
-          >
-            None
-          </div>
-          <div className="grid w-2/3 grid-cols-8 gap-0">
+          <div className="grid w-3/4 grid-cols-8 gap-0">
             {AVAILABILITY_TYPES_ORDERED.map((a) => (
               <div
                 key={a}
@@ -243,11 +247,11 @@ function Map({ district, facilities, className }) {
         {tooltipOpen && (
           <TooltipWithBounds
             key={Math.random()}
-            top={tooltipTop - 125}
-            left={tooltipLeft - 175}
+            top={tooltipTop - 200}
+            left={tooltipLeft - 165}
             style={{
               ...defaultStyles,
-              minWidth: 60,
+              minWidth: 120,
               backgroundColor:
                 mode === "dark"
                   ? "var(--color-green-500)"
