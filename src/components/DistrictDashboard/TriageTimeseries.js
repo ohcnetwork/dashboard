@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
+
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { TRIAGE_TYPES } from "../../utils/constants";
@@ -9,7 +10,7 @@ import NoData from "../NoData";
 
 function TriageTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const { auth } = useContext(AuthContext);
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     ["TriageTimeseries", dates, auth.token, filterDistrict.id],
     (url, dates, token, district) =>
       careSummary(
@@ -39,7 +40,7 @@ function TriageTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       });
       return acc;
     }
-    let _t = {
+    const _t = {
       avg_patients_visited: 0,
       avg_patients_referred: 0,
       avg_patients_isolation: 0,
@@ -58,7 +59,7 @@ function TriageTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       [cur.date]: _t,
     };
   }, {});
-  let lang = [
+  const lang = [
     "Patients visited",
     "Patients referred",
     "Patients isolation",
@@ -71,8 +72,8 @@ function TriageTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
         .reverse()
         .map(([d, value]) => ({
           date: d,
-          avg: value["avg_patients_" + k],
-          total: value["total_patients_" + k],
+          avg: value[`avg_patients_${k}`],
+          total: value[`total_patients_${k}`],
         })),
     })
   );

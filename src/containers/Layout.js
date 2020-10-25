@@ -1,18 +1,19 @@
 import React, { lazy, Suspense, useContext, useEffect } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+
 import ErrorBoundary from "../components/ErrorBoundary";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import ThemedSuspense from "../components/ThemedSuspense";
-import Main from "../containers/Main";
 import { SidebarContext } from "../context/SidebarContext";
 import routes from "../routes";
+import Main from "./Main";
 
 const Page404 = lazy(() => import("../pages/404"));
 
 function Layout() {
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
-  let location = useLocation();
+  const location = useLocation();
 
   useEffect(() => {
     closeSidebar();
@@ -20,8 +21,9 @@ function Layout() {
 
   return (
     <div
-      className={`flex h-screen transition-colors duration-200 ease-linear bg-gray-50 dark:bg-gray-900 ${isSidebarOpen &&
-        "overflow-hidden"}`}
+      className={`flex h-screen transition-colors duration-200 ease-linear bg-gray-50 dark:bg-gray-900 ${
+        isSidebarOpen && "overflow-hidden"
+      }`}
     >
       <Sidebar />
       <div className="flex flex-col flex-1 w-full">
@@ -34,7 +36,7 @@ function Layout() {
                   return route.component ? (
                     <Route
                       key={i}
-                      exact={true}
+                      exact
                       path={`/app${route.path}`}
                       render={(props) => <route.component {...props} />}
                     />

@@ -1,7 +1,11 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
 const windmill = require("@saanuregh/react-ui/config");
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = windmill({
+  future: {
+    purgeLayersByDefault: true,
+    removeDeprecatedGapUtilities: true,
+  },
   purge: [
     "src/**/*.js",
     "node_modules/@saanuregh/react-ui/lib/defaultTheme.js",

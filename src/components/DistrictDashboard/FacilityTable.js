@@ -80,7 +80,7 @@ function FacilityTable({ columns = [], data, className, exported = null }) {
                 <TableRow key={i}>
                   {h.map((r, j) => (
                     <TableCell key={j}>
-                      {j == 0 ? (
+                      {j === 0 ? (
                         <div className="flex flex-col w-32 whitespace-pre-wrap">
                           <p className="text-xs font-semibold xl:text-sm">
                             {r[0]}

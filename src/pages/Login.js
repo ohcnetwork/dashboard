@@ -9,6 +9,7 @@ import React, { useContext, useState } from "react";
 import { Loader, Moon, Sun } from "react-feather";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+
 import { AuthContext } from "../context/AuthContext";
 import { careGetCurrentUser, careLogin } from "../utils/api";
 
@@ -17,7 +18,7 @@ function Login() {
   const { login } = useContext(AuthContext);
   const { mode, toggleMode } = useContext(WindmillContext);
   const [loading, setLoading] = useState(false);
-  let history = useHistory();
+  const history = useHistory();
   const onSubmit = (data) => {
     setLoading(true);
     careLogin(data)
@@ -27,22 +28,21 @@ function Login() {
             login(lresp.access, lresp.refresh, uresp);
             history.replace("/app/district/capacity");
           })
-          .catch((e) => {
-            throw e;
+          .catch((error) => {
+            throw error;
           });
       })
-      .catch((ex) => {
-        setError("login", ex);
+      .catch((error) => {
+        setError("login", error);
       })
       .finally(() => setLoading(false));
   };
 
   return (
-    <div
-      className="relative flex items-center min-h-screen transition-colors duration-200 ease-linear bg-gray-50 dark:bg-gray-900"
-    >
+    <div className="relative flex items-center min-h-screen transition-colors duration-200 ease-linear bg-gray-50 dark:bg-gray-900">
       <div className="absolute bottom-0 right-0 p-3">
         <button
+          type="button"
           className="p-1 text-gray-700 rounded-md focus:outline-none focus:shadow-outline-green dark:text-gray-200"
           onClick={toggleMode}
           aria-label="Toggle color mode"
@@ -66,7 +66,7 @@ function Login() {
               ref={register({ required: true })}
               className="mt-1 "
               placeholder="johsndoe"
-              valid={errors.username ? false : true}
+              valid={!errors.username}
             />
           </Label>
           {errors.username && <HelperText valid={false}>Required</HelperText>}
@@ -78,7 +78,7 @@ function Login() {
               placeholder="***************"
               name="password"
               ref={register({ required: true })}
-              valid={errors.password ? false : true}
+              valid={!errors.password}
             />
           </Label>
           {errors.password && <HelperText valid={false}>Required</HelperText>}

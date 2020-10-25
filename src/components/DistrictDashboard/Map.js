@@ -10,6 +10,7 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import { feature } from "topojson";
+
 import {
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
@@ -37,35 +38,43 @@ function Map({ district, facilities, className }) {
       return colorString.length === 1 ? `0${colorString}` : colorString;
     };
     const r = Math.ceil(
-      parseInt(color2.substring(0, 2), 16) * ratio +
-        parseInt(color1.substring(0, 2), 16) * (1 - ratio)
+      Number.parseInt(color2.slice(0, 2), 16) * ratio +
+        Number.parseInt(color1.slice(0, 2), 16) * (1 - ratio)
     );
     const g = Math.ceil(
-      parseInt(color2.substring(2, 4), 16) * ratio +
-        parseInt(color1.substring(2, 4), 16) * (1 - ratio)
+      Number.parseInt(color2.slice(2, 4), 16) * ratio +
+        Number.parseInt(color1.slice(2, 4), 16) * (1 - ratio)
     );
     const b = Math.ceil(
-      parseInt(color2.substring(4, 6), 16) * ratio +
-        parseInt(color1.substring(4, 6), 16) * (1 - ratio)
+      Number.parseInt(color2.slice(4, 6), 16) * ratio +
+        Number.parseInt(color1.slice(4, 6), 16) * (1 - ratio)
     );
-    return "#" + hex(r) + hex(g) + hex(b);
+    return `#${hex(r)}${hex(g)}${hex(b)}`;
   };
 
   useEffect(() => {
-    getLSGD().then(({ data }) => {
-      setTopojson(data);
-      setMarkers(feature(data, data.objects.data).features);
-    });
-    getDistrict().then(({ data }) => {
-      let features = feature(data, data.objects.data).features;
-      let config = features.reduce((a, c) => {
-        return {
-          ...a,
-          [c.properties.DISTRICT]: polylabel(c.geometry.coordinates),
-        };
-      }, {});
-      setProjectionConfig(config);
-    });
+    getLSGD()
+      .then(({ data }) => {
+        setTopojson(data);
+        setMarkers(feature(data, data.objects.data).features);
+      })
+      .catch((error) => {
+        throw error;
+      });
+    getDistrict()
+      .then(({ data }) => {
+        const { features } = feature(data, data.objects.data);
+        const config = features.reduce((a, c) => {
+          return {
+            ...a,
+            [c.properties.DISTRICT]: polylabel(c.geometry.coordinates),
+          };
+        }, {});
+        setProjectionConfig(config);
+      })
+      .catch((error) => {
+        throw error;
+      });
   }, []);
 
   const genToolTip = (f) => (
@@ -91,9 +100,9 @@ function Map({ district, facilities, className }) {
           </p>
         </div>
         {AVAILABILITY_TYPES_ORDERED.map((a) => {
-          let current = f.capacity[a]?.current_capacity || 1;
-          let total = f.capacity[a]?.total_capacity || 1;
-          let used = ((current / total) * 100).toFixed(2);
+          const current = f.capacity[a]?.current_capacity || 1;
+          const total = f.capacity[a]?.total_capacity || 1;
+          const used = ((current / total) * 100).toFixed(2);
           return (
             <div key={a}>
               <p className="font-semibold">{AVAILABILITY_TYPES[a]}</p>
@@ -167,7 +176,7 @@ function Map({ district, facilities, className }) {
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{
-              scale: 35000,
+              scale: 35_000,
             }}
             height={400}
           >
@@ -209,22 +218,22 @@ function Map({ district, facilities, className }) {
                     alignmentBaseline="middle"
                     onMouseOver={(event) => {
                       showTooltip({
+                        tooltipData: event.currentTarget.firstChild.id,
                         tooltipLeft: event.pageX,
                         tooltipTop: event.pageY,
-                        tooltipData: event.currentTarget.firstChild.id,
                       });
                     }}
                     onMouseOut={hideTooltip}
                   >
                     <g alignmentBaseline="middle" id={f.id}>
                       {AVAILABILITY_TYPES_ORDERED.map((a, i) => {
-                        let j = f.capacity[a];
+                        const j = f.capacity[a];
                         const props = {
-                          transform: `translate(${(4 * i * 1) / zoom}, 0)`,
                           height: (4 * 1) / zoom,
-                          width: (4 * 1) / zoom,
                           stroke: "black",
                           strokeWidth: (0.1 * 1) / zoom,
+                          transform: `translate(${(4 * i * 1) / zoom}, 0)`,
+                          width: (4 * 1) / zoom,
                         };
                         return j?.total_capacity ? (
                           <rect
@@ -251,15 +260,15 @@ function Map({ district, facilities, className }) {
             left={tooltipLeft - 165}
             style={{
               ...defaultStyles,
-              minWidth: 120,
               backgroundColor:
                 mode === "dark"
                   ? "var(--color-green-500)"
                   : "var(--color-white)",
               color: mode === "dark" ? "white" : "var(--color-gray-600)",
+              minWidth: 120,
             }}
           >
-            {genToolTip(facilities.find((x) => x.id == tooltipData))}
+            {genToolTip(facilities.find((x) => x.id === tooltipData))}
           </TooltipWithBounds>
         )}
       </CardBody>

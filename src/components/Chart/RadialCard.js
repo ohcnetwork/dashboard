@@ -8,15 +8,15 @@ function RadialCard({ label, count, current, previous }) {
   const previous_used = Math.round((previous.used / previous.total) * 100);
   const diff = current_used - previous_used;
 
-  let _p = Math.round((current.used / current.total) * 100);
+  const _p = Math.round((current.used / current.total) * 100);
 
   const { used, total, progress, innerProgress } = useSpring({
     from: { used: 0, total: 0, progress: "0, 100", innerProgress: 0 },
     to: {
       used: current.used,
       total: current.total,
-      progress: `${isNaN(_p) ? 0 : _p}, 100`,
-      innerProgress: isNaN(_p) ? 0 : _p,
+      progress: `${Number.isNaN(_p) ? 0 : _p}, 100`,
+      innerProgress: Number.isNaN(_p) ? 0 : _p,
     },
     delay: 0,
     config: config.slow,
@@ -49,8 +49,8 @@ function RadialCard({ label, count, current, previous }) {
               {innerProgress.interpolate((x) => `${Math.round(x)}%`)}
             </animated.span>
             {count > 0 &&
-              !isNaN(diff) &&
-              diff != 0 &&
+              !Number.isNaN(diff) &&
+              diff !== 0 &&
               (diff > 0 ? (
                 <span className="text-red-400">
                   <ChevronsUp className="inline h-full" />

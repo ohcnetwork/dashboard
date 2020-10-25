@@ -1,8 +1,9 @@
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import React, { lazy, Suspense, useContext } from "react";
 import useSWR from "swr";
+
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { TESTS_TYPES } from "../../utils/constants";
@@ -10,6 +11,7 @@ import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import { ValuePill } from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
+
 const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
@@ -25,7 +27,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
   };
 
   const { auth } = useContext(AuthContext);
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     ["Tests", date, auth.token, filterDistrict.id],
     (url, date, token, district) =>
       careSummary(
@@ -52,7 +54,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
   );
   const facilitiesTrivia = filteredFacilities.reduce(
     (a, c) => {
-      let key = c.date === dateString(date) ? "current" : "previous";
+      const key = c.date === dateString(date) ? "current" : "previous";
       a[key].count += 1;
       Object.keys(TESTS_TYPES).forEach((k) => {
         a[key][k] += c[k];
@@ -70,17 +72,17 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
     <>
       <div className="flex flex-row justify-end h-6 mb-8 space-x-2">
         <ValuePill
-          title={"Facility Count"}
+          title="Facility Count"
           value={facilitiesTrivia.current.count}
         />
         <ValuePill
-          title={"Patient Count"}
+          title="Patient Count"
           value={facilitiesTrivia.current.total_patients}
         />
       </div>
       <div className="grid grid-cols-4 gap-6 mb-8">
         {Object.keys(TESTS_TYPES).map((k, i) => {
-          if (k != "total_patients") {
+          if (k !== "total_patients") {
             return (
               <InfoCard
                 key={i}
@@ -131,7 +133,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
                       : "Hops",
                   Mobile: c.phone_number,
                   ...Object.keys(TESTS_TYPES).reduce((t, x) => {
-                    let y = { ...t };
+                    const y = { ...t };
                     y[x] = c[x];
                     return y;
                   }, {}),
@@ -139,7 +141,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
               ];
             }, []),
           }}
-        ></FacilityTable>
+        />
       </Suspense>
     </>
   );

@@ -1,22 +1,24 @@
+import { WindmillContext } from "@saanuregh/react-ui";
 import React, { useContext } from "react";
 import { LogOut, Menu, Moon, Sun } from "react-feather";
-import { WindmillContext } from "@saanuregh/react-ui";
+import { useHistory } from "react-router-dom";
+
 import { ReactComponent as CoronaSafeLogo } from "../assets/icons/coronaSafeLogo.svg";
 import { AuthContext } from "../context/AuthContext";
 import { SidebarContext } from "../context/SidebarContext";
-import { useHistory } from "react-router-dom";
 
 function Header() {
   const { auth, logout } = useContext(AuthContext);
   const { mode, toggleMode } = useContext(WindmillContext);
   const { toggleSidebar } = useContext(SidebarContext);
-  let history = useHistory();
+  const history = useHistory();
 
   return (
     <header className="z-40 h-12 py-2 overflow-hidden bg-white shadow-md dark:bg-gray-800">
       <div className="flex justify-between px-2 text-green-500 dark:text-green-400">
         <div className="flex justify-between flex-shrink-0">
           <button
+            type="button"
             className="p-1 mr-6 rounded-md focus:outline-none focus:shadow-outline-green"
             onClick={toggleSidebar}
             aria-label="Menu"
@@ -24,6 +26,7 @@ function Header() {
             <Menu className="w-5 h-5" aria-hidden="true" />
           </button>
           <button
+            type="button"
             aria-label="Care Dashboard"
             className="mr-1"
             onClick={() => {
@@ -37,7 +40,7 @@ function Header() {
           <span className="flex self-center mr-1 text-xs leading-none">
             from
           </span>
-          <button aria-label="CoronaSafe">
+          <button type="button" aria-label="CoronaSafe">
             <CoronaSafeLogo className="w-24 h-6 " aria-hidden="true" />
           </button>
         </div>
@@ -49,6 +52,7 @@ function Header() {
             <p className="text-xs">{auth.userData.username}</p>
           </div>
           <button
+            type="button"
             className="p-1 rounded-md focus:outline-none focus:shadow-outline-green"
             onClick={toggleMode}
             aria-label="Toggle color mode"
@@ -60,6 +64,7 @@ function Header() {
             )}
           </button>
           <button
+            type="button"
             className="p-1 rounded-md focus:outline-none focus:shadow-outline-green"
             onClick={() => logout()}
             aria-label="Logout"

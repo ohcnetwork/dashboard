@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
+
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { TESTS_TYPES } from "../../utils/constants";
@@ -9,7 +10,7 @@ import NoData from "../NoData";
 
 function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const { auth } = useContext(AuthContext);
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     ["TestsTimeseries", dates, auth.token, filterDistrict.id],
     (url, dates, token, district) =>
       careSummary(
@@ -39,7 +40,7 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       });
       return acc;
     }
-    let _t = {
+    const _t = {
       result_awaited: 0,
       test_discarded: 0,
       total_patients: 0,

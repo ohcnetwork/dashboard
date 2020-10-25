@@ -1,23 +1,19 @@
 import React from "react";
 import useSWR from "swr";
+
 import { covidGetHistories, covidGetHotspotHistories } from "../../utils/api";
 import { dateString } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import { SectionTitle } from "../Typography/Title";
 
 function Covid({ filterDistrict, date }) {
-  const { data: dataHistories, error: errorHistories } = useSWR(
-    ["CovidHistories"],
-    (url) => covidGetHistories().then((r) => r)
+  const { data: dataHistories } = useSWR(["CovidHistories"], (url) =>
+    covidGetHistories().then((r) => r)
   );
-  const { data: dataHotspots, error: errorHotspots } = useSWR(
-    ["CovidHotspotHistories"],
-    (url) => covidGetHotspotHistories().then((r) => r)
+  const { data: dataHotspots } = useSWR(["CovidHotspotHistories"], (url) =>
+    covidGetHotspotHistories().then((r) => r)
   );
-  const reversedDateString = dateString(date)
-    .split("-")
-    .reverse()
-    .join("-");
+  const reversedDateString = dateString(date).split("-").reverse().join("-");
   const latest =
     dataHistories.histories.find((h) => h.date === reversedDateString) ||
     dataHistories.histories[dataHistories.histories.length - 1];
@@ -41,7 +37,7 @@ function Covid({ filterDistrict, date }) {
     hospital_obs: "Hospital Isolation",
     hospital_today: "Hospitalized Today",
   };
-  let latestSummary = {
+  const latestSummary = {
     summary: JSON.parse(JSON.stringify(initialData)),
     delta: JSON.parse(JSON.stringify(initialData)),
   };
@@ -54,7 +50,7 @@ function Covid({ filterDistrict, date }) {
   let hotspotsLatestIdx = dataHotspots.histories.findIndex(
     (h) => h.date === reversedDateString
   );
-  if (hotspotsLatestIdx == -1) {
+  if (hotspotsLatestIdx === -1) {
     hotspotsLatestIdx = dataHotspots.histories.length - 1;
   }
   const hotspotsLatest = dataHotspots.histories[hotspotsLatestIdx].hotspots;
@@ -65,14 +61,11 @@ function Covid({ filterDistrict, date }) {
     <>
       <div className="flex flex-row justify-between">
         <SectionTitle>District Covid Stats</SectionTitle>
-        {latest.date != reversedDateString && (
+        {latest.date !== reversedDateString && (
           <SectionTitle>
             Could't fetch data for{" "}
-            {dateString(date)
-              .split("-")
-              .reverse()
-              .join("/")}
-            , showing data of previous date
+            {dateString(date).split("-").reverse().join("/")}, showing data of
+            previous date
           </SectionTitle>
         )}
       </div>
@@ -81,15 +74,15 @@ function Covid({ filterDistrict, date }) {
           .slice(0, 4)
           .map((k) => (
             <InfoCard
-              k={k}
-              small={true}
+              key={k}
+              small
               title={lang[k]}
               value={latest.summary[filterDistrict.name][k] || 0}
               delta={latest.delta[filterDistrict.name][k] || 0}
             />
           ))}
         <InfoCard
-          small={true}
+          small
           title="Hotspots"
           value={
             hotspotsLatest.filter((h) => h.district === filterDistrict.name)
@@ -108,8 +101,8 @@ function Covid({ filterDistrict, date }) {
           .slice(4)
           .map((k) => (
             <InfoCard
-              k={k}
-              small={true}
+              key={k}
+              small
               title={lang[k]}
               value={latest.summary[filterDistrict.name][k] || 0}
               delta={latest.delta[filterDistrict.name][k] || 0}
@@ -122,15 +115,15 @@ function Covid({ filterDistrict, date }) {
           .slice(0, 4)
           .map((k) => (
             <InfoCard
-              k={k}
-              small={true}
+              key={k}
+              small
               title={lang[k]}
               value={latestSummary.summary[k]}
               delta={latestSummary.delta[k]}
             />
           ))}
         <InfoCard
-          small={true}
+          small
           title="Hotspots"
           value={hotspotsLatest.length}
           delta={hotspotsLatest.length - hotspotsPreLatest.length}
@@ -141,8 +134,8 @@ function Covid({ filterDistrict, date }) {
           .slice(4)
           .map((k) => (
             <InfoCard
-              k={k}
-              small={true}
+              key={k}
+              small
               title={lang[k]}
               value={latestSummary.summary[k]}
               delta={latestSummary.delta[k]}

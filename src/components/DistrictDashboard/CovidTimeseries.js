@@ -1,18 +1,17 @@
 import React from "react";
 import useSWR from "swr";
+
 import { covidGetHistories, covidGetHotspotHistories } from "../../utils/api";
 import { dateString } from "../../utils/utils";
 import TimeseriesBarChart from "../Chart/TimeseriesBarChart";
 import NoData from "../NoData";
 
 function CovidTimeseries({ filterDistrict, dates }) {
-  const { data: dataHistories, error: errorHistories } = useSWR(
-    ["CovidHistories"],
-    (url) => covidGetHistories().then((r) => r)
+  const { data: dataHistories } = useSWR(["CovidHistories"], () =>
+    covidGetHistories().then((r) => r)
   );
-  const { data: dataHotspots, error: errorHotspots } = useSWR(
-    ["CovidHotspotHistories"],
-    (url) => covidGetHotspotHistories().then((r) => r)
+  const { data: dataHotspots } = useSWR(["CovidHotspotHistories"], () =>
+    covidGetHotspotHistories().then((r) => r)
   );
   const reversedDateString1 = dateString(dates[0])
     .split("-")
@@ -56,7 +55,7 @@ function CovidTimeseries({ filterDistrict, dates }) {
   const _dataHistories = dataHistories.histories
     .slice(dataHistoriesIdx1, dataHistoriesIdx2 + 1)
     .map((h) => {
-      let summary = {
+      const summary = {
         summary: JSON.parse(JSON.stringify(initialData)),
         delta: JSON.parse(JSON.stringify(initialData)),
       };
@@ -69,7 +68,7 @@ function CovidTimeseries({ filterDistrict, dates }) {
         ...summary,
       };
     });
-  let chartable = Object.keys(lang).map((k) => ({
+  const chartable = Object.keys(lang).map((k) => ({
     name: lang[k],
     data: _dataHistories.map((d) => ({
       date: d.date,

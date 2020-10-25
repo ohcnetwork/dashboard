@@ -4,11 +4,11 @@ const API_BASE_URL = process.env.POI_APP_CARE_BASE_URL || "";
 const STAT_BASE_URL = "https://keralastats.coronasafe.live";
 
 const request = (options, token) => {
-  let headers = {
+  const headers = {
     "Content-Type": "application/json",
   };
   if (token) {
-    Object.assign(headers, { Authorization: "Bearer " + token });
+    Object.assign(headers, { Authorization: `Bearer ${token}` });
   }
   Object.assign(options, { headers });
   return axios(options).then((response) => {
@@ -25,7 +25,7 @@ export function careRefreshToken(access, refresh) {
     return;
   }
   return request({
-    url: API_BASE_URL + "/api/v1/auth/token/refresh/",
+    url: `${API_BASE_URL}/api/v1/auth/token/refresh/`,
     method: "POST",
     data: { refresh },
   });
@@ -33,16 +33,16 @@ export function careRefreshToken(access, refresh) {
 
 export function careLogin(data) {
   return request({
-    url: API_BASE_URL + "/api/v1/auth/login/",
+    url: `${API_BASE_URL}/api/v1/auth/login/`,
     method: "POST",
-    data: data,
+    data,
   });
 }
 
 export function careGetCurrentUser(token) {
   return request(
     {
-      url: API_BASE_URL + "/api/v1/users/getcurrentuser/",
+      url: `${API_BASE_URL}/api/v1/users/getcurrentuser/`,
       method: "GET",
     },
     token
@@ -59,7 +59,7 @@ export function careSummary(
 ) {
   return request(
     {
-      url: API_BASE_URL + `/api/v1/${type}_summary/`,
+      url: `${API_BASE_URL}/api/v1/${type}_summary/`,
       method: "GET",
       params: {
         start_date,
@@ -74,14 +74,14 @@ export function careSummary(
 
 export function covidGetHistories() {
   return request({
-    url: STAT_BASE_URL + "/histories.json",
+    url: `${STAT_BASE_URL}/histories.json`,
     method: "GET",
   });
 }
 
 export function covidGetHotspotHistories() {
   return request({
-    url: STAT_BASE_URL + "/hotspots_histories.json",
+    url: `${STAT_BASE_URL}/hotspots_histories.json`,
     method: "GET",
   });
 }

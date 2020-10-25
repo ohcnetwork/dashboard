@@ -1,8 +1,9 @@
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import React, { lazy, Suspense, useContext } from "react";
 import useSWR from "swr";
+
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { PATIENT_TYPES } from "../../utils/constants";
@@ -10,6 +11,7 @@ import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import { ValuePill } from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
+
 const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
@@ -24,7 +26,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
   };
 
   const { auth } = useContext(AuthContext);
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     ["Patient", date, auth.token, filterDistrict.id],
     (url, date, token, district) =>
       careSummary(
@@ -51,11 +53,11 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
   );
   const facilitiesTrivia = filteredFacilities.reduce(
     (a, c) => {
-      let key = c.date === dateString(date) ? "current" : "previous";
+      const key = c.date === dateString(date) ? "current" : "previous";
       a[key].count += 1;
       Object.keys(PATIENT_TYPES).forEach((k) => {
-        a[key][k].today += c["today_patients_" + k];
-        a[key][k].total += c["total_patients_" + k];
+        a[key][k].today += c[`today_patients_${k}`];
+        a[key][k].total += c[`total_patients_${k}`];
       });
       return a;
     },
@@ -69,7 +71,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
     <>
       <div className="flex flex-row justify-end h-6 mb-8 space-x-2">
         <ValuePill
-          title={"Facility Count"}
+          title="Facility Count"
           value={facilitiesTrivia.current.count}
         />
       </div>
@@ -98,12 +100,12 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
                 [c.facility_name, c.facilityType, c.phone_number],
                 dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
                 ...Object.keys(PATIENT_TYPES).map((k) => {
-                  let delta = c["today_patients_" + k];
+                  const delta = c[`today_patients_${k}`];
                   return (
-                    <div className="flex">
-                      <p className="">{c["total_patients_" + k]}</p>
+                    <div key={k} className="flex">
+                      <p className="">{c[`total_patients_${k}`]}</p>
                       <span className="ml-2 text-sm">
-                        {delta == 0 ? "-" : delta > 0 ? `+${delta}` : delta}
+                        {delta === 0 ? "-" : delta > 0 ? `+${delta}` : delta}
                       </span>
                     </div>
                   );
@@ -131,16 +133,16 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
                       : "Hops",
                   Mobile: c.phone_number,
                   ...Object.keys(PATIENT_TYPES).reduce((t, x) => {
-                    let y = { ...t };
+                    const y = { ...t };
                     y[`Total Patient in ${PATIENT_TYPES[x]}`] =
-                      c["total_patients_" + x];
+                      c[`total_patients_${x}`];
                     return y;
                   }, {}),
                 },
               ];
             }, []),
           }}
-        ></FacilityTable>
+        />
       </Suspense>
     </>
   );

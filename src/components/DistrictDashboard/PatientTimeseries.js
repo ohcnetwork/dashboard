@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
+
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { PATIENT_TYPES } from "../../utils/constants";
@@ -9,7 +10,7 @@ import NoData from "../NoData";
 
 function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const { auth } = useContext(AuthContext);
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     ["PatientTimeseries", dates, auth.token, filterDistrict.id],
     (url, dates, token, district) =>
       careSummary(
@@ -34,20 +35,20 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
       Object.keys(PATIENT_TYPES).forEach((k) => {
-        acc[cur.date][k].today += cur["today_patients_" + k];
-        acc[cur.date][k].total += cur["total_patients_" + k];
+        acc[cur.date][k].today += cur[`today_patients_${k}`];
+        acc[cur.date][k].total += cur[`total_patients_${k}`];
       });
       return acc;
     }
-    let _t = {
+    const _t = {
       ventilator: { total: 0, today: 0 },
       icu: { total: 0, today: 0 },
       isolation: { total: 0, today: 0 },
       home_quarantine: { total: 0, today: 0 },
     };
     Object.keys(PATIENT_TYPES).forEach((k) => {
-      _t[k].today += cur["today_patients_" + k];
-      _t[k].total += cur["total_patients_" + k];
+      _t[k].today += cur[`today_patients_${k}`];
+      _t[k].total += cur[`total_patients_${k}`];
     });
     return {
       ...acc,

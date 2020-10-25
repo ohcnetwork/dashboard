@@ -5,14 +5,16 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
+
 import AccessibleNavigationAnnouncer from "./components/AccessibleNavigationAnnouncer";
 import ThemedSuspense from "./components/ThemedSuspense";
 import { AuthContext } from "./context/AuthContext";
 import { careGetCurrentUser, careRefreshToken } from "./utils/api";
+
 const Layout = lazy(() => import("./containers/Layout"));
 const Login = lazy(() => import("./pages/Login"));
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+function PrivateRoute({ component: Component, ...rest }) {
   const { auth } = useContext(AuthContext);
   return (
     <Route
@@ -28,23 +30,23 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       }
     />
   );
-};
+}
 
-const PublicRoute = ({ component: Component, ...rest }) => {
+function PublicRoute({ component: Component, ...rest }) {
   const { auth } = useContext(AuthContext);
   return (
     <Route
       {...rest}
       render={(props) =>
-        !auth.logged ? (
-          <Component {...props} />
-        ) : (
+        auth.logged ? (
           <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+        ) : (
+          <Component {...props} />
         )
       }
     />
   );
-};
+}
 
 function App() {
   const [ready, setReady] = useState(false);
@@ -60,11 +62,11 @@ function App() {
                 login(lresp.access, lresp.refresh, uresp);
                 setReady(true);
               })
-              .catch((e) => {
-                throw e;
+              .catch((error) => {
+                throw error;
               });
           })
-          .catch((ex) => {
+          .catch((error) => {
             logout();
             setReady(true);
           });
@@ -76,9 +78,7 @@ function App() {
 
   return (
     <>
-      {!ready ? (
-        <ThemedSuspense className="min-h-screen my-auto dark:bg-gray-900" />
-      ) : (
+      {ready ? (
         <Router>
           <AccessibleNavigationAnnouncer />
           <Switch>
@@ -87,6 +87,8 @@ function App() {
             <Redirect exact from="/" to="/app" />
           </Switch>
         </Router>
+      ) : (
+        <ThemedSuspense className="min-h-screen my-auto dark:bg-gray-900" />
       )}
     </>
   );

@@ -5,7 +5,9 @@
   "scripts": {
     "build": "poi --prod",
     "dev": "poi --serve",
-    "start": "serve -s dist"
+    "start": "serve -s dist",
+    "lint": "eslint --ignore-pattern src/assets  src/** ",
+    "lint:fix": "eslint --ignore-pattern src/assets --fix src/**"
   },
   "dependencies": {
     "@saanuregh/react-ui": "^0.3.2",
@@ -36,11 +38,15 @@
   "devDependencies": {
     "@poi/plugin-pwa": "^12.0.3",
     "@svgr/webpack": "^5.4.0",
-    "autoprefixer": "9.8.6",
     "cssnano": "4.1.10",
     "poi": "^12.10.2",
     "tailwind-css-variables": "^2.0.3",
     "tailwindcss": "^1.8.13",
+    "eslint": "^7.11.0",
+    "eslint-config-galex": "^2.5.11",
+    "postcss-flexbugs-fixes": "4.2.1",
+    "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.1.2",
     "worker-plugin": "^5.0.0"
   },
   "browserslist": {
