@@ -169,18 +169,18 @@ function DistrictDashboard() {
   return (
     <div className="overflow-auto">
       <PageTitle>District Dashboard</PageTitle>
-      <div className="flex flex-row items-center justify-between px-4 py-2 mb-2 bg-green-500 rounded-lg shadow-md">
+      <div className="flex flex-col md:flex-row items-center justify-between px-4 py-2 mb-2 bg-green-500 rounded-lg shadow-md">
         <p className="font-semibold text-white">{filterDistrict.name}</p>
-        <div className="flex space-x-2">
-          <div className="bg-white rounded-lg dark:bg-gray-900 dark:text-gray-700">
+        <div className="md:flex md:space-x-2">
+          <div className="bg-white rounded-lg dark:bg-gray-900 dark:text-gray-700 justify-center flex flex-wrap space-y-1 md:space-y-0 space-x-1 md:space-x-0">
             {Object.keys(CONTENT).map((k, i) => {
               let t = "shadow-xs ";
               if (i === 0) {
-                t += "rounded-r-none";
+                t += "md:rounded-r-none";
               } else if (i === Object.keys(CONTENT).length - 1) {
-                t += "rounded-l-none";
+                t += "md:rounded-l-none";
               } else {
-                t += "rounded-l-none rounded-r-none";
+                t += "md:rounded-l-none md:rounded-r-none";
               }
               return (
                 <Button
@@ -195,7 +195,7 @@ function DistrictDashboard() {
               );
             })}
           </div>
-          <div className="relative bg-white rounded-lg dark:bg-gray-900">
+          <div className="relative bg-white rounded-lg dark:bg-gray-900 mt-2 md:mt-0">
             <Button
               layout="link"
               onClick={() => setIsOpen(!isOpen)}

@@ -72,7 +72,7 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
           value={facilitiesTrivia.current.count}
         />
       </div>
-      <div className="grid grid-cols-4 gap-6 mb-8">
+      <div className="grid md:grid-cols-4 grid-col-1 gap-6 mb-8">
         {Object.keys(TRIAGE_TYPES).map((k, i) => {
           if (k !== "total_patients") {
             return (

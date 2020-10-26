@@ -69,7 +69,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
         />
       </div>
 
-      <div className="grid grid-cols-4 gap-6 mb-8">
+      <div className="grid md:grid-cols-4 grid-col-1 gap-6 mb-8">
         {Object.keys(PATIENT_TYPES).map((k, i) => (
           <InfoCard
             key={i}

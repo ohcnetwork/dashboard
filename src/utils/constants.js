@@ -20,14 +20,14 @@ export const AVAILABILITY_TYPES_ORDERED = [
   10,
   150,
   1,
-  70,
-  50,
-  60,
-  40,
   100,
   110,
   120,
   30,
+  70,
+  50,
+  60,
+  40,
 ];
 
 export const AVAILABILITY_TYPES = {
@@ -43,6 +43,21 @@ export const AVAILABILITY_TYPES = {
   110: "Covid ICU",
   120: "Covid Oxygen Beds",
   30: "Covid Ordinary Bed",
+};
+
+export const AVAILABILITY_TYPES_PROXY = {
+  20: "Total",
+  10: "Total",
+  150: "Total",
+  1: "Total",
+  70: "KASP",
+  50: "KASP",
+  60: "KASP",
+  40: "KASP",
+  100: "Covid",
+  110: "Covid",
+  120: "Covid",
+  30: "Covid",
 };
 
 export const PATIENT_TYPES = {

@@ -46,9 +46,9 @@ function Filter({
           floating
             ? "absolute inset-x-0 top-0 mt-10 z-40 flex-shrink-0 "
             : "mb-8 rounded-lg"
-        } flex flex-row items-center justify-between px-4 py-2 bg-white shadow-md dark:bg-gray-800`}
+        } flex flex-col md:flex-row items-center justify-between px-4 py-2 bg-white shadow-md dark:bg-gray-800`}
       >
-        <p className="dark:text-gray-400">Filters</p>
+        <p className="dark:text-gray-400 md:block hidden">Filters</p>
         <div className="flex space-x-2">
           {content !== CONTENT.COVID && (
             <div className="relative bg-white rounded-lg dark:bg-gray-900">
@@ -145,7 +145,7 @@ function Filter({
             </div>
           )}
 
-          <div className="bg-white rounded-lg dark:bg-gray-900 dark:text-gray-700">
+          <div className="bg-white rounded-lg dark:bg-gray-900 dark:text-gray-700 flex">
             <Button
               layout="link"
               onClick={() => setTimeseries(false)}
@@ -163,6 +163,7 @@ function Filter({
               <span className="capitalize">Range</span>
             </Button>
           </div>
+          <div className="hidden md:block">
           {!timeseries ? (
             <DatePicker
               // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -196,6 +197,7 @@ function Filter({
               format="dd/MM/yyyy"
             />
           )}
+        </div>
         </div>
       </div>
     </div>
