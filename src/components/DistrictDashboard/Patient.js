@@ -7,7 +7,12 @@ import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { PATIENT_TYPES } from "../../utils/constants";
-import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
+import {
+  dateString,
+  getNDateAfter,
+  getNDateBefore,
+  processFacilities,
+} from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import { ValuePill } from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
@@ -38,20 +43,8 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
       ).then((r) => r)
   );
 
-  const facilities = data.results.map(({ data, facility, created_date }) => ({
-    date: dateString(new Date(created_date)),
-    ...data,
-    id: facility.id,
-    facilityType: facility.facility_type || "Unknown",
-    phone_number: facility.phone_number,
-    location: facility.location,
-    address: facility.address,
-    modifiedDate: data.modified_date,
-  }));
-  const filteredFacilities = facilities.filter((f) =>
-    filterFacilityTypes.includes(f.facilityType)
-  );
-  const facilitiesTrivia = filteredFacilities.reduce(
+  const filtered = processFacilities(data.results, filterFacilityTypes);
+  const facilitiesTrivia = filtered.reduce(
     (a, c) => {
       const key = c.date === dateString(date) ? "current" : "previous";
       a[key].count += 1;
@@ -90,14 +83,14 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
         <FacilityTable
           className="mb-8"
           columns={["Name", "Last Updated", ...Object.values(PATIENT_TYPES)]}
-          data={filteredFacilities.reduce((a, c) => {
+          data={filtered.reduce((a, c) => {
             if (c.date !== dateString(date)) {
               return a;
             }
             return [
               ...a,
               [
-                [c.facility_name, c.facilityType, c.phone_number],
+                [c.name, c.facilityType, c.phoneNumber],
                 dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
                 ...Object.keys(PATIENT_TYPES).map((k) => {
                   const delta = c[`today_patients_${k}`];
@@ -115,14 +108,14 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
           }, [])}
           exported={{
             filename: "patient_export.csv",
-            data: filteredFacilities.reduce((a, c) => {
+            data: filtered.reduce((a, c) => {
               if (c.date !== dateString(date)) {
                 return a;
               }
               return [
                 ...a,
                 {
-                  "Hospital/CFLTC Name": c.facility_name,
+                  "Hospital/CFLTC Name": c.name,
                   "Hospital/CFLTC Address": c.address,
                   "Govt/Pvt": c.facilityType.startsWith("Govt")
                     ? "Govt"
@@ -131,7 +124,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
                     c.facilityType === "First Line Treatment Centre"
                       ? "CFLTC"
                       : "Hops",
-                  Mobile: c.phone_number,
+                  Mobile: c.phoneNumber,
                   ...Object.keys(PATIENT_TYPES).reduce((t, x) => {
                     const y = { ...t };
                     y[`Total Patient in ${PATIENT_TYPES[x]}`] =

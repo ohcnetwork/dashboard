@@ -12,7 +12,12 @@ import {
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
 } from "../../utils/constants";
-import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
+import {
+  dateString,
+  getNDateAfter,
+  getNDateBefore,
+  processFacilities,
+} from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
 import { Pill } from "../Pill/Pill";
 import { ValuePill } from "../Pill/ValuePill";
@@ -26,14 +31,18 @@ dayjs.extend(relativeTime);
 
 function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
-    1: { total: 0, used: 0 },
-    10: { total: 0, used: 0 },
-    2: { total: 0, used: 0 },
     20: { total: 0, used: 0 },
-    3: { total: 0, used: 0 },
-    30: { total: 0, used: 0 },
-    40: { total: 0, used: 0 },
+    10: { total: 0, used: 0 },
+    150: { total: 0, used: 0 },
+    1: { total: 0, used: 0 },
+    70: { total: 0, used: 0 },
     50: { total: 0, used: 0 },
+    60: { total: 0, used: 0 },
+    40: { total: 0, used: 0 },
+    100: { total: 0, used: 0 },
+    110: { total: 0, used: 0 },
+    120: { total: 0, used: 0 },
+    30: { total: 0, used: 0 },
     actualDischargedPatients: 0,
     actualLivePatients: 0,
     count: 0,
@@ -53,37 +62,8 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         district
       ).then((r) => r)
   );
-
-  const facilities = data.results.map(
-    ({ data: facility, created_date, modified_date }) => ({
-      actualDischargedPatients: facility.actual_discharged_patients,
-      actualLivePatients: facility.actual_live_patients,
-      address: facility.address,
-      capacity: facility.availability.reduce((cAcc, cCur) => {
-        return {
-          ...cAcc,
-          [cCur.room_type]: cCur,
-        };
-      }, {}),
-      date: dateString(new Date(created_date)),
-      districtId: facility.district,
-      facilityType: facility.facility_type || "Unknown",
-      id: facility.id,
-      location: facility.location,
-      modifiedDate: facility.availability.length
-        ? Math.max(
-            ...facility.availability.map((a) => new Date(a.modified_date))
-          )
-        : facility.modified_date,
-      name: facility.name,
-      oxygenCapacity: facility.oxygen_capacity,
-      phone_number: facility.phone_number,
-    })
-  );
-  const filteredFacilities = facilities.filter((f) =>
-    filterFacilityTypes.includes(f.facilityType)
-  );
-  const facilitiesTrivia = filteredFacilities.reduce(
+  const filtered = processFacilities(data.results, filterFacilityTypes);
+  const facilitiesTrivia = filtered.reduce(
     (a, c) => {
       const key = c.date === dateString(date) ? "current" : "previous";
       a[key].count += 1;
@@ -169,14 +149,14 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
               "Discharged Patients",
               ...AVAILABILITY_TYPES_ORDERED.map((k) => AVAILABILITY_TYPES[k]),
             ]}
-            data={filteredFacilities.reduce((a, c) => {
+            data={filtered.reduce((a, c) => {
               if (c.date !== dateString(date)) {
                 return a;
               }
               return [
                 ...a,
                 [
-                  [c.name, c.facilityType, c.phone_number],
+                  [c.name, c.facilityType, c.phoneNumber],
                   dayjs(c.modifiedDate).fromNow(),
                   c.oxygenCapacity,
                   c.actualLivePatients,
@@ -190,7 +170,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
               ];
             }, [])}
             exported={{
-              data: filteredFacilities.reduce((a, c) => {
+              data: filtered.reduce((a, c) => {
                 if (c.date !== dateString(date)) {
                   return a;
                 }
@@ -206,7 +186,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
                         : "Hops",
                     "Hospital/CFLTC Address": c.address,
                     "Hospital/CFLTC Name": c.name,
-                    Mobile: c.phone_number,
+                    Mobile: c.phoneNumber,
                     ...AVAILABILITY_TYPES_ORDERED.reduce((t, x) => {
                       const y = { ...t };
                       y[`Current ${AVAILABILITY_TYPES[x]}`] =
@@ -227,9 +207,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         <Suspense fallback={<ThemedSuspense />}>
           <Map
             className="mb-8"
-            facilities={filteredFacilities.filter(
-              (f) => f.date === dateString(date)
-            )}
+            facilities={filtered.filter((f) => f.date === dateString(date))}
             district={filterDistrict.name}
           />
         </Suspense>

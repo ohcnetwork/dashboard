@@ -4,7 +4,11 @@ import useSWR from "swr";
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { PATIENT_TYPES } from "../../utils/constants";
-import { dateString, getNDateAfter } from "../../utils/utils";
+import {
+  dateString,
+  getNDateAfter,
+  processFacilities,
+} from "../../utils/utils";
 import TimeseriesBarChart from "../Chart/TimeseriesBarChart";
 import NoData from "../NoData";
 
@@ -22,16 +26,7 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       ).then((r) => r)
   );
 
-  const facilities = data.results.map(({ data, facility, created_date }) => ({
-    date: dateString(new Date(created_date)),
-    ...data,
-    id: facility.id,
-    facilityType: facility.facility_type || "Unknown",
-    location: facility.location,
-  }));
-  const filtered = facilities.filter((f) =>
-    filterFacilityTypes.includes(f.facilityType)
-  );
+  const filtered = processFacilities(data.results, filterFacilityTypes);
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
       Object.keys(PATIENT_TYPES).forEach((k) => {

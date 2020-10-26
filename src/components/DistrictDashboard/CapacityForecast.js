@@ -20,7 +20,12 @@ import {
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
 } from "../../utils/constants";
-import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
+import {
+  dateString,
+  getNDateAfter,
+  getNDateBefore,
+  processFacilities,
+} from "../../utils/utils";
 import NoData from "../NoData";
 import { Pill } from "../Pill/Pill";
 
@@ -45,25 +50,7 @@ function CapacityForecast({
         district
       ).then((r) => r)
   );
-  const facilities = data.results.map(
-    ({ data: facility, created_date: date }) => ({
-      date: dateString(new Date(date)),
-      id: facility.id,
-      name: facility.name,
-      districtId: facility.district,
-      facilityType: facility.facility_type || "Unknown",
-      oxygenCapacity: facility.oxygen_capacity,
-      capacity: facility.availability.reduce((cAcc, cCur) => {
-        return {
-          ...cAcc,
-          [cCur.room_type]: cCur,
-        };
-      }, {}),
-    })
-  );
-  const filtered = facilities.filter((f) =>
-    filterFacilityTypes.includes(f.facilityType)
-  );
+  const filtered = processFacilities(data.results, filterFacilityTypes);
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
       Object.keys(AVAILABILITY_TYPES).forEach((k) => {
@@ -73,14 +60,18 @@ function CapacityForecast({
       return acc;
     }
     const _t = {
-      1: { total: 0, used: 0 },
-      2: { total: 0, used: 0 },
-      3: { total: 0, used: 0 },
-      10: { total: 0, used: 0 },
       20: { total: 0, used: 0 },
-      30: { total: 0, used: 0 },
-      40: { total: 0, used: 0 },
+      10: { total: 0, used: 0 },
+      150: { total: 0, used: 0 },
+      1: { total: 0, used: 0 },
+      70: { total: 0, used: 0 },
       50: { total: 0, used: 0 },
+      60: { total: 0, used: 0 },
+      40: { total: 0, used: 0 },
+      100: { total: 0, used: 0 },
+      110: { total: 0, used: 0 },
+      120: { total: 0, used: 0 },
+      30: { total: 0, used: 0 },
     };
     Object.keys(AVAILABILITY_TYPES).forEach((k) => {
       _t[k].used += cur.capacity[k]?.current_capacity || 0;
