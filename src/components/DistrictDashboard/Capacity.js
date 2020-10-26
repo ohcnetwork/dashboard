@@ -11,6 +11,7 @@ import { careSummary } from "../../utils/api";
 import {
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
+  AVAILABILITY_TYPES_PROXY,
 } from "../../utils/constants";
 import {
   dateString,
@@ -28,6 +29,35 @@ const FacilityTable = lazy(() => import("./FacilityTable"));
 const CapacityForecast = lazy(() => import("./CapacityForecast"));
 const Map = lazy(() => import("../DistrictDashboard/Map"));
 dayjs.extend(relativeTime);
+
+const showBedsTypes = (ids, c) => {
+  return (
+    <div>
+      <table class="table-auto">
+        <thead>
+          <tr>
+            <th class="border-b px-1 py-px text-xxs"></th>
+            <th class="border-b px-1 py-px text-xxs">Total</th>
+            <th class="border-b px-1 py-px text-xxs">Used</th>
+            <th class="border-b px-1 py-px text-xxs">Vacant</th>
+          </tr>
+        </thead>
+        <tbody>
+        {ids.map((i) =>
+        {return(
+          <tr>
+            <td class="border-b px-1 py-px text-xxs">{AVAILABILITY_TYPES_PROXY[i]}</td>
+            <td class="border-b px-1 py-px">{c.capacity[i]?.total_capacity || "0"}</td>
+            <td class="border-b px-1 py-px">{c.capacity[i]?.current_capacity || "0"}</td>
+            <td class="border-b px-1 py-px">{(c.capacity[i]?.total_capacity || 0) - c.capacity[i]?.current_capacity || 0}</td>
+          </tr>)
+          })  }
+
+        </tbody>
+      </table>
+    </div>
+  )
+}
 
 function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
@@ -100,7 +130,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       </animated.div>
     ) : (
       <animated.div key={key} style={props}>
-        <div className="flex flex-row justify-end h-6 mb-8 space-x-2">
+        <div className="flex flex-row-reverse md:flex-row md:justify-end md:h-6 mb-8 space-x-2 overflow-y-auto pb-4 md:pb-0">
           <ValuePill
             title="Facility Count"
             value={facilitiesTrivia.current.count}
@@ -121,13 +151,13 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             <Button
               size="small"
               onClick={() => setForecast(true)}
-              className="bg-transparent shadow-xs"
+              className="bg-transparent shadow-xs w-full"
             >
               <ArrowRight className="h-4" />
             </Button>
           </Pill>
         </div>
-        <div className="grid grid-cols-4 gap-6 mb-8">
+        <div className="grid md:grid-cols-4 grid-col-1 gap-6 mb-8">
           {AVAILABILITY_TYPES_ORDERED.map((k) => (
             <RadialCard
               label={AVAILABILITY_TYPES[k]}
@@ -143,11 +173,21 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             className="mb-8"
             columns={[
               "Name",
-              "Last Updated",
-              "Oxygen",
-              "Live Patients",
-              "Discharged Patients",
-              ...AVAILABILITY_TYPES_ORDERED.map((k) => AVAILABILITY_TYPES[k]),
+              <div className="text-xs">
+                Last Updated
+              </div>,
+              <div>
+                <div>
+                  Patients
+                </div>
+                <div className="text-xxs">
+                 Patients /Discharged
+                </div>
+              </div>,
+              "Ventilators",
+              "ICU",
+              "Oxygen Beds",
+              "Ordinary Beds",
             ]}
             data={filtered.reduce((a, c) => {
               if (c.date !== dateString(date)) {
@@ -156,16 +196,13 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
               return [
                 ...a,
                 [
-                  [c.name, c.facilityType, c.phoneNumber],
+                  [c.name, c.facilityType, c.phoneNumber, `Oxygen: ${c.oxygenCapacity} l`,],
                   dayjs(c.modifiedDate).fromNow(),
-                  c.oxygenCapacity,
-                  c.actualLivePatients,
-                  c.actualDischargedPatients,
-                  ...AVAILABILITY_TYPES_ORDERED.map((i) =>
-                    c.capacity[i]?.total_capacity
-                      ? `${c.capacity[i]?.current_capacity}/${c.capacity[i]?.total_capacity}`
-                      : "-"
-                  ),
+                  `${c.actualLivePatients}/${c.actualDischargedPatients}`,
+                  showBedsTypes([20,100,70], c),
+                  showBedsTypes([10,110,50], c),
+                  showBedsTypes([150,120,60], c),
+                  showBedsTypes([1,30,60], c),
                 ],
               ];
             }, [])}

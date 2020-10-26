@@ -15,11 +15,11 @@ function Header() {
 
   return (
     <header className="z-40 h-12 py-2 overflow-hidden bg-white shadow-md dark:bg-gray-800">
-      <div className="flex justify-between px-2 text-green-500 dark:text-green-400">
+      <div className="flex justify-between px-2 text-green-500 dark:text-green-400 container mx-auto">
         <div className="flex justify-between flex-shrink-0">
           <button
             type="button"
-            className="p-1 mr-6 rounded-md focus:outline-none focus:shadow-outline-green"
+            className="p-1 mr-2 md:mr-6 rounded-md focus:outline-none focus:shadow-outline-green"
             onClick={toggleSidebar}
             aria-label="Menu"
           >
@@ -28,24 +28,21 @@ function Header() {
           <button
             type="button"
             aria-label="Care Dashboard"
-            className="mr-1"
+            className="mr-1 hidden md:block"
             onClick={() => {
               history.push("/");
             }}
           >
             <span className="flex text-2xl subpixel-antialiased font-black leading-none">
-              Care Dashboard
+              Dashboard
             </span>
           </button>
-          <span className="flex self-center mr-1 text-xs leading-none">
-            from
-          </span>
           <button type="button" aria-label="CoronaSafe">
             <CoronaSafeLogo className="w-24 h-6 " aria-hidden="true" />
           </button>
         </div>
         <div className="flex justify-between flex-shrink-0 space-x-6">
-          <div className="flex flex-col leading-none text-right">
+          <div className="flex flex-col leading-none text-right md:block hidden">
             <p className="text-sm font-medium">
               {auth.userData.first_name} {auth.userData.last_name}
             </p>

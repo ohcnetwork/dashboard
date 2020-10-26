@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = process.env.POI_APP_CARE_BASE_URL || "";
+const API_BASE_URL = "https://careapi.coronasafe.in" || "";
 const STAT_BASE_URL = "https://keralastats.coronasafe.live";
 
 const request = (options, token) => {
