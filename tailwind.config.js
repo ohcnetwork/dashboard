@@ -5,6 +5,7 @@ module.exports = windmill({
   purge: [
     "src/**/*.js",
     "node_modules/@saanuregh/react-ui/lib/defaultTheme.js",
+    "node_modules/@saanuregh/react-ui/dist/index.js",
   ],
   theme: {
     extend: {
