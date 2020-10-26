@@ -15,17 +15,34 @@ export const DISTRICTS = [
   { id: 14, name: "Kasaragod" },
 ];
 
-export const AVAILABILITY_TYPES_ORDERED = [20, 10, 1, 30, 3, 2, 40, 50]
+export const AVAILABILITY_TYPES_ORDERED = [
+  20,
+  10,
+  150,
+  1,
+  70,
+  50,
+  60,
+  40,
+  100,
+  110,
+  120,
+  30,
+];
 
 export const AVAILABILITY_TYPES = {
-  1: "Rooms",
-  2: "Hostels",
-  3: "Rooms w/ Bathroom",
-  10: "ICUs",
-  20: "Ventilators",
-  30: "Covid Beds",
-  40: "KASP Beds",
-  50: "KASP ICU Beds",
+  20: "Ventilator",
+  10: "ICU",
+  150: "Oxygen Beds",
+  1: "Ordinary Bed",
+  70: "KASP Ventilator",
+  50: "KASP ICU",
+  60: "KASP Oxygen Beds",
+  40: "KASP Ordinary Bed",
+  100: "Covid Ventilator",
+  110: "Covid ICU",
+  120: "Covid Oxygen Beds",
+  30: "Covid Ordinary Bed",
 };
 
 export const PATIENT_TYPES = {
@@ -54,16 +71,8 @@ export const TRIAGE_TYPES = {
   total_patients_home_quarantine: "Total patients home quarantine",
 };
 
-export const FACILITY_TYPES = [
-  "Educational Inst",
-  "Private Hospital",
-  "Other",
-  "Hostel",
-  "Hotel",
-  "Lodge",
-  "TeleMedicine",
+export const GOVT_FACILITY_TYPES = [
   "Govt Hospital",
-  "Labs",
   "Primary Health Centres",
   "24x7 Public Health Centres",
   "Family Health Centres",
@@ -75,14 +84,18 @@ export const FACILITY_TYPES = [
   "General hospitals",
   "District Hospitals",
   "Govt Medical College Hospitals",
-  "Corona Testing Labs",
-  "Corona Care Centre",
-  "COVID-19 Domiciliary Care Center",
+];
+
+export const FACILITY_TYPES = [
+  ...GOVT_FACILITY_TYPES,
+  "Private Hospital",
   "First Line Treatment Centre",
   "Second Line Treatment Center",
-  "Shifting Centre",
+  "COVID-19 Domiciliary Care Center",
+  "Corona Care Centre",
   "Covid Management Center",
-  "Unknown",
+  "Shifting Centre",
+  "TeleMedicine",
 ];
 
 export const CONTENT = {

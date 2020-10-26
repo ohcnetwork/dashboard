@@ -1,15 +1,22 @@
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import React, { lazy, Suspense, useContext } from "react";
 import useSWR from "swr";
+
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { TESTS_TYPES } from "../../utils/constants";
-import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
+import {
+  dateString,
+  getNDateAfter,
+  getNDateBefore,
+  processFacilities,
+} from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import { ValuePill } from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
+
 const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
@@ -25,7 +32,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
   };
 
   const { auth } = useContext(AuthContext);
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     ["Tests", date, auth.token, filterDistrict.id],
     (url, date, token, district) =>
       careSummary(
@@ -37,22 +44,10 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
       ).then((r) => r)
   );
 
-  const facilities = data.results.map(({ data, facility, created_date }) => ({
-    date: dateString(new Date(created_date)),
-    ...data,
-    id: facility.id,
-    facilityType: facility.facility_type || "Unknown",
-    phone_number: facility.phone_number,
-    location: facility.location,
-    address: facility.address,
-    modifiedDate: data.modified_date,
-  }));
-  const filteredFacilities = facilities.filter((f) =>
-    filterFacilityTypes.includes(f.facilityType)
-  );
-  const facilitiesTrivia = filteredFacilities.reduce(
+  const filtered = processFacilities(data.results, filterFacilityTypes);
+  const facilitiesTrivia = filtered.reduce(
     (a, c) => {
-      let key = c.date === dateString(date) ? "current" : "previous";
+      const key = c.date === dateString(date) ? "current" : "previous";
       a[key].count += 1;
       Object.keys(TESTS_TYPES).forEach((k) => {
         a[key][k] += c[k];
@@ -70,17 +65,17 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
     <>
       <div className="flex flex-row justify-end h-6 mb-8 space-x-2">
         <ValuePill
-          title={"Facility Count"}
+          title="Facility Count"
           value={facilitiesTrivia.current.count}
         />
         <ValuePill
-          title={"Patient Count"}
+          title="Patient Count"
           value={facilitiesTrivia.current.total_patients}
         />
       </div>
-      <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-4 gap-6 mb-8">
         {Object.keys(TESTS_TYPES).map((k, i) => {
-          if (k != "total_patients") {
+          if (k !== "total_patients") {
             return (
               <InfoCard
                 key={i}
@@ -98,14 +93,14 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
         <FacilityTable
           className="mb-8"
           columns={["Name", "Last Updated", ...Object.values(TESTS_TYPES)]}
-          data={filteredFacilities.reduce((a, c) => {
+          data={filtered.reduce((a, c) => {
             if (c.date !== dateString(date)) {
               return a;
             }
             return [
               ...a,
               [
-                [c.facility_name, c.facilityType, c.phone_number],
+                [c.name, c.facilityType, c.phoneNumber],
                 dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
                 ...Object.keys(TESTS_TYPES).map((i) => c[i]),
               ],
@@ -113,14 +108,14 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
           }, [])}
           exported={{
             filename: "tests_export.csv",
-            data: filteredFacilities.reduce((a, c) => {
+            data: filtered.reduce((a, c) => {
               if (c.date !== dateString(date)) {
                 return a;
               }
               return [
                 ...a,
                 {
-                  "Hospital/CFLTC Name": c.facility_name,
+                  "Hospital/CFLTC Name": c.name,
                   "Hospital/CFLTC Address": c.address,
                   "Govt/Pvt": c.facilityType.startsWith("Govt")
                     ? "Govt"
@@ -129,9 +124,9 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
                     c.facilityType === "First Line Treatment Centre"
                       ? "CFLTC"
                       : "Hops",
-                  Mobile: c.phone_number,
+                  Mobile: c.phoneNumber,
                   ...Object.keys(TESTS_TYPES).reduce((t, x) => {
-                    let y = { ...t };
+                    const y = { ...t };
                     y[x] = c[x];
                     return y;
                   }, {}),
@@ -139,7 +134,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
               ];
             }, []),
           }}
-        ></FacilityTable>
+        />
       </Suspense>
     </>
   );

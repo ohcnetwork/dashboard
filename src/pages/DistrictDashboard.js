@@ -5,11 +5,13 @@ import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
 import { animated, useTransition } from "react-spring";
 import { SWRConfig } from "swr";
+
 import ThemedSuspense from "../components/ThemedSuspense";
 import { PageTitle } from "../components/Typography/Title";
 import { AuthContext } from "../context/AuthContext";
 import { CONTENT, DISTRICTS, FACILITY_TYPES } from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
+
 const Capacity = lazy(() => import("../components/DistrictDashboard/Capacity"));
 const CapacityTimeseries = lazy(() =>
   import("../components/DistrictDashboard/CapacityTimeseries")
@@ -55,7 +57,7 @@ function DistrictDashboard() {
   const isStateAdmin = ["StateLabAdmin", "StateAdmin"].includes(
     auth.userData.user_type
   );
-  const [ref, inView, entry] = useInView({
+  const [ref, inView] = useInView({
     threshold: 0,
   });
 
@@ -67,10 +69,9 @@ function DistrictDashboard() {
     window.history.replaceState(
       null,
       "Care Dashboard",
-      "/app/district/" +
-        Object.entries(CONTENT)
-          .find((a) => a[1] === content)[0]
-          .toLowerCase()
+      `/app/district/${Object.entries(CONTENT)
+        .find((a) => a[1] === content)[0]
+        .toLowerCase()}`
     );
   }, [content]);
 
@@ -143,28 +144,30 @@ function DistrictDashboard() {
     }
   };
 
-  const ConditionalFilter = ({ floating }) => (
-    <Filter
-      floating={floating}
-      timeseries={timeseries}
-      setTimeseries={setTimeseries}
-      date={date}
-      dateOnChange={dateOnChange}
-      dates={dates}
-      datesOnChange={datesOnChange}
-      maxDate={todayDate}
-      filterFacilityTypes={filterFacilityTypes}
-      setFilterFacilityTypes={setFilterFacilityTypes}
-      content={content}
-    />
-  );
+  function ConditionalFilter({ floating }) {
+    return (
+      <Filter
+        floating={floating}
+        timeseries={timeseries}
+        setTimeseries={setTimeseries}
+        date={date}
+        dateOnChange={dateOnChange}
+        dates={dates}
+        datesOnChange={datesOnChange}
+        maxDate={todayDate}
+        filterFacilityTypes={filterFacilityTypes}
+        setFilterFacilityTypes={setFilterFacilityTypes}
+        content={content}
+      />
+    );
+  }
   const transitions = useTransition(content, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 1 },
   });
   return (
-    <div>
+    <div className="overflow-auto">
       <PageTitle>District Dashboard</PageTitle>
       <div className="flex flex-row items-center justify-between px-4 py-2 mb-2 bg-green-500 rounded-lg shadow-md">
         <p className="font-semibold text-white">{filterDistrict.name}</p>
@@ -172,9 +175,9 @@ function DistrictDashboard() {
           <div className="bg-white rounded-lg dark:bg-gray-900 dark:text-gray-700">
             {Object.keys(CONTENT).map((k, i) => {
               let t = "shadow-xs ";
-              if (i == 0) {
+              if (i === 0) {
                 t += "rounded-r-none";
-              } else if (i == Object.keys(CONTENT).length - 1) {
+              } else if (i === Object.keys(CONTENT).length - 1) {
                 t += "rounded-l-none";
               } else {
                 t += "rounded-l-none rounded-r-none";
@@ -230,14 +233,15 @@ function DistrictDashboard() {
       <div ref={ref}>
         <ConditionalFilter floating={false} />
       </div>
-      {!inView && <ConditionalFilter floating={true} />}
-      <Suspense fallback={<ThemedSuspense className="h-full my-auto" />}>
+      {!inView && <ConditionalFilter floating />}
+      <Suspense fallback={<ThemedSuspense />}>
         <SWRConfig
           value={{
             suspense: true,
-            loadingTimeout: 10000,
-            refreshInterval: 300000,
+            loadingTimeout: 10_000,
+            refreshInterval: 300_000,
             onError: (error, key) => {
+              // eslint-disable-next-line no-console
               console.error(error, key);
             },
           }}

@@ -11,6 +11,7 @@ import fuzzysort from "fuzzysort";
 import React, { useState } from "react";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { Calendar, ChevronDown } from "react-feather";
+
 import { CONTENT, FACILITY_TYPES } from "../../utils/constants";
 
 function Filter({
@@ -49,7 +50,7 @@ function Filter({
       >
         <p className="dark:text-gray-400">Filters</p>
         <div className="flex space-x-2">
-          {content != CONTENT.COVID && (
+          {content !== CONTENT.COVID && (
             <div className="relative bg-white rounded-lg dark:bg-gray-900">
               <Button
                 layout="link"
@@ -108,10 +109,10 @@ function Filter({
                     <Label key={i} check>
                       <Input
                         onClick={() => {
-                          let _t = _filterFacilityTypes.findIndex(
+                          const _t = _filterFacilityTypes.findIndex(
                             (t) => t === d
                           );
-                          let _tmp = [..._filterFacilityTypes];
+                          const _tmp = [..._filterFacilityTypes];
                           if (_t > -1) {
                             _tmp.splice(_t, 1);
                           } else {
@@ -164,6 +165,7 @@ function Filter({
           </div>
           {!timeseries ? (
             <DatePicker
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus={false}
               calendarIcon={
                 <Calendar className="text-gray-600 dark:text-gray-400" />
@@ -179,6 +181,7 @@ function Filter({
             />
           ) : (
             <DateRangePicker
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus={false}
               calendarIcon={
                 <Calendar className="text-gray-600 dark:text-gray-400" />

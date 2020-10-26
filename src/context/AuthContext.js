@@ -6,11 +6,11 @@ const REFRESH_TOKEN = "care_refresh_token";
 
 export const AuthContext = React.createContext();
 
-export const AuthProvider = ({ children }) => {
-  let token = Store.get(ACCESS_TOKEN);
-  let refresh = Store.get(REFRESH_TOKEN);
-  let logged = token && refresh ? true : false;
-  let userData = {};
+export function AuthProvider({ children }) {
+  const token = Store.get(ACCESS_TOKEN);
+  const refresh = Store.get(REFRESH_TOKEN);
+  const logged = !!(token && refresh);
+  const userData = {};
 
   const [auth, setAuth] = useState({ logged, token, refresh, userData });
 
@@ -36,4 +36,4 @@ export const AuthProvider = ({ children }) => {
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
+}

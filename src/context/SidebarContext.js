@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 
 export const SidebarContext = React.createContext();
 
-export const SidebarProvider = ({ children }) => {
+export function SidebarProvider({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   function toggleSidebar() {
@@ -25,4 +25,4 @@ export const SidebarProvider = ({ children }) => {
   return (
     <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
   );
-};
+}

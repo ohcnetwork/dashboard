@@ -1,15 +1,20 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
+
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { TESTS_TYPES } from "../../utils/constants";
-import { dateString, getNDateAfter } from "../../utils/utils";
+import {
+  dateString,
+  getNDateAfter,
+  processFacilities,
+} from "../../utils/utils";
 import TimeseriesLineChart from "../Chart/TimeseriesLineChart";
 import NoData from "../NoData";
 
 function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const { auth } = useContext(AuthContext);
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     ["TestsTimeseries", dates, auth.token, filterDistrict.id],
     (url, dates, token, district) =>
       careSummary(
@@ -21,16 +26,7 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       ).then((r) => r)
   );
 
-  const facilities = data.results.map(({ data, facility, created_date }) => ({
-    date: dateString(new Date(created_date)),
-    ...data,
-    id: facility.id,
-    facilityType: facility.facility_type || "Unknown",
-    location: facility.location,
-  }));
-  const filtered = facilities.filter((f) =>
-    filterFacilityTypes.includes(f.facilityType)
-  );
+  const filtered = processFacilities(data.results, filterFacilityTypes);
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
       Object.keys(TESTS_TYPES).forEach((k) => {
@@ -39,7 +35,7 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       });
       return acc;
     }
-    let _t = {
+    const _t = {
       result_awaited: 0,
       test_discarded: 0,
       total_patients: 0,

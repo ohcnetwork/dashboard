@@ -1,3 +1,4 @@
+import { Card, CardBody, WindmillContext } from "@saanuregh/react-ui";
 import React, { useContext } from "react";
 import {
   CartesianGrid,
@@ -9,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Card, CardBody, WindmillContext } from "@saanuregh/react-ui";
+
 import { SectionTitle } from "../Typography/Title";
 
 function TimeseriesLineChart({ name, data, dataKeys, colors }) {
@@ -31,7 +32,7 @@ function TimeseriesLineChart({ name, data, dataKeys, colors }) {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey={"date"} />
+              <XAxis dataKey="date" />
               <YAxis />
               <Tooltip
                 cursor={false}

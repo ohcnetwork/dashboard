@@ -5,15 +5,17 @@
   "scripts": {
     "build": "poi --prod",
     "dev": "poi --serve",
-    "start": "serve -s dist"
+    "start": "serve -s dist",
+    "lint": "eslint --ignore-pattern src/assets  src/** ",
+    "lint:fix": "eslint --ignore-pattern src/assets --fix src/**"
   },
   "dependencies": {
     "@saanuregh/react-ui": "^0.3.2",
     "@vx/tooltip": "0.0.199",
     "@wojtekmaj/react-daterange-picker": "^3.0.0",
     "arima": "^0.1.0",
-    "axios": "^0.20.0",
-    "dayjs": "^1.9.1",
+    "axios": "^0.21.0",
+    "dayjs": "^1.9.4",
     "fuzzysort": "^1.1.4",
     "polylabel": "^1.1.0",
     "react": "^16.13.1",
@@ -21,8 +23,8 @@
     "react-date-picker": "^8.0.3",
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.8",
-    "react-hook-form": "^6.9.2",
-    "react-intersection-observer": "^8.29.0",
+    "react-hook-form": "^6.9.6",
+    "react-intersection-observer": "^8.29.1",
     "react-router-dom": "5.2.0",
     "react-simple-maps": "^2.1.2",
     "react-spring": "^8.0.27",
@@ -30,17 +32,21 @@
     "recharts": "^2.0.0-beta.6",
     "register-service-worker": "^1.7.1",
     "store": "^2.0.12",
-    "swr": "^0.3.5",
+    "swr": "^0.3.6",
     "topojson": "^3.0.2"
   },
   "devDependencies": {
     "@poi/plugin-pwa": "^12.0.3",
     "@svgr/webpack": "^5.4.0",
-    "autoprefixer": "9.8.6",
     "cssnano": "4.1.10",
-    "poi": "^12.10.2",
+    "eslint": "^7.11.0",
+    "eslint-config-galex": "^2.5.11",
+    "poi": "^12.10.3",
+    "postcss-flexbugs-fixes": "4.2.1",
+    "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.1.2",
     "tailwind-css-variables": "^2.0.3",
-    "tailwindcss": "^1.8.13",
+    "tailwindcss": "^1.9.6",
     "worker-plugin": "^5.0.0"
   },
   "browserslist": {

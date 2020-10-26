@@ -1,5 +1,5 @@
-import React from "react";
 import { Card, CardBody } from "@saanuregh/react-ui";
+import React from "react";
 import { animated, config, useSpring } from "react-spring";
 
 export function InfoCard({ title, value, delta = null, small = false }) {
@@ -31,15 +31,15 @@ export function InfoCard({ title, value, delta = null, small = false }) {
             >
               {_value.interpolate((x) => Math.round(x))}
             </animated.p>
-            {delta != null && (
+            {delta !== null && (
               <animated.span
                 className={`ml-2 ${
                   small ? "text-xs" : "text-sm"
                 } text-gray-600 dark:text-gray-400`}
               >
                 {_delta.interpolate((y) => {
-                  let x = Math.round(y);
-                  return x == 0 ? "-" : x > 0 ? `+${x}` : x;
+                  const x = Math.round(y);
+                  return x === 0 ? "-" : x > 0 ? `+${x}` : x;
                 })}
               </animated.span>
             )}

@@ -1,19 +1,24 @@
 import React, { useContext } from "react";
 import useSWR from "swr";
+
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import {
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
 } from "../../utils/constants";
-import { dateString, getNDateAfter } from "../../utils/utils";
+import {
+  dateString,
+  getNDateAfter,
+  processFacilities,
+} from "../../utils/utils";
 import TimeseriesBarChart from "../Chart/TimeseriesBarChart";
 import TimeseriesLineChart from "../Chart/TimeseriesLineChart";
 import NoData from "../NoData";
 
 function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
   const { auth } = useContext(AuthContext);
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     ["CapacityTimeseries", dates, auth.token, filterDistrict.id],
     (url, dates, token, district) =>
       careSummary(
@@ -24,27 +29,7 @@ function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
         district
       ).then((r) => r)
   );
-  const facilities = data.results.map(
-    ({ data: facility, created_date: date }) => ({
-      date: dateString(new Date(date)),
-      id: facility.id,
-      name: facility.name,
-      districtId: facility.district,
-      facilityType: facility.facility_type || "Unknown",
-      oxygenCapacity: facility.oxygen_capacity,
-      actualLivePatients: facility.actual_live_patients,
-      actualDischargedPatients: facility.actual_discharged_patients,
-      capacity: facility.availability.reduce((cAcc, cCur) => {
-        return {
-          ...cAcc,
-          [cCur.room_type]: cCur,
-        };
-      }, {}),
-    })
-  );
-  const filtered = facilities.filter((f) =>
-    filterFacilityTypes.includes(f.facilityType)
-  );
+  const filtered = processFacilities(data.results, filterFacilityTypes);
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
       acc[cur.date].oxygen += cur.oxygenCapacity || 0;
@@ -57,18 +42,22 @@ function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       });
       return acc;
     }
-    let _t = {
+    const _t = {
       oxygen: cur.oxygenCapacity,
       actualLivePatients: cur.actualLivePatients,
       actualDischargedPatients: cur.actualDischargedPatients,
-      1: { total: 0, used: 0 },
-      2: { total: 0, used: 0 },
-      3: { total: 0, used: 0 },
-      10: { total: 0, used: 0 },
       20: { total: 0, used: 0 },
-      30: { total: 0, used: 0 },
-      40: { total: 0, used: 0 },
+      10: { total: 0, used: 0 },
+      150: { total: 0, used: 0 },
+      1: { total: 0, used: 0 },
+      70: { total: 0, used: 0 },
       50: { total: 0, used: 0 },
+      60: { total: 0, used: 0 },
+      40: { total: 0, used: 0 },
+      100: { total: 0, used: 0 },
+      110: { total: 0, used: 0 },
+      120: { total: 0, used: 0 },
+      30: { total: 0, used: 0 },
     };
     _t.oxygen += cur.oxygenCapacity;
     Object.keys(AVAILABILITY_TYPES).forEach((k) => {

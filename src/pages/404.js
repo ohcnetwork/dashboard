@@ -3,7 +3,7 @@ import { XOctagon } from "react-feather";
 import { useHistory } from "react-router-dom";
 
 function Page404() {
-  let history = useHistory();
+  const history = useHistory();
 
   return (
     <div className="flex flex-col items-center">
@@ -14,6 +14,7 @@ function Page404() {
       <p className="text-gray-700 dark:text-gray-300">
         Page not found.{" "}
         <button
+          type="button"
           className="text-green-500 hover:underline dark:text-green-400"
           onClick={() => history.goBack()}
         >

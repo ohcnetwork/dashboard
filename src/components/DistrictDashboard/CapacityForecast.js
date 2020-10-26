@@ -13,13 +13,19 @@ import {
   YAxis,
 } from "recharts";
 import useSWR from "swr";
+
 import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import {
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
 } from "../../utils/constants";
-import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
+import {
+  dateString,
+  getNDateAfter,
+  getNDateBefore,
+  processFacilities,
+} from "../../utils/utils";
 import NoData from "../NoData";
 import { Pill } from "../Pill/Pill";
 
@@ -33,7 +39,7 @@ function CapacityForecast({
 }) {
   const { auth } = useContext(AuthContext);
   const [timespan, setTimespan] = useState({ past: 14, forecast: 14 });
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     ["CapacityForecast", date, auth.token, filterDistrict.id, timespan.past],
     (url, date, token, district, days) =>
       careSummary(
@@ -44,25 +50,7 @@ function CapacityForecast({
         district
       ).then((r) => r)
   );
-  const facilities = data.results.map(
-    ({ data: facility, created_date: date }) => ({
-      date: dateString(new Date(date)),
-      id: facility.id,
-      name: facility.name,
-      districtId: facility.district,
-      facilityType: facility.facility_type || "Unknown",
-      oxygenCapacity: facility.oxygen_capacity,
-      capacity: facility.availability.reduce((cAcc, cCur) => {
-        return {
-          ...cAcc,
-          [cCur.room_type]: cCur,
-        };
-      }, {}),
-    })
-  );
-  const filtered = facilities.filter((f) =>
-    filterFacilityTypes.includes(f.facilityType)
-  );
+  const filtered = processFacilities(data.results, filterFacilityTypes);
   const datewise = filtered.reduce((acc, cur) => {
     if (acc[cur.date]) {
       Object.keys(AVAILABILITY_TYPES).forEach((k) => {
@@ -71,15 +59,19 @@ function CapacityForecast({
       });
       return acc;
     }
-    let _t = {
-      1: { total: 0, used: 0 },
-      2: { total: 0, used: 0 },
-      3: { total: 0, used: 0 },
-      10: { total: 0, used: 0 },
+    const _t = {
       20: { total: 0, used: 0 },
-      30: { total: 0, used: 0 },
-      40: { total: 0, used: 0 },
+      10: { total: 0, used: 0 },
+      150: { total: 0, used: 0 },
+      1: { total: 0, used: 0 },
+      70: { total: 0, used: 0 },
       50: { total: 0, used: 0 },
+      60: { total: 0, used: 0 },
+      40: { total: 0, used: 0 },
+      100: { total: 0, used: 0 },
+      110: { total: 0, used: 0 },
+      120: { total: 0, used: 0 },
+      30: { total: 0, used: 0 },
     };
     Object.keys(AVAILABILITY_TYPES).forEach((k) => {
       _t[k].used += cur.capacity[k]?.current_capacity || 0;
@@ -91,16 +83,16 @@ function CapacityForecast({
     };
   }, {});
   const reversed = Object.entries(datewise).reverse();
-  let timeseries = {};
+  const timeseries = {};
   Object.keys(AVAILABILITY_TYPES).forEach((k) => {
     timeseries[k] = reversed.map(([d, value]) => ({
       date: d,
       usage: (value[k].used / value[k].total) * 100 || 0,
     }));
   });
-  let max = {};
-  let min = {};
-  let avg = {};
+  const max = {};
+  const min = {};
+  const avg = {};
   for (const k of Object.keys(AVAILABILITY_TYPES)) {
     max[k] = Math.max(...timeseries[k].map((e) => e.usage));
     min[k] = Math.min(...timeseries[k].map((e) => e.usage));
@@ -108,13 +100,14 @@ function CapacityForecast({
       timeseries[k].reduce((a, p) => a + p.usage, 0) / timeseries[k].length;
   }
 
-  let forecasted = {};
-  let forecasted_max = {};
-  let forecasted_min = {};
-  let forecasted_avg = {};
+  const forecasted = {};
+  const forecasted_max = {};
+  const forecasted_min = {};
+  const forecasted_avg = {};
   if (filtered.length > 0) {
     for (const k of Object.keys(AVAILABILITY_TYPES)) {
       // https://github.com/zemlyansky/arima
+      // eslint-disable-next-line prefer-destructuring
       forecasted[k] = arima(
         timeseries[k].map((e) => e.usage),
         timespan.forecast,
@@ -213,7 +206,7 @@ function SingleCapacityForecast({ title, past, forecasted }) {
     delay: 0,
     config: config.slow,
   });
-  const date = past.data[past.data.length - 1].date;
+  const { date } = past.data[past.data.length - 1];
   const chartData = [
     ...past.data,
     ...forecasted.data.map((d, i) => ({
@@ -283,7 +276,7 @@ function SingleCapacityForecast({ title, past, forecasted }) {
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey={"date"} />
+                    <XAxis dataKey="date" />
                     <YAxis />
                     <Tooltip
                       contentStyle={{

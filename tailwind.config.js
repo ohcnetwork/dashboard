@@ -1,13 +1,17 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
 const windmill = require("@saanuregh/react-ui/config");
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = windmill({
   purge: [
     "src/**/*.js",
     "node_modules/@saanuregh/react-ui/lib/defaultTheme.js",
+    "node_modules/@saanuregh/react-ui/dist/index.js",
   ],
   theme: {
     extend: {
+      fontSize: {
+        xxs: ".65rem",
+      },
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
       },
