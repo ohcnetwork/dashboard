@@ -65,7 +65,7 @@ function DistrictDashboard() {
     window.history.replaceState(
       null,
       "Care Dashboard",
-      `/app/district/${Object.entries(CONTENT)
+      `/district/${Object.entries(CONTENT)
         .find((a) => a[1] === content)[0]
         .toLowerCase()}`
     );

@@ -1,10 +1,5 @@
 import React, { lazy } from "react";
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import AccessibleNavigationAnnouncer from "./components/AccessibleNavigationAnnouncer";
 
@@ -20,8 +15,7 @@ function App() {
       <Router>
         <AccessibleNavigationAnnouncer />
         <Switch>
-          <PublicRoute path="/app" component={Layout} />
-          <Redirect exact from="/" to="/app" />
+          <PublicRoute path="/" component={Layout} />
         </Switch>
       </Router>
     </>
