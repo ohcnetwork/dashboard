@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import useSWR from "swr";
 
-import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { TRIAGE_TYPES } from "../../utils/constants";
 import {
@@ -13,12 +12,10 @@ import TimeseriesLineChart from "../Chart/TimeseriesLineChart";
 import NoData from "../NoData";
 
 function TriageTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
-  const { auth } = useContext(AuthContext);
   const { data } = useSWR(
-    ["TriageTimeseries", dates, auth.token, filterDistrict.id],
-    (url, dates, token, district) =>
+    ["TriageTimeseries", dates, filterDistrict.id],
+    (url, dates, district) =>
       careSummary(
-        token,
         "triage",
         dateString(dates[0]),
         dateString(getNDateAfter(dates[1], 1)),

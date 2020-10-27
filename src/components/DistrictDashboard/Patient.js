@@ -1,10 +1,9 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense, useContext } from "react";
+import React, { lazy, Suspense } from "react";
 import useSWR from "swr";
 
-import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { PATIENT_TYPES } from "../../utils/constants";
 import {
@@ -30,12 +29,10 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
     home_quarantine: { total: 0, today: 0 },
   };
 
-  const { auth } = useContext(AuthContext);
   const { data } = useSWR(
-    ["Patient", date, auth.token, filterDistrict.id],
-    (url, date, token, district) =>
+    ["Patient", date, filterDistrict.id],
+    (url, date, district) =>
       careSummary(
-        token,
         "patient",
         dateString(getNDateBefore(date, 1)),
         dateString(getNDateAfter(date, 1)),

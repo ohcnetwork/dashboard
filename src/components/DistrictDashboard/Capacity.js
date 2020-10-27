@@ -1,12 +1,11 @@
 import { Button } from "@saanuregh/react-ui";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense, useContext, useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { ArrowRight } from "react-feather";
 import { animated, useTransition } from "react-spring";
 import useSWR from "swr";
 
-import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import {
   AVAILABILITY_TYPES,
@@ -80,13 +79,11 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     oxygen: 0,
   };
 
-  const { auth } = useContext(AuthContext);
   const [forecast, setForecast] = useState(false);
   const { data } = useSWR(
-    ["Capacity", date, auth.token, filterDistrict.id],
-    (url, date, token, district) =>
+    ["Capacity", date, filterDistrict.id],
+    (url, date, district) =>
       careSummary(
-        token,
         "facility",
         dateString(getNDateBefore(date, 1)),
         dateString(getNDateAfter(date, 1)),

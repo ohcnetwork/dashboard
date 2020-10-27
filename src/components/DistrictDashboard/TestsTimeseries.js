@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import useSWR from "swr";
 
-import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { TESTS_TYPES } from "../../utils/constants";
 import {
@@ -13,12 +12,10 @@ import TimeseriesLineChart from "../Chart/TimeseriesLineChart";
 import NoData from "../NoData";
 
 function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
-  const { auth } = useContext(AuthContext);
   const { data } = useSWR(
-    ["TestsTimeseries", dates, auth.token, filterDistrict.id],
-    (url, dates, token, district) =>
+    ["TestsTimeseries", dates, filterDistrict.id],
+    (url, dates, district) =>
       careSummary(
-        token,
         "tests",
         dateString(dates[0]),
         dateString(getNDateAfter(dates[1], 1)),

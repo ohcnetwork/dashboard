@@ -1,10 +1,9 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense, useContext } from "react";
+import React, { lazy, Suspense } from "react";
 import useSWR from "swr";
 
-import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { TESTS_TYPES } from "../../utils/constants";
 import {
@@ -31,12 +30,10 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
     result_positive: 0,
   };
 
-  const { auth } = useContext(AuthContext);
   const { data } = useSWR(
-    ["Tests", date, auth.token, filterDistrict.id],
-    (url, date, token, district) =>
+    ["Tests", date, filterDistrict.id],
+    (url, date, district) =>
       careSummary(
-        token,
         "tests",
         dateString(getNDateBefore(date, 1)),
         dateString(getNDateAfter(date, 1)),

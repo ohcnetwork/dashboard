@@ -1,5 +1,5 @@
 import { Button, Dropdown, DropdownItem } from "@saanuregh/react-ui";
-import React, { lazy, Suspense, useContext, useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { ChevronDown } from "react-feather";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
@@ -8,7 +8,6 @@ import { SWRConfig } from "swr";
 
 import ThemedSuspense from "../components/ThemedSuspense";
 import { PageTitle } from "../components/Typography/Title";
-import { AuthContext } from "../context/AuthContext";
 import { CONTENT, DISTRICTS, FACILITY_TYPES } from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
 
@@ -37,12 +36,12 @@ const TriageTimeseries = lazy(() =>
 function DistrictDashboard() {
   const todayDate = new Date();
   const params = useParams();
-  const { auth } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [timeseries, setTimeseries] = useState(false);
-  const [filterDistrict, setFilterDistrict] = useState(
-    auth.userData.district_object
-  );
+  const [filterDistrict, setFilterDistrict] = useState({
+    id: 7,
+    name: "Ernakulam",
+  });
   const [filterFacilityTypes, setFilterFacilityTypes] = useState(
     FACILITY_TYPES
   );
@@ -54,9 +53,6 @@ function DistrictDashboard() {
     todayDate,
   ]);
   const [date, dateOnChange] = useState(todayDate);
-  const isStateAdmin = ["StateLabAdmin", "StateAdmin"].includes(
-    auth.userData.user_type
-  );
   const [ref, inView] = useInView({
     threshold: 0,
   });
@@ -195,15 +191,13 @@ function DistrictDashboard() {
               );
             })}
           </div>
-          <div className="dark:bg-gray-900 bg-white rounded-lg mt-2 relative md:mt-0">
+          <div className="dark:bg-gray-900 bg-white rounded-lg hidden mt-2 relative md:mt-0">
             <Button
               layout="link"
               onClick={() => setIsOpen(!isOpen)}
-              aria-label={
-                !isStateAdmin ? "Need statelevel access" : "Select district"
-              }
+              aria-label="Select district"
               aria-haspopup="true"
-              disabled={!isStateAdmin}
+              disabled
               iconRight={ChevronDown}
               className="shadow-xs"
             >

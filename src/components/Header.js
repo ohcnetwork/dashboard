@@ -1,14 +1,12 @@
 import { WindmillContext } from "@saanuregh/react-ui";
 import React, { useContext } from "react";
-import { LogOut, Menu, Moon, Sun } from "react-feather";
+import { Menu, Moon, Sun } from "react-feather";
 import { useHistory } from "react-router-dom";
 
 import { ReactComponent as CoronaSafeLogo } from "../assets/icons/coronaSafeLogo.svg";
-import { AuthContext } from "../context/AuthContext";
 import { SidebarContext } from "../context/SidebarContext";
 
 function Header() {
-  const { auth, logout } = useContext(AuthContext);
   const { mode, toggleMode } = useContext(WindmillContext);
   const { toggleSidebar } = useContext(SidebarContext);
   const history = useHistory();
@@ -42,12 +40,6 @@ function Header() {
           </button>
         </div>
         <div className="flex flex-shrink-0 justify-between space-x-6">
-          <div className="flex flex-col leading-none text-right md:block">
-            <p className="text-sm font-medium">
-              {auth.userData.first_name} {auth.userData.last_name}
-            </p>
-            <p className="text-xs">{auth.userData.username}</p>
-          </div>
           <button
             type="button"
             className="focus:shadow-outline-green rounded-md focus:outline-none p-1"
@@ -59,14 +51,6 @@ function Header() {
             ) : (
               <Moon className="h-5 w-5" aria-hidden="true" />
             )}
-          </button>
-          <button
-            type="button"
-            className="focus:shadow-outline-green rounded-md focus:outline-none p-1"
-            onClick={() => logout()}
-            aria-label="Logout"
-          >
-            <LogOut className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
       </div>

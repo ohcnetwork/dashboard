@@ -14,7 +14,6 @@ import {
 } from "recharts";
 import useSWR from "swr";
 
-import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import {
   AVAILABILITY_TYPES,
@@ -37,13 +36,11 @@ function CapacityForecast({
   date,
   setForecast,
 }) {
-  const { auth } = useContext(AuthContext);
   const [timespan, setTimespan] = useState({ past: 14, forecast: 14 });
   const { data } = useSWR(
-    ["CapacityForecast", date, auth.token, filterDistrict.id, timespan.past],
-    (url, date, token, district, days) =>
+    ["CapacityForecast", date, filterDistrict.id, timespan.past],
+    (url, date, district, days) =>
       careSummary(
-        token,
         "facility",
         dateString(getNDateBefore(date, days - 1)),
         dateString(getNDateAfter(date, 1)),

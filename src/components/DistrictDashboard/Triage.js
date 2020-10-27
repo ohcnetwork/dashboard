@@ -1,10 +1,9 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense, useContext } from "react";
+import React, { lazy, Suspense } from "react";
 import useSWR from "swr";
 
-import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { TRIAGE_TYPES } from "../../utils/constants";
 import {
@@ -34,12 +33,10 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
     total_patients_home_quarantine: 0,
   };
 
-  const { auth } = useContext(AuthContext);
   const { data } = useSWR(
-    ["Triage", date, auth.token, filterDistrict.id],
-    (url, date, token, district) =>
+    ["Triage", date, filterDistrict.id],
+    (url, date, district) =>
       careSummary(
-        token,
         "triage",
         dateString(getNDateBefore(date, 1)),
         dateString(getNDateAfter(date, 1)),
