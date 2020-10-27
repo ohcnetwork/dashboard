@@ -62,14 +62,14 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
 
   return (
     <>
-      <div className="flex flex-row justify-end h-6 mb-8 space-x-2">
+      <div className="flex flex-row h-6 justify-end mb-8 space-x-2">
         <ValuePill
           title="Facility Count"
           value={facilitiesTrivia.current.count}
         />
       </div>
 
-      <div className="grid md:grid-cols-4 grid-col-1 gap-6 mb-8">
+      <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
         {Object.keys(PATIENT_TYPES).map((k, i) => (
           <InfoCard
             key={i}
@@ -97,7 +97,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
                   return (
                     <div key={k} className="flex">
                       <p className="">{c[`total_patients_${k}`]}</p>
-                      <span className="ml-2 text-sm">
+                      <span className="text-sm ml-2">
                         {delta === 0 ? "-" : delta > 0 ? `+${delta}` : delta}
                       </span>
                     </div>

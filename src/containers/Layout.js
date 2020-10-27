@@ -26,7 +26,7 @@ function Layout() {
       }`}
     >
       <Sidebar />
-      <div className="flex flex-col flex-1 w-full">
+      <div className="flex flex-1 flex-col w-full">
         <Header />
         <Main>
           <ErrorBoundary>

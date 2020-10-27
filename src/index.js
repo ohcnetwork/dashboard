@@ -15,7 +15,7 @@ ReactDOM.render(
     <SidebarProvider>
       <Suspense
         fallback={
-          <ThemedSuspense className="min-h-screen my-auto dark:bg-gray-900" />
+          <ThemedSuspense className="dark:bg-gray-900 my-auto min-h-screen" />
         }
       >
         <Windmill usePreferences>

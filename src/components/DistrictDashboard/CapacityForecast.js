@@ -129,7 +129,7 @@ function CapacityForecast({
 
   return filtered.length > 0 ? (
     <>
-      <div className="flex flex-row justify-end h-6 space-x-2">
+      <div className="flex flex-row h-6 justify-end space-x-2">
         <Pill title="Forecast">
           <>
             <Button
@@ -160,7 +160,7 @@ function CapacityForecast({
           </Button>
         </Pill>
       </div>
-      <div className="my-4 text-xs text-center text-red-600">
+      <div className="text-xs my-4 text-center text-red-600">
         This is a work in progress version for a utilization forecasting system.
         These numbers should not be considered for decision making as it can
         vary as we haven't considered all variables to project it.
@@ -217,31 +217,31 @@ function SingleCapacityForecast({ title, past, forecasted }) {
 
   return (
     <div className="flex flex-col">
-      <p className="mb-2 text-lg font-semibold text-gray-600 dark:text-gray-400">
+      <p className="text-lg font-semibold mb-2 dark:text-gray-400 text-gray-600">
         {title}
       </p>
       <div className="flex space-x-3">
         <Card className="flex w-1/4">
           <CardBody className="flex flex-col justify-between w-full">
-            <p className="mb-2 text-base font-medium text-gray-600 dark:text-gray-400">
+            <p className="text-base font-medium mb-2 dark:text-gray-400 text-gray-600">
               Trends for past {past.data.length} days
             </p>
-            <div className="flex justify-between text-lg font-bold">
+            <div className="flex text-lg font-bold justify-between">
               <div className="flex flex-col justify-between">
-                <p className="text-gray-600 dark:text-gray-400">AVG</p>
-                <animated.p className="text-2xl text-gray-700 dark:text-gray-200">
+                <p className="dark:text-gray-400 text-gray-600">AVG</p>
+                <animated.p className="text-2xl dark:text-gray-200 text-gray-700">
                   {a.interpolate((x) => x.toFixed(2))}
                 </animated.p>
               </div>
               <div className="flex flex-col justify-between">
-                <p className="text-gray-600 dark:text-gray-400">MIN</p>
-                <animated.p className="text-2xl text-gray-700 dark:text-gray-200">
+                <p className="dark:text-gray-400 text-gray-600">MIN</p>
+                <animated.p className="text-2xl dark:text-gray-200 text-gray-700">
                   {mn.interpolate((x) => x.toFixed(2))}
                 </animated.p>
               </div>
               <div className="flex flex-col justify-between">
-                <p className="text-gray-600 dark:text-gray-400">MAX</p>
-                <animated.p className="text-2xl text-gray-700 dark:text-gray-200">
+                <p className="dark:text-gray-400 text-gray-600">MAX</p>
+                <animated.p className="text-2xl dark:text-gray-200 text-gray-700">
                   {mx.interpolate((x) => x.toFixed(2))}
                 </animated.p>
               </div>
@@ -260,7 +260,7 @@ function SingleCapacityForecast({ title, past, forecasted }) {
         </Card>
         <Card className="flex flex-col w-3/4">
           <CardBody>
-            <p className="mb-2 text-base font-medium text-gray-600 dark:text-gray-400 ">
+            <p className="text-base font-medium mb-2 dark:text-gray-400 text-gray-600">
               Forecasts for next {forecasted.data.length} days
             </p>
             <div className="flex space-x-2">
@@ -308,28 +308,28 @@ function SingleCapacityForecast({ title, past, forecasted }) {
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-              <div className="flex flex-col self-center w-1/12 text-right">
+              <div className="self-center flex flex-col text-right w-1/12">
                 <div className="flex flex-col justify-between">
-                  <p className="text-base font-semibold text-gray-600 dark:text-gray-400">
+                  <p className="text-base font-semibold dark:text-gray-400 text-gray-600">
                     AVG
                   </p>
-                  <animated.p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                  <animated.p className="text-lg font-semibold dark:text-gray-200 text-gray-700">
                     {fa.interpolate((x) => x.toFixed(2))}
                   </animated.p>
                 </div>
                 <div className="flex flex-col justify-between">
-                  <p className="text-base font-semibold text-gray-600 dark:text-gray-400">
+                  <p className="text-base font-semibold dark:text-gray-400 text-gray-600">
                     MIN
                   </p>
-                  <animated.p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                  <animated.p className="text-lg font-semibold dark:text-gray-200 text-gray-700">
                     {fmn.interpolate((x) => x.toFixed(2))}
                   </animated.p>
                 </div>
                 <div className="flex flex-col justify-between">
-                  <p className="text-base font-semibold text-gray-600 dark:text-gray-400">
+                  <p className="text-base font-semibold dark:text-gray-400 text-gray-600">
                     MAX
                   </p>
-                  <animated.p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                  <animated.p className="text-lg font-semibold dark:text-gray-200 text-gray-700">
                     {fmx.interpolate((x) => x.toFixed(2))}
                   </animated.p>
                 </div>

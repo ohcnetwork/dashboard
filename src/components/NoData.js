@@ -2,8 +2,8 @@ import React from "react";
 
 function NoData() {
   return (
-    <div className="flex justify-center w-full p-6 overflow-hidden dark:bg-gray-900">
-      <div className="self-center text-6xl font-semibold text-gray-600 dark:text-gray-400">
+    <div className="dark:bg-gray-900 flex justify-center overflow-hidden p-6 w-full">
+      <div className="self-center text-6xl font-semibold dark:text-gray-400 text-gray-600">
         No Data
       </div>
     </div>

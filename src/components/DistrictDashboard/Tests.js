@@ -63,7 +63,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
 
   return (
     <>
-      <div className="flex flex-row justify-end h-6 mb-8 space-x-2">
+      <div className="flex flex-row h-6 justify-end mb-8 space-x-2">
         <ValuePill
           title="Facility Count"
           value={facilitiesTrivia.current.count}
@@ -73,7 +73,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
           value={facilitiesTrivia.current.total_patients}
         />
       </div>
-      <div className="grid grid-cols-4 gap-6 mb-8">
+      <div className="grid gap-6 grid-cols-4 mb-8">
         {Object.keys(TESTS_TYPES).map((k, i) => {
           if (k !== "total_patients") {
             return (

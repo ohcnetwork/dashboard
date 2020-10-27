@@ -79,7 +79,7 @@ function Map({ district, facilities, className }) {
 
   const genToolTip = (f) => (
     <div className="text-xxs">
-      <p className="mb-1 font-black">{f.name}</p>
+      <p className="font-black mb-1">{f.name}</p>
       <div>
         <div>
           <p className="font-semibold">Oxygen capacity</p>
@@ -140,32 +140,32 @@ function Map({ district, facilities, className }) {
   return (
     <Card className={`${className} overflow-visible`}>
       <CardBody className="relative">
-        <div className="absolute bottom-0 right-0 flex flex-col items-end p-5 space-y-1 pointer-events-none text-xxs">
+        <div className="items-end flex flex-col text-xxs bottom-0 right-0 p-5 pointer-events-none absolute space-y-1">
           <div className="w-12">
             <div
               style={{ backgroundColor: "#00FF00" }}
-              className="p-1 leading-none text-center border border-black "
+              className="border-black border leading-none p-1 text-center"
             >
               Full
             </div>
             <div
               style={{ backgroundColor: "#FF0000" }}
-              className="p-1 leading-none text-center border border-black "
+              className="border-black border leading-none p-1 text-center"
             >
               Empty
             </div>
             <div
               style={{ backgroundColor: "gray" }}
-              className="p-1 leading-none text-center border border-black "
+              className="border-black border leading-none p-1 text-center"
             >
               None
             </div>
           </div>
-          <div className="grid w-3/4 grid-cols-8 gap-0">
+          <div className="grid gap-0 grid-cols-8 w-3/4">
             {AVAILABILITY_TYPES_ORDERED.map((a) => (
               <div
                 key={a}
-                className="p-1 leading-none text-center bg-white border border-black"
+                className="bg-white border-black border leading-none p-1 text-center"
               >
                 {AVAILABILITY_TYPES[a]}
               </div>
@@ -185,7 +185,7 @@ function Map({ district, facilities, className }) {
               onMoveEnd={({ zoom }) => setZoom(zoom / 2)}
             >
               <Geographies
-                className="text-green-500 fill-current dark:text-gray-400"
+                className="fill-current dark:text-gray-400 text-green-500"
                 geography={topojson}
                 pointerEvents="none"
               >

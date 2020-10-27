@@ -11,24 +11,24 @@ function SidebarSubmenu({ route }) {
   }
 
   return (
-    <li className="relative px-6 py-3" key={route.name}>
+    <li className="px-6 py-3 relative" key={route.name}>
       <Route path={route.path} exact={route.exact}>
         <span
-          className="absolute inset-y-0 left-0 w-1 bg-green-500 rounded-tr-lg rounded-br-lg"
+          className="bg-green-500 rounded-br-lg rounded-tr-lg inset-y-0 left-0 absolute w-1"
           aria-hidden="true"
         />
       </Route>
       <button
         type="button"
-        className="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+        className="dark:hover:text-gray-200 items-center inline-flex text-sm font-semibold justify-between hover:text-gray-800 duration-150 transition-colors w-full"
         onClick={handleDropdownMenuClick}
         aria-haspopup="true"
       >
-        <span className="inline-flex items-center">
-          <route.icon className="w-5 h-5" aria-hidden="true" />
+        <span className="items-center inline-flex">
+          <route.icon className="h-5 w-5" aria-hidden="true" />
           <span className="ml-4">{route.name}</span>
         </span>
-        <ChevronDown className="w-4 h-4" aria-hidden="true" />
+        <ChevronDown className="h-4 w-4" aria-hidden="true" />
       </button>
       <Transition
         show={isDropdownMenuOpen}
@@ -40,12 +40,12 @@ function SidebarSubmenu({ route }) {
         leaveTo="opacity-0 max-h-0"
       >
         <ul
-          className="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+          className="bg-gray-50 dark:bg-gray-900 rounded-md shadow-inner text-sm font-medium mt-2 overflow-hidden p-2 space-y-2 dark:text-gray-400 text-gray-500"
           aria-label="submenu"
         >
           {route.routes.map((r) => (
             <li
-              className="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              className="dark:hover:text-gray-200 px-2 py-1 hover:text-gray-800 duration-150 transition-colors"
               key={r.name}
             >
               <NavLink

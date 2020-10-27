@@ -32,18 +32,18 @@ function FacilityTable({ columns = [], data, className, exported = null }) {
 
   return (
     <div className={className}>
-      <div className="flex items-center justify-between pb-2">
-        <h2 className="text-lg font-semibold text-gray-600 dark:text-gray-300">
+      <div className="items-center flex justify-between pb-2">
+        <h2 className="text-lg font-semibold dark:text-gray-300 text-gray-600">
           Facilities
         </h2>
-        <div className="flex items-center space-x-2">
+        <div className="items-center flex space-x-2">
           {exported && (
             <CSVLink data={exported.data} filename={exported.filename}>
               <Button>Export</Button>
             </CSVLink>
           )}
           <Input
-            className="flex self-center w-64"
+            className="self-center flex w-64"
             placeholder="Search Facilities"
             onChange={(e) => {
               setFilteredData(
@@ -68,7 +68,7 @@ function FacilityTable({ columns = [], data, className, exported = null }) {
       <TableContainer className="text-xs xl:text-base">
         <WTable>
           <TableHeader>
-            <tr>
+            <tr className="whitespace-pre">
               {columns.map((item, i) => (
                 <TableCell key={i}>{item}</TableCell>
               ))}
@@ -81,14 +81,14 @@ function FacilityTable({ columns = [], data, className, exported = null }) {
                   {h.map((r, j) => (
                     <TableCell key={j}>
                       {j === 0 ? (
-                        <div className="flex flex-col w-32 whitespace-pre-wrap">
+                        <div className="flex flex-col whitespace-pre-wrap w-32">
                           <p className="text-xs font-semibold xl:text-sm">
                             {r[0]}
                           </p>
-                          <p className="text-gray-600 text-xxs xl:text-xs dark:text-gray-400">
+                          <p className="text-xxs dark:text-gray-400 text-gray-600 xl:text-xs">
                             {r[1]}
                           </p>
-                          <p className="text-gray-600 text-xxs xl:text-xs dark:text-gray-400">
+                          <p className="text-xxs dark:text-gray-400 text-gray-600 xl:text-xs">
                             {r[2]}
                           </p>
                         </div>

@@ -14,12 +14,12 @@ export function ValuePill({ title, value = 0 }) {
   });
 
   return (
-    <div className="flex items-center rounded-lg shadow-xs dark:bg-gray-800 dark:text-gray-200">
-      <span className="mx-2 font-medium leading-none text-xxs xl:text-sm">
+    <div className="items-center dark:bg-gray-800 rounded-lg shadow-xs flex dark:text-gray-200">
+      <span className="text-xxs font-medium leading-none mx-2 xl:text-sm">
         {title}
       </span>
-      <div className="flex items-center h-full text-xs font-medium bg-green-500 rounded-lg xl:text-base">
-        <animated.span className="inline-flex items-center justify-center px-3 py-1 leading-5 text-white align-bottom rounded-md shadow-xs">
+      <div className="items-center bg-green-500 rounded-lg flex text-xs font-medium h-full xl:text-base">
+        <animated.span className="items-center rounded-md shadow-xs inline-flex justify-center leading-5 px-3 py-1 text-white align-bottom">
           {v.interpolate((x) => Math.round(x))}
         </animated.span>
       </div>

@@ -18,6 +18,7 @@
     "dayjs": "^1.9.4",
     "fuzzysort": "^1.1.4",
     "polylabel": "^1.1.0",
+    "prettier-plugin-tailwind": "^2.1.9",
     "react": "^16.13.1",
     "react-csv": "^2.0.3",
     "react-date-picker": "^8.0.3",

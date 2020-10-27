@@ -66,13 +66,13 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
 
   return (
     <>
-      <div className="flex flex-row justify-end h-6 mb-8 space-x-2">
+      <div className="flex flex-row h-6 justify-end mb-8 space-x-2">
         <ValuePill
           title="Facility Count"
           value={facilitiesTrivia.current.count}
         />
       </div>
-      <div className="grid md:grid-cols-4 grid-col-1 gap-6 mb-8">
+      <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
         {Object.keys(TRIAGE_TYPES).map((k, i) => {
           if (k !== "total_patients") {
             return (

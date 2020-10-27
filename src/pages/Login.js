@@ -39,24 +39,24 @@ function Login() {
   };
 
   return (
-    <div className="relative flex items-center min-h-screen transition-colors duration-200 ease-linear bg-gray-50 dark:bg-gray-900">
-      <div className="absolute bottom-0 right-0 p-3">
+    <div className="items-center bg-gray-50 dark:bg-gray-900 flex min-h-screen relative duration-200 transition-colors ease-linear">
+      <div className="bottom-0 right-0 p-3 absolute">
         <button
           type="button"
-          className="p-1 text-gray-700 rounded-md focus:outline-none focus:shadow-outline-green dark:text-gray-200"
+          className="focus:shadow-outline-green rounded-md focus:outline-none p-1 dark:text-gray-200 text-gray-700"
           onClick={toggleMode}
           aria-label="Toggle color mode"
         >
           {mode === "dark" ? (
-            <Sun className="w-5 h-5" aria-hidden="true" />
+            <Sun className="h-5 w-5" aria-hidden="true" />
           ) : (
-            <Moon className="w-5 h-5" aria-hidden="true" />
+            <Moon className="h-5 w-5" aria-hidden="true" />
           )}
         </button>
       </div>
-      <main className="flex items-center justify-center w-auto h-auto p-6 mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800 sm:p-10">
+      <main className="items-center dark:bg-gray-800 bg-white rounded-lg shadow-xl flex h-auto justify-center mx-auto overflow-hidden p-6 w-auto sm:p-10">
         <form>
-          <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
+          <h1 className="text-xl font-semibold mb-4 dark:text-gray-200 text-gray-700">
             Login with Care Credentials
           </h1>
           <Label>
@@ -64,7 +64,7 @@ function Login() {
             <Input
               name="username"
               ref={register({ required: true })}
-              className="mt-1 "
+              className="mt-1"
               placeholder="johsndoe"
               valid={!errors.username}
             />
@@ -83,7 +83,7 @@ function Login() {
           </Label>
           {errors.password && <HelperText valid={false}>Required</HelperText>}
           <Button
-            className="mt-4 "
+            className="mt-4"
             block
             onClick={(e) => {
               errors.login && clearErrors("login");
@@ -91,7 +91,7 @@ function Login() {
             }}
           >
             {loading ? (
-              <Loader className="w-5 h-5 animate-spin" />
+              <Loader className="animate-spin h-5 w-5" />
             ) : (
               <span>Login</span>
             )}
