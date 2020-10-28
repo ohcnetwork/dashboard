@@ -27,7 +27,7 @@ function Filter({
   setFilterFacilityTypes,
   content,
 }) {
-  const [FACILITY_TYPESFilterOptions, setFacilityTypesFilterOptions] = useState(
+  const [facilityTypesFilterOptions, setFacilityTypesFilterOptions] = useState(
     FACILITY_TYPES
   );
   const [_filterFacilityTypes, _setFilterFacilityTypes] = useState(
@@ -77,7 +77,7 @@ function Filter({
                         setFacilityTypesFilterOptions(
                           e.target.value
                             ? fuzzysort
-                                .go(e.target.value, FACILITY_TYPESFilterOptions)
+                                .go(e.target.value, facilityTypesFilterOptions)
                                 .map((v) => v.target)
                             : FACILITY_TYPES
                         );
@@ -105,7 +105,7 @@ function Filter({
                 </Label>
 
                 <Card className="flex flex-col h-64 mb-2 overflow-y-auto p-2">
-                  {FACILITY_TYPESFilterOptions.map((d, i) => (
+                  {facilityTypesFilterOptions.map((d, i) => (
                     <Label key={i} check>
                       <Input
                         onClick={() => {
