@@ -12,7 +12,11 @@ import React, { useState } from "react";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { Calendar, ChevronDown } from "react-feather";
 
-import { CONTENT, FACILITY_TYPES } from "../../utils/constants";
+import {
+  CONTENT,
+  FACILITY_TYPES,
+  GOVT_FACILITY_TYPES,
+} from "../../utils/constants";
 
 function Filter({
   timeseries,
@@ -89,6 +93,19 @@ function Filter({
                       className="dark:bg-gray-900 shadow-xs"
                     >
                       Clear
+                    </Button>
+                    <Button
+                      layout="link"
+                      onClick={() => {
+                        let temp = [..._filterFacilityTypes];
+                        GOVT_FACILITY_TYPES.forEach((f) => {
+                          if (temp.indexOf(f) === -1) temp.push(f);
+                        });
+                        _setFilterFacilityTypes(temp);
+                      }}
+                      className="dark:bg-gray-900 shadow-xs whitespace-no-wrap"
+                    >
+                      All Govt.
                     </Button>
                     <Button
                       layout="link"
