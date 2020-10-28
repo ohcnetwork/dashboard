@@ -7,23 +7,20 @@ import { register } from "register-service-worker";
 import App from "./App";
 import "./assets/css/tailwind.css";
 import ThemedSuspense from "./components/ThemedSuspense";
-import { AuthProvider } from "./context/AuthContext";
 import { SidebarProvider } from "./context/SidebarContext";
 
 ReactDOM.render(
-  <AuthProvider>
-    <SidebarProvider>
-      <Suspense
-        fallback={
-          <ThemedSuspense className="min-h-screen my-auto dark:bg-gray-900" />
-        }
-      >
-        <Windmill usePreferences>
-          <App />
-        </Windmill>
-      </Suspense>
-    </SidebarProvider>
-  </AuthProvider>,
+  <SidebarProvider>
+    <Suspense
+      fallback={
+        <ThemedSuspense className="dark:bg-gray-900 my-auto min-h-screen" />
+      }
+    >
+      <Windmill usePreferences>
+        <App />
+      </Windmill>
+    </Suspense>
+  </SidebarProvider>,
   document.querySelector("#root")
 );
 

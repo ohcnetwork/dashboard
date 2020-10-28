@@ -6,16 +6,16 @@ function Page404() {
   const history = useHistory();
 
   return (
-    <div className="flex flex-col items-center">
-      <XOctagon className="w-12 h-12 mt-8 text-green-500" aria-hidden="true" />
-      <h1 className="text-6xl font-semibold text-gray-700 dark:text-gray-200">
+    <div className="items-center flex flex-col">
+      <XOctagon className="h-12 mt-8 text-green-500 w-12" aria-hidden="true" />
+      <h1 className="text-6xl font-semibold dark:text-gray-200 text-gray-700">
         404
       </h1>
-      <p className="text-gray-700 dark:text-gray-300">
+      <p className="dark:text-gray-300 text-gray-700">
         Page not found.{" "}
         <button
           type="button"
-          className="text-green-500 hover:underline dark:text-green-400"
+          className="dark:text-green-400 text-green-500 hover:underline"
           onClick={() => history.goBack()}
         >
           Go back

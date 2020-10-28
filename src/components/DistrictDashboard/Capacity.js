@@ -1,12 +1,11 @@
 import { Button } from "@saanuregh/react-ui";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense, useContext, useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { ArrowRight } from "react-feather";
 import { animated, useTransition } from "react-spring";
 import useSWR from "swr";
 
-import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import {
   AVAILABILITY_TYPES,
@@ -32,32 +31,33 @@ dayjs.extend(relativeTime);
 
 const showBedsTypes = (ids, c) => {
   return (
-    <div>
-      <table class="table-auto">
-        <thead>
-          <tr>
-            <th class="border-b px-1 py-px text-xxs"></th>
-            <th class="border-b px-1 py-px text-xxs">Total</th>
-            <th class="border-b px-1 py-px text-xxs">Used</th>
-            <th class="border-b px-1 py-px text-xxs">Vacant</th>
-          </tr>
-        </thead>
-        <tbody>
-        {ids.map((i) =>
-        {return(
-          <tr>
-            <td class="border-b px-1 py-px text-xxs">{AVAILABILITY_TYPES_PROXY[i]}</td>
-            <td class="border-b px-1 py-px">{c.capacity[i]?.total_capacity || "0"}</td>
-            <td class="border-b px-1 py-px">{c.capacity[i]?.current_capacity || "0"}</td>
-            <td class="border-b px-1 py-px">{(c.capacity[i]?.total_capacity || 0) - c.capacity[i]?.current_capacity || 0}</td>
-          </tr>)
-          })  }
-
-        </tbody>
-      </table>
-    </div>
-  )
-}
+    <table className="table-auto w-full">
+      <thead>
+        <tr className="border-b text-xxs py-px space-x-4">
+          <th />
+          <th>Total</th>
+          <th>Used</th>
+          <th>Vacant</th>
+        </tr>
+      </thead>
+      <tbody>
+        {ids.map((i) => {
+          return (
+            <tr className="border-b text-xs py-px" key={i}>
+              <td className="text-xxs">{AVAILABILITY_TYPES_PROXY[i]}</td>
+              <td>{c.capacity[i]?.total_capacity || "0"}</td>
+              <td>{c.capacity[i]?.current_capacity || "0"}</td>
+              <td>
+                {(c.capacity[i]?.total_capacity || 0) -
+                  c.capacity[i]?.current_capacity || 0}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};
 
 function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
@@ -79,13 +79,11 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     oxygen: 0,
   };
 
-  const { auth } = useContext(AuthContext);
   const [forecast, setForecast] = useState(false);
   const { data } = useSWR(
-    ["Capacity", date, auth.token, filterDistrict.id],
-    (url, date, token, district) =>
+    ["Capacity", date, filterDistrict.id],
+    (url, date, district) =>
       careSummary(
-        token,
         "facility",
         dateString(getNDateBefore(date, 1)),
         dateString(getNDateAfter(date, 1)),
@@ -130,7 +128,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       </animated.div>
     ) : (
       <animated.div key={key} style={props}>
-        <div className="flex flex-row-reverse md:flex-row md:justify-end md:h-6 mb-8 space-x-2 overflow-y-auto pb-4 md:pb-0">
+        <div className="flex flex-row-reverse mb-8 overflow-y-auto pb-4 space-x-2 md:flex-row md:h-6 md:justify-end md:pb-0">
           <ValuePill
             title="Facility Count"
             value={facilitiesTrivia.current.count}
@@ -157,7 +155,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             </Button>
           </Pill>
         </div>
-        <div className="grid md:grid-cols-4 grid-col-1 gap-6 mb-8">
+        <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
           {AVAILABILITY_TYPES_ORDERED.map((k) => (
             <RadialCard
               label={AVAILABILITY_TYPES[k]}
@@ -173,17 +171,9 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             className="mb-8"
             columns={[
               "Name",
-              <div className="text-xs">
-                Last Updated
-              </div>,
-              <div>
-                <div>
-                  Patients
-                </div>
-                <div className="text-xxs">
-                 Patients /Discharged
-                </div>
-              </div>,
+              "Last Updated",
+              "Oxygen",
+              "Patients/\nDischarged",
               "Ventilators",
               "ICU",
               "Oxygen Beds",
@@ -196,13 +186,14 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
               return [
                 ...a,
                 [
-                  [c.name, c.facilityType, c.phoneNumber, `Oxygen: ${c.oxygenCapacity} l`,],
+                  [c.name, c.facilityType, c.phoneNumber],
                   dayjs(c.modifiedDate).fromNow(),
+                  c.oxygenCapacity,
                   `${c.actualLivePatients}/${c.actualDischargedPatients}`,
-                  showBedsTypes([20,100,70], c),
-                  showBedsTypes([10,110,50], c),
-                  showBedsTypes([150,120,60], c),
-                  showBedsTypes([1,30,60], c),
+                  showBedsTypes([20, 100, 70], c),
+                  showBedsTypes([10, 110, 50], c),
+                  showBedsTypes([150, 120, 60], c),
+                  showBedsTypes([1, 30, 60], c),
                 ],
               ];
             }, [])}

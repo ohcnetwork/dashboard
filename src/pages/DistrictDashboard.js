@@ -1,5 +1,5 @@
 import { Button, Dropdown, DropdownItem } from "@saanuregh/react-ui";
-import React, { lazy, Suspense, useContext, useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { ChevronDown } from "react-feather";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
@@ -8,7 +8,6 @@ import { SWRConfig } from "swr";
 
 import ThemedSuspense from "../components/ThemedSuspense";
 import { PageTitle } from "../components/Typography/Title";
-import { AuthContext } from "../context/AuthContext";
 import { CONTENT, DISTRICTS, FACILITY_TYPES } from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
 
@@ -37,12 +36,12 @@ const TriageTimeseries = lazy(() =>
 function DistrictDashboard() {
   const todayDate = new Date();
   const params = useParams();
-  const { auth } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [timeseries, setTimeseries] = useState(false);
-  const [filterDistrict, setFilterDistrict] = useState(
-    auth.userData.district_object
-  );
+  const [filterDistrict, setFilterDistrict] = useState({
+    id: 7,
+    name: "Ernakulam",
+  });
   const [filterFacilityTypes, setFilterFacilityTypes] = useState(
     FACILITY_TYPES
   );
@@ -54,9 +53,6 @@ function DistrictDashboard() {
     todayDate,
   ]);
   const [date, dateOnChange] = useState(todayDate);
-  const isStateAdmin = ["StateLabAdmin", "StateAdmin"].includes(
-    auth.userData.user_type
-  );
   const [ref, inView] = useInView({
     threshold: 0,
   });
@@ -69,7 +65,7 @@ function DistrictDashboard() {
     window.history.replaceState(
       null,
       "Care Dashboard",
-      `/app/district/${Object.entries(CONTENT)
+      `/district/${Object.entries(CONTENT)
         .find((a) => a[1] === content)[0]
         .toLowerCase()}`
     );
@@ -169,10 +165,10 @@ function DistrictDashboard() {
   return (
     <div className="overflow-auto">
       <PageTitle>District Dashboard</PageTitle>
-      <div className="flex flex-col md:flex-row items-center justify-between px-4 py-2 mb-2 bg-green-500 rounded-lg shadow-md">
+      <div className="items-center bg-green-500 rounded-lg shadow-md flex flex-col justify-between mb-2 px-4 py-2 md:flex-row">
         <p className="font-semibold text-white">{filterDistrict.name}</p>
         <div className="md:flex md:space-x-2">
-          <div className="bg-white rounded-lg dark:bg-gray-900 dark:text-gray-700 justify-center flex flex-wrap space-y-1 md:space-y-0 space-x-1 md:space-x-0">
+          <div className="dark:bg-gray-900 bg-white rounded-lg flex flex-wrap justify-center space-x-1 space-y-1 dark:text-gray-700 md:space-x-0 md:space-y-0">
             {Object.keys(CONTENT).map((k, i) => {
               let t = "shadow-xs ";
               if (i === 0) {
@@ -195,15 +191,13 @@ function DistrictDashboard() {
               );
             })}
           </div>
-          <div className="relative bg-white rounded-lg dark:bg-gray-900 mt-2 md:mt-0">
+          <div className="dark:bg-gray-900 bg-white rounded-lg hidden mt-2 relative md:mt-0">
             <Button
               layout="link"
               onClick={() => setIsOpen(!isOpen)}
-              aria-label={
-                !isStateAdmin ? "Need statelevel access" : "Select district"
-              }
+              aria-label="Select district"
               aria-haspopup="true"
-              disabled={!isStateAdmin}
+              disabled
               iconRight={ChevronDown}
               className="shadow-xs"
             >

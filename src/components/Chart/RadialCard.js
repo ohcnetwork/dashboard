@@ -25,27 +25,27 @@ function RadialCard({ label, count, current, previous }) {
   const circlePath = `M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831`;
 
   return (
-    <Card className="flex items-center justify-between">
-      <div className="relative flex content-center justify-center w-4/5 m-2">
+    <Card className="items-center flex justify-between">
+      <div className="content-center flex justify-center m-2 relative w-4/5">
         <svg viewBox="0 0 36 36" className="w-4/5">
           <path
-            className="text-gray-100 stroke-current stroke-2 dark:text-gray-400"
+            className="stroke-current stroke-2 text-gray-100 dark:text-gray-400"
             fill="none"
             d={circlePath}
           />
           <animated.path
-            className="text-green-500 stroke-current stroke-2"
+            className="stroke-current stroke-2 text-green-500"
             fill="none"
             strokeDasharray={progress}
             d={circlePath}
           />
         </svg>
-        <div className="absolute inline-flex flex-col items-center self-center w-3/5 text-sm text-center xl:text-lg">
-          <p className="font-medium text-center text-gray-600 text-xxs xl:text-xs dark:text-gray-400">
+        <div className="items-center self-center inline-flex flex-col text-sm absolute text-center w-3/5 xl:text-lg">
+          <p className="text-xxs font-medium text-center dark:text-gray-400 text-gray-600 xl:text-xs">
             {label}
           </p>
           <div className="space-x-1">
-            <animated.span className="font-semibold text-center text-gray-700 dark:text-gray-200">
+            <animated.span className="font-semibold text-center dark:text-gray-200 text-gray-700">
               {innerProgress.interpolate((x) => `${Math.round(x)}%`)}
             </animated.span>
             {count > 0 &&
@@ -67,21 +67,21 @@ function RadialCard({ label, count, current, previous }) {
       </div>
       <div
         style={{ direction: "rtl" }}
-        className="grid w-1/4 grid-cols-1 mr-4 space-y-1 text-right xl:space-y-2"
+        className="grid grid-cols-1 mr-4 space-y-1 text-right w-1/4 xl:space-y-2"
       >
         <div className="flex-col">
-          <p className="text-xs font-medium text-gray-600 xl:text-sm dark:text-gray-400">
+          <p className="text-xs font-medium dark:text-gray-400 text-gray-600 xl:text-sm">
             Used
           </p>
-          <animated.p className="text-xs font-semibold text-gray-700 xl:text-lg dark:text-gray-200">
+          <animated.p className="text-xs font-semibold dark:text-gray-200 text-gray-700 xl:text-lg">
             {used.interpolate((x) => Math.round(x))}
           </animated.p>
         </div>
         <div className="flex-col">
-          <p className="text-xs font-medium text-gray-600 xl:text-sm dark:text-gray-400">
+          <p className="text-xs font-medium dark:text-gray-400 text-gray-600 xl:text-sm">
             Total
           </p>
-          <animated.p className="text-xs font-semibold text-gray-700 xl:text-lg dark:text-gray-200">
+          <animated.p className="text-xs font-semibold dark:text-gray-200 text-gray-700 xl:text-lg">
             {total.interpolate((x) => Math.round(x))}
           </animated.p>
         </div>

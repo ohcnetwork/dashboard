@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import useSWR from "swr";
 
-import { AuthContext } from "../../context/AuthContext";
 import { careSummary } from "../../utils/api";
 import { PATIENT_TYPES } from "../../utils/constants";
 import {
@@ -13,12 +12,10 @@ import TimeseriesBarChart from "../Chart/TimeseriesBarChart";
 import NoData from "../NoData";
 
 function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
-  const { auth } = useContext(AuthContext);
   const { data } = useSWR(
-    ["PatientTimeseries", dates, auth.token, filterDistrict.id],
-    (url, dates, token, district) =>
+    ["PatientTimeseries", dates, filterDistrict.id],
+    (url, dates, district) =>
       careSummary(
-        token,
         "patient",
         dateString(dates[0]),
         dateString(getNDateAfter(dates[1], 1)),
