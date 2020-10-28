@@ -25,7 +25,6 @@ function SidebarSubmenu({ route }) {
         aria-haspopup="true"
       >
         <span className="items-center inline-flex">
-          <route.icon className="h-5 w-5" aria-hidden="true" />
           <span className="ml-4">{route.name}</span>
         </span>
         <ChevronDown className="h-4 w-4" aria-hidden="true" />

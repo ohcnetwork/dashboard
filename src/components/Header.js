@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import { Menu, Moon, Sun } from "react-feather";
 import { useHistory } from "react-router-dom";
 
-import { ReactComponent as CoronaSafeLogo } from "../assets/icons/coronaSafeLogo.svg";
 import { SidebarContext } from "../context/SidebarContext";
 
 function Header() {
@@ -32,11 +31,8 @@ function Header() {
             }}
           >
             <span className="flex text-2xl subpixel-antialiased font-black leading-none">
-              Dashboard
+              Care Dashboard
             </span>
-          </button>
-          <button type="button" aria-label="CoronaSafe">
-            <CoronaSafeLogo className="h-6 w-24" aria-hidden="true" />
           </button>
         </div>
         <div className="flex flex-shrink-0 justify-between space-x-6">

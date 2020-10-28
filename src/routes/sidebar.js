@@ -1,8 +1,5 @@
-import { Home } from "react-feather";
-
 const routes = [
   {
-    icon: Home,
     name: "District Dashboard",
     routes: [
       {
@@ -22,6 +19,18 @@ const routes = [
         name: "Covid",
       },
     ],
+  },
+  {
+    href: "https://care.coronasafe.network/",
+    name: "Care",
+  },
+  {
+    href: "https://keralamap.coronasafe.network/",
+    name: "Covid Dashboard",
+  },
+  {
+    href: "https://hotspots.coronasafe.network/",
+    name: "Hotspots Map",
   },
 ];
 
