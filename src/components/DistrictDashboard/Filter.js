@@ -97,9 +97,11 @@ function Filter({
                     <Button
                       layout="link"
                       onClick={() => {
-                        let temp = [..._filterFacilityTypes];
+                        const temp = [..._filterFacilityTypes];
                         GOVT_FACILITY_TYPES.forEach((f) => {
-                          if (temp.indexOf(f) === -1) temp.push(f);
+                          if (!temp.includes(f)) {
+                            temp.push(f);
+                          }
                         });
                         _setFilterFacilityTypes(temp);
                       }}
