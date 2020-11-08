@@ -1,8 +1,5 @@
 import axios from "axios";
 
-const API_BASE_URL = process.env.POI_APP_CARE_BASE_URL || "";
-const STAT_BASE_URL = "https://keralastats.coronasafe.live";
-
 const request = (options) => {
   const headers = {
     "Content-Type": "application/json",
@@ -21,7 +18,7 @@ export function careSummary(
   limit = 2000
 ) {
   return request({
-    url: `${API_BASE_URL}/api/v1/${type}_summary/`,
+    url: `/api/v1/${type}_summary/`,
     method: "GET",
     params: {
       start_date,
@@ -34,14 +31,14 @@ export function careSummary(
 
 export function covidGetHistories() {
   return request({
-    url: `${STAT_BASE_URL}/histories.json`,
+    url: `https://keralastats.coronasafe.live/histories.json`,
     method: "GET",
   });
 }
 
 export function covidGetHotspotHistories() {
   return request({
-    url: `${STAT_BASE_URL}/hotspots_histories.json`,
+    url: `https://keralastats.coronasafe.live/hotspots_histories.json`,
     method: "GET",
   });
 }
