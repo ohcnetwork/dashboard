@@ -239,7 +239,7 @@ function Map({ district, facilities, className }) {
             {genToolTip(facilities.find((x) => x.id === tooltipData))}
           </TooltipWithBounds>
         )}
-        <div className="text-xxxs items-end flex flex-col dark:text-gray-400 text-gray-600 break-all sm:text-xs">
+        <div className="items-end flex flex-col text-xxxs dark:text-gray-400 text-gray-600 break-all sm:text-xs">
           <span className="inline-flex space-x-1">
             <span>Legends: </span>
             {[
