@@ -10,6 +10,7 @@ module.exports = windmill({
   theme: {
     extend: {
       fontSize: {
+        xxxs: ".45rem",
         xxs: ".65rem",
       },
       fontFamily: {
