@@ -51,7 +51,7 @@ function Filter({
           : "mb-8 rounded-lg"
       } flex flex-col md:flex-row items-center justify-between px-1 sm:px-4 py-1 sm:py-2 bg-white shadow-md dark:bg-gray-800`}
     >
-      <p className="hidden dark:inline-flex dark:text-gray-400">Filters</p>
+      <p className="inline-flex dark:text-gray-400">Filters</p>
       <div className="inline-grid gap-1 grid-rows-none w-full sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
         {content !== CONTENT.COVID && (
           <div className="dark:bg-gray-900 bg-white rounded-lg relative">
