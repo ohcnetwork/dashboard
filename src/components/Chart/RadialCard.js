@@ -1,4 +1,4 @@
-import { Card } from "@saanuregh/react-ui";
+import { Card } from "@windmill/react-ui";
 import React from "react";
 import { ChevronsDown, ChevronsUp } from "react-feather";
 import { animated, config, useSpring } from "react-spring";

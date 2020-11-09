@@ -1,4 +1,4 @@
-import { Card, CardBody } from "@saanuregh/react-ui";
+import { Card, CardBody } from "@windmill/react-ui";
 import React from "react";
 import { animated, config, useSpring } from "react-spring";
 

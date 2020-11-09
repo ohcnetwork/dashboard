@@ -9,7 +9,7 @@ import {
   TableFooter,
   TableHeader,
   TableRow,
-} from "@saanuregh/react-ui";
+} from "@windmill/react-ui";
 import fuzzysort from "fuzzysort";
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
@@ -32,18 +32,18 @@ function FacilityTable({ columns = [], data, className, exported = null }) {
 
   return (
     <div className={className}>
-      <div className="items-center flex justify-between pb-2">
+      <div className="items-center flex flex-wrap justify-between pb-2 sm:flex-no-wrap">
         <h2 className="text-lg font-semibold dark:text-gray-300 text-gray-600">
           Facilities
         </h2>
-        <div className="items-center flex space-x-2">
+        <div className="flex max-w-full space-x-1">
           {exported && (
             <CSVLink data={exported.data} filename={exported.filename}>
-              <Button>Export</Button>
+              <Button block>Export</Button>
             </CSVLink>
           )}
           <Input
-            className="self-center flex w-64"
+            className="rounded-lg w-40 sm:w-auto"
             placeholder="Search Facilities"
             onChange={(e) => {
               setFilteredData(

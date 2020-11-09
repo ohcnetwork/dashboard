@@ -1,4 +1,4 @@
-import { Card, CardBody, WindmillContext } from "@saanuregh/react-ui";
+import { Card, CardBody, WindmillContext } from "@windmill/react-ui";
 import React, { useContext } from "react";
 import {
   Bar,
@@ -26,8 +26,8 @@ function TimeseriesBarChart({ name, data, dataKeys, colors }) {
               data={data}
               margin={{
                 top: 20,
-                right: 30,
-                left: 20,
+                right: 10,
+                left: -10,
                 bottom: 5,
               }}
             >

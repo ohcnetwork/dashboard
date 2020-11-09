@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, WindmillContext } from "@saanuregh/react-ui";
+import { Button, Card, CardBody, WindmillContext } from "@windmill/react-ui";
 import React, { useContext, useState } from "react";
 import { ArrowLeft } from "react-feather";
 import { animated, config, useSpring } from "react-spring";
@@ -126,7 +126,7 @@ function CapacityForecast({
 
   return filtered.length > 0 ? (
     <>
-      <div className="flex flex-row h-6 justify-end space-x-2">
+      <div className="grid gap-1 grid-rows-none mb-8 sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
         <Pill title="Forecast">
           <>
             <Button

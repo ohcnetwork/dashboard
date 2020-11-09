@@ -1,4 +1,4 @@
-import { Transition } from "@saanuregh/react-ui";
+import { Transition } from "@windmill/react-ui";
 import React, { useState } from "react";
 import { ChevronDown } from "react-feather";
 import { NavLink, Route } from "react-router-dom";

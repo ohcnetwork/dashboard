@@ -21,4 +21,12 @@ module.exports = {
     },
     plugins: [new WorkerPlugin()],
   },
+  devServer: {
+    proxy: {
+      "/api": {
+        target: "https://careapi.coronasafe.in",
+        changeOrigin: true,
+      },
+    },
+  },
 };

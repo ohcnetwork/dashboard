@@ -1,5 +1,5 @@
-import { Card, CardBody, WindmillContext } from "@saanuregh/react-ui";
 import { defaultStyles, TooltipWithBounds, useTooltip } from "@vx/tooltip";
+import { Card, CardBody, WindmillContext } from "@windmill/react-ui";
 import polylabel from "polylabel";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -138,40 +138,8 @@ function Map({ district, facilities, className }) {
   );
 
   return (
-    <Card className={`${className} overflow-visible`}>
-      <CardBody className="relative">
-        <div className="items-end flex flex-col text-xxs bottom-0 right-0 p-5 pointer-events-none absolute space-y-1">
-          <div className="w-12">
-            <div
-              style={{ backgroundColor: "#00FF00" }}
-              className="border-black border leading-none p-1 text-center"
-            >
-              Full
-            </div>
-            <div
-              style={{ backgroundColor: "#FF0000" }}
-              className="border-black border leading-none p-1 text-center"
-            >
-              Empty
-            </div>
-            <div
-              style={{ backgroundColor: "gray" }}
-              className="border-black border leading-none p-1 text-center"
-            >
-              None
-            </div>
-          </div>
-          <div className="grid gap-0 grid-cols-8 w-3/4">
-            {AVAILABILITY_TYPES_ORDERED.map((a) => (
-              <div
-                key={a}
-                className="bg-white border-black border leading-none p-1 text-center"
-              >
-                {AVAILABILITY_TYPES[a]}
-              </div>
-            ))}
-          </div>
-        </div>
+    <Card className={`${className} overflow-visible relative`}>
+      <CardBody>
         {topojson.type && (
           <ComposableMap
             projection="geoMercator"
@@ -271,6 +239,23 @@ function Map({ district, facilities, className }) {
             {genToolTip(facilities.find((x) => x.id === tooltipData))}
           </TooltipWithBounds>
         )}
+        <div className="items-end flex flex-col text-xxxs dark:text-gray-400 text-gray-600 break-all sm:text-xs">
+          <span className="inline-flex space-x-1">
+            <span>Legends: </span>
+            {[
+              { label: "Full", color: "#00FF00" },
+              { label: "Empty", color: "#FF0000" },
+              { label: "None", color: "gray" },
+            ].map((x) => (
+              <span key={x.label} style={{ color: x.color }}>
+                {x.label}
+              </span>
+            ))}
+          </span>
+          <span className="inline-flex">{`In order of: ${AVAILABILITY_TYPES_ORDERED.map(
+            (a) => AVAILABILITY_TYPES[a]
+          ).join(", ")}`}</span>
+        </div>
       </CardBody>
     </Card>
   );

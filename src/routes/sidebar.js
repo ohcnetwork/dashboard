@@ -25,12 +25,12 @@ const routes = [
     name: "Care",
   },
   {
-    href: "https://keralamap.coronasafe.network/",
-    name: "Covid Dashboard",
+    href: "https://kerala.coronasafe.network/",
+    name: "Kerala Dashboard",
   },
   {
-    href: "https://hotspots.coronasafe.network/",
-    name: "Hotspots Map",
+    href: "https://kerala.coronasafe.network/hotspots",
+    name: "Kerala Dashboard: Hotspots",
   },
 ];
 

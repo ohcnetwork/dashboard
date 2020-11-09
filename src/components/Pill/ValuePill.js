@@ -14,7 +14,7 @@ export function ValuePill({ title, value = 0 }) {
   });
 
   return (
-    <div className="items-center dark:bg-gray-800 rounded-lg shadow-xs flex dark:text-gray-200">
+    <div className="items-center dark:bg-gray-800 rounded-lg shadow-xs flex h-6 justify-between dark:text-gray-200">
       <span className="text-xxs font-medium leading-none mx-2 xl:text-sm">
         {title}
       </span>

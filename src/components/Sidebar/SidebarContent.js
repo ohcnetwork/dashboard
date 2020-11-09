@@ -50,7 +50,7 @@ function SidebarContent() {
             <a href="https://github.com/coronasafe/dashboard/issues">Issues</a>
           </li>
           <li>
-            <a href="https://coronasafe.network/volunteer">Volunter</a>
+            <a href="https://coronasafe.network/volunteer">Volunteer</a>
           </li>
           <li>
             <a href="mailto:info@coronasafe.network">Contact</a>

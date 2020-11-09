@@ -1,4 +1,4 @@
-import { Button } from "@saanuregh/react-ui";
+import { Button } from "@windmill/react-ui";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import React, { lazy, Suspense, useState } from "react";
@@ -128,7 +128,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       </animated.div>
     ) : (
       <animated.div key={key} style={props}>
-        <div className="flex flex-row-reverse mb-8 overflow-y-auto pb-4 space-x-2 md:flex-row md:h-6 md:justify-end md:pb-0">
+        <div className="grid gap-1 grid-rows-none mb-8 sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
           <ValuePill
             title="Facility Count"
             value={facilitiesTrivia.current.count}
