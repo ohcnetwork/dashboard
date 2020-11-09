@@ -36,14 +36,14 @@ function FacilityTable({ columns = [], data, className, exported = null }) {
         <h2 className="text-lg font-semibold dark:text-gray-300 text-gray-600">
           Facilities
         </h2>
-        <div className="inline-flex space-x-1">
+        <div className="flex max-w-full space-x-1">
           {exported && (
             <CSVLink data={exported.data} filename={exported.filename}>
-              <Button>Export</Button>
+              <Button block>Export</Button>
             </CSVLink>
           )}
           <Input
-            className="rounded-lg"
+            className="rounded-lg w-40 sm:w-auto"
             placeholder="Search Facilities"
             onChange={(e) => {
               setFilteredData(

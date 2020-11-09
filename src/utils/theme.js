@@ -123,7 +123,7 @@ const theme = {
   // Input
   input: {
     base:
-      "block w-full text-sm focus:outline-none dark:text-gray-300 form-input leading-5",
+      "block text-sm focus:outline-none dark:text-gray-300 form-input leading-5",
     active:
       "focus:border-green-300 dark:border-gray-600 focus:shadow-outline-green dark:focus:border-gray-600 dark:focus:shadow-outline-gray dark:bg-gray-700",
     disabled: "cursor-not-allowed opacity-50 bg-gray-300 dark:bg-gray-800",
