@@ -2,8 +2,8 @@
 publish = "dist/"
 
 [[redirects]]
-from = "/api"
-to = "https://careapi.coronasafe.in"
+from = "/api/*"
+to = "https://careapi.coronasafe.in/*"
 status = 200
 
 [[redirects]]
