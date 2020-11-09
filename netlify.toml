@@ -3,7 +3,7 @@ publish = "dist/"
 
 [[redirects]]
 from = "/api/*"
-to = "https://careapi.coronasafe.in/:splat"
+to = "https://careapi.coronasafe.in/api/:splat"
 force = true
 
 [[redirects]]
