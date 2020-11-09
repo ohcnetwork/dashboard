@@ -59,7 +59,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
 
   return (
     <>
-      <div className="flex flex-row h-6 justify-end mb-8 space-x-2">
+      <div className="grid gap-1 grid-rows-none mb-8 sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
         <ValuePill
           title="Facility Count"
           value={facilitiesTrivia.current.count}

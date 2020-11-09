@@ -10,8 +10,8 @@
     "lint:fix": "eslint --ignore-pattern src/assets --fix src/**"
   },
   "dependencies": {
-    "@saanuregh/react-ui": "0.4.0-beta.0",
     "@vx/tooltip": "0.0.199",
+    "@windmill/react-ui": "^0.4.0-beta.0",
     "@wojtekmaj/react-daterange-picker": "^3.0.0",
     "arima": "^0.1.0",
     "axios": "^0.21.0",

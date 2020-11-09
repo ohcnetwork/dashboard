@@ -43,7 +43,7 @@ function Layout() {
                   ) : null;
                 })}
                 <Redirect exact from="/" to="/district" />
-                {/* <Route component={Page404} /> */}
+                <Route component={Page404} />
               </Switch>
             </Suspense>
           </ErrorBoundary>

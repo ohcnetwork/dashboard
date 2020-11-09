@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Windmill } from "@saanuregh/react-ui";
+import { Windmill } from "@windmill/react-ui";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { register } from "register-service-worker";
@@ -8,6 +8,7 @@ import App from "./App";
 import "./assets/css/tailwind.css";
 import ThemedSuspense from "./components/ThemedSuspense";
 import { SidebarProvider } from "./context/SidebarContext";
+import myTheme from "./utils/theme";
 
 ReactDOM.render(
   <SidebarProvider>
@@ -16,7 +17,7 @@ ReactDOM.render(
         <ThemedSuspense className="dark:bg-gray-900 my-auto min-h-screen" />
       }
     >
-      <Windmill usePreferences>
+      <Windmill usePreferences theme={myTheme}>
         <App />
       </Windmill>
     </Suspense>

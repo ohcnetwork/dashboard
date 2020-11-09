@@ -1,5 +1,5 @@
-import { Card, CardBody, WindmillContext } from "@saanuregh/react-ui";
 import { defaultStyles, TooltipWithBounds, useTooltip } from "@vx/tooltip";
+import { Card, CardBody, WindmillContext } from "@windmill/react-ui";
 import polylabel from "polylabel";
 import React, { useContext, useEffect, useState } from "react";
 import {

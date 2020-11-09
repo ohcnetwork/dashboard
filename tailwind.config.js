@@ -1,11 +1,11 @@
-const windmill = require("@saanuregh/react-ui/config");
+const windmill = require("@windmill/react-ui/config");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = windmill({
   purge: [
     "src/**/*.js",
-    "node_modules/@saanuregh/react-ui/lib/defaultTheme.js",
-    "node_modules/@saanuregh/react-ui/dist/index.js",
+    "node_modules/@windmill/react-ui/lib/defaultTheme.js",
+    "node_modules/@windmill/react-ui/dist/index.js",
   ],
   theme: {
     extend: {
@@ -21,6 +21,10 @@ module.exports = windmill({
           "0 5px 6px -7px rgba(0, 0, 0, 0.6), 0 2px 4px -5px rgba(0, 0, 0, 0.06)",
       },
     },
+  },
+  variants: {
+    boxShadow: ["responsive", "hover", "focus", "dark:focus", "focus-within"],
+    outline: ["responsive", "focus", "hover", "active", "focus-within"],
   },
   experimental: {
     applyComplexClasses: true,

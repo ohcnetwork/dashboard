@@ -1,4 +1,4 @@
-import { Button, Dropdown, DropdownItem } from "@saanuregh/react-ui";
+import { Button, Dropdown, DropdownItem } from "@windmill/react-ui";
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { ChevronDown } from "react-feather";
 import { useInView } from "react-intersection-observer";

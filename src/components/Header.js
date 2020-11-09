@@ -1,4 +1,4 @@
-import { WindmillContext } from "@saanuregh/react-ui";
+import { WindmillContext } from "@windmill/react-ui";
 import React, { useContext } from "react";
 import { Menu, Moon, Sun } from "react-feather";
 import { useHistory } from "react-router-dom";
