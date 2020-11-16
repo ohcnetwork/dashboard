@@ -45,7 +45,7 @@ function CapacityForecast({
         dateString(getNDateBefore(date, days - 1)),
         dateString(getNDateAfter(date, 1)),
         district
-      ).then((r) => r)
+      )
   );
   const filtered = processFacilities(data.results, filterFacilityTypes);
   const datewise = filtered.reduce((acc, cur) => {

@@ -10,12 +10,12 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import { feature } from "topojson";
+import fetch from "unfetch";
 
 import {
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
 } from "../../utils/constants";
-import { getDistrict, getLSGD } from "../../utils/utils";
 
 function Map({ district, facilities, className }) {
   const [topojson, setTopojson] = useState({});
@@ -53,16 +53,18 @@ function Map({ district, facilities, className }) {
   };
 
   useEffect(() => {
-    getLSGD()
-      .then(({ data }) => {
+    fetch("/kerala_lsgd.json")
+      .then((r) => r.json())
+      .then((data) => {
         setTopojson(data);
         setMarkers(feature(data, data.objects.data).features);
       })
       .catch((error) => {
         throw error;
       });
-    getDistrict()
-      .then(({ data }) => {
+    fetch("/kerala_district.json")
+      .then((r) => r.json())
+      .then((data) => {
         const { features } = feature(data, data.objects.data);
         const config = features.reduce((a, c) => {
           return {

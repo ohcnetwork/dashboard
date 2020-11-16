@@ -20,7 +20,7 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
         dateString(dates[0]),
         dateString(getNDateAfter(dates[1], 1)),
         district
-      ).then((r) => r)
+      )
   );
 
   const filtered = processFacilities(data.results, filterFacilityTypes);

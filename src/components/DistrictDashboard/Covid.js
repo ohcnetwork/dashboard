@@ -8,10 +8,10 @@ import { SectionTitle } from "../Typography/Title";
 
 function Covid({ filterDistrict, date }) {
   const { data: dataHistories } = useSWR(["CovidHistories"], (url) =>
-    covidGetHistories().then((r) => r)
+    covidGetHistories()
   );
   const { data: dataHotspots } = useSWR(["CovidHotspotHistories"], (url) =>
-    covidGetHotspotHistories().then((r) => r)
+    covidGetHotspotHistories()
   );
   const reversedDateString = dateString(date).split("-").reverse().join("-");
   const latest =

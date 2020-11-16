@@ -8,10 +8,10 @@ import NoData from "../NoData";
 
 function CovidTimeseries({ filterDistrict, dates }) {
   const { data: dataHistories } = useSWR(["CovidHistories"], () =>
-    covidGetHistories().then((r) => r)
+    covidGetHistories()
   );
   const { data: dataHotspots } = useSWR(["CovidHotspotHistories"], () =>
-    covidGetHotspotHistories().then((r) => r)
+    covidGetHotspotHistories()
   );
   const reversedDateString1 = dateString(dates[0])
     .split("-")

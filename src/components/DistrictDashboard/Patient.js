@@ -43,7 +43,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
         dateString(getNDateBefore(date, 1)),
         dateString(getNDateAfter(date, 1)),
         district
-      ).then((r) => r)
+      )
   );
 
   const filtered = processFacilities(data.results, filterFacilityTypes);

@@ -14,7 +14,6 @@
     "@windmill/react-ui": "^0.4.0-beta.0",
     "@wojtekmaj/react-daterange-picker": "^3.0.0",
     "arima": "^0.1.0",
-    "axios": "^0.21.0",
     "dayjs": "^1.9.5",
     "fuzzysort": "^1.1.4",
     "polylabel": "^1.1.0",
@@ -32,7 +31,8 @@
     "recharts": "^2.0.0-beta.6",
     "register-service-worker": "^1.7.1",
     "swr": "^0.3.8",
-    "topojson": "^3.0.2"
+    "topojson": "^3.0.2",
+    "unfetch": "^4.2.0"
   },
   "devDependencies": {
     "@poi/plugin-pwa": "^12.0.3",
