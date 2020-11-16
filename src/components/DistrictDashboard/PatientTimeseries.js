@@ -33,10 +33,16 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       return acc;
     }
     const _t = {
-      ventilator: { total: 0, today: 0 },
       icu: { total: 0, today: 0 },
-      isolation: { total: 0, today: 0 },
+      not_admitted: { total: 0, today: 0 },
+      home_isolation: { total: 0, today: 0 },
+      isolation_room: { total: 0, today: 0 },
       home_quarantine: { total: 0, today: 0 },
+      paediatric_ward: { total: 0, today: 0 },
+      gynaecology_ward: { total: 0, today: 0 },
+      icu_with_oxygen_support: { total: 0, today: 0 },
+      icu_with_invasive_ventilator: { total: 0, today: 0 },
+      icu_with_non_invasive_ventilator: { total: 0, today: 0 },
     };
     Object.keys(PATIENT_TYPES).forEach((k) => {
       _t[k].today += cur[`today_patients_${k}`];

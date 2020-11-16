@@ -23,10 +23,16 @@ dayjs.extend(customParseFormat);
 function Patient({ filterDistrict, filterFacilityTypes, date }) {
   const initialFacilitiesTrivia = {
     count: 0,
-    ventilator: { total: 0, today: 0 },
     icu: { total: 0, today: 0 },
-    isolation: { total: 0, today: 0 },
+    not_admitted: { total: 0, today: 0 },
+    home_isolation: { total: 0, today: 0 },
+    isolation_room: { total: 0, today: 0 },
     home_quarantine: { total: 0, today: 0 },
+    paediatric_ward: { total: 0, today: 0 },
+    gynaecology_ward: { total: 0, today: 0 },
+    icu_with_oxygen_support: { total: 0, today: 0 },
+    icu_with_invasive_ventilator: { total: 0, today: 0 },
+    icu_with_non_invasive_ventilator: { total: 0, today: 0 },
   };
 
   const { data } = useSWR(
@@ -67,9 +73,9 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
       </div>
 
       <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
-        {Object.keys(PATIENT_TYPES).map((k, i) => (
+        {Object.keys(PATIENT_TYPES).map((k) => (
           <InfoCard
-            key={i}
+            key={k}
             title={PATIENT_TYPES[k]}
             value={facilitiesTrivia.current[k].total}
             delta={facilitiesTrivia.current[k].today}
