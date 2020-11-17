@@ -53,8 +53,8 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
         const key = c.date === dateString(date) ? "current" : "previous";
         a[key].count += 1;
         Object.keys(PATIENT_TYPES).forEach((k) => {
-          a[key][k].today += c[`today_patients_${k}`];
-          a[key][k].total += c[`total_patients_${k}`];
+          a[key][k].today += c[`today_patients_${k}`] || 0;
+          a[key][k].total += c[`total_patients_${k}`] || 0;
         });
         return a;
       },
@@ -73,10 +73,10 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
           [c.name, c.facilityType, c.phoneNumber],
           dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
           ...Object.keys(PATIENT_TYPES).map((k) => {
-            const delta = c[`today_patients_${k}`];
+            const delta = c[`today_patients_${k}`] || 0;
             return (
               <div key={k} className="flex">
-                <p className="">{c[`total_patients_${k}`]}</p>
+                <p className="">{c[`total_patients_${k}`] || 0}</p>
                 <span className="text-sm ml-2">
                   {delta === 0 ? "-" : delta > 0 ? `+${delta}` : delta}
                 </span>
