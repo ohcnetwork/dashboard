@@ -28,8 +28,8 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
     const datewise = filtered.reduce((acc, cur) => {
       if (acc[cur.date]) {
         Object.keys(PATIENT_TYPES).forEach((k) => {
-          acc[cur.date][k].today += cur[`today_patients_${k}`];
-          acc[cur.date][k].total += cur[`total_patients_${k}`];
+          acc[cur.date][k].today += cur[`today_patients_${k}`] || 0;
+          acc[cur.date][k].total += cur[`total_patients_${k}`] || 0;
         });
         return acc;
       }
@@ -46,8 +46,8 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
         icu_with_non_invasive_ventilator: { total: 0, today: 0 },
       };
       Object.keys(PATIENT_TYPES).forEach((k) => {
-        _t[k].today += cur[`today_patients_${k}`];
-        _t[k].total += cur[`total_patients_${k}`];
+        _t[k].today += cur[`today_patients_${k}`] || 0;
+        _t[k].total += cur[`total_patients_${k}`] || 0;
       });
       return {
         ...acc,
