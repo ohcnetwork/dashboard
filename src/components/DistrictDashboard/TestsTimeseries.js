@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import useSWR from "swr";
 
 import { careSummary } from "../../utils/api";
@@ -23,40 +23,44 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       )
   );
 
-  const filtered = processFacilities(data.results, filterFacilityTypes);
-  const datewise = filtered.reduce((acc, cur) => {
-    if (acc[cur.date]) {
+  const { filtered, chartable } = useMemo(() => {
+    const filtered = processFacilities(data.results, filterFacilityTypes);
+    const datewise = filtered.reduce((acc, cur) => {
+      if (acc[cur.date]) {
+        Object.keys(TESTS_TYPES).forEach((k) => {
+          acc[cur.date][k] += cur[k];
+          acc[cur.date][k] += cur[k];
+        });
+        return acc;
+      }
+      const _t = {
+        result_awaited: 0,
+        test_discarded: 0,
+        total_patients: 0,
+        result_negative: 0,
+        result_positive: 0,
+      };
       Object.keys(TESTS_TYPES).forEach((k) => {
-        acc[cur.date][k] += cur[k];
-        acc[cur.date][k] += cur[k];
+        _t[k] += cur[k];
+        _t[k] += cur[k];
       });
-      return acc;
-    }
-    const _t = {
-      result_awaited: 0,
-      test_discarded: 0,
-      total_patients: 0,
-      result_negative: 0,
-      result_positive: 0,
+      return {
+        ...acc,
+        [cur.date]: _t,
+      };
+    }, {});
+    const chartable = {
+      name: "Tests",
+      data: Object.entries(datewise)
+        .reverse()
+        .map(([d, value]) => ({
+          date: d,
+          ...value,
+        })),
     };
-    Object.keys(TESTS_TYPES).forEach((k) => {
-      _t[k] += cur[k];
-      _t[k] += cur[k];
-    });
-    return {
-      ...acc,
-      [cur.date]: _t,
-    };
-  }, {});
-  const chartable = {
-    name: "Tests",
-    data: Object.entries(datewise)
-      .reverse()
-      .map(([d, value]) => ({
-        date: d,
-        ...value,
-      })),
-  };
+    return { filtered, chartable };
+  }, [data, filterFacilityTypes]);
+
   return (
     <div className="min-w-full min-h-full">
       {filtered.length > 0 ? (

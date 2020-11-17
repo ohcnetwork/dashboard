@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import useSWR from "swr";
 
 import { covidGetHistories, covidGetHotspotHistories } from "../../utils/api";
@@ -13,49 +13,66 @@ function Covid({ filterDistrict, date }) {
   const { data: dataHotspots } = useSWR(["CovidHotspotHistories"], (url) =>
     covidGetHotspotHistories()
   );
-  const reversedDateString = dateString(date).split("-").reverse().join("-");
-  const latest =
-    dataHistories.histories.find((h) => h.date === reversedDateString) ||
-    dataHistories.histories[dataHistories.histories.length - 1];
-  const initialData = {
-    hospital_obs: 0,
-    home_obs: 0,
-    total_obs: 0,
-    hospital_today: 0,
-    confirmed: 0,
-    recovered: 0,
-    deceased: 0,
-    active: 0,
-  };
-  const lang = {
-    confirmed: "Confirmed",
-    active: "Active",
-    recovered: "Recovered",
-    deceased: "Deaths",
-    total_obs: "Under Observation",
-    home_obs: "Home Isolation",
-    hospital_obs: "Hospital Isolation",
-    hospital_today: "Hospitalized Today",
-  };
-  const latestSummary = {
-    summary: JSON.parse(JSON.stringify(initialData)),
-    delta: JSON.parse(JSON.stringify(initialData)),
-  };
-  Object.keys(latest.summary).forEach((d) => {
-    Object.keys(initialData).forEach((k) => {
-      latestSummary.summary[k] += latest.summary[d][k];
-      latestSummary.delta[k] += latest.delta[d][k];
+  const {
+    reversedDateString,
+    hotspotsLatest,
+    hotspotsPreLatest,
+    lang,
+    latest,
+    latestSummary,
+  } = useMemo(() => {
+    const reversedDateString = dateString(date).split("-").reverse().join("-");
+    const latest =
+      dataHistories.histories.find((h) => h.date === reversedDateString) ||
+      dataHistories.histories[dataHistories.histories.length - 1];
+    const initialData = {
+      hospital_obs: 0,
+      home_obs: 0,
+      total_obs: 0,
+      hospital_today: 0,
+      confirmed: 0,
+      recovered: 0,
+      deceased: 0,
+      active: 0,
+    };
+    const lang = {
+      confirmed: "Confirmed",
+      active: "Active",
+      recovered: "Recovered",
+      deceased: "Deaths",
+      total_obs: "Under Observation",
+      home_obs: "Home Isolation",
+      hospital_obs: "Hospital Isolation",
+      hospital_today: "Hospitalized Today",
+    };
+    const latestSummary = {
+      summary: JSON.parse(JSON.stringify(initialData)),
+      delta: JSON.parse(JSON.stringify(initialData)),
+    };
+    Object.keys(latest.summary).forEach((d) => {
+      Object.keys(initialData).forEach((k) => {
+        latestSummary.summary[k] += latest.summary[d][k];
+        latestSummary.delta[k] += latest.delta[d][k];
+      });
     });
-  });
-  let hotspotsLatestIdx = dataHotspots.histories.findIndex(
-    (h) => h.date === reversedDateString
-  );
-  if (hotspotsLatestIdx === -1) {
-    hotspotsLatestIdx = dataHotspots.histories.length - 1;
-  }
-  const hotspotsLatest = dataHotspots.histories[hotspotsLatestIdx].hotspots;
-  const hotspotsPreLatest =
-    dataHotspots.histories[hotspotsLatestIdx - 1].hotspots;
+    let hotspotsLatestIdx = dataHotspots.histories.findIndex(
+      (h) => h.date === reversedDateString
+    );
+    if (hotspotsLatestIdx === -1) {
+      hotspotsLatestIdx = dataHotspots.histories.length - 1;
+    }
+    const hotspotsLatest = dataHotspots.histories[hotspotsLatestIdx].hotspots;
+    const hotspotsPreLatest =
+      dataHotspots.histories[hotspotsLatestIdx - 1].hotspots;
+    return {
+      reversedDateString,
+      hotspotsLatest,
+      hotspotsPreLatest,
+      lang,
+      latest,
+      latestSummary,
+    };
+  }, [dataHistories, dataHotspots]);
 
   return (
     <>

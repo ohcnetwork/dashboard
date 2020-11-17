@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useMemo } from "react";
 import useSWR from "swr";
 
 import { careSummary } from "../../utils/api";
@@ -20,19 +20,19 @@ const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
-function Triage({ filterDistrict, filterFacilityTypes, date }) {
-  const initialFacilitiesTrivia = {
-    count: 0,
-    avg_patients_visited: 0,
-    avg_patients_referred: 0,
-    avg_patients_isolation: 0,
-    total_patients_visited: 0,
-    total_patients_referred: 0,
-    total_patients_isolation: 0,
-    avg_patients_home_quarantine: 0,
-    total_patients_home_quarantine: 0,
-  };
+const initialFacilitiesTrivia = {
+  count: 0,
+  avg_patients_visited: 0,
+  avg_patients_referred: 0,
+  avg_patients_isolation: 0,
+  total_patients_visited: 0,
+  total_patients_referred: 0,
+  total_patients_isolation: 0,
+  avg_patients_home_quarantine: 0,
+  total_patients_home_quarantine: 0,
+};
 
+function Triage({ filterDistrict, filterFacilityTypes, date }) {
   const { data } = useSWR(
     ["Triage", date, filterDistrict.id],
     (url, date, district) =>
@@ -43,23 +43,67 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
         district
       )
   );
-
-  const filtered = processFacilities(data.results, filterFacilityTypes);
-  const facilitiesTrivia = filtered.reduce(
-    (a, c) => {
-      const key = c.date === dateString(date) ? "current" : "previous";
-      a[key].count += 1;
-      Object.keys(TRIAGE_TYPES).forEach((k) => {
-        a[key][k] += c[k];
-        a[key][k] += c[k];
-      });
-      return a;
-    },
-    {
-      current: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
-      previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
-    }
-  );
+  const { facilitiesTrivia, exported, tableData } = useMemo(() => {
+    const filtered = processFacilities(data.results, filterFacilityTypes);
+    const facilitiesTrivia = filtered.reduce(
+      (a, c) => {
+        const key = c.date === dateString(date) ? "current" : "previous";
+        a[key].count += 1;
+        Object.keys(TRIAGE_TYPES).forEach((k) => {
+          a[key][k] += c[k];
+          a[key][k] += c[k];
+        });
+        return a;
+      },
+      {
+        current: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
+        previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
+      }
+    );
+    const tableData = filtered.reduce((a, c) => {
+      if (c.date !== dateString(date)) {
+        return a;
+      }
+      return [
+        ...a,
+        [
+          [c.name, c.facilityType, c.phoneNumber],
+          dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
+          ...["visited", "referred", "isolation", "home_quarantine"].map(
+            (i) =>
+              `${c["avg_patients_" + i] || 0}/${c["total_patients_" + i] || 0}`
+          ),
+        ],
+      ];
+    }, []);
+    const exported = {
+      filename: "triage_export.csv",
+      data: filtered.reduce((a, c) => {
+        if (c.date !== dateString(date)) {
+          return a;
+        }
+        return [
+          ...a,
+          {
+            "Hospital/CFLTC Name": c.name,
+            "Hospital/CFLTC Address": c.address,
+            "Govt/Pvt": c.facilityType.startsWith("Govt") ? "Govt" : "Pvt",
+            "Hops/CFLTC":
+              c.facilityType === "First Line Treatment Centre"
+                ? "CFLTC"
+                : "Hops",
+            Mobile: c.phoneNumber,
+            ...Object.keys(TRIAGE_TYPES).reduce((t, x) => {
+              const y = { ...t };
+              y[TRIAGE_TYPES[x]] = c[x] || 0;
+              return y;
+            }, {}),
+          },
+        ];
+      }, []),
+    };
+    return { facilitiesTrivia, exported, tableData };
+  }, [data, filterFacilityTypes]);
 
   return (
     <>
@@ -99,52 +143,8 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
               "Patients home quarantine",
             ],
           ]}
-          data={filtered.reduce((a, c) => {
-            if (c.date !== dateString(date)) {
-              return a;
-            }
-            return [
-              ...a,
-              [
-                [c.name, c.facilityType, c.phoneNumber],
-                dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
-                ...["visited", "referred", "isolation", "home_quarantine"].map(
-                  (i) =>
-                    `${c["avg_patients_" + i] || 0}/${
-                      c["total_patients_" + i] || 0
-                    }`
-                ),
-              ],
-            ];
-          }, [])}
-          exported={{
-            filename: "triage_export.csv",
-            data: filtered.reduce((a, c) => {
-              if (c.date !== dateString(date)) {
-                return a;
-              }
-              return [
-                ...a,
-                {
-                  "Hospital/CFLTC Name": c.name,
-                  "Hospital/CFLTC Address": c.address,
-                  "Govt/Pvt": c.facilityType.startsWith("Govt")
-                    ? "Govt"
-                    : "Pvt",
-                  "Hops/CFLTC":
-                    c.facilityType === "First Line Treatment Centre"
-                      ? "CFLTC"
-                      : "Hops",
-                  Mobile: c.phoneNumber,
-                  ...Object.keys(TRIAGE_TYPES).reduce((t, x) => {
-                    const y = { ...t };
-                    y[TRIAGE_TYPES[x]] = c[x] || 0;
-                    return y;
-                  }, {}),
-                },
-              ];
-            }, []),
-          }}
+          data={tableData}
+          exported={exported}
         />
       </Suspense>
     </>
