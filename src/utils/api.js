@@ -1,14 +1,4 @@
-import axios from "axios";
-
-const request = (options) => {
-  const headers = {
-    "Content-Type": "application/json",
-  };
-  Object.assign(options, { headers });
-  return axios(options).then((response) => {
-    return response.data;
-  });
-};
+import fetch from "unfetch";
 
 export function careSummary(
   type,
@@ -17,28 +7,25 @@ export function careSummary(
   district,
   limit = 2000
 ) {
-  return request({
-    url: `/api/v1/${type}_summary/`,
-    method: "GET",
-    params: {
-      start_date,
-      end_date,
-      district,
-      limit,
-    },
-  });
+  return fetch(
+    `/api/v1/${type}_summary/?` +
+      new URLSearchParams({
+        start_date,
+        end_date,
+        district,
+        limit,
+      })
+  ).then((r) => r.json());
 }
 
 export function covidGetHistories() {
-  return request({
-    url: `https://keralastats.coronasafe.live/histories.json`,
-    method: "GET",
-  });
+  return fetch("https://keralastats.coronasafe.live/histories.json").then((r) =>
+    r.json()
+  );
 }
 
 export function covidGetHotspotHistories() {
-  return request({
-    url: `https://keralastats.coronasafe.live/hotspots_histories.json`,
-    method: "GET",
-  });
+  return fetch(
+    "https://keralastats.coronasafe.live/hotspots_histories.json"
+  ).then((r) => r.json());
 }

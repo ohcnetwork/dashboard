@@ -1,5 +1,5 @@
 import { Button, Card, CardBody, WindmillContext } from "@windmill/react-ui";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import { ArrowLeft } from "react-feather";
 import { animated, config, useSpring } from "react-spring";
 import { wrap } from "react-suspense-worker";
@@ -45,84 +45,107 @@ function CapacityForecast({
         dateString(getNDateBefore(date, days - 1)),
         dateString(getNDateAfter(date, 1)),
         district
-      ).then((r) => r)
+      )
   );
-  const filtered = processFacilities(data.results, filterFacilityTypes);
-  const datewise = filtered.reduce((acc, cur) => {
-    if (acc[cur.date]) {
+  const {
+    filtered,
+    timeseries,
+    max,
+    min,
+    avg,
+    forecasted,
+    forecasted_max,
+    forecasted_min,
+    forecasted_avg,
+  } = useMemo(() => {
+    const filtered = processFacilities(data.results, filterFacilityTypes);
+    const datewise = filtered.reduce((acc, cur) => {
+      if (acc[cur.date]) {
+        Object.keys(AVAILABILITY_TYPES).forEach((k) => {
+          acc[cur.date][k].used += cur.capacity[k]?.current_capacity || 0;
+          acc[cur.date][k].total += cur.capacity[k]?.total_capacity || 0;
+        });
+        return acc;
+      }
+      const _t = {
+        20: { total: 0, used: 0 },
+        10: { total: 0, used: 0 },
+        150: { total: 0, used: 0 },
+        1: { total: 0, used: 0 },
+        70: { total: 0, used: 0 },
+        50: { total: 0, used: 0 },
+        60: { total: 0, used: 0 },
+        40: { total: 0, used: 0 },
+        100: { total: 0, used: 0 },
+        110: { total: 0, used: 0 },
+        120: { total: 0, used: 0 },
+        30: { total: 0, used: 0 },
+      };
       Object.keys(AVAILABILITY_TYPES).forEach((k) => {
-        acc[cur.date][k].used += cur.capacity[k]?.current_capacity || 0;
-        acc[cur.date][k].total += cur.capacity[k]?.total_capacity || 0;
+        _t[k].used += cur.capacity[k]?.current_capacity || 0;
+        _t[k].total += cur.capacity[k]?.total_capacity || 0;
       });
-      return acc;
-    }
-    const _t = {
-      20: { total: 0, used: 0 },
-      10: { total: 0, used: 0 },
-      150: { total: 0, used: 0 },
-      1: { total: 0, used: 0 },
-      70: { total: 0, used: 0 },
-      50: { total: 0, used: 0 },
-      60: { total: 0, used: 0 },
-      40: { total: 0, used: 0 },
-      100: { total: 0, used: 0 },
-      110: { total: 0, used: 0 },
-      120: { total: 0, used: 0 },
-      30: { total: 0, used: 0 },
-    };
+      return {
+        ...acc,
+        [cur.date]: _t,
+      };
+    }, {});
+    const timeseries = {};
     Object.keys(AVAILABILITY_TYPES).forEach((k) => {
-      _t[k].used += cur.capacity[k]?.current_capacity || 0;
-      _t[k].total += cur.capacity[k]?.total_capacity || 0;
+      timeseries[k] = Object.entries(datewise)
+        .reverse()
+        .map(([d, value]) => ({
+          date: d,
+          usage: (value[k].used / value[k].total) * 100 || 0,
+        }));
     });
-    return {
-      ...acc,
-      [cur.date]: _t,
-    };
-  }, {});
-  const reversed = Object.entries(datewise).reverse();
-  const timeseries = {};
-  Object.keys(AVAILABILITY_TYPES).forEach((k) => {
-    timeseries[k] = reversed.map(([d, value]) => ({
-      date: d,
-      usage: (value[k].used / value[k].total) * 100 || 0,
-    }));
-  });
-  const max = {};
-  const min = {};
-  const avg = {};
-  for (const k of Object.keys(AVAILABILITY_TYPES)) {
-    max[k] = Math.max(...timeseries[k].map((e) => e.usage));
-    min[k] = Math.min(...timeseries[k].map((e) => e.usage));
-    avg[k] =
-      timeseries[k].reduce((a, p) => a + p.usage, 0) / timeseries[k].length;
-  }
-
-  const forecasted = {};
-  const forecasted_max = {};
-  const forecasted_min = {};
-  const forecasted_avg = {};
-  if (filtered.length > 0) {
+    const max = {};
+    const min = {};
+    const avg = {};
     for (const k of Object.keys(AVAILABILITY_TYPES)) {
-      // https://github.com/zemlyansky/arima
-      // eslint-disable-next-line prefer-destructuring
-      forecasted[k] = arima(
-        timeseries[k].map((e) => e.usage),
-        timespan.forecast,
-        {
-          method: 0, // ARIMA method (Default: 0)
-          optimizer: 0, // Optimization method (Default: 6)
-          p: 1, // Number of Autoregressive coefficients
-          d: 0, // Number of times the series needs to be differenced
-          q: 4, // Number of Moving Average Coefficients
-          verbose: false, // Output model analysis to console
-        }
-      )[0];
-      forecasted_max[k] = Math.max(...forecasted[k]);
-      forecasted_min[k] = Math.min(...forecasted[k]);
-      forecasted_avg[k] =
-        forecasted[k].reduce((a, p) => a + p, 0) / timespan.forecast;
+      max[k] = Math.max(...timeseries[k].map((e) => e.usage));
+      min[k] = Math.min(...timeseries[k].map((e) => e.usage));
+      avg[k] =
+        timeseries[k].reduce((a, p) => a + p.usage, 0) / timeseries[k].length;
     }
-  }
+    const forecasted = {};
+    const forecasted_max = {};
+    const forecasted_min = {};
+    const forecasted_avg = {};
+    if (filtered.length > 0) {
+      for (const k of Object.keys(AVAILABILITY_TYPES)) {
+        // https://github.com/zemlyansky/arima
+        // eslint-disable-next-line prefer-destructuring
+        forecasted[k] = arima(
+          timeseries[k].map((e) => e.usage),
+          timespan.forecast,
+          {
+            method: 0, // ARIMA method (Default: 0)
+            optimizer: 0, // Optimization method (Default: 6)
+            p: 1, // Number of Autoregressive coefficients
+            d: 0, // Number of times the series needs to be differenced
+            q: 4, // Number of Moving Average Coefficients
+            verbose: false, // Output model analysis to console
+          }
+        )[0];
+        forecasted_max[k] = Math.max(...forecasted[k]);
+        forecasted_min[k] = Math.min(...forecasted[k]);
+        forecasted_avg[k] =
+          forecasted[k].reduce((a, p) => a + p, 0) / timespan.forecast;
+      }
+    }
+    return {
+      filtered,
+      timeseries,
+      max,
+      min,
+      avg,
+      forecasted,
+      forecasted_max,
+      forecasted_min,
+      forecasted_avg,
+    };
+  }, [data, filterFacilityTypes, timespan]);
 
   return filtered.length > 0 ? (
     <>
