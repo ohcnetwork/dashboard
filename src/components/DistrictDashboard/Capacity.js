@@ -155,10 +155,10 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           dayjs(c.modifiedDate).fromNow(),
           c.oxygenCapacity,
           `${c.actualLivePatients}/${c.actualDischargedPatients}`,
-          showBedsTypes([20, 100, 70], c),
-          showBedsTypes([10, 110, 50], c),
-          showBedsTypes([150, 120, 60], c),
-          showBedsTypes([1, 30, 60], c),
+          showBedsTypes([20, 100], c),
+          showBedsTypes([10, 110], c),
+          showBedsTypes([150, 120], c),
+          showBedsTypes([1, 30], c),
         ],
       ];
     }, []);
