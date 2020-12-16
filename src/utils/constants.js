@@ -39,7 +39,7 @@ export const AVAILABILITY_TYPES = {
   50: "KASP ICU",
   60: "KASP Oxygen Beds",
   40: "KASP Ordinary Bed",
-  100: "Covid Ventilator",
+  100: "Covid ICU w/ Ventilator",
   110: "Covid ICU",
   120: "Covid Oxygen Beds",
   30: "Covid Ordinary Bed",
