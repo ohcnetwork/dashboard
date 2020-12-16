@@ -69,8 +69,8 @@ export const PATIENT_TYPES = {
   home_quarantine: "Home Quarantine",
   paediatric_ward: "Paediatric Ward",
   gynaecology_ward: "Gynaecology Ward",
-  icu_with_invasive_ventilator: "Icu w/ Invasive Ventilator",
-  icu_with_non_invasive_ventilator: "Icu w/ Non-Invasive Ventilator",
+  icu_with_invasive_ventilator: "ICU w/ Invasive Ventilator",
+  icu_with_non_invasive_ventilator: "ICU w/ Non-Invasive Ventilator",
 };
 
 export const TESTS_TYPES = {
