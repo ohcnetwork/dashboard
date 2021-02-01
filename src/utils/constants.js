@@ -63,14 +63,14 @@ export const AVAILABILITY_TYPES_PROXY = {
 export const PATIENT_TYPES = {
   icu: "ICU",
   oxygen_bed: "Oxygen Bed",
-  not_admitted: "Not Admitted",
   home_isolation: "Home Isolation",
-  isolation_room: "Isolation Room",
   home_quarantine: "Home Quarantine",
+  not_admitted: "Consultations",
+  isolation_room: "Isolation Room",
+  icu_with_invasive_ventilator: "ICU w/ IV",
+  icu_with_non_invasive_ventilator: "ICU w/ Non-IV",
   paediatric_ward: "Paediatric Ward",
   gynaecology_ward: "Gynaecology Ward",
-  icu_with_invasive_ventilator: "ICU w/ Invasive Ventilator",
-  icu_with_non_invasive_ventilator: "ICU w/ Non-Invasive Ventilator",
 };
 
 export const TESTS_TYPES = {
@@ -125,4 +125,5 @@ export const CONTENT = {
   TESTS: 3,
   TRIAGE: 4,
   COVID: 5,
+  LSG: 6
 };
