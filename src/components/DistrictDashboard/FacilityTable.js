@@ -14,7 +14,7 @@ import fuzzysort from "fuzzysort";
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 
-function FacilityTable({ columns = [], data, className, exported = null }) {
+function FacilityTable({ columns = [], data, className, exported = null, title = "Facilities" }) {
   const resultsPerPage = 25;
   const [filteredData, setFilteredData] = useState(data);
   const [page, setPage] = useState(1);
@@ -34,7 +34,7 @@ function FacilityTable({ columns = [], data, className, exported = null }) {
     <div className={className}>
       <div className="items-center flex flex-wrap justify-between pb-2 sm:flex-no-wrap">
         <h2 className="text-lg font-semibold dark:text-gray-300 text-gray-600">
-          Facilities
+          {title}
         </h2>
         <div className="flex max-w-full space-x-1">
           {exported && (
@@ -44,7 +44,7 @@ function FacilityTable({ columns = [], data, className, exported = null }) {
           )}
           <Input
             className="rounded-lg w-40 sm:w-auto"
-            placeholder="Search"
+            placeholder={"Search " + title}
             onChange={(e) => {
               setFilteredData(
                 e.target.value
