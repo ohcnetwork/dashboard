@@ -51,9 +51,14 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
       data.results
         .map(({ data, created_date }) => (
           Object.keys(data).map((key, _index) => {
-            return { created_date: dateString(new Date(created_date)), ...data[key] };
+            return {
+              created_date: dateString(new Date(created_date)),
+              total: Object.keys(PATIENT_TYPES).map((k) => data[key][`total_patients_${k}`] || 0).reduce((a, b) => a + b, 0),
+              total_today: Object.keys(PATIENT_TYPES).map((k) => data[key][`today_patients_${k}`] || 0).reduce((a, b) => a + b, 0),
+              ...data[key]
+            };
           })
-        )).flat()
+        )).flat().sort((a, b) => b.total - a.total)
 
     const lsgTrivia = filtered.reduce(
       (a, c) => {
@@ -78,7 +83,12 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
         ...a,
         [
           [c.name],
-          Object.keys(PATIENT_TYPES).map((k) => c[`total_patients_${k}`] || 0).reduce((a, b) => a + b, 0),
+          <div className="flex">
+            <p className="font-semibold">{c.total || 0}</p>
+            <span className="text-sm ml-2">
+              {c.total_today === 0 ? "" : c.total_today > 0 ? `+${c.total_today}` : `-${c.total_today}`}
+            </span>
+          </div>,
           c.total_inactive,
           ...Object.keys(PATIENT_TYPES).map((k) => {
             const delta = c[`today_patients_${k}`] || 0;
@@ -86,7 +96,7 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
               <div key={k} className="flex">
                 <p className="">{c[`total_patients_${k}`] || 0}</p>
                 <span className="text-sm ml-2">
-                  {delta === 0 ? "-" : delta > 0 ? `+${delta}` : delta}
+                  {delta === 0 ? "" : delta > 0 ? `+${delta}` : `-${delta}`}
                 </span>
               </div>
             );
@@ -139,8 +149,9 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
       </div>
       <Suspense fallback={<ThemedSuspense />}>
         <FacilityTable
+          title="Lsg"
           className="mb-8"
-          columns={["Name of LSG", "Live", "Discharged", ...Object.values(PATIENT_TYPES)]}
+          columns={["Name of LSG", <div>Live</div>, "Discharged", ...Object.values(PATIENT_TYPES)]}
           data={tableData}
           exported={exported}
         />
