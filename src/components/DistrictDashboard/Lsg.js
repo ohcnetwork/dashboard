@@ -13,8 +13,9 @@ import {
 } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import { ValuePill } from "../Pill/ValuePill";
-import ThemedSuspense from "../ThemedSuspense";
-
+import ThemedSuspense from "../ThemedSuspense"
+import { SectionTitle } from "../Typography/Title";;
+const LsgPatientMap = lazy(() => import("./LsgPatientMap"));
 const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
@@ -45,7 +46,7 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
       )
   );
 
-  const { lsgTrivia, exported, tableData } = useMemo(() => {
+  const { lsgTrivia, exported, tableData, lsgPatientsToday } = useMemo(() => {
 
     const filtered =
       data.results
@@ -75,6 +76,8 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
         previous: JSON.parse(JSON.stringify(initiallsgTrivia)),
       }
     );
+    const lsgPatientsToday = filtered.filter((c) => c.created_date === dateString(date));
+
     const tableData = filtered.reduce((a, c) => {
       if (c.created_date !== dateString(date)) {
         return a;
@@ -125,7 +128,7 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
         ];
       }, []),
     };
-    return { lsgTrivia, exported, tableData };
+    return { lsgTrivia, exported, tableData, lsgPatientsToday };
   }, [data, filterFacilityTypes]);
 
   return (
@@ -154,6 +157,14 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
           columns={["Name of LSG", <div>Live</div>, "Discharged", ...Object.values(PATIENT_TYPES)]}
           data={tableData}
           exported={exported}
+        />
+      </Suspense>
+      <SectionTitle>LSG Map (Updated every 1 hr)</SectionTitle>
+      <Suspense fallback={<ThemedSuspense />}>
+        <LsgPatientMap
+          className="mb-8"
+          district={filterDistrict.name}
+          patients={lsgPatientsToday}
         />
       </Suspense>
     </>
