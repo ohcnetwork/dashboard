@@ -197,7 +197,7 @@ function LsgPatientMap({ district, className, patients, dateString }) {
               })}
           </div>
           <div className="mt-4 text-green-600">
-            Autore Generated from care.coronasafe.network
+            Auto Generated from care.coronasafe.network
           </div>
           <a id="capture-button" className="font-bold " onClick={_ => print()}>
             Download Image
