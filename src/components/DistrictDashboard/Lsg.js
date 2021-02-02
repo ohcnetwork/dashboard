@@ -165,6 +165,7 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
           className="mb-8"
           district={filterDistrict.name}
           patients={lsgPatientsToday}
+          dateString={dateString(date)}
         />
       </Suspense>
     </>
