@@ -61,7 +61,7 @@ function SidebarContent() {
             href="https://coronasafe.network/"
             className="inline-flex text-xs space-x-1"
           >
-            <span>Copyright © 2020</span>
+            <span>Copyright © 2021</span>
             <CoronaSafeLogo className="h-4" aria-hidden="true" />
           </a>
           <a

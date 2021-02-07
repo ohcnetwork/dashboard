@@ -57,8 +57,8 @@ function CovidTimeseries({ filterDistrict, dates }) {
       .slice(dataHistoriesIdx1, dataHistoriesIdx2 + 1)
       .map((h) => {
         const summary = {
-          summary: JSON.parse(JSON.stringify(initialData)),
-          delta: JSON.parse(JSON.stringify(initialData)),
+          summary: { ...initialData },
+          delta: { ...initialData },
         };
         Object.keys(initialData).forEach((k) => {
           summary.summary[k] += h.summary[filterDistrict.name][k];

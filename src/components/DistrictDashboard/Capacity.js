@@ -1,4 +1,5 @@
 import { Button } from "@windmill/react-ui";
+import clsx from "clsx";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import React, { lazy, Suspense, useState, useMemo } from "react";
@@ -26,7 +27,7 @@ import { SectionTitle } from "../Typography/Title";
 
 const FacilityTable = lazy(() => import("./FacilityTable"));
 const CapacityForecast = lazy(() => import("./CapacityForecast"));
-const Map = lazy(() => import("../DistrictDashboard/Map"));
+const CapacityMap = lazy(() => import("../DistrictDashboard/CapacityMap"));
 dayjs.extend(relativeTime);
 
 const showBedsTypes = (ids, c) => {
@@ -42,15 +43,23 @@ const showBedsTypes = (ids, c) => {
       </thead>
       <tbody>
         {ids.map((i) => {
+          const total = Number.parseInt(c.capacity[i]?.total_capacity || 0);
+          const current = Number.parseInt(c.capacity[i]?.current_capacity || 0);
+          const vacant = total - current;
+          const critical = total > 0 && vacant / total < 0.2;
           return (
-            <tr className="border-b text-xs py-px" key={i}>
+            <tr
+              className={clsx(
+                "border-b text-xs py-px",
+                total === 0 && "opacity-50",
+                critical && "text-red-600"
+              )}
+              key={i}
+            >
               <td className="text-xxs">{AVAILABILITY_TYPES_PROXY[i]}</td>
-              <td>{c.capacity[i]?.total_capacity || "0"}</td>
-              <td>{c.capacity[i]?.current_capacity || "0"}</td>
-              <td>
-                {(c.capacity[i]?.total_capacity || 0) -
-                  c.capacity[i]?.current_capacity || 0}
-              </td>
+              <td>{total}</td>
+              <td>{current}</td>
+              <td>{vacant}</td>
             </tr>
           );
         })}
@@ -242,7 +251,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
 
         <SectionTitle>Map</SectionTitle>
         <Suspense fallback={<ThemedSuspense />}>
-          <Map
+          <CapacityMap
             className="mb-8"
             facilities={todayFiltered}
             district={filterDistrict.name}

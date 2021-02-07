@@ -1,7 +1,7 @@
 import { defaultStyles, TooltipWithBounds, useTooltip } from "@vx/tooltip";
 import { Card, CardBody, WindmillContext } from "@windmill/react-ui";
 import polylabel from "polylabel";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -9,77 +9,35 @@ import {
   Marker,
   ZoomableGroup,
 } from "react-simple-maps";
-import { feature } from "topojson";
-import fetch from "unfetch";
 
 import {
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
 } from "../../utils/constants";
+import { useKeralaMap } from "../../utils/utils";
 
-function Map({ district, facilities, className }) {
-  const [topojson, setTopojson] = useState({});
-  const [zoom, setZoom] = useState(1);
-  const [markers, setMarkers] = useState([]);
-  const [projectionConfig, setProjectionConfig] = useState({});
-  const { mode } = useContext(WindmillContext);
-  const {
-    tooltipData,
-    tooltipLeft,
-    tooltipTop,
-    tooltipOpen,
-    showTooltip,
-    hideTooltip,
-  } = useTooltip();
-
-  const getColor = ({ color1 = "00FF00", color2 = "FF0000", ratio }) => {
-    const hex = (color) => {
-      const colorString = color.toString(16);
-      return colorString.length === 1 ? `0${colorString}` : colorString;
-    };
-    const r = Math.ceil(
-      Number.parseInt(color2.slice(0, 2), 16) * ratio +
-        Number.parseInt(color1.slice(0, 2), 16) * (1 - ratio)
-    );
-    const g = Math.ceil(
-      Number.parseInt(color2.slice(2, 4), 16) * ratio +
-        Number.parseInt(color1.slice(2, 4), 16) * (1 - ratio)
-    );
-    const b = Math.ceil(
-      Number.parseInt(color2.slice(4, 6), 16) * ratio +
-        Number.parseInt(color1.slice(4, 6), 16) * (1 - ratio)
-    );
-    return `#${hex(r)}${hex(g)}${hex(b)}`;
+const getColor = ({ color1 = "00FF00", color2 = "FF0000", ratio }) => {
+  const hex = (color) => {
+    const colorString = color.toString(16);
+    return colorString.length === 1 ? `0${colorString}` : colorString;
   };
+  const r = Math.ceil(
+    Number.parseInt(color2.slice(0, 2), 16) * ratio +
+      Number.parseInt(color1.slice(0, 2), 16) * (1 - ratio)
+  );
+  const g = Math.ceil(
+    Number.parseInt(color2.slice(2, 4), 16) * ratio +
+      Number.parseInt(color1.slice(2, 4), 16) * (1 - ratio)
+  );
+  const b = Math.ceil(
+    Number.parseInt(color2.slice(4, 6), 16) * ratio +
+      Number.parseInt(color1.slice(4, 6), 16) * (1 - ratio)
+  );
+  return `#${hex(r)}${hex(g)}${hex(b)}`;
+};
 
-  useEffect(() => {
-    fetch("/kerala_lsgd.json")
-      .then((r) => r.json())
-      .then((data) => {
-        setTopojson(data);
-        setMarkers(feature(data, data.objects.data).features);
-      })
-      .catch((error) => {
-        throw error;
-      });
-    fetch("/kerala_district.json")
-      .then((r) => r.json())
-      .then((data) => {
-        const { features } = feature(data, data.objects.data);
-        const config = features.reduce((a, c) => {
-          return {
-            ...a,
-            [c.properties.DISTRICT]: polylabel(c.geometry.coordinates),
-          };
-        }, {});
-        setProjectionConfig(config);
-      })
-      .catch((error) => {
-        throw error;
-      });
-  }, []);
-
-  const genToolTip = (f) => (
+function Tooltip({ facility: f }) {
+  return (
     <div className="text-xxs">
       <p className="font-black mb-1">{f.name}</p>
       <div>
@@ -138,6 +96,19 @@ function Map({ district, facilities, className }) {
       </div>
     </div>
   );
+}
+
+function CapacityMap({ district, facilities, className }) {
+  const { topojson, zoom, setZoom, markers, projectionConfig } = useKeralaMap();
+  const { mode } = useContext(WindmillContext);
+  const {
+    tooltipData,
+    tooltipLeft,
+    tooltipTop,
+    tooltipOpen,
+    showTooltip,
+    hideTooltip,
+  } = useTooltip();
 
   return (
     <Card className={`${className} overflow-visible relative`}>
@@ -238,7 +209,7 @@ function Map({ district, facilities, className }) {
               minWidth: 120,
             }}
           >
-            {genToolTip(facilities.find((x) => x.id === tooltipData))}
+            <Tooltip facility={facilities.find((x) => x.id === tooltipData)} />
           </TooltipWithBounds>
         )}
         <div className="items-end flex flex-col text-xxxs dark:text-gray-400 text-gray-600 break-all sm:text-xs">
@@ -263,4 +234,4 @@ function Map({ district, facilities, className }) {
   );
 }
 
-export default Map;
+export default CapacityMap;

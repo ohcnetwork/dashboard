@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React, { lazy, Suspense, useContext, useEffect } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 
@@ -21,9 +22,10 @@ function Layout() {
 
   return (
     <div
-      className={`flex h-screen transition-colors duration-200 ease-linear bg-gray-50 dark:bg-gray-900 ${
+      className={clsx(
+        "flex h-screen transition-colors duration-200 ease-linear bg-gray-50 dark:bg-gray-900",
         isSidebarOpen && "overflow-hidden"
-      }`}
+      )}
     >
       <Sidebar />
       <div className="flex flex-1 flex-col w-full">

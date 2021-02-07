@@ -82,12 +82,12 @@ function DistrictDashboard() {
             date={date}
           />
         ) : (
-            <CapacityTimeseries
-              filterDistrict={filterDistrict}
-              filterFacilityTypes={filterFacilityTypes}
-              dates={dates}
-            />
-          );
+          <CapacityTimeseries
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            dates={dates}
+          />
+        );
       case CONTENT.PATIENT:
         return !timeseries ? (
           <Patient
@@ -96,12 +96,12 @@ function DistrictDashboard() {
             date={date}
           />
         ) : (
-            <PatientTimeseries
-              filterDistrict={filterDistrict}
-              filterFacilityTypes={filterFacilityTypes}
-              dates={dates}
-            />
-          );
+          <PatientTimeseries
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            dates={dates}
+          />
+        );
       case CONTENT.TESTS:
         return !timeseries ? (
           <Tests
@@ -110,12 +110,12 @@ function DistrictDashboard() {
             date={date}
           />
         ) : (
-            <TestsTimeseries
-              filterDistrict={filterDistrict}
-              filterFacilityTypes={filterFacilityTypes}
-              dates={dates}
-            />
-          );
+          <TestsTimeseries
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            dates={dates}
+          />
+        );
       case CONTENT.TRIAGE:
         return !timeseries ? (
           <Triage
@@ -124,30 +124,24 @@ function DistrictDashboard() {
             date={date}
           />
         ) : (
-            <TriageTimeseries
-              filterDistrict={filterDistrict}
-              filterFacilityTypes={filterFacilityTypes}
-              dates={dates}
-            />
-          );
+          <TriageTimeseries
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            dates={dates}
+          />
+        );
       case CONTENT.COVID:
         return !timeseries ? (
           <Covid filterDistrict={filterDistrict} date={date} />
         ) : (
-            <CovidTimeseries filterDistrict={filterDistrict} dates={dates} />
-          );
+          <CovidTimeseries filterDistrict={filterDistrict} dates={dates} />
+        );
       case CONTENT.LSG:
         return !timeseries ? (
-          <Lsg
-            filterDistrict={filterDistrict}
-            filterFacilityTypes={filterFacilityTypes}
-            date={date}
-          />
+          <Lsg filterDistrict={filterDistrict} date={date} />
         ) : (
-            <div>
-              Work in Progress
-            </div>
-          );
+          <div>Work in Progress</div>
+        );
       default:
         return <div />;
     }
