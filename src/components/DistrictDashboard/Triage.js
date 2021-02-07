@@ -68,7 +68,7 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
         ...a,
         [
           [c.name, c.facilityType, c.phoneNumber],
-          dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
+          dayjs(c.modifiedDate).fromNow(),
           ...["visited", "referred", "isolation", "home_quarantine"].map(
             (i) =>
               `${c["avg_patients_" + i] || 0}/${c["total_patients_" + i] || 0}`

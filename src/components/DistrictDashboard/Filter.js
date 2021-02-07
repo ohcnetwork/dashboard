@@ -7,6 +7,7 @@ import {
   Label,
 } from "@windmill/react-ui";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker/dist/entry.nostyle";
+import clsx from "clsx";
 import fuzzysort from "fuzzysort";
 import React, { useState } from "react";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
@@ -45,15 +46,16 @@ function Filter({
 
   return (
     <div
-      className={`${
+      className={clsx(
         floating
           ? "absolute inset-x-0 top-0 mt-10 z-40 flex-shrink-0 "
-          : "mb-8 rounded-lg"
-      } flex flex-col md:flex-row items-center justify-between px-1 sm:px-4 py-1 sm:py-2 bg-white shadow-md dark:bg-gray-800`}
+          : "mb-8 rounded-lg",
+        "flex flex-col md:flex-row items-center justify-between px-1 sm:px-4 py-1 sm:py-2 bg-white shadow-md dark:bg-gray-800"
+      )}
     >
       <p className="inline-flex dark:text-gray-400">Filters</p>
       <div className="inline-grid gap-1 grid-rows-none w-full sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
-        {content !== CONTENT.COVID && (
+        {![CONTENT.COVID, CONTENT.LSG].includes(content) && (
           <div className="dark:bg-gray-900 bg-white rounded-lg relative">
             <Button
               layout="link"
@@ -125,9 +127,7 @@ function Filter({
                   <Label key={i} check>
                     <Input
                       onClick={() => {
-                        const _t = _filterFacilityTypes.findIndex(
-                          (t) => t === d
-                        );
+                        const _t = _filterFacilityTypes.indexOf(d);
                         const _tmp = [..._filterFacilityTypes];
                         if (_t > -1) {
                           _tmp.splice(_t, 1);

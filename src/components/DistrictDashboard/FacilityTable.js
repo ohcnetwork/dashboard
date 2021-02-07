@@ -14,7 +14,13 @@ import fuzzysort from "fuzzysort";
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 
-function FacilityTable({ columns = [], data, className, exported = null, title = "Facilities" }) {
+function FacilityTable({
+  columns = [],
+  data,
+  className,
+  exported = null,
+  title = "Facilities",
+}) {
   const resultsPerPage = 25;
   const [filteredData, setFilteredData] = useState(data);
   const [page, setPage] = useState(1);
@@ -49,15 +55,15 @@ function FacilityTable({ columns = [], data, className, exported = null, title =
               setFilteredData(
                 e.target.value
                   ? data.filter((v) =>
-                    fuzzysort
-                      .go(
-                        e.target.value,
-                        data.map((d) => ({ ...d, 0: d[0][0] })),
-                        { key: "0" }
-                      )
-                      .map((v) => v.target)
-                      .includes(v[0][0])
-                  )
+                      fuzzysort
+                        .go(
+                          e.target.value,
+                          data.map((d) => ({ ...d, 0: d[0][0] })),
+                          { key: "0" }
+                        )
+                        .map((v) => v.target)
+                        .includes(v[0][0])
+                    )
                   : data
               );
             }}
@@ -93,8 +99,8 @@ function FacilityTable({ columns = [], data, className, exported = null, title =
                           </p>
                         </div>
                       ) : (
-                          r
-                        )}
+                        r
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>

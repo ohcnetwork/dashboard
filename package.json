@@ -6,15 +6,17 @@
     "build": "poi --prod",
     "dev": "poi --serve",
     "start": "serve -s dist",
-    "lint": "eslint --ignore-pattern src/assets  src/** ",
-    "lint:fix": "eslint --ignore-pattern src/assets --fix src/**"
+    "lint": "eslint --ext js ./src",
+    "lint:fix": "eslint --fix --ext js ./src",
+    "format": "prettier --write ./src"
   },
   "dependencies": {
     "@vx/tooltip": "0.0.199",
-    "@windmill/react-ui": "^0.4.1",
-    "@wojtekmaj/react-daterange-picker": "^3.0.0",
+    "@windmill/react-ui": "^0.5.0",
+    "@wojtekmaj/react-daterange-picker": "^3.0.1",
     "arima": "^0.1.0",
-    "dayjs": "^1.9.6",
+    "clsx": "^1.1.1",
+    "dayjs": "^1.10.4",
     "downloadjs": "^1.4.7",
     "fuzzysort": "^1.1.4",
     "html2canvas": "^1.0.0-rc.7",
@@ -22,31 +24,32 @@
     "prettier-plugin-tailwind": "^2.1.9",
     "react": "^16.13.1",
     "react-csv": "^2.0.3",
-    "react-date-picker": "^8.0.3",
+    "react-date-picker": "^8.0.7",
     "react-dom": "^16.13.1",
-    "react-feather": "^2.0.8",
-    "react-intersection-observer": "^8.30.3",
+    "react-feather": "^2.0.9",
+    "react-intersection-observer": "^8.31.0",
     "react-router-dom": "5.2.0",
     "react-simple-maps": "^2.3.0",
     "react-spring": "^8.0.27",
     "react-suspense-worker": "0.0.1",
-    "recharts": "^2.0.0-beta.6",
-    "register-service-worker": "^1.7.1",
-    "swr": "^0.3.8",
+    "recharts": "^2.0.4",
+    "register-service-worker": "^1.7.2",
+    "swr": "^0.4.1",
     "topojson": "^3.0.2",
     "unfetch": "^4.2.0"
   },
   "devDependencies": {
+    "@jarrodldavis/eslint-plugin-tailwindcss": "^0.4.0",
     "@poi/plugin-pwa": "^12.0.3",
     "@svgr/webpack": "^5.5.0",
     "cssnano": "4.1.10",
-    "eslint": "^7.13.0",
-    "eslint-config-galex": "^2.7.4",
-    "eslint-config-prettier": "^6.15.0",
+    "eslint": "^7.19.0",
+    "eslint-config-galex": "^2.10.6",
+    "husky": "^4.3.8",
     "poi": "^12.10.3",
     "postcss-flexbugs-fixes": "4.2.1",
     "postcss-preset-env": "^6.7.0",
-    "prettier": "^2.1.2",
+    "prettier": "^2.2.1",
     "tailwind-css-variables": "^2.0.3",
     "tailwindcss": "^1.9.6",
     "worker-plugin": "^5.0.0"
@@ -62,5 +65,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint:fix && npm run format"
+    }
   }
 }

@@ -6,15 +6,12 @@ import useSWR from "swr";
 
 import { careSummary } from "../../utils/api";
 import { PATIENT_TYPES } from "../../utils/constants";
-import {
-  dateString,
-  getNDateAfter,
-  getNDateBefore,
-} from "../../utils/utils";
+import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import { ValuePill } from "../Pill/ValuePill";
-import ThemedSuspense from "../ThemedSuspense"
-import { SectionTitle } from "../Typography/Title";;
+import ThemedSuspense from "../ThemedSuspense";
+import { SectionTitle } from "../Typography/Title";
+
 const LsgPatientMap = lazy(() => import("./LsgPatientMap"));
 const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
@@ -34,7 +31,7 @@ const initiallsgTrivia = {
   icu_with_non_invasive_ventilator: { total: 0, today: 0 },
 };
 
-function Lsg({ filterDistrict, filterFacilityTypes, date }) {
+function Lsg({ filterDistrict, date }) {
   const { data } = useSWR(
     ["Patient", date, filterDistrict.id],
     (url, date, district) =>
@@ -47,23 +44,27 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
   );
 
   const { lsgTrivia, exported, tableData, lsgPatientsToday } = useMemo(() => {
-
-    const filtered =
-      data.results
-        .map(({ data, created_date }) => (
-          Object.keys(data).map((key, _index) => {
-            return {
-              created_date: dateString(new Date(created_date)),
-              total: Object.keys(PATIENT_TYPES).map((k) => data[key][`total_patients_${k}`] || 0).reduce((a, b) => a + b, 0),
-              total_today: Object.keys(PATIENT_TYPES).map((k) => data[key][`today_patients_${k}`] || 0).reduce((a, b) => a + b, 0),
-              ...data[key]
-            };
-          })
-        )).flat().sort((a, b) => b.total - a.total)
+    const filtered = data.results
+      .flatMap(({ data, created_date }) =>
+        Object.keys(data).map((key, _index) => {
+          return {
+            created_date: dateString(new Date(created_date)),
+            total: Object.keys(PATIENT_TYPES)
+              .map((k) => data[key][`total_patients_${k}`] || 0)
+              .reduce((a, b) => a + b, 0),
+            total_today: Object.keys(PATIENT_TYPES)
+              .map((k) => data[key][`today_patients_${k}`] || 0)
+              .reduce((a, b) => a + b, 0),
+            ...data[key],
+          };
+        })
+      )
+      .sort((a, b) => b.total - a.total);
 
     const lsgTrivia = filtered.reduce(
       (a, c) => {
-        const key = c.created_date === dateString(date) ? "current" : "previous";
+        const key =
+          c.created_date === dateString(date) ? "current" : "previous";
         a[key].count += 1;
         Object.keys(PATIENT_TYPES).forEach((k) => {
           a[key][k].today += c[`today_patients_${k}`] || 0;
@@ -76,7 +77,9 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
         previous: JSON.parse(JSON.stringify(initiallsgTrivia)),
       }
     );
-    const lsgPatientsToday = filtered.filter((c) => c.created_date === dateString(date));
+    const lsgPatientsToday = filtered.filter(
+      (c) => c.created_date === dateString(date)
+    );
 
     const tableData = filtered.reduce((a, c) => {
       if (c.created_date !== dateString(date)) {
@@ -86,10 +89,14 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
         ...a,
         [
           [c.name],
-          <div className="flex">
+          <div key={c.name} className="flex">
             <p className="font-semibold">{c.total || 0}</p>
             <span className="text-sm ml-2">
-              {c.total_today === 0 ? "" : c.total_today > 0 ? `+${c.total_today}` : `-${c.total_today}`}
+              {c.total_today === 0
+                ? ""
+                : c.total_today > 0
+                ? `+${c.total_today}`
+                : `-${c.total_today}`}
             </span>
           </div>,
           c.total_inactive,
@@ -117,7 +124,7 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
         return [
           ...a,
           {
-            "Name": c.name,
+            Name: c.name,
             ...Object.keys(PATIENT_TYPES).reduce((t, x) => {
               const y = { ...t };
               y[`Total Patient in ${PATIENT_TYPES[x]}`] =
@@ -129,15 +136,12 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
       }, []),
     };
     return { lsgTrivia, exported, tableData, lsgPatientsToday };
-  }, [data, filterFacilityTypes]);
+  }, [data]);
 
   return (
     <>
       <div className="grid gap-1 grid-rows-none mb-8 sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
-        <ValuePill
-          title="Lsg Count"
-          value={lsgTrivia.current.count}
-        />
+        <ValuePill title="Lsg Count" value={lsgTrivia.current.count} />
       </div>
 
       <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
@@ -154,7 +158,12 @@ function Lsg({ filterDistrict, filterFacilityTypes, date }) {
         <FacilityTable
           title="Lsg"
           className="mb-8"
-          columns={["Name of LSG", <div>Live</div>, "Discharged", ...Object.values(PATIENT_TYPES)]}
+          columns={[
+            "Name of LSG",
+            "Live",
+            "Discharged",
+            ...Object.values(PATIENT_TYPES),
+          ]}
           data={tableData}
           exported={exported}
         />

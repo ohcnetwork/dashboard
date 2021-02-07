@@ -1,12 +1,8 @@
 {
-  "extends": [
-    "plugin:prettier/recommended",
-    "prettier/react",
-    "prettier/standard",
-    "galex"
-  ],
+  "extends": ["plugin:@jarrodldavis/tailwindcss/recommended", "galex"],
   "rules": {
     "array-callback-return": "off",
+    "@jarrodldavis/tailwindcss/no-unknown-class": "off",
     "prefer-template": "off",
     "no-negated-condition": "off",
     "sonarjs/no-useless-catch": "off",
@@ -20,7 +16,6 @@
     "require-await": "off",
     "unicorn/explicit-length-check": "off",
     "unicorn/consistent-function-scoping": "off",
-    "prettier/prettier": "error",
     "react/jsx-no-useless-fragment": "off",
     "react/no-array-index-key": "off",
     "react/destructuring-assignment": "off",
