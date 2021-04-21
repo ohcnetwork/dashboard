@@ -60,6 +60,12 @@ export const processFacilities = (data, filterFacilityTypes) => {
     }))
     .filter((f) => filterFacilityTypes.includes(f.facilityType))
     .sort((a, b) => {
+      if (new Date(a.modifiedDate) < new Date(b.modifiedDate)) {
+        return 1;
+      }
+      return -1;
+    })
+    .sort((a, b) => {
       if (
         FACILITY_TYPES.indexOf(a.facilityType) >
         FACILITY_TYPES.indexOf(b.facilityType)
