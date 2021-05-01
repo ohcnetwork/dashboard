@@ -20,48 +20,48 @@ const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
-const initialFacilitiesTrivia = {
-  count: 0,
-  avg_patients_visited: 0,
-  avg_patients_referred: 0,
-  avg_patients_isolation: 0,
-  total_patients_visited: 0,
-  total_patients_referred: 0,
-  total_patients_isolation: 0,
-  avg_patients_home_quarantine: 0,
-  total_patients_home_quarantine: 0,
-};
+// const initialFacilitiesTrivia = {
+//   count: 0,
+//   avg_patients_visited: 0,
+//   avg_patients_referred: 0,
+//   avg_patients_isolation: 0,
+//   total_patients_visited: 0,
+//   total_patients_referred: 0,
+//   total_patients_isolation: 0,
+//   avg_patients_home_quarantine: 0,
+//   total_patients_home_quarantine: 0,
+// };
 
-function Triage({ filterDistrict, filterFacilityTypes, date }) {
+function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
   const { data } = useSWR(
-    ["Triage", date, filterDistrict.id],
+    ["OxygenMonitor", date, filterDistrict.id],
     (url, date, district) =>
       careSummary(
-        "triage",
+        "facility",
         dateString(getNDateBefore(date, 1)),
         dateString(getNDateAfter(date, 1)),
         district
       )
   );
-  const { facilitiesTrivia, exported, tableData } = useMemo(() => {
+  const { exported, tableData } = useMemo(() => {
     const filtered = processFacilities(data.results, filterFacilityTypes);
-    const facilitiesTrivia = filtered.reduce(
-      (a, c) => {
-        const key = c.date === dateString(date) ? "current" : "previous";
-        a[key].count += 1;
-        Object.keys(TRIAGE_TYPES).forEach((k) => {
-          a[key][k] += c[k];
-          a[key][k] += c[k];
-        });
-        return a;
-      },
-      {
-        current: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
-        previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
-      }
-    );
+    // const facilitiesTrivia = filtered.reduce(
+    //   (a, c) => {
+    //     const key = c.date === dateString(date) ? "current" : "previous";
+    //     a[key].count += 1;
+    //     Object.keys(TRIAGE_TYPES).forEach((k) => {
+    //       a[key][k] += c[k];
+    //       a[key][k] += c[k];
+    //     });
+    //     return a;
+    //   },
+    //   {
+    //     current: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
+    //     previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
+    //   }
+    // );
+    console.log(filtered)
     const tableData = filtered.reduce((a, c) => {
-      console.log(a, c)
       if (c.date !== dateString(date)) {
         return a;
       }
@@ -70,10 +70,7 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
         [
           [c.name, c.facilityType, c.phoneNumber],
           dayjs(c.modifiedDate).fromNow(),
-          ...["visited", "referred", "isolation", "home_quarantine"].map(
-            (i) =>
-              `${c["avg_patients_" + i] || 0}/${c["total_patients_" + i] || 0}`
-          ),
+          c.oxygenCapacity,
         ],
       ];
     }, []);
@@ -103,7 +100,7 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
         ];
       }, []),
     };
-    return { facilitiesTrivia, exported, tableData };
+    return { exported, tableData };
   }, [data, filterFacilityTypes]);
 
   return (
@@ -152,4 +149,4 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
   );
 }
 
-export default Triage;
+export default OxygenMonitor;

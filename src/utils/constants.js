@@ -119,6 +119,14 @@ export const FACILITY_TYPES = [
   "TeleMedicine",
 ];
 
+export const OXYGEN_TYPES = [
+  "unit",
+  "stock",
+  "is_low",
+  "burn_rate",
+  "item_name",
+]
+
 export const CONTENT = {
   CAPACITY: 1,
   PATIENT: 2,
@@ -126,6 +134,7 @@ export const CONTENT = {
   TRIAGE: 4,
   COVID: 5,
   LSG: 6,
+  OXYGEN: 7,
 };
 
 export const CARE_LSG_TRANSILATION = {
