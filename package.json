@@ -34,6 +34,7 @@
     "react-suspense-worker": "0.0.1",
     "recharts": "^2.0.4",
     "register-service-worker": "^1.7.2",
+    "serve": "^11.3.2",
     "swr": "^0.4.1",
     "topojson": "^3.0.2",
     "unfetch": "^4.2.0"

@@ -43,7 +43,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         district
       )
   );
-  const { exported, tableData } = useMemo(() => {
+  const { tableData } = useMemo(() => {
     const filtered = processFacilities(data.results, filterFacilityTypes);
     // const facilitiesTrivia = filtered.reduce(
     //   (a, c) => {
@@ -70,11 +70,11 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         [
           [c.name, c.facilityType, c.phoneNumber],
           dayjs(c.modifiedDate).fromNow(),
-          c.oxygenCapacity,
+          c.data.inventory,
         ],
       ];
     }, []);
-    const exported = {
+  /*   const exported = {
       filename: "triage_export.csv",
       data: filtered.reduce((a, c) => {
         if (c.date !== dateString(date)) {
@@ -99,19 +99,19 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           },
         ];
       }, []),
-    };
-    return { exported, tableData };
+    }; */
+    return {tableData };
   }, [data, filterFacilityTypes]);
 
   return (
     <>
-      <div className="grid gap-1 grid-rows-none mb-8 sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
+      {/* <div className="grid gap-1 grid-rows-none mb-8 sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
         <ValuePill
           title="Facility Count"
           value={facilitiesTrivia.current.count}
         />
-      </div>
-      <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
+      </div> */}
+     {/*  <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
         {Object.keys(TRIAGE_TYPES).map((k, i) => {
           if (k !== "total_patients") {
             return (
@@ -126,20 +126,14 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
             );
           }
         })}
-      </div>
+      </div> */}
       {console.log(tableData)}
       <Suspense fallback={<ThemedSuspense />}>
         <FacilityTable
           className="mb-8"
           columns={[
             "Name",
-            "Last Updated",
-            ...[
-              "Patients visited",
-              "Patients referred",
-              "Patients isolation",
-              "Patients home quarantine",
-            ],
+           ...OXYGEN_TYPES,
           ]}
           data={tableData}
           exported={exported}
