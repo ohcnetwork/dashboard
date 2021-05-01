@@ -43,7 +43,11 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         district
       )
   );
+<<<<<<< HEAD
   const { tableData } = useMemo(() => {
+=======
+  const { exported, tableData } = useMemo(() => {
+>>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
     const filtered = processFacilities(data.results, filterFacilityTypes);
     // const facilitiesTrivia = filtered.reduce(
     //   (a, c) => {
@@ -70,11 +74,19 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         [
           [c.name, c.facilityType, c.phoneNumber],
           dayjs(c.modifiedDate).fromNow(),
+<<<<<<< HEAD
           c.data.inventory,
         ],
       ];
     }, []);
   /*   const exported = {
+=======
+          c.oxygenCapacity,
+        ],
+      ];
+    }, []);
+    const exported = {
+>>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
       filename: "triage_export.csv",
       data: filtered.reduce((a, c) => {
         if (c.date !== dateString(date)) {
@@ -99,19 +111,33 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           },
         ];
       }, []),
+<<<<<<< HEAD
     }; */
     return {tableData };
+=======
+    };
+    return { exported, tableData };
+>>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
   }, [data, filterFacilityTypes]);
 
   return (
     <>
+<<<<<<< HEAD
       {/* <div className="grid gap-1 grid-rows-none mb-8 sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
+=======
+      <div className="grid gap-1 grid-rows-none mb-8 sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
+>>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
         <ValuePill
           title="Facility Count"
           value={facilitiesTrivia.current.count}
         />
+<<<<<<< HEAD
       </div> */}
      {/*  <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
+=======
+      </div>
+      <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
+>>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
         {Object.keys(TRIAGE_TYPES).map((k, i) => {
           if (k !== "total_patients") {
             return (
@@ -126,14 +152,28 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
             );
           }
         })}
+<<<<<<< HEAD
       </div> */}
+=======
+      </div>
+>>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
       {console.log(tableData)}
       <Suspense fallback={<ThemedSuspense />}>
         <FacilityTable
           className="mb-8"
           columns={[
             "Name",
+<<<<<<< HEAD
            ...OXYGEN_TYPES,
+=======
+            "Last Updated",
+            ...[
+              "Patients visited",
+              "Patients referred",
+              "Patients isolation",
+              "Patients home quarantine",
+            ],
+>>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
           ]}
           data={tableData}
           exported={exported}

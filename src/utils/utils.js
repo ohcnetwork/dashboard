@@ -58,6 +58,16 @@ export const processFacilities = (data, filterFacilityTypes) => {
         : {
           ...data,
         }),
+<<<<<<< HEAD
+=======
+      // ...("inventory" in data
+      //   ? {
+      //     inventory: data.inventory
+      //   } : {
+      //     ...data
+      //   }
+      // )
+>>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
     }))
     .filter((f) => filterFacilityTypes.includes(f.facilityType))
     .sort((a, b) => {
