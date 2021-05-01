@@ -64,15 +64,6 @@ export const processFacilities = (data, filterFacilityTypes) => {
         return 1;
       }
       return -1;
-    })
-    .sort((a, b) => {
-      if (
-        FACILITY_TYPES.indexOf(a.facilityType) >
-        FACILITY_TYPES.indexOf(b.facilityType)
-      ) {
-        return 1;
-      }
-      return -1;
     });
 };
 
