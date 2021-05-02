@@ -75,7 +75,6 @@ function FacilityTable({
         <WTable>
           <TableHeader>
             <tr className="whitespace-pre">
-              {console.log(columns)}
               {columns.map((item, i) => (
                 <TableCell key={i}>{item}</TableCell>
               ))}

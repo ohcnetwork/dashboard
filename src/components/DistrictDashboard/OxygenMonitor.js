@@ -20,17 +20,17 @@ const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
-// const initialFacilitiesTrivia = {
-//   count: 0,
-//   avg_patients_visited: 0,
-//   avg_patients_referred: 0,
-//   avg_patients_isolation: 0,
-//   total_patients_visited: 0,
-//   total_patients_referred: 0,
-//   total_patients_isolation: 0,
-//   avg_patients_home_quarantine: 0,
-//   total_patients_home_quarantine: 0,
-// };
+
+function ItemDiv({ arr }) {
+  // console.log(arr)
+  let a = [[], [], [], [], [], []]
+  arr.forEach((item) => {
+    item.forEach((c, i) => {
+      a[i].push(<p className="text-xxs dark:text-gray-400 text-gray-600 xl:text-xs">{c}</p>)
+    })
+  })
+  return a
+}
 
 function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
   const { data } = useSWR(
@@ -67,11 +67,14 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           const arr = Object.keys(c.inventory).map((k) => {
             const data = c.inventory[k]
             return [
-              [c.name, c.facilityType, c.phoneNumber],
               data.item_name, data.stock, data.burn_rate == null ? '-' : data.burn_rate, data.is_low ? "Yes" : "No", data.unit]
-
           })
-          return a.concat(arr)
+          return [
+            ...a,
+            [[c.name, c.facilityType, c.phoneNumber],
+            ...ItemDiv({ arr })
+            ]
+          ]
         } return a;
       } return a;
     }, []);
@@ -101,7 +104,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           ];
         }, []),
       }; */
-    console.log(tableData)
+    // console.log(tableData)
     return { tableData };
   }, [data, filterFacilityTypes]);
 
@@ -129,7 +132,6 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           }
         })}
       </div> */}
-      {/* {console.log(tableData)} */}
       <Suspense fallback={<ThemedSuspense />}>
         <FacilityTable
           className="mb-8"
