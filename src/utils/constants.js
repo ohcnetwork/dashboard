@@ -120,11 +120,12 @@ export const FACILITY_TYPES = [
 ];
 
 export const OXYGEN_TYPES = [
-  "unit",
-  "stock",
-  "is_low",
-  "burn_rate",
-  "item_name",
+  "Item",
+  "Stock",
+  "Burn Rate",
+  "Is low?",
+  "Unit",
+  ,
 ]
 
 export const CONTENT = {

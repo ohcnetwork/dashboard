@@ -18,6 +18,11 @@ const routes = [
         path: "/district/covid",
         name: "Covid",
       },
+      {
+        path: "/district/oxygen",
+        name: "Oxygen",
+      },
+
     ],
   },
   {

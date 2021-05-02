@@ -5,7 +5,7 @@ import React, { lazy, Suspense, useMemo } from "react";
 import useSWR from "swr";
 
 import { careSummary } from "../../utils/api";
-import { TRIAGE_TYPES } from "../../utils/constants";
+import { OXYGEN_TYPES } from "../../utils/constants";
 import {
   dateString,
   getNDateAfter,
@@ -43,11 +43,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         district
       )
   );
-<<<<<<< HEAD
   const { tableData } = useMemo(() => {
-=======
-  const { exported, tableData } = useMemo(() => {
->>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
     const filtered = processFacilities(data.results, filterFacilityTypes);
     // const facilitiesTrivia = filtered.reduce(
     //   (a, c) => {
@@ -64,80 +60,60 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
     //     previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
     //   }
     // );
-    console.log(filtered)
+    // console.log(filtered)
     const tableData = filtered.reduce((a, c) => {
-      if (c.date !== dateString(date)) {
-        return a;
-      }
-      return [
-        ...a,
-        [
-          [c.name, c.facilityType, c.phoneNumber],
-          dayjs(c.modifiedDate).fromNow(),
-<<<<<<< HEAD
-          c.data.inventory,
-        ],
-      ];
+      if (c.date === dateString(date)) {
+        if (c.inventory && Object.keys(c.inventory).length !== 0) {
+          const arr = Object.keys(c.inventory).map((k) => {
+            const data = c.inventory[k]
+            return [
+              [c.name, c.facilityType, c.phoneNumber],
+              data.item_name, data.stock, data.burn_rate == null ? '-' : data.burn_rate, data.is_low ? "Yes" : "No", data.unit]
+
+          })
+          return a.concat(arr)
+        } return a;
+      } return a;
     }, []);
-  /*   const exported = {
-=======
-          c.oxygenCapacity,
-        ],
-      ];
-    }, []);
-    const exported = {
->>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
-      filename: "triage_export.csv",
-      data: filtered.reduce((a, c) => {
-        if (c.date !== dateString(date)) {
-          return a;
-        }
-        return [
-          ...a,
-          {
-            "Hospital/CFLTC Name": c.name,
-            "Hospital/CFLTC Address": c.address,
-            "Govt/Pvt": c.facilityType.startsWith("Govt") ? "Govt" : "Pvt",
-            "Hops/CFLTC":
-              c.facilityType === "First Line Treatment Centre"
-                ? "CFLTC"
-                : "Hops",
-            Mobile: c.phoneNumber,
-            ...Object.keys(TRIAGE_TYPES).reduce((t, x) => {
-              const y = { ...t };
-              y[TRIAGE_TYPES[x]] = c[x] || 0;
-              return y;
-            }, {}),
-          },
-        ];
-      }, []),
-<<<<<<< HEAD
-    }; */
-    return {tableData };
-=======
-    };
-    return { exported, tableData };
->>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
+    /*   const exported = {
+        filename: "triage_export.csv",
+        data: filtered.reduce((a, c) => {
+          if (c.date !== dateString(date)) {
+            return a;
+          }
+          return [
+            ...a,
+            {
+              "Hospital/CFLTC Name": c.name,
+              "Hospital/CFLTC Address": c.address,
+              "Govt/Pvt": c.facilityType.startsWith("Govt") ? "Govt" : "Pvt",
+              "Hops/CFLTC":
+                c.facilityType === "First Line Treatment Centre"
+                  ? "CFLTC"
+                  : "Hops",
+              Mobile: c.phoneNumber,
+              ...Object.keys(TRIAGE_TYPES).reduce((t, x) => {
+                const y = { ...t };
+                y[TRIAGE_TYPES[x]] = c[x] || 0;
+                return y;
+               }, {}),
+            },
+          ];
+        }, []),
+      }; */
+    console.log(tableData)
+    return { tableData };
   }, [data, filterFacilityTypes]);
 
   return (
     <>
-<<<<<<< HEAD
       {/* <div className="grid gap-1 grid-rows-none mb-8 sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
-=======
-      <div className="grid gap-1 grid-rows-none mb-8 sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
->>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
         <ValuePill
           title="Facility Count"
           value={facilitiesTrivia.current.count}
         />
-<<<<<<< HEAD
       </div> */}
-     {/*  <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
-=======
-      </div>
-      <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
->>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
+      {/*  <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
         {Object.keys(TRIAGE_TYPES).map((k, i) => {
           if (k !== "total_patients") {
             return (
@@ -152,31 +128,17 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
             );
           }
         })}
-<<<<<<< HEAD
       </div> */}
-=======
-      </div>
->>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
-      {console.log(tableData)}
+      {/* {console.log(tableData)} */}
       <Suspense fallback={<ThemedSuspense />}>
         <FacilityTable
           className="mb-8"
           columns={[
             "Name",
-<<<<<<< HEAD
-           ...OXYGEN_TYPES,
-=======
-            "Last Updated",
-            ...[
-              "Patients visited",
-              "Patients referred",
-              "Patients isolation",
-              "Patients home quarantine",
-            ],
->>>>>>> 035539e00cf23b52d39dd237d8ce0718673ecd88
+            ...OXYGEN_TYPES,
           ]}
           data={tableData}
-          exported={exported}
+        // exported={exported}
         />
       </Suspense>
     </>
