@@ -61,7 +61,6 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
       }
     );
     const tableData = filtered.reduce((a, c) => {
-      console.log(a, c)
       if (c.date !== dateString(date)) {
         return a;
       }
@@ -130,7 +129,7 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
           }
         })}
       </div>
-      {console.log(tableData)}
+
       <Suspense fallback={<ThemedSuspense />}>
         <FacilityTable
           className="mb-8"

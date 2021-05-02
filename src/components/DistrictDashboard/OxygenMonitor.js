@@ -12,8 +12,8 @@ import {
   getNDateBefore,
   processFacilities,
 } from "../../utils/utils";
-import { InfoCard } from "../Cards/InfoCard";
-import { ValuePill } from "../Pill/ValuePill";
+// import { InfoCard } from "../Cards/InfoCard";
+// import { ValuePill } from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
 
 const FacilityTable = lazy(() => import("./FacilityTable"));
@@ -31,6 +31,19 @@ dayjs.extend(customParseFormat);
 //   avg_patients_home_quarantine: 0,
 //   total_patients_home_quarantine: 0,
 // };
+
+const showStockWithBurnRate = (inventoryItem) => {
+  return inventoryItem ? (
+    <div>
+      <div>{inventoryItem?.stock}</div>
+      <small className="text-xs">
+        {inventoryItem?.burn_rate} {inventoryItem?.unit} / hr
+      </small>
+    </div>
+  ) : (
+    "-"
+  );
+};
 
 function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
   const { data } = useSWR(
@@ -60,20 +73,25 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
     //     previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
     //   }
     // );
-    // console.log(filtered)
+
     const tableData = filtered.reduce((a, c) => {
       if (c.date === dateString(date)) {
         if (c.inventory && Object.keys(c.inventory).length !== 0) {
-          const arr = Object.keys(c.inventory).map((k) => {
-            const data = c.inventory[k]
-            return [
+          const arr = [
+            [
               [c.name, c.facilityType, c.phoneNumber],
-              data.item_name, data.stock, data.burn_rate == null ? '-' : data.burn_rate, data.is_low ? "Yes" : "No", data.unit]
+              showStockWithBurnRate(c.inventory[2]),
+              showStockWithBurnRate(c.inventory[4]),
+              showStockWithBurnRate(c.inventory[6]),
+              showStockWithBurnRate(c.inventory[5]),
+            ],
+          ];
 
-          })
-          return a.concat(arr)
-        } return a;
-      } return a;
+          return [...a, ...arr];
+        }
+        return a;
+      }
+      return a;
     }, []);
     /*   const exported = {
         filename: "triage_export.csv",
@@ -101,7 +119,6 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           ];
         }, []),
       }; */
-    console.log(tableData)
     return { tableData };
   }, [data, filterFacilityTypes]);
 
@@ -129,16 +146,13 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           }
         })}
       </div> */}
-      {/* {console.log(tableData)} */}
+
       <Suspense fallback={<ThemedSuspense />}>
         <FacilityTable
           className="mb-8"
-          columns={[
-            "Name",
-            ...OXYGEN_TYPES,
-          ]}
+          columns={["Name", ...OXYGEN_TYPES]}
           data={tableData}
-        // exported={exported}
+          // exported={exported}
         />
       </Suspense>
     </>

@@ -120,13 +120,11 @@ export const FACILITY_TYPES = [
 ];
 
 export const OXYGEN_TYPES = [
-  "Item",
-  "Stock",
-  "Burn Rate",
-  "Is low?",
-  "Unit",
-  ,
-]
+  "Oxygen Tank",
+  "Cylinder D",
+  "Cylinder C",
+  "Cylinder B",
+];
 
 export const CONTENT = {
   CAPACITY: 1,

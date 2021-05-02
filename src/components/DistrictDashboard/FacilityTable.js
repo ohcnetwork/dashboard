@@ -55,15 +55,15 @@ function FacilityTable({
               setFilteredData(
                 e.target.value
                   ? data.filter((v) =>
-                    fuzzysort
-                      .go(
-                        e.target.value,
-                        data.map((d) => ({ ...d, 0: d[0][0] })),
-                        { key: "0" }
-                      )
-                      .map((v) => v.target)
-                      .includes(v[0][0])
-                  )
+                      fuzzysort
+                        .go(
+                          e.target.value,
+                          data.map((d) => ({ ...d, 0: d[0][0] })),
+                          { key: "0" }
+                        )
+                        .map((v) => v.target)
+                        .includes(v[0][0])
+                    )
                   : data
               );
             }}
@@ -74,8 +74,7 @@ function FacilityTable({
       <TableContainer className="text-xs xl:text-base">
         <WTable>
           <TableHeader>
-            <tr className="whitespace-pre">
-              {console.log(columns)}
+            <tr className="top-0 sticky whitespace-pre">
               {columns.map((item, i) => (
                 <TableCell key={i}>{item}</TableCell>
               ))}

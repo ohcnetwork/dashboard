@@ -47,9 +47,7 @@ function Filter({
   return (
     <div
       className={clsx(
-        floating
-          ? "absolute inset-x-0 top-0 mt-10 z-40 flex-shrink-0 "
-          : "mb-8 rounded-lg",
+        floating ? " mt-10 flex-shrink-0 " : "mb-8 rounded-lg",
         "flex flex-col md:flex-row items-center justify-between px-1 sm:px-4 py-1 sm:py-2 bg-white shadow-md dark:bg-gray-800"
       )}
     >
