@@ -35,9 +35,41 @@ dayjs.extend(customParseFormat);
 const showStockWithBurnRate = (inventoryItem) => {
   return inventoryItem ? (
     <div>
-      <div>{inventoryItem?.stock}</div>
-      <small className="text-xs">
-        {inventoryItem?.burn_rate} {inventoryItem?.unit} / hr
+      <div className="text-md font-bold">{inventoryItem?.stock}</div>
+      <small className="items-center flex text-sm mt-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="fas"
+          data-icon="fire"
+          className="h-5 w-5"
+          role="img"
+          viewBox="0 0 384 512"
+        >
+          <path
+            fill="currentColor"
+            d="M216 23.86c0-23.8-30.65-32.77-44.15-13.04C48 191.85 224 200 224 288c0 35.63-29.11 64.46-64.85 63.99-35.17-.45-63.15-29.77-63.15-64.94v-85.51c0-21.7-26.47-32.23-41.43-16.5C27.8 213.16 0 261.33 0 320c0 105.87 86.13 192 192 192s192-86.13 192-192c0-170.29-168-193-168-296.14z"
+          />
+        </svg>
+        <span className="font-semibold pl-2">
+          {inventoryItem?.burn_rate?.toFixed(2)}{" "}
+        </span>
+        <span className="text-xs pl-1">{inventoryItem?.unit} / hr </span>
+      </small>
+      <small className="items-center flex mt-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+        >
+          <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 5.29-11.584.531.531 0 0 0 .013-.012l.354-.354.353.354a.5.5 0 1 0 .707-.707l-1.414-1.415a.5.5 0 1 0-.707.707l.354.354-.354.354a.717.717 0 0 0-.012.012A6.973 6.973 0 0 0 9 2.071V1h.5a.5.5 0 0 0 0-1h-3zm2 5.6V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 1 1 1 0z" />
+        </svg>
+        <span className="text-sm font-semibold pl-2">
+          {((inventoryItem?.stock * inventoryItem?.burn_rate) / 60).toFixed(2)}
+        </span>
+        <span className="text-xs pl-1"> hr </span>
       </small>
     </div>
   ) : (
@@ -76,10 +108,15 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
 
     const tableData = filtered.reduce((a, c) => {
       if (c.date === dateString(date)) {
-        if (c.inventory && Object.keys(c.inventory).length !== 0) {
+        if (
+          c.inventory &&
+          Object.keys(c.inventory).length !== 0 &&
+          (c.inventory[2] || c.inventory[4] || c.inventory[5] || c.inventory[6])
+        ) {
           const arr = [
             [
               [c.name, c.facilityType, c.phoneNumber],
+              [c.oxygenCapacity],
               showStockWithBurnRate(c.inventory[2]),
               showStockWithBurnRate(c.inventory[4]),
               showStockWithBurnRate(c.inventory[6]),

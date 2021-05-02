@@ -120,6 +120,7 @@ export const FACILITY_TYPES = [
 ];
 
 export const OXYGEN_TYPES = [
+  "Tank Capacity",
   "Oxygen Tank",
   "Cylinder D",
   "Cylinder C",
