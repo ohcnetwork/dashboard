@@ -74,7 +74,7 @@ function FacilityTable({
       <TableContainer className="text-xs xl:text-base">
         <WTable>
           <TableHeader>
-            <tr className="whitespace-pre">
+            <tr className="top-0 sticky whitespace-pre">
               {columns.map((item, i) => (
                 <TableCell key={i}>{item}</TableCell>
               ))}

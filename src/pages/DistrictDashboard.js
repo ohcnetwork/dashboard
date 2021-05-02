@@ -33,6 +33,7 @@ const TriageTimeseries = lazy(() =>
   import("../components/DistrictDashboard/TriageTimeseries")
 );
 const Lsg = lazy(() => import("../components/DistrictDashboard/Lsg"));
+const OxygenMonitor = lazy(() => import("../components/DistrictDashboard/OxygenMonitor"));
 
 function DistrictDashboard() {
   const todayDate = new Date();
@@ -139,6 +140,12 @@ function DistrictDashboard() {
       case CONTENT.LSG:
         return !timeseries ? (
           <Lsg filterDistrict={filterDistrict} date={date} />
+        ) : (
+          <div>Work in Progress</div>
+        );
+      case CONTENT.OXYGEN:
+        return !timeseries ? (
+          <OxygenMonitor filterDistrict={filterDistrict} filterFacilityTypes={filterFacilityTypes} date={date} />
         ) : (
           <div>Work in Progress</div>
         );
