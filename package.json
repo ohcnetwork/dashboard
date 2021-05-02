@@ -40,7 +40,6 @@
     "unfetch": "^4.2.0"
   },
   "devDependencies": {
-    "@jarrodldavis/eslint-plugin-tailwindcss": "^0.4.0",
     "@poi/plugin-pwa": "^12.0.3",
     "@svgr/webpack": "^5.5.0",
     "cssnano": "4.1.10",
@@ -69,7 +68,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:fix && npm run format"
+      "pre-commit": "npm run && npm run format"
     }
   }
 }

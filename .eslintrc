@@ -1,8 +1,7 @@
 {
-  "extends": ["plugin:@jarrodldavis/tailwindcss/recommended", "galex"],
+  "extends": ["galex"],
   "rules": {
     "array-callback-return": "off",
-    "@jarrodldavis/tailwindcss/no-unknown-class": "off",
     "prefer-template": "off",
     "no-negated-condition": "off",
     "sonarjs/no-useless-catch": "off",
