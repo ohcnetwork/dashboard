@@ -23,7 +23,7 @@ function Layout() {
   return (
     <div
       className={clsx(
-        "flex h-screen transition-colors duration-200 ease-linear bg-gray-50 dark:bg-gray-900",
+        "flex h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 ease-linear",
         isSidebarOpen && "overflow-hidden"
       )}
     >

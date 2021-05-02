@@ -20,7 +20,7 @@ export function InfoCard({ title, value, delta = null, small = false }) {
           <p
             className={clsx(
               small ? "mb-1 text-xs" : "mb-2 text-sm",
-              "font-medium text-gray-600 dark:text-gray-400"
+              "dark:text-gray-400 text-gray-600 font-medium"
             )}
           >
             {title}
@@ -29,7 +29,7 @@ export function InfoCard({ title, value, delta = null, small = false }) {
             <animated.p
               className={clsx(
                 small ? "text-base" : "text-lg",
-                "font-semibold text-gray-700 dark:text-gray-200"
+                "dark:text-gray-200 text-gray-700 font-semibold"
               )}
             >
               {_value.interpolate((x) => Math.round(x))}
@@ -38,7 +38,7 @@ export function InfoCard({ title, value, delta = null, small = false }) {
               <animated.span
                 className={clsx(
                   small ? "text-xs" : "text-sm",
-                  "ml-2 text-gray-600 dark:text-gray-400"
+                  "ml-2 dark:text-gray-400 text-gray-600"
                 )}
               >
                 {_delta.interpolate((y) => {

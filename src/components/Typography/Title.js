@@ -2,7 +2,7 @@ import React from "react";
 
 export function PageTitle({ children }) {
   return (
-    <h1 className="text-2xl font-semibold my-6 dark:text-gray-200 text-gray-700">
+    <h1 className="my-6 dark:text-gray-200 text-gray-700 text-2xl font-semibold">
       {children}
     </h1>
   );
@@ -10,7 +10,7 @@ export function PageTitle({ children }) {
 
 export function SectionTitle({ children }) {
   return (
-    <h2 className="text-lg font-semibold mb-4 dark:text-gray-300 text-gray-600">
+    <h2 className="mb-4 dark:text-gray-300 text-gray-600 text-lg font-semibold">
       {children}
     </h2>
   );

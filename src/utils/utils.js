@@ -34,6 +34,7 @@ export const processFacilities = (data, filterFacilityTypes) => {
       facilityType: facility.facility_type || "Unknown",
       location: facility.location,
       phoneNumber: facility.phone_number,
+      inventory: data.inventory,
 
       modifiedDate:
         data.availability && data.availability.length !== 0

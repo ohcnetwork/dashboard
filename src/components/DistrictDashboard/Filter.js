@@ -47,21 +47,19 @@ function Filter({
   return (
     <div
       className={clsx(
-        floating
-          ? "absolute inset-x-0 top-0 mt-10 z-40 flex-shrink-0 "
-          : "mb-8 rounded-lg",
-        "flex flex-col md:flex-row items-center justify-between px-1 sm:px-4 py-1 sm:py-2 bg-white shadow-md dark:bg-gray-800"
+        floating ? " mt-10 flex-shrink-0 " : "mb-8 rounded-lg",
+        "flex flex-col items-center justify-between px-1 py-1 dark:bg-gray-800 bg-white shadow-md sm:px-4 sm:py-2 md:flex-row"
       )}
     >
       <p className="inline-flex dark:text-gray-400">Filters</p>
       <div className="inline-grid gap-1 grid-rows-none w-full sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
         {![CONTENT.COVID, CONTENT.LSG].includes(content) && (
-          <div className="dark:bg-gray-900 bg-white rounded-lg relative">
+          <div className="relative dark:bg-gray-900 bg-white rounded-lg">
             <Button
               layout="link"
               onClick={() => setFacilityTypeFilterOpen(!facilityTypeFilterOpen)}
               iconRight={ChevronDown}
-              className="shadow-xs w-full"
+              className="w-full shadow-xs"
             >
               Facility Type
             </Button>
@@ -104,7 +102,7 @@ function Filter({
                       });
                       _setFilterFacilityTypes(temp);
                     }}
-                    className="dark:bg-gray-900 shadow-xs whitespace-no-wrap"
+                    className="whitespace-no-wrap dark:bg-gray-900 shadow-xs"
                   >
                     All Govt.
                   </Button>
@@ -122,7 +120,7 @@ function Filter({
                 </HelperText>
               </Label>
 
-              <Card className="flex flex-col h-64 mb-2 overflow-y-auto p-2">
+              <Card className="flex flex-col mb-2 p-2 h-64 overflow-y-auto">
                 {facilityTypesFilterOptions.map((d, i) => (
                   <Label key={i} check>
                     <Input
@@ -161,7 +159,7 @@ function Filter({
           </div>
         )}
 
-        <div className="dark:bg-gray-900 bg-white rounded-lg flex justify-evenly dark:text-gray-700">
+        <div className="flex justify-evenly dark:text-gray-700 dark:bg-gray-900 bg-white rounded-lg">
           <Button
             layout="link"
             onClick={() => setTimeseries(false)}

@@ -34,7 +34,7 @@ const showBedsTypes = (ids, c) => {
   return (
     <table className="table-auto w-full">
       <thead>
-        <tr className="border-b text-xxs py-px space-x-4">
+        <tr className="py-px text-xxs border-b space-x-4">
           <th />
           <th>Total</th>
           <th>Used</th>
@@ -50,7 +50,7 @@ const showBedsTypes = (ids, c) => {
           return (
             <tr
               className={clsx(
-                "border-b text-xs py-px",
+                "py-px text-xs border-b",
                 total === 0 && "opacity-50",
                 critical && "text-red-600"
               )}
@@ -214,7 +214,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             <Button
               size="small"
               onClick={() => setForecast(true)}
-              className="bg-transparent shadow-xs w-full"
+              className="w-full bg-transparent shadow-xs"
             >
               <ArrowRight className="h-4" />
             </Button>

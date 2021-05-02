@@ -29,7 +29,7 @@ function Sidebar() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0 transform -translate-x-20"
         >
-          <aside className="dark:bg-gray-800 bg-white flex-shrink-0 inset-y-0 mt-10 overflow-y-auto fixed w-64 z-50">
+          <aside className="fixed z-50 inset-y-0 flex-shrink-0 mt-10 w-64 dark:bg-gray-800 bg-white overflow-y-auto">
             <SidebarContent />
           </aside>
         </Transition>

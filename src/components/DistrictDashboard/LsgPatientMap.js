@@ -86,7 +86,7 @@ function LsgPatientMap({ district, className, patients, dateString }) {
               onMoveEnd={({ zoom }) => setZoom(zoom / 4)}
             >
               <Geographies
-                className="fill-current dark:text-gray-400 text-green-500"
+                className="dark:text-gray-400 text-green-500 fill-current"
                 geography={topojson}
                 pointerEvents="none"
               >
@@ -135,17 +135,17 @@ function LsgPatientMap({ district, className, patients, dateString }) {
           </ComposableMap>
         )}
 
-        <div className="flex flex-col text-xxxs dark:text-gray-400 text-gray-600 break-all sm:text-xs">
+        <div className="flex flex-col dark:text-gray-400 text-gray-600 break-all text-xxxs sm:text-xs">
           <span className="inline-flex my-1 space-x-3">
             {[9, 8, 7, 6, 5, 4, 3, 2, 1, 0].map((a) => (
               <Legend key={a} a={a} max={max} />
             ))}
           </span>
-          <div className="text-xl font-bold text-green-600">{dateString}</div>
-          <div className="text-3xl -mt-2 md:font-black">
+          <div className="text-green-600 text-xl font-bold">{dateString}</div>
+          <div className="-mt-2 text-3xl md:font-black">
             {district + " District"}
           </div>
-          <div className="text-xl font-semibold -mt-2">
+          <div className="-mt-2 text-xl font-semibold">
             LSG WISE DISTRUBUTION
           </div>
           <div className="grid grid-cols-1 md:grid-cols-9">
@@ -156,7 +156,7 @@ function LsgPatientMap({ district, className, patients, dateString }) {
                 const c = findLsg(patients, e.id);
                 return (
                   <div key={e.id}>
-                    <div className="text-xxs truncate">
+                    <div className="truncate text-xxs">
                       {`${e.properties.LSGD} - ${c.total}`}
                     </div>
                   </div>

@@ -33,6 +33,9 @@ const TriageTimeseries = lazy(() =>
   import("../components/DistrictDashboard/TriageTimeseries")
 );
 const Lsg = lazy(() => import("../components/DistrictDashboard/Lsg"));
+const OxygenMonitor = lazy(() =>
+  import("../components/DistrictDashboard/OxygenMonitor")
+);
 
 function DistrictDashboard() {
   const todayDate = new Date();
@@ -142,6 +145,16 @@ function DistrictDashboard() {
         ) : (
           <div>Work in Progress</div>
         );
+      case CONTENT.OXYGEN:
+        return !timeseries ? (
+          <OxygenMonitor
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            date={date}
+          />
+        ) : (
+          <div>Work in Progress</div>
+        );
       default:
         return <div />;
     }
@@ -172,10 +185,10 @@ function DistrictDashboard() {
   return (
     <div className="overflow-auto">
       <PageTitle>District Dashboard</PageTitle>
-      <div className="items-center bg-green-500 rounded-lg shadow-md flex flex-col justify-between mb-2 px-4 py-2 md:flex-row">
-        <p className="font-semibold text-white">{filterDistrict.name}</p>
+      <div className="flex flex-col items-center justify-between mb-2 px-4 py-2 bg-green-500 rounded-lg shadow-md md:flex-row">
+        <p className="text-white font-semibold">{filterDistrict.name}</p>
         <div className="md:flex md:space-x-2">
-          <div className="dark:bg-gray-900 bg-white rounded-lg flex flex-wrap justify-center space-x-1 space-y-1 dark:text-gray-700 md:space-x-0 md:space-y-0">
+          <div className="flex flex-wrap justify-center dark:text-gray-700 dark:bg-gray-900 bg-white rounded-lg space-x-1 space-y-1 md:space-x-0 md:space-y-0">
             {Object.keys(CONTENT).map((k, i) => {
               let t = "shadow-xs ";
               if (i === 0) {
@@ -198,7 +211,7 @@ function DistrictDashboard() {
               );
             })}
           </div>
-          <div className="dark:bg-gray-900 bg-white rounded-lg hidden mt-2 relative md:mt-0">
+          <div className="relative hidden mt-2 dark:bg-gray-900 bg-white rounded-lg md:mt-0">
             <Button
               layout="link"
               onClick={() => setIsOpen(!isOpen)}
