@@ -91,7 +91,7 @@ function Lsg({ filterDistrict, date }) {
           [c.name],
           <div key={c.name} className="flex">
             <p className="font-semibold">{c.total || 0}</p>
-            <span className="text-sm ml-2">
+            <span className="ml-2 text-sm">
               {c.total_today === 0
                 ? ""
                 : c.total_today > 0
@@ -105,7 +105,7 @@ function Lsg({ filterDistrict, date }) {
             return (
               <div key={k} className="flex">
                 <p className="">{c[`total_patients_${k}`] || 0}</p>
-                <span className="text-sm ml-2">
+                <span className="ml-2 text-sm">
                   {delta === 0 ? "" : delta > 0 ? `+${delta}` : `-${delta}`}
                 </span>
               </div>

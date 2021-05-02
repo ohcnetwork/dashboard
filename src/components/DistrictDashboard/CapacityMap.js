@@ -39,7 +39,7 @@ const getColor = ({ color1 = "00FF00", color2 = "FF0000", ratio }) => {
 function Tooltip({ facility: f }) {
   return (
     <div className="text-xxs">
-      <p className="font-black mb-1">{f.name}</p>
+      <p className="mb-1 font-black">{f.name}</p>
       <div>
         <div>
           <p className="font-semibold">Oxygen capacity</p>
@@ -126,7 +126,7 @@ function CapacityMap({ district, facilities, className }) {
               onMoveEnd={({ zoom }) => setZoom(zoom / 2)}
             >
               <Geographies
-                className="fill-current dark:text-gray-400 text-green-500"
+                className="dark:text-gray-400 text-green-500 fill-current"
                 geography={topojson}
                 pointerEvents="none"
               >
@@ -212,7 +212,7 @@ function CapacityMap({ district, facilities, className }) {
             <Tooltip facility={facilities.find((x) => x.id === tooltipData)} />
           </TooltipWithBounds>
         )}
-        <div className="items-end flex flex-col text-xxxs dark:text-gray-400 text-gray-600 break-all sm:text-xs">
+        <div className="flex flex-col items-end dark:text-gray-400 text-gray-600 break-all text-xxxs sm:text-xs">
           <span className="inline-flex space-x-1">
             <span>Legends: </span>
             {[

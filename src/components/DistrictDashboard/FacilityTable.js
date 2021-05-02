@@ -38,8 +38,8 @@ function FacilityTable({
 
   return (
     <div className={className}>
-      <div className="items-center flex flex-wrap justify-between pb-2 sm:flex-no-wrap">
-        <h2 className="text-lg font-semibold dark:text-gray-300 text-gray-600">
+      <div className="flex flex-wrap items-center justify-between pb-2 sm:flex-no-wrap">
+        <h2 className="dark:text-gray-300 text-gray-600 text-lg font-semibold">
           {title}
         </h2>
         <div className="flex max-w-full space-x-1">
@@ -49,7 +49,7 @@ function FacilityTable({
             </CSVLink>
           )}
           <Input
-            className="rounded-lg w-40 sm:w-auto"
+            className="w-40 rounded-lg sm:w-auto"
             placeholder={"Search " + title}
             onChange={(e) => {
               setFilteredData(
@@ -74,7 +74,7 @@ function FacilityTable({
       <TableContainer className="text-xs xl:text-base">
         <WTable>
           <TableHeader>
-            <tr className="top-0 sticky whitespace-pre">
+            <tr className="sticky top-0 whitespace-pre">
               {columns.map((item, i) => (
                 <TableCell key={i}>{item}</TableCell>
               ))}
@@ -87,14 +87,14 @@ function FacilityTable({
                   {h.map((r, j) => (
                     <TableCell key={j}>
                       {j === 0 ? (
-                        <div className="flex flex-col whitespace-pre-wrap w-32">
+                        <div className="flex flex-col w-32 whitespace-pre-wrap">
                           <p className="text-xs font-semibold xl:text-sm">
                             {r[0]}
                           </p>
-                          <p className="text-xxs dark:text-gray-400 text-gray-600 xl:text-xs">
+                          <p className="dark:text-gray-400 text-gray-600 text-xxs xl:text-xs">
                             {r[1]}
                           </p>
-                          <p className="text-xxs dark:text-gray-400 text-gray-600 xl:text-xs">
+                          <p className="dark:text-gray-400 text-gray-600 text-xxs xl:text-xs">
                             {r[2]}
                           </p>
                         </div>

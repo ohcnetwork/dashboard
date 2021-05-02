@@ -43,21 +43,21 @@ export const processFacilities = (data, filterFacilityTypes) => {
 
       ...("availability" in data
         ? {
-          capacity: data.availability
-            ? data.availability.reduce((cAcc, cCur) => {
-              return {
-                ...cAcc,
-                [cCur.room_type]: cCur,
-              };
-            }, {})
-            : null,
-          oxygenCapacity: data.oxygen_capacity,
-          actualDischargedPatients: data.actual_discharged_patients,
-          actualLivePatients: data.actual_live_patients,
-        }
+            capacity: data.availability
+              ? data.availability.reduce((cAcc, cCur) => {
+                  return {
+                    ...cAcc,
+                    [cCur.room_type]: cCur,
+                  };
+                }, {})
+              : null,
+            oxygenCapacity: data.oxygen_capacity,
+            actualDischargedPatients: data.actual_discharged_patients,
+            actualLivePatients: data.actual_live_patients,
+          }
         : {
-          ...data,
-        }),
+            ...data,
+          }),
     }))
     .filter((f) => filterFacilityTypes.includes(f.facilityType))
     .sort((a, b) => {

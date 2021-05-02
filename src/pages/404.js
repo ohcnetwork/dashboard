@@ -6,9 +6,9 @@ function Page404() {
   const history = useHistory();
 
   return (
-    <div className="items-center flex flex-col">
-      <XOctagon className="h-12 mt-8 text-green-500 w-12" aria-hidden="true" />
-      <h1 className="text-6xl font-semibold dark:text-gray-200 text-gray-700">
+    <div className="flex flex-col items-center">
+      <XOctagon className="mt-8 w-12 h-12 text-green-500" aria-hidden="true" />
+      <h1 className="dark:text-gray-200 text-gray-700 text-6xl font-semibold">
         404
       </h1>
       <p className="dark:text-gray-300 text-gray-700">

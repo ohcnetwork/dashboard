@@ -22,7 +22,6 @@ const routes = [
         path: "/district/oxygen",
         name: "Oxygen",
       },
-
     ],
   },
   {
