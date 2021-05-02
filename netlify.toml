@@ -4,7 +4,7 @@ publish = "dist/"
 [[redirects]]
 from = "/api/*"
 query = { district = ":district", end_date = ":end_date", limit = ":limit", start_date = ":start_date" }
-to = "https://careapi.coronasafe.in/api/:splat"
+to = "https://careapi.coronasafe.network/api/:splat"
 status = 200
 force = true
 
