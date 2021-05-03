@@ -1,7 +1,7 @@
 import { defaultStyles, TooltipWithBounds, useTooltip } from "@vx/tooltip";
 import { Card, CardBody, WindmillContext } from "@windmill/react-ui";
 import polylabel from "polylabel";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -41,65 +41,83 @@ function Tooltip({ facility: f }) {
     <div className="text-xxs">
       <p className="mb-1 font-black">{f.name}</p>
       <div>
-        <div>
-          <p className="font-semibold">Oxygen capacity</p>
-          <p>
-            Current: <strong>{f.oxygenCapacity}</strong>
-          </p>
+        <div className="grid gap-4 grid-cols-3 mt-2">
+          <div>
+            <p className="font-semibold">Oxygen capacity</p>
+            <p>
+              Current: <strong>{f.oxygenCapacity}</strong>
+            </p>
+          </div>
+          <div>
+            <p className="font-semibold">Live Patients</p>
+            <p>
+              Current: <strong>{f.actualLivePatients}</strong>
+            </p>
+          </div>
+          <div>
+            <p className="font-semibold">Discharged Patients</p>
+            <p>
+              Current: <strong>{f.actualDischargedPatients}</strong>
+            </p>
+          </div>
         </div>
-        <div>
-          <p className="font-semibold">Live Patients</p>
-          <p>
-            Current: <strong>{f.actualLivePatients}</strong>
-          </p>
+        <div className="grid gap-4 grid-cols-3 mt-2">
+          {AVAILABILITY_TYPES_ORDERED.map((a) => {
+            const current = f.capacity[a]?.current_capacity || 1;
+            const total = f.capacity[a]?.total_capacity || 1;
+            const used = ((current / total) * 100).toFixed(2);
+            if (total == 1) {
+              return;
+            }
+            return (
+              <div key={a}>
+                <p className="font-semibold">{AVAILABILITY_TYPES[a]}</p>
+                {f.capacity[a]?.total_capacity ? (
+                  <>
+                    <p>
+                      Current: <strong>{current}</strong>
+                    </p>
+                    <p>
+                      Total: <strong>{total}</strong>
+                    </p>
+                    <p>
+                      Used:{" "}
+                      <strong
+                        style={{
+                          color: getColor({
+                            ratio: current / total,
+                          }),
+                        }}
+                      >
+                        {used}%
+                      </strong>
+                    </p>
+                  </>
+                ) : (
+                  <p key={a}>Not available</p>
+                )}
+              </div>
+            );
+          })}
         </div>
-        <div>
-          <p className="font-semibold">Discharged Patients</p>
-          <p>
-            Current: <strong>{f.actualDischargedPatients}</strong>
-          </p>
-        </div>
-        {AVAILABILITY_TYPES_ORDERED.map((a) => {
-          const current = f.capacity[a]?.current_capacity || 1;
-          const total = f.capacity[a]?.total_capacity || 1;
-          const used = ((current / total) * 100).toFixed(2);
-          return (
-            <div key={a}>
-              <p className="font-semibold">{AVAILABILITY_TYPES[a]}</p>
-              {f.capacity[a]?.total_capacity ? (
-                <>
-                  <p>
-                    Current: <strong>{current}</strong>
-                  </p>
-                  <p>
-                    Total: <strong>{total}</strong>
-                  </p>
-                  <p>
-                    Used:{" "}
-                    <strong
-                      style={{
-                        color: getColor({
-                          ratio: current / total,
-                        }),
-                      }}
-                    >
-                      {used}%
-                    </strong>
-                  </p>
-                </>
-              ) : (
-                <p key={a}>Not available</p>
-              )}
-            </div>
-          );
-        })}
       </div>
     </div>
   );
 }
 
+const selectedButtonClasses = (bool) => {
+  const d = " px-4 py-2 font-bold rounded-lg shadow ";
+  return (
+    d +
+    (bool
+      ? "bg-green-500 text-white"
+      : "dark:hover:bg-green-500 hover:text-white hover:bg-green-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white")
+  );
+};
+
 function CapacityMap({ district, facilities, className }) {
   const { topojson, zoom, setZoom, markers, projectionConfig } = useKeralaMap();
+  const [selectedBedType, setSelectedBedType] = useState("All");
   const { mode } = useContext(WindmillContext);
   const {
     tooltipData,
@@ -176,6 +194,10 @@ function CapacityMap({ district, facilities, className }) {
                           transform: `translate(${(4 * i * 1) / zoom}, 0)`,
                           width: (4 * 1) / zoom,
                         };
+
+                        if (selectedBedType !== "All" && selectedBedType != a) {
+                          return;
+                        }
                         return j?.total_capacity ? (
                           <rect
                             key={i}
@@ -185,7 +207,7 @@ function CapacityMap({ district, facilities, className }) {
                             {...props}
                           />
                         ) : (
-                          <rect key={i} {...props} fill="gray" />
+                          <></>
                         );
                       })}
                     </g>
@@ -225,9 +247,25 @@ function CapacityMap({ district, facilities, className }) {
               </span>
             ))}
           </span>
-          <span className="inline-flex">{`In order of: ${AVAILABILITY_TYPES_ORDERED.map(
-            (a) => AVAILABILITY_TYPES[a]
-          ).join(", ")}`}</span>
+          <div className="grid gap-2 grid-cols-2 md:grid-cols-6">
+            <button
+              onClick={(_) => setSelectedBedType("All")}
+              className={selectedButtonClasses(selectedBedType === "All")}
+            >
+              Show All
+            </button>
+            {AVAILABILITY_TYPES_ORDERED.filter(
+              (n) => ![40, 50, 60, 70].includes(n)
+            ).map((a) => (
+              <button
+                key={a}
+                onClick={(_) => setSelectedBedType(a)}
+                className={selectedButtonClasses(a === selectedBedType)}
+              >
+                {AVAILABILITY_TYPES[a]}
+              </button>
+            ))}
+          </div>
         </div>
       </CardBody>
     </Card>
