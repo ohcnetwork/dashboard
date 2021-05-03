@@ -167,7 +167,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         district
       )
   );
-  const { tableData, oxygenFlatData } = useMemo(() => {
+  const { tableData, oxygenFlatData, exported } = useMemo(() => {
     const filtered = processFacilities(data.results, filterFacilityTypes);
 
     const tableData = filtered.reduce((a, c) => {
@@ -211,7 +211,66 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
       })
       .flat();
 
-    return { tableData, oxygenFlatData };
+    const exported = {
+      data: filtered.reduce((a, c) => {
+        if (c.date !== dateString(date)) {
+          return a;
+        }
+
+        if (
+          !(
+            c.inventory &&
+            Object.keys(c.inventory).length !== 0 &&
+            (c.inventory[2] ||
+              c.inventory[4] ||
+              c.inventory[5] ||
+              c.inventory[6])
+          )
+        ) {
+          return a;
+        }
+
+        return [
+          ...a,
+          {
+            "Govt/Pvt": c.facilityType.startsWith("Govt") ? "Govt" : "Pvt",
+            "Hops/CFLTC":
+              c.facilityType === "First Line Treatment Centre"
+                ? "CFLTC"
+                : "Hops",
+            "Hospital/CFLTC Address": c.address,
+            "Hospital/CFLTC Name": c.name,
+            Mobile: c.phoneNumber,
+            ...[2, 4, 5, 6].reduce((t, x) => {
+              const y = { ...t };
+
+              if (c.inventory[x]?.item_name) {
+                y[`Current Stock ${c.inventory[x]?.item_name}`] =
+                  c.inventory[x]?.stock || 0;
+                y[`Total Added ${c.inventory[x]?.item_name}`] =
+                  c.inventory[x]?.total_added || 0;
+                y[`Total Consumed ${c.inventory[x]?.item_name}`] =
+                  c.inventory[x]?.total_consumed || 0;
+                y[`Start Stock ${c.inventory[x]?.item_name}`] =
+                  c.inventory[x]?.start_stock || 0;
+                y[`End Stock ${c.inventory[x]?.item_name}`] =
+                  c.inventory[x]?.end_stock || 0;
+                y[`${c.inventory[x]?.item_name} Unit`] =
+                  c.inventory[x]?.unit || 0;
+                y[`Is Low ${c.inventory[x]?.item_name}`] =
+                  c.inventory[x]?.is_low || 0;
+                y[`${c.inventory[x]?.item_name} Updated at`] =
+                  c.inventory[x]?.modified_date || 0;
+              }
+              return y;
+            }, {}),
+          },
+        ];
+      }, []),
+      filename: "oxygen_export.csv",
+    };
+
+    return { tableData, oxygenFlatData, exported };
   }, [data, filterFacilityTypes]);
 
   return (
@@ -231,7 +290,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           className="mb-8"
           columns={["Name", ...OXYGEN_TYPES]}
           data={tableData}
-          // exported={exported}
+          exported={exported}
         />
       </Suspense>
     </>
