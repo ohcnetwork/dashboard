@@ -16,11 +16,11 @@ const theme = {
   // TableHeader
   tableHeader: {
     base:
-      "text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800",
+      "text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-700",
   },
   // TableContainer
   tableContainer: {
-    base: "w-full overflow-hidden rounded-lg shadow-xs",
+    base: "w-full overflow-hidden border dark:border-gray-800 rounded-lg shadow-xs",
   },
   // TableCell
   tableCell: {

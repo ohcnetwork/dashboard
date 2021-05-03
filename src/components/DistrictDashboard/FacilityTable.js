@@ -71,42 +71,44 @@ function FacilityTable({
         </div>
       </div>
 
-      <TableContainer className="text-xs xl:text-base">
-        <WTable>
-          <TableHeader>
-            <tr className="sticky top-0 whitespace-pre">
-              {columns.map((item, i) => (
-                <TableCell key={i}>{item}</TableCell>
-              ))}
-            </tr>
-          </TableHeader>
-          <TableBody>
-            {tableData.length > 0 &&
-              tableData.map((h, i) => (
-                <TableRow key={i}>
-                  {h.map((r, j) => (
-                    <TableCell key={j}>
-                      {j === 0 ? (
-                        <div className="flex flex-col w-32 whitespace-pre-wrap">
-                          <p className="text-xs font-semibold xl:text-sm">
-                            {r[0]}
-                          </p>
-                          <p className="dark:text-gray-400 text-gray-600 text-xxs xl:text-xs">
-                            {r[1]}
-                          </p>
-                          <p className="dark:text-gray-400 text-gray-600 text-xxs xl:text-xs">
-                            {r[2]}
-                          </p>
-                        </div>
-                      ) : (
-                        r
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-          </TableBody>
-        </WTable>
+      <TableContainer className="shadow-md text-xs xl:text-base overflow-hidden ">
+        <div className="h-screen overflow-auto overscroll-auto">
+          <table>
+            <TableHeader>
+              <tr className="sticky top-0 whitespace-pre bg-gray-100 dark:bg-gray-700">
+                {columns.map((item, i) => (
+                  <TableCell key={i}>{item}</TableCell>
+                ))}
+              </tr>
+            </TableHeader>
+            <TableBody>
+              {tableData.length > 0 &&
+                tableData.map((h, i) => (
+                  <TableRow key={i}>
+                    {h.map((r, j) => (
+                      <TableCell key={j}>
+                        {j === 0 ? (
+                          <div className="flex flex-col w-32 whitespace-pre-wrap">
+                            <p className="text-xs font-semibold xl:text-sm">
+                              {r[0]}
+                            </p>
+                            <p className="dark:text-gray-400 text-gray-600 text-xxs xl:text-xs">
+                              {r[1]}
+                            </p>
+                            <p className="dark:text-gray-400 text-gray-600 text-xxs xl:text-xs">
+                              {r[2]}
+                            </p>
+                          </div>
+                        ) : (
+                          r
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+            </TableBody>
+          </table>
+        </div>
         <TableFooter>
           <Pagination
             totalResults={filteredData.length}

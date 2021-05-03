@@ -11,7 +11,7 @@ function Header() {
   const history = useHistory();
 
   return (
-    <header className="z-40 py-2 h-12 dark:bg-gray-800 bg-white shadow-md overflow-hidden">
+    <header className="z-40 py-2 h-12 dark:bg-gray-800 bg-white shadow-md ">
       <div className="flex justify-between px-2 dark:text-green-400 text-green-500">
         <div className="flex flex-shrink-0 justify-between">
           <button
