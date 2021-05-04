@@ -21,8 +21,13 @@ dayjs.extend(customParseFormat);
 const stockSummary = (oxygenFlatData, key) => {
   const entries = oxygenFlatData.filter((f) => f.item_name === key);
   const stock = entries.map((p) => p.stock).reduce((a, b) => a + b, 0);
+  const valid_entries = entries.filter(
+    (a) => a?.burn_rate !== 0 && a?.burn_rate !== null
+  );
+
   const burn_rate =
-    entries.map((p) => p.burn_rate).reduce((a, b) => a + b, 0) / entries.length;
+    valid_entries.map((p) => p.burn_rate).reduce((a, b) => a + b, 0) /
+    valid_entries.length;
 
   return (
     <div className="md-space-y-0 gap-4 grid-cols-3 my-4 p-4 min-w-0 text-gray-800 dark:text-white dark:bg-gray-800 bg-white rounded-lg shadow-xs overflow-hidden space-y-4 md:grid">
