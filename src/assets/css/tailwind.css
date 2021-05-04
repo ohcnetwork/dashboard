@@ -1,6 +1,24 @@
 @tailwind base;
 @tailwind components;
 
+@screen md {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme(colors.gray.500) theme(colors.gray.100);
+  }
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: theme("dark:colors.gray-700 colors.gray.100");
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: theme(colors.green.500);
+    border-radius: 6px;
+    border: 3px solid theme(colors.gray.100);
+  }
+}
+
 .lds-ripple {
   display: inline-block;
   position: relative;
