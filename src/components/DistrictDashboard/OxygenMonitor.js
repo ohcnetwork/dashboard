@@ -123,9 +123,7 @@ const showStockWithBurnRate = (inventoryItem) => {
           />
         </svg>
         <span className="pl-2 font-semibold">
-          {inventoryItem?.stock > 0
-            ? inventoryItem?.burn_rate?.toFixed(2)
-            : "_"}{" "}
+          {inventoryItem?.burn_rate?.toFixed(2)}
         </span>
         <span className="pl-1 font-mono text-xs">
           {inventoryItem?.unit} / hr{" "}
@@ -141,9 +139,7 @@ const showStockWithBurnRate = (inventoryItem) => {
           <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 5.29-11.584.531.531 0 0 0 .013-.012l.354-.354.353.354a.5.5 0 1 0 .707-.707l-1.414-1.415a.5.5 0 1 0-.707.707l.354.354-.354.354a.717.717 0 0 0-.012.012A6.973 6.973 0 0 0 9 2.071V1h.5a.5.5 0 0 0 0-1h-3zm2 5.6V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 1 1 1 0z" />
         </svg>
         <span className="pl-2 text-sm font-semibold">
-          {inventoryItem?.stock > 0
-            ? (inventoryItem?.stock / inventoryItem?.burn_rate).toFixed(2)
-            : "_"}
+          {(inventoryItem?.stock / inventoryItem?.burn_rate).toFixed(2)}
         </span>
         <span className="pl-1 font-mono text-xs"> hr </span>
       </small>
@@ -259,6 +255,8 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
                   c.inventory[x]?.unit || 0;
                 y[`Is Low ${c.inventory[x]?.item_name}`] =
                   c.inventory[x]?.is_low || 0;
+                y[`Burn Rate ${c.inventory[x]?.item_name}`] =
+                  c.inventory[x]?.burn_rate || 0;
                 y[`${c.inventory[x]?.item_name} Updated at`] =
                   c.inventory[x]?.modified_date || 0;
               }
