@@ -16,3 +16,15 @@ Run `'npm start'` to start running the project on a development server.
 
 
 Run `'npm build'` to create an optimized production build.
+
+## Maps for Districts
+
+The Map Preview of Facilities in the dashboard can be setup with some prerequisites.
+1. Make sure that the facilities in Care are mapped(latitude and longitude are available)
+2. Source a District Level TopoJSON for the state you're deploying. Example: [kerala_district.json](https://raw.githubusercontent.com/coronasafe/dashboard/master/public/kerala_district.json)
+3. Source a more Precise TopoJSON with data within the district. Example: [kerala_lsgd.json](https://raw.githubusercontent.com/coronasafe/dashboard/master/public/kerala_lsgd.json)
+
+Once you have the prerequisites covered you could replace the TopoJSON source in utils.js -> useKeralaMap()
+
+Note: If you make changes to the codebase, try to make sure that it allows a more generic use case so that it can be merged into the Core Codebase and updates can be received to your Fork.
+Once you have the pre

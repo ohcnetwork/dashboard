@@ -242,27 +242,32 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
             "Hospital/CFLTC Address": c.address,
             "Hospital/CFLTC Name": c.name,
             Mobile: c.phoneNumber,
+            "Expected Oxygen Requirement": c.expected_oxygen_requirement,
+            "Capacity Liquid Oxygen": c.oxygen_capacity,
+            "Capacity Type B Cylinders": c.type_b_cylinders,
+            "Capacity Type C Cylinders": c.type_c_cylinders,
+            "Capacity Type D Cylinders": c.type_d_cylinders,
             ...[2, 4, 5, 6].reduce((t, x) => {
               const y = { ...t };
 
               if (c.inventory[x]?.item_name) {
-                y[`Current Stock ${c.inventory[x]?.item_name}`] =
-                  c.inventory[x]?.stock || 0;
-                y[`Total Added ${c.inventory[x]?.item_name}`] =
+                y[`Opening Stock ${c.inventory[x]?.item_name}`] =
+                  c.inventory[x]?.start_stock || 0;
+                y[`Stock Added Today ${c.inventory[x]?.item_name}`] =
                   c.inventory[x]?.total_added || 0;
+                y[`Closing Stock ${c.inventory[x]?.item_name}`] =
+                  c.inventory[x]?.end_stock || 0;
                 y[`Total Consumed ${c.inventory[x]?.item_name}`] =
                   c.inventory[x]?.total_consumed || 0;
-                y[`Start Stock ${c.inventory[x]?.item_name}`] =
-                  c.inventory[x]?.start_stock || 0;
-                y[`End Stock ${c.inventory[x]?.item_name}`] =
-                  c.inventory[x]?.end_stock || 0;
-                y[`${c.inventory[x]?.item_name} Unit`] =
+                y[`Current Stock ${c.inventory[x]?.item_name}`] =
+                  c.inventory[x]?.stock || 0;
+                y[`Unit ${c.inventory[x]?.item_name}`] =
                   c.inventory[x]?.unit || 0;
                 y[`Is Low ${c.inventory[x]?.item_name}`] =
                   c.inventory[x]?.is_low || 0;
                 y[`Burn Rate ${c.inventory[x]?.item_name}`] =
                   c.inventory[x]?.burn_rate || 0;
-                y[`${c.inventory[x]?.item_name} Updated at`] =
+                y[`Updated at ${c.inventory[x]?.item_name}`] =
                   c.inventory[x]?.modified_date || 0;
               }
               return y;
