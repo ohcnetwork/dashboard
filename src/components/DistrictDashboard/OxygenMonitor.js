@@ -242,6 +242,11 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
             "Hospital/CFLTC Address": c.address,
             "Hospital/CFLTC Name": c.name,
             Mobile: c.phoneNumber,
+            "Expected Oxygen Requirement": c.expected_oxygen_requirement,
+            "Capacity Liquid Oxygen": c.oxygen_capacity,
+            "Capacity Type B Cylinders": c.type_b_cylinders,
+            "Capacity Type C Cylinders": c.type_c_cylinders,
+            "Capacity Type D Cylinders": c.type_d_cylinders,
             ...[2, 4, 5, 6].reduce((t, x) => {
               const y = { ...t };
 
