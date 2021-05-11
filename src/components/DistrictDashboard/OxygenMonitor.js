@@ -5,7 +5,7 @@ import React, { lazy, Suspense, useMemo } from "react";
 import useSWR from "swr";
 
 import { careSummary } from "../../utils/api";
-import { OXYGEN_TYPES } from "../../utils/constants";
+import { OXYGEN_TYPES, AVAILABILITY_TYPES_OXYGEN } from "../../utils/constants";
 import {
   dateString,
   getNDateAfter,
@@ -178,9 +178,14 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           Object.keys(c.inventory).length !== 0 &&
           (c.inventory[2] || c.inventory[4] || c.inventory[5] || c.inventory[6])
         ) {
+          const bedOccupency = AVAILABILITY_TYPES_OXYGEN.map(
+            (k) => c.capacity[k]?.current_capacity || 0
+          ).reduce((a, b) => a + b, 0);
+
           const arr = [
             [
               [c.name, c.facilityType, c.phoneNumber],
+              [bedOccupency],
               [c.oxygenCapacity],
               showStockWithBurnRate(c.inventory[2]),
               showStockWithBurnRate(c.inventory[4]),
