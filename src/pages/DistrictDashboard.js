@@ -12,6 +12,9 @@ import { CONTENT, DISTRICTS, FACILITY_TYPES } from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
 
 const Capacity = lazy(() => import("../components/DistrictDashboard/Capacity"));
+const DistrictMap = lazy(() =>
+  import("../components/DistrictDashboard/DistrictMap")
+);
 const CapacityTimeseries = lazy(() =>
   import("../components/DistrictDashboard/CapacityTimeseries")
 );
@@ -155,6 +158,16 @@ function DistrictDashboard() {
         ) : (
           <div>Work in Progress</div>
         );
+      case CONTENT.MAP:
+        return !timeseries ? (
+          <DistrictMap
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            date={date}
+          />
+        ) : (
+          <div>Work in Progress</div>
+        );
       default:
         return <div />;
     }
@@ -183,7 +196,7 @@ function DistrictDashboard() {
     leave: { opacity: 1 },
   });
   return (
-    <div className="overflow-hidden md:overflow-visible">
+    <div className="overflow-hidden md:overflow-scroll">
       <PageTitle>District Dashboard</PageTitle>
       <div className="flex flex-col items-center justify-between mb-2 px-4 py-2 bg-green-500 rounded-lg shadow-md md:flex-row">
         <p className="text-white font-semibold">{filterDistrict.name}</p>

@@ -135,6 +135,7 @@ export const CONTENT = {
   COVID: 5,
   LSG: 6,
   OXYGEN: 7,
+  MAP: 8,
 };
 
 export const CARE_LSG_TRANSILATION = {

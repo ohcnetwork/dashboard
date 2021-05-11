@@ -248,8 +248,9 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             exported={exported}
           />
         </Suspense>
-
-        <SectionTitle>Map</SectionTitle>
+        <div id="capacity-map">
+          <SectionTitle>Map</SectionTitle>
+        </div>
         <Suspense fallback={<ThemedSuspense />}>
           <CapacityMap
             className="mb-8"
