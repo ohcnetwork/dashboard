@@ -12,6 +12,9 @@ import { CONTENT, DISTRICTS, FACILITY_TYPES } from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
 
 const Capacity = lazy(() => import("../components/DistrictDashboard/Capacity"));
+const DistrictMap = lazy(() =>
+  import("../components/DistrictDashboard/DistrictMap")
+);
 const CapacityTimeseries = lazy(() =>
   import("../components/DistrictDashboard/CapacityTimeseries")
 );
@@ -148,6 +151,16 @@ function DistrictDashboard() {
       case CONTENT.OXYGEN:
         return !timeseries ? (
           <OxygenMonitor
+            filterDistrict={filterDistrict}
+            filterFacilityTypes={filterFacilityTypes}
+            date={date}
+          />
+        ) : (
+          <div>Work in Progress</div>
+        );
+      case CONTENT.MAP:
+        return !timeseries ? (
+          <DistrictMap
             filterDistrict={filterDistrict}
             filterFacilityTypes={filterFacilityTypes}
             date={date}
