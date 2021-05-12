@@ -30,6 +30,18 @@ export const AVAILABILITY_TYPES_ORDERED = [
   40,
 ];
 
+export const AVAILABILITY_TYPES_OXYGEN = [
+  10,
+  20,
+  50,
+  60,
+  70,
+  100,
+  110,
+  120,
+  150,
+];
+
 export const AVAILABILITY_TYPES = {
   20: "Ventilator",
   10: "ICU",
@@ -120,6 +132,7 @@ export const FACILITY_TYPES = [
 ];
 
 export const OXYGEN_TYPES = [
+  "Bed Occupancy",
   "Tank Capacity",
   "Oxygen Tank",
   "Cylinder D",
