@@ -30,11 +30,18 @@ export const AVAILABILITY_TYPES_ORDERED = [
   40,
 ];
 
+export const AVAILABILITY_TYPES_TOTAL_ORDERED = [
+  { id: 1111, name: "Ventilator", non_covid: 20, covid: 100 },
+  { id: 2222, name: "ICU", non_covid: 10, covid: 110 },
+  { id: 3333, name: "Oxygen Beds", non_covid: 150, covid: 120 },
+  { id: 4444, name: "Ordinary Bed", non_covid: 1, covid: 30 },
+];
+
 export const AVAILABILITY_TYPES = {
-  20: "Ventilator",
-  10: "ICU",
-  150: "Oxygen Beds",
-  1: "Ordinary Bed",
+  20: "Non-Covid Ventilator",
+  10: "Non-Covid ICU",
+  150: "Non-Covid Oxygen Beds",
+  1: "Non-Covid Ordinary Bed",
   70: "KASP Ventilator",
   50: "KASP ICU",
   60: "KASP Oxygen Beds",
@@ -46,10 +53,10 @@ export const AVAILABILITY_TYPES = {
 };
 
 export const AVAILABILITY_TYPES_PROXY = {
-  20: "Total",
-  10: "Total",
-  150: "Total",
-  1: "Total",
+  20: "Non-Covid",
+  10: "Non-Covid",
+  150: "Non-Covid",
+  1: "Non-Covid",
   70: "KASP",
   50: "KASP",
   60: "KASP",
