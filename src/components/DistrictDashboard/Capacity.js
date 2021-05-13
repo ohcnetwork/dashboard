@@ -30,7 +30,25 @@ const CapacityForecast = lazy(() => import("./CapacityForecast"));
 const CapacityMap = lazy(() => import("../DistrictDashboard/CapacityMap"));
 dayjs.extend(relativeTime);
 
+const positiveVal = (value) => (value < 0 ? 0 : value);
+
 const showBedsTypes = (ids, c) => {
+  const data = ids.reduce((acc, i) => {
+    const total = Number.parseInt(c.capacity[i]?.total_capacity || 0);
+    const current = Number.parseInt(c.capacity[i]?.current_capacity || 0);
+    const vacant = total - current;
+    const critical = total > 0 && vacant / total < 0.2;
+    return [
+      ...acc,
+      { title: AVAILABILITY_TYPES_PROXY[i], total, current, vacant },
+    ];
+  }, []);
+  const total = positiveVal(data[0].total - data[1].total);
+  const current = positiveVal(data[0].current - data[1].current);
+  const vacant = positiveVal(data[0].vacant - data[1].vacant);
+  const title = "Non-Covid";
+  const critical = total > 0 && vacant / total < 0.2;
+  if (data[0].total === 0) return React.null;
   return (
     <table className="table-auto w-full">
       <thead>
@@ -42,27 +60,22 @@ const showBedsTypes = (ids, c) => {
         </tr>
       </thead>
       <tbody>
-        {ids.map((i) => {
-          const total = Number.parseInt(c.capacity[i]?.total_capacity || 0);
-          const current = Number.parseInt(c.capacity[i]?.current_capacity || 0);
-          const vacant = total - current;
-          const critical = total > 0 && vacant / total < 0.2;
-          return (
+        {[...data, { total, current, vacant, critical, title }].map(
+          ({ total, current, vacant, critical, title }) => (
             <tr
               className={clsx(
                 "py-px text-xs border-b",
-                total === 0 && "opacity-50",
+                data === 0 && "opacity-50",
                 critical && "text-red-600"
               )}
-              key={i}
             >
-              <td className="text-xxs">{AVAILABILITY_TYPES_PROXY[i]}</td>
+              <td className="text-xxs">{title}</td>
               <td>{total}</td>
               <td>{current}</td>
               <td>{vacant}</td>
             </tr>
-          );
-        })}
+          )
+        )}
       </tbody>
     </table>
   );
