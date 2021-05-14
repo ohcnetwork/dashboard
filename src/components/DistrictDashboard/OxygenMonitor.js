@@ -234,7 +234,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         return [
           ...a,
           {
-            "Govt/Pvt": c.facilityType.startsWith("Govt") ? "Govt" : "Pvt",
+            "Govt/Pvt": c.facilityType,
             "Hops/CFLTC":
               c.facilityType === "First Line Treatment Centre"
                 ? "CFLTC"
@@ -242,11 +242,11 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
             "Hospital/CFLTC Address": c.address,
             "Hospital/CFLTC Name": c.name,
             Mobile: c.phoneNumber,
-            "Expected Oxygen Requirement": c.expected_oxygen_requirement,
+            "Expected Liquid Oxygen": c.expected_oxygen_requirement,
             "Expected Type B Cylinders": c.expected_type_b_cylinders,
             "Expected Type C Cylinders": c.expected_type_c_cylinders,
             "Expected Type D Cylinders": c.expected_type_d_cylinders,
-            "Capacity Liquid Oxygen": c.oxygen_capacity,
+            "Capacity Liquid Oxygen": c.oxygenCapacity,
             "Capacity Type B Cylinders": c.type_b_cylinders,
             "Capacity Type C Cylinders": c.type_c_cylinders,
             "Capacity Type D Cylinders": c.type_d_cylinders,
