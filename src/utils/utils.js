@@ -43,28 +43,28 @@ export const processFacilities = (data, filterFacilityTypes) => {
 
       ...("availability" in data
         ? {
-          capacity: data.availability
-            ? data.availability.reduce((cAcc, cCur) => {
-              return {
-                ...cAcc,
-                [cCur.room_type]: cCur,
-              };
-            }, {})
-            : null,
-          oxygenCapacity: data.oxygen_capacity,
-          type_b_cylinders: data.type_b_cylinders,
-          type_c_cylinders: data.type_c_cylinders,
-          type_d_cylinders: data.type_d_cylinders,
-          expected_oxygen_requirement: data.expected_oxygen_requirement,
-          expected_type_b_cylinders: data.expected_type_b_cylinders,
-          expected_type_c_cylinders: data.expected_type_c_cylinders,
-          expected_type_d_cylinders: data.expected_type_d_cylinders,
-          actualDischargedPatients: data.actual_discharged_patients,
-          actualLivePatients: data.actual_live_patients,
-        }
+            capacity: data.availability
+              ? data.availability.reduce((cAcc, cCur) => {
+                  return {
+                    ...cAcc,
+                    [cCur.room_type]: cCur,
+                  };
+                }, {})
+              : null,
+            oxygenCapacity: data.oxygen_capacity,
+            type_b_cylinders: data.type_b_cylinders,
+            type_c_cylinders: data.type_c_cylinders,
+            type_d_cylinders: data.type_d_cylinders,
+            expected_oxygen_requirement: data.expected_oxygen_requirement,
+            expected_type_b_cylinders: data.expected_type_b_cylinders,
+            expected_type_c_cylinders: data.expected_type_c_cylinders,
+            expected_type_d_cylinders: data.expected_type_d_cylinders,
+            actualDischargedPatients: data.actual_discharged_patients,
+            actualLivePatients: data.actual_live_patients,
+          }
         : {
-          ...data,
-        }),
+            ...data,
+          }),
     }))
     .filter((f) => filterFacilityTypes.includes(f.facilityType))
     .sort((a, b) => {
@@ -101,7 +101,7 @@ export const useKeralaMap = (district) => {
           };
         }, {});
         setProjectionConfig(config);
-        setPosition({ ...position, coordinates: config[district] || [0, 0] })
+        setPosition({ ...position, coordinates: config[district] || [0, 0] });
       })
       .catch((error) => {
         throw error;
@@ -109,12 +109,12 @@ export const useKeralaMap = (district) => {
   }, []);
 
   const handleZoomIn = () => {
-    setPosition(pos => ({ ...pos, zoom: pos.zoom * 2 }));
-  }
+    setPosition((pos) => ({ ...pos, zoom: pos.zoom * 2 }));
+  };
 
   const handleZoomOut = () => {
-    setPosition(pos => ({ ...pos, zoom: pos.zoom / 2 }));
-  }
+    setPosition((pos) => ({ ...pos, zoom: pos.zoom / 2 }));
+  };
 
   return {
     topojson,

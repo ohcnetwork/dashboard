@@ -61,7 +61,14 @@ const findColor = (current, max) => {
 };
 
 function LsgPatientMap({ district, className, patients, dateString }) {
-  const { topojson, position, setPosition, markers, handleZoomIn, handleZoomOut } = useKeralaMap(district);
+  const {
+    topojson,
+    position,
+    setPosition,
+    markers,
+    handleZoomIn,
+    handleZoomOut,
+  } = useKeralaMap(district);
 
   const max = useMemo(() => Math.max(...patients.map((p) => p.total)), [
     patients,
@@ -84,7 +91,9 @@ function LsgPatientMap({ district, className, patients, dateString }) {
             <ZoomableGroup
               zoom={position.zoom}
               center={position.coordinates}
-              onMoveEnd={(pos) => { setPosition(pos) }}
+              onMoveEnd={(pos) => {
+                setPosition(pos);
+              }}
             >
               <Geographies
                 className="dark:text-gray-400 text-green-500 fill-current"
@@ -136,10 +145,9 @@ function LsgPatientMap({ district, className, patients, dateString }) {
           </ComposableMap>
         )}
 
-        <div className="text-right py-4">
-          <Button onClick={handleZoomIn} >+</Button>
-          {' '}
-          <Button onClick={handleZoomOut} >-</Button>
+        <div className="py-4 text-right">
+          <Button onClick={handleZoomIn}>+</Button>{" "}
+          <Button onClick={handleZoomOut}>-</Button>
         </div>
 
         <div className="flex flex-col dark:text-gray-400 text-gray-600 break-all text-xxxs sm:text-xs">
