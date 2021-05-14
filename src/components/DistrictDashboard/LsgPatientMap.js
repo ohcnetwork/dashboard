@@ -1,4 +1,4 @@
-import { Card, CardBody } from "@windmill/react-ui";
+import { Card, CardBody, Button } from "@windmill/react-ui";
 import download from "downloadjs";
 import html2canvas from "html2canvas";
 import polylabel from "polylabel";
@@ -61,7 +61,7 @@ const findColor = (current, max) => {
 };
 
 function LsgPatientMap({ district, className, patients, dateString }) {
-  const { topojson, setZoom, markers, projectionConfig } = useKeralaMap();
+  const { topojson, position, setPosition, markers, handleZoomIn, handleZoomOut } = useKeralaMap(district);
 
   const max = useMemo(() => Math.max(...patients.map((p) => p.total)), [
     patients,
@@ -82,8 +82,9 @@ function LsgPatientMap({ district, className, patients, dateString }) {
             height={400}
           >
             <ZoomableGroup
-              center={projectionConfig[district] || [0, 0]}
-              onMoveEnd={({ zoom }) => setZoom(zoom / 4)}
+              zoom={position.zoom}
+              center={position.coordinates}
+              onMoveEnd={(pos) => { setPosition(pos) }}
             >
               <Geographies
                 className="dark:text-gray-400 text-green-500 fill-current"
@@ -134,6 +135,12 @@ function LsgPatientMap({ district, className, patients, dateString }) {
             </ZoomableGroup>
           </ComposableMap>
         )}
+
+        <div className="text-right py-4">
+          <Button onClick={handleZoomIn} >+</Button>
+          {' '}
+          <Button onClick={handleZoomOut} >-</Button>
+        </div>
 
         <div className="flex flex-col dark:text-gray-400 text-gray-600 break-all text-xxxs sm:text-xs">
           <span className="inline-flex my-1 space-x-3">

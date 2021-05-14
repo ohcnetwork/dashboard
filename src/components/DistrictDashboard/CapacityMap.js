@@ -1,5 +1,5 @@
 import { defaultStyles, TooltipWithBounds, useTooltip } from "@vx/tooltip";
-import { Card, CardBody, WindmillContext } from "@windmill/react-ui";
+import { Card, CardBody, WindmillContext, Button } from "@windmill/react-ui";
 import polylabel from "polylabel";
 import React, { useContext, useState } from "react";
 import {
@@ -23,15 +23,15 @@ const getColor = ({ color1 = "00FF00", color2 = "FF0000", ratio }) => {
   };
   const r = Math.ceil(
     Number.parseInt(color2.slice(0, 2), 16) * ratio +
-      Number.parseInt(color1.slice(0, 2), 16) * (1 - ratio)
+    Number.parseInt(color1.slice(0, 2), 16) * (1 - ratio)
   );
   const g = Math.ceil(
     Number.parseInt(color2.slice(2, 4), 16) * ratio +
-      Number.parseInt(color1.slice(2, 4), 16) * (1 - ratio)
+    Number.parseInt(color1.slice(2, 4), 16) * (1 - ratio)
   );
   const b = Math.ceil(
     Number.parseInt(color2.slice(4, 6), 16) * ratio +
-      Number.parseInt(color1.slice(4, 6), 16) * (1 - ratio)
+    Number.parseInt(color1.slice(4, 6), 16) * (1 - ratio)
   );
   return `#${hex(r)}${hex(g)}${hex(b)}`;
 };
@@ -116,7 +116,7 @@ const selectedButtonClasses = (bool) => {
 };
 
 function CapacityMap({ district, facilities, className }) {
-  const { topojson, zoom, setZoom, markers, projectionConfig } = useKeralaMap();
+  const { topojson, markers, position, setPosition, handleZoomIn, handleZoomOut } = useKeralaMap(district);
   const [selectedBedType, setSelectedBedType] = useState("All");
   const { mode } = useContext(WindmillContext);
   const {
@@ -140,8 +140,9 @@ function CapacityMap({ district, facilities, className }) {
             height={400}
           >
             <ZoomableGroup
-              center={projectionConfig[district] || [0, 0]}
-              onMoveEnd={({ zoom }) => setZoom(zoom / 2)}
+              zoom={position.zoom}
+              center={position.coordinates}
+              onMoveEnd={(pos) => { setPosition(pos) }}
             >
               <Geographies
                 className="dark:text-gray-400 text-green-500 fill-current"
@@ -188,11 +189,11 @@ function CapacityMap({ district, facilities, className }) {
                       {AVAILABILITY_TYPES_ORDERED.map((a, i) => {
                         const j = f.capacity[a];
                         const props = {
-                          height: (4 * 1) / zoom,
+                          height: (4 * 1) / position.zoom,
                           stroke: "black",
-                          strokeWidth: (0.1 * 1) / zoom,
-                          transform: `translate(${(4 * i * 1) / zoom}, 0)`,
-                          width: (4 * 1) / zoom,
+                          strokeWidth: (0.1 * 1) / position.zoom,
+                          transform: `translate(${(4 * i * 1) / position.zoom}, 0)`,
+                          width: (4 * 1) / position.zoom,
                         };
 
                         if (selectedBedType !== "All" && selectedBedType != a) {
@@ -216,6 +217,11 @@ function CapacityMap({ district, facilities, className }) {
             </ZoomableGroup>
           </ComposableMap>
         )}
+        <div className="text-right py-4">
+          <Button onClick={handleZoomIn} >+</Button>
+          {' '}
+          <Button onClick={handleZoomOut} >-</Button>
+        </div>
         {tooltipOpen && (
           <TooltipWithBounds
             key={Math.random()}
