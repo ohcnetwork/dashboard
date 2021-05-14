@@ -145,10 +145,12 @@ function LsgPatientMap({ district, className, patients, dateString }) {
           </ComposableMap>
         )}
 
-        <div className="py-4 text-right">
-          <Button onClick={handleZoomIn}>+</Button>{" "}
-          <Button onClick={handleZoomOut}>-</Button>
-        </div>
+        {topojson.type && (
+          <div className="py-4 text-right">
+            <Button onClick={handleZoomIn}>+</Button>{" "}
+            <Button onClick={handleZoomOut}>-</Button>
+          </div>
+        )}
 
         <div className="flex flex-col dark:text-gray-400 text-gray-600 break-all text-xxxs sm:text-xs">
           <span className="inline-flex my-1 space-x-3">

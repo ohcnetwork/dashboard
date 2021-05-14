@@ -228,10 +228,14 @@ function CapacityMap({ district, facilities, className }) {
             </ZoomableGroup>
           </ComposableMap>
         )}
-        <div className="py-4 text-right">
-          <Button onClick={handleZoomIn}>+</Button>{" "}
-          <Button onClick={handleZoomOut}>-</Button>
-        </div>
+
+        {topojson.type && (
+          <div className="py-4 text-right">
+            <Button onClick={handleZoomIn}>+</Button>{" "}
+            <Button onClick={handleZoomOut}>-</Button>
+          </div>
+        )}
+
         {tooltipOpen && (
           <TooltipWithBounds
             key={Math.random()}
