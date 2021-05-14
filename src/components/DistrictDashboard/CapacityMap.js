@@ -238,9 +238,8 @@ function CapacityMap({ district, facilities, className }) {
           <span className="inline-flex space-x-1">
             <span>Legends: </span>
             {[
-              { label: "Full", color: "#00FF00" },
-              { label: "Empty", color: "#FF0000" },
-              { label: "None", color: "gray" },
+              { label: "Available", color: "#00FF00" },
+              { label: "Full", color: "#FF0000" },
             ].map((x) => (
               <span key={x.label} style={{ color: x.color }}>
                 {x.label}
