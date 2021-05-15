@@ -75,9 +75,9 @@ export const processFacilities = (data, filterFacilityTypes) => {
     });
 };
 
-export const useKeralaMap = () => {
+export const useKeralaMap = (district) => {
   const [topojson, setTopojson] = useState({});
-  const [zoom, setZoom] = useState(1);
+  const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
   const [markers, setMarkers] = useState([]);
   const [projectionConfig, setProjectionConfig] = useState({});
   useEffect(() => {
@@ -101,16 +101,28 @@ export const useKeralaMap = () => {
           };
         }, {});
         setProjectionConfig(config);
+        setPosition({ ...position, coordinates: config[district] || [0, 0] });
       })
       .catch((error) => {
         throw error;
       });
   }, []);
+
+  const handleZoomIn = () => {
+    setPosition((pos) => ({ ...pos, zoom: pos.zoom * 2 }));
+  };
+
+  const handleZoomOut = () => {
+    setPosition((pos) => ({ ...pos, zoom: pos.zoom / 2 }));
+  };
+
   return {
     topojson,
-    zoom,
-    setZoom,
+    position,
+    setPosition,
     markers,
     projectionConfig,
+    handleZoomIn,
+    handleZoomOut,
   };
 };
