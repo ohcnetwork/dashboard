@@ -21,7 +21,16 @@ export const dateString = (d) => {
   )}-${`0${d.getDate()}`.slice(-2)}`;
 };
 
-export const processFacilities = (data, filterFacilityTypes) => {
+const timeToEmpty = (inventoryItem) =>
+  inventoryItem &&
+  inventoryItem.stock &&
+  inventoryItem.burn_rate &&
+  inventoryItem.burn_rate !== undefined &&
+  Math.round(inventoryItem.burn_rate ?? 0) !== 0
+    ? (inventoryItem?.stock / inventoryItem?.burn_rate).toFixed(2)
+    : -1;
+
+export const processFacilities = (data, filterFacilityTypes, orderBy) => {
   return data
     .filter((d) => d.facility)
     .map(({ data, created_date, facility, modified_date }) => ({
@@ -61,17 +70,48 @@ export const processFacilities = (data, filterFacilityTypes) => {
             expected_type_d_cylinders: data.expected_type_d_cylinders,
             actualDischargedPatients: data.actual_discharged_patients,
             actualLivePatients: data.actual_live_patients,
+            // ...(data.inventory && Object.keys(data.inventory).length !== 0
+            //   ? {
+            tte_tank: Number(
+              timeToEmpty(data.inventory && data.inventory[2]) || -1
+            ),
+            tte_b_cylinders: Number(
+              timeToEmpty(data.inventory && data.inventory[4]) || -1
+            ),
+            tte_c_cylinders: Number(
+              timeToEmpty(data.inventory && data.inventory[6]) || -1
+            ),
+            tte_d_cylinders: Number(
+              timeToEmpty(data.inventory && data.inventory[5]) || -1
+            ),
+            //   }
+            // : {}),
           }
         : {
             ...data,
           }),
     }))
-    .filter((f) => filterFacilityTypes.includes(f.facilityType))
+    .filter(
+      (f) =>
+        filterFacilityTypes.includes(f.facilityType) &&
+        (orderBy
+          ? Math.round(f[orderBy.selector]) >= 0 &&
+            Number(f[orderBy.selector]) < Infinity
+          : true)
+    )
     .sort((a, b) => {
-      if (new Date(a.modifiedDate) < new Date(b.modifiedDate)) {
-        return 1;
-      }
-      return -1;
+      return orderBy && a[orderBy.selector] !== undefined
+        ? a[orderBy.selector] < b[orderBy.selector]
+          ? 1 * Number(orderBy.order)
+          : -1 * Number(orderBy.order)
+        : new Date(a.modifiedDate) < new Date(b.modifiedDate)
+        ? 1
+        : -1;
+    })
+    .map((p) => {
+      orderBy && p["oxygenCapacity"] === 1500 && console.log("P", p);
+
+      return p;
     });
 };
 

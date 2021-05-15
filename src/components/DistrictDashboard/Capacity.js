@@ -25,8 +25,8 @@ import { Pill } from "../Pill/Pill";
 import { ValuePill } from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
 import { SectionTitle } from "../Typography/Title";
+import GenericTable from "./GenericTable";
 
-const FacilityTable = lazy(() => import("./FacilityTable"));
 const CapacityForecast = lazy(() => import("./CapacityForecast"));
 const CapacityMap = lazy(() => import("../DistrictDashboard/CapacityMap"));
 dayjs.extend(relativeTime);
@@ -274,7 +274,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           ))}
         </div>
         <Suspense fallback={<ThemedSuspense />}>
-          <FacilityTable
+          <GenericTable
             className="mb-8"
             columns={[
               "Name",

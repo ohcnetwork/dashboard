@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense, useMemo } from "react";
+import React, { lazy, Suspense, useMemo, useState } from "react";
 import useSWR from "swr";
 
 import { careSummary } from "../../utils/api";
@@ -13,8 +13,8 @@ import {
   processFacilities,
 } from "../../utils/utils";
 import ThemedSuspense from "../ThemedSuspense";
+import GenericTable from "./GenericTable";
 
-const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
@@ -149,7 +149,7 @@ const showStockWithBurnRate = (inventoryItem) => {
         <span className="pl-1 font-mono text-xs"> hr </span>
       </small>
       <small className="text-xs">
-        {new Date(inventoryItem?.modified_date).toLocaleString()}
+        {dayjs(new Date(inventoryItem?.modified_date)).fromNow()}
       </small>
     </div>
   ) : (
@@ -157,7 +157,34 @@ const showStockWithBurnRate = (inventoryItem) => {
   );
 };
 
+const oxygenSelector = (selector) => {
+  switch (selector.toLowerCase()) {
+    case "tank capacity":
+      return "oxygenCapacity";
+    case "oxygen tank":
+      return "tte_tank";
+    case "cylinder b":
+      return "tte_b_cylinders";
+    case "cylinder c":
+      return "tte_c_cylinders";
+    case "cylinder d":
+      return "tte_d_cylinders";
+    default:
+      return null;
+  }
+};
 function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
+  const [orderBy, setOrderBy] = useState();
+  const setOrderByHandler = (selector) => {
+    console.log("Setting OrderBy", selector);
+    const orderBySelector = oxygenSelector(selector);
+    console.log("Setting OrderBy with oxygenSelector", orderBySelector);
+    setOrderBy(
+      orderBySelector
+        ? { selector: orderBySelector, order: -(orderBy?.order || 1) }
+        : undefined
+    );
+  };
   const { data } = useSWR(
     ["OxygenMonitor", date, filterDistrict.id],
     (url, date, district) =>
@@ -169,7 +196,11 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
       )
   );
   const { tableData, oxygenFlatData, exported } = useMemo(() => {
-    const filtered = processFacilities(data.results, filterFacilityTypes);
+    const filtered = processFacilities(
+      data.results,
+      filterFacilityTypes,
+      orderBy
+    );
 
     const tableData = filtered.reduce((a, c) => {
       if (c.date === dateString(date)) {
@@ -282,7 +313,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
     };
 
     return { tableData, oxygenFlatData, exported };
-  }, [data, filterFacilityTypes]);
+  }, [data, filterFacilityTypes, orderBy]);
 
   return (
     <>
@@ -297,11 +328,12 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
       </div>
 
       <Suspense fallback={<ThemedSuspense />}>
-        <FacilityTable
+        <GenericTable
           className="mb-8"
           columns={["Name", ...OXYGEN_TYPES]}
           data={tableData}
           exported={exported}
+          setOrderBy={setOrderByHandler}
         />
       </Suspense>
     </>

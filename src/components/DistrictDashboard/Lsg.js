@@ -11,9 +11,9 @@ import { InfoCard } from "../Cards/InfoCard";
 import { ValuePill } from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
 import { SectionTitle } from "../Typography/Title";
+import GenericTable from "./GenericTable";
 
 const LsgPatientMap = lazy(() => import("./LsgPatientMap"));
-const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
@@ -155,7 +155,7 @@ function Lsg({ filterDistrict, date }) {
         ))}
       </div>
       <Suspense fallback={<ThemedSuspense />}>
-        <FacilityTable
+        <GenericTable
           title="Lsg"
           className="mb-8"
           columns={[
