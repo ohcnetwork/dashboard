@@ -9,6 +9,8 @@ import {
   OXYGEN_TYPES,
   OXYGEN_INVENTORY,
   OXYGEN_INVENTORY_NAME,
+  OXYGEN_CAPACITY_TRANSLATION,
+  OXYGEN_TYPES_KEYS,
 } from "../../utils/constants";
 import {
   dateString,
@@ -34,7 +36,10 @@ const stockSummary = (oxygenFlatData, key) => {
     valid_entries.length;
 
   return (
-    <div className="md-space-y-0 gap-4 grid-cols-3 my-4 p-4 min-w-0 text-gray-800 dark:text-white dark:bg-gray-800 bg-white rounded-lg shadow-xs overflow-hidden space-y-4 md:grid">
+    <div
+      key={key}
+      className="md-space-y-0 gap-4 grid-cols-3 my-4 p-4 min-w-0 text-gray-800 dark:text-white dark:bg-gray-800 bg-white rounded-lg shadow-xs overflow-hidden space-y-4 md:grid"
+    >
       <div className="flex items-center">
         <div>
           <svg
@@ -108,11 +113,13 @@ const stockSummary = (oxygenFlatData, key) => {
   );
 };
 
-const showStockWithBurnRate = (inventoryItem) => {
+const showStockWithBurnRate = (facility, k, inventoryItem) => {
   return inventoryItem ? (
-    <div className={inventoryItem?.is_low ? "text-red-500" : ""}>
+    <div key={k} className={inventoryItem?.is_low ? "text-red-500" : ""}>
       <div className={"text-md font-bold "}>
-        {inventoryItem?.stock}{" "}
+        {inventoryItem?.stock}
+        {" / "}
+        {facility[OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[k]]]}
         <span className="pl-1 font-mono text-xs">{inventoryItem?.unit} </span>
       </div>
       <small className="flex items-center mt-2 text-sm">
@@ -157,14 +164,14 @@ const showStockWithBurnRate = (inventoryItem) => {
       </small>
     </div>
   ) : (
-    "-"
+    <div key={k}>"-"</div>
   );
 };
 
 const oxygenSelector = (selector) => {
   switch (selector.toLowerCase()) {
-    case "tank capacity":
-      return "oxygenCapacity";
+    case "last updated":
+      return "inventoryModifiedDate";
     case "liquid oxygen":
       return "tte_tank";
     case "cylinder b":
@@ -178,7 +185,10 @@ const oxygenSelector = (selector) => {
   }
 };
 function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
-  const [orderBy, setOrderBy] = useState();
+  const [orderBy, setOrderBy] = useState({
+    selector: "inventoryModifiedDate",
+    order: 1,
+  });
   const setOrderByHandler = (selector) => {
     console.log("Setting OrderBy", selector);
     const orderBySelector = oxygenSelector(selector);
@@ -218,9 +228,9 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           const arr = [
             [
               [c.name, c.facilityType, c.phoneNumber],
-              [c.oxygenCapacity],
+              [dayjs(new Date(c.inventoryModifiedDate)).fromNow()],
               ...Object.values(OXYGEN_INVENTORY).map((k) =>
-                showStockWithBurnRate(c.inventory[k])
+                showStockWithBurnRate(c, k, c.inventory[k])
               ),
             ],
           ];
@@ -335,7 +345,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
       <Suspense fallback={<ThemedSuspense />}>
         <GenericTable
           className="mb-8"
-          columns={["Name", "TANK CAPACITY", ...Object.values(OXYGEN_TYPES)]}
+          columns={["Name", "LAST UPDATED", ...Object.values(OXYGEN_TYPES)]}
           data={tableData}
           exported={exported}
           setOrderBy={setOrderByHandler}

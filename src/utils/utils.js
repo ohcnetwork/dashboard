@@ -49,6 +49,14 @@ export const processFacilities = (data, filterFacilityTypes, orderBy) => {
         data.availability && data.availability.length !== 0
           ? Math.max(...data.availability.map((a) => new Date(a.modified_date)))
           : data.modified_date || modified_date,
+      inventoryModifiedDate:
+        data.inventory && Object.keys(data.inventory).length !== 0
+          ? Math.max(
+              ...Object.values(data.inventory).map(
+                (a) => new Date(a.modified_date)
+              )
+            )
+          : data.modified_date || modified_date,
 
       ...("availability" in data
         ? {

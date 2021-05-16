@@ -133,7 +133,6 @@ export const OXYGEN_TYPES = {
   type_c: "Cylinder C",
   type_b: "Cylinder B",
 };
-
 // ID from care DB
 export const OXYGEN_INVENTORY = {
   liquid: 2,
@@ -141,6 +140,11 @@ export const OXYGEN_INVENTORY = {
   type_c: 6,
   type_b: 5,
 };
+// Reverse Dict for OXYGEN_INVENTORY
+export const OXYGEN_TYPES_KEYS = Object.entries(OXYGEN_INVENTORY).reduce(
+  (acc, [key, value]) => acc && { ...acc, [value]: key },
+  {}
+);
 
 // Name from care DB, used to compute district summary
 export const OXYGEN_INVENTORY_NAME = {
@@ -148,6 +152,13 @@ export const OXYGEN_INVENTORY_NAME = {
   type_d: "Jumbo D Type Oxygen Cylinder",
   type_c: "C Type Oxygen Cylinder",
   type_b: "B Type Oxygen Cylinder",
+};
+
+export const OXYGEN_CAPACITY_TRANSLATION = {
+  liquid: "oxygenCapacity",
+  type_d: "type_d_cylinders",
+  type_c: "type_c_cylinders",
+  type_b: "type_b_cylinders",
 };
 
 export const CONTENT = {
