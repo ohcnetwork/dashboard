@@ -5,7 +5,11 @@ import React, { lazy, Suspense, useMemo, useState } from "react";
 import useSWR from "swr";
 
 import { careSummary } from "../../utils/api";
-import { OXYGEN_TYPES, OXYGEN_INVENTORY } from "../../utils/constants";
+import {
+  OXYGEN_TYPES,
+  OXYGEN_INVENTORY,
+  OXYGEN_INVENTORY_NAME,
+} from "../../utils/constants";
 import {
   dateString,
   getNDateAfter,
@@ -323,10 +327,9 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         <h1 className="mt-6 dark:text-white text-3xl font-semibold">
           District Summary
         </h1>
-        {stockSummary(oxygenFlatData, "Liquid Oxygen")}
-        {stockSummary(oxygenFlatData, "Jumbo D Type Oxygen Cylinder")}
-        {stockSummary(oxygenFlatData, "C Type Oxygen Cylinder")}
-        {stockSummary(oxygenFlatData, "B Type Oxygen Cylinder")}
+        {Object.values(OXYGEN_INVENTORY_NAME).map((n) =>
+          stockSummary(oxygenFlatData, n)
+        )}
       </div>
 
       <Suspense fallback={<ThemedSuspense />}>

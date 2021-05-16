@@ -126,11 +126,28 @@ export const FACILITY_TYPES = [
   "TeleMedicine",
 ];
 
+// Table title
 export const OXYGEN_TYPES = {
   liquid: "Liquid Oxygen",
   type_d: "Cylinder D",
   type_c: "Cylinder C",
   type_b: "Cylinder B",
+};
+
+// ID from care DB
+export const OXYGEN_INVENTORY = {
+  liquid: 2,
+  type_d: 4,
+  type_c: 6,
+  type_b: 5,
+};
+
+// Name from care DB, used to compute district summary
+export const OXYGEN_INVENTORY_NAME = {
+  liquid: "Liquid Oxygen",
+  type_d: "Jumbo D Type Oxygen Cylinder",
+  type_c: "C Type Oxygen Cylinder",
+  type_b: "B Type Oxygen Cylinder",
 };
 
 export const CONTENT = {
@@ -142,13 +159,6 @@ export const CONTENT = {
   LSG: 6,
   OXYGEN: 7,
   MAP: 8,
-};
-
-export const OXYGEN_INVENTORY = {
-  liquid: 2,
-  type_d: 4,
-  type_c: 6,
-  type_b: 5,
 };
 
 export const CARE_LSG_TRANSILATION = {
