@@ -15,8 +15,8 @@ import {
 import { InfoCard } from "../Cards/InfoCard";
 import { ValuePill } from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
+import GenericTable from "./GenericTable";
 
-const FacilityTable = lazy(() => import("./FacilityTable"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
@@ -128,7 +128,7 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
         })}
       </div>
       <Suspense fallback={<ThemedSuspense />}>
-        <FacilityTable
+        <GenericTable
           className="mb-8"
           columns={["Name", "Last Updated", ...Object.values(TESTS_TYPES)]}
           data={tableData}
