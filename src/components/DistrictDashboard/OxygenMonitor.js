@@ -164,7 +164,7 @@ const showStockWithBurnRate = (facility, k, inventoryItem) => {
       </small>
     </div>
   ) : (
-    <div key={k}>"-"</div>
+    <div key={k}></div>
   );
 };
 
