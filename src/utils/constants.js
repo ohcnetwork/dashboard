@@ -152,7 +152,6 @@ export const CONTENT = {
   PATIENT: 2,
   TESTS: 3,
   TRIAGE: 4,
-  COVID: 5,
   LSG: 6,
   OXYGEN: 7,
   MAP: 8,

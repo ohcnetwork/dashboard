@@ -17,15 +17,3 @@ export function careSummary(
       })
   ).then((r) => r.json());
 }
-
-export function covidGetHistories() {
-  return fetch("https://keralastats.coronasafe.live/histories.json").then((r) =>
-    r.json()
-  );
-}
-
-export function covidGetHotspotHistories() {
-  return fetch(
-    "https://keralastats.coronasafe.live/hotspots_histories.json"
-  ).then((r) => r.json());
-}

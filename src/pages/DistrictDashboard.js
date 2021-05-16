@@ -22,10 +22,7 @@ const DistrictMap = lazy(() =>
 const CapacityTimeseries = lazy(() =>
   import("../components/DistrictDashboard/CapacityTimeseries")
 );
-const Covid = lazy(() => import("../components/DistrictDashboard/Covid"));
-const CovidTimeseries = lazy(() =>
-  import("../components/DistrictDashboard/CovidTimeseries")
-);
+
 const Filter = lazy(() => import("../components/DistrictDashboard/Filter"));
 const Patient = lazy(() => import("../components/DistrictDashboard/Patient"));
 const PatientTimeseries = lazy(() =>
@@ -137,12 +134,6 @@ function DistrictDashboard() {
             dates={dates}
           />
         );
-      case CONTENT.COVID:
-        return !timeseries ? (
-          <Covid filterDistrict={filterDistrict} date={date} />
-        ) : (
-          <CovidTimeseries filterDistrict={filterDistrict} dates={dates} />
-        );
       case CONTENT.LSG:
         return !timeseries ? (
           <Lsg filterDistrict={filterDistrict} date={date} />
@@ -233,9 +224,9 @@ function DistrictDashboard() {
               aria-haspopup="true"
               disabled={false}
               iconRight={ChevronDown}
-              className="shadow-xs"
+              className="w-full shadow-xs"
             >
-              Select District
+              {filterDistrict.name}
             </Button>
             <Dropdown
               isOpen={isOpen}
