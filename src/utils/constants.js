@@ -126,13 +126,12 @@ export const FACILITY_TYPES = [
   "TeleMedicine",
 ];
 
-export const OXYGEN_TYPES = [
-  "Tank Capacity",
-  "Oxygen Tank",
-  "Cylinder D",
-  "Cylinder C",
-  "Cylinder B",
-];
+export const OXYGEN_TYPES = {
+  liquid: "Liquid Oxygen",
+  type_d: "Cylinder D",
+  type_c: "Cylinder C",
+  type_b: "Cylinder B",
+};
 
 export const CONTENT = {
   CAPACITY: 1,
@@ -143,6 +142,13 @@ export const CONTENT = {
   LSG: 6,
   OXYGEN: 7,
   MAP: 8,
+};
+
+export const OXYGEN_INVENTORY = {
+  liquid: 2,
+  type_d: 4,
+  type_c: 6,
+  type_b: 5,
 };
 
 export const CARE_LSG_TRANSILATION = {

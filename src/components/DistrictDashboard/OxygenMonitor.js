@@ -5,7 +5,7 @@ import React, { lazy, Suspense, useMemo, useState } from "react";
 import useSWR from "swr";
 
 import { careSummary } from "../../utils/api";
-import { OXYGEN_TYPES } from "../../utils/constants";
+import { OXYGEN_TYPES, OXYGEN_INVENTORY } from "../../utils/constants";
 import {
   dateString,
   getNDateAfter,
@@ -161,7 +161,7 @@ const oxygenSelector = (selector) => {
   switch (selector.toLowerCase()) {
     case "tank capacity":
       return "oxygenCapacity";
-    case "oxygen tank":
+    case "liquid oxygen":
       return "tte_tank";
     case "cylinder b":
       return "tte_b_cylinders";
@@ -207,16 +207,17 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         if (
           c.inventory &&
           Object.keys(c.inventory).length !== 0 &&
-          (c.inventory[2] || c.inventory[4] || c.inventory[5] || c.inventory[6])
+          Object.keys(c.inventory).some((e) =>
+            Object.values(OXYGEN_INVENTORY).includes(Number(e))
+          )
         ) {
           const arr = [
             [
               [c.name, c.facilityType, c.phoneNumber],
               [c.oxygenCapacity],
-              showStockWithBurnRate(c.inventory[2]),
-              showStockWithBurnRate(c.inventory[4]),
-              showStockWithBurnRate(c.inventory[6]),
-              showStockWithBurnRate(c.inventory[5]),
+              ...Object.values(OXYGEN_INVENTORY).map((k) =>
+                showStockWithBurnRate(c.inventory[k])
+              ),
             ],
           ];
 
@@ -233,7 +234,9 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           c.date === dateString(date) &&
           c.inventory &&
           Object.keys(c.inventory).length !== 0 &&
-          (c.inventory[2] || c.inventory[4] || c.inventory[5] || c.inventory[6])
+          Object.keys(c.inventory).some((e) =>
+            Object.values(OXYGEN_INVENTORY).includes(Number(e))
+          )
         ) {
           return Object.values(c.inventory);
         }
@@ -253,10 +256,9 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           !(
             c.inventory &&
             Object.keys(c.inventory).length !== 0 &&
-            (c.inventory[2] ||
-              c.inventory[4] ||
-              c.inventory[5] ||
-              c.inventory[6])
+            Object.keys(c.inventory).some((e) =>
+              Object.values(OXYGEN_INVENTORY).includes(Number(e))
+            )
           )
         ) {
           return a;
@@ -281,7 +283,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
             "Capacity Type B Cylinders": c.type_b_cylinders,
             "Capacity Type C Cylinders": c.type_c_cylinders,
             "Capacity Type D Cylinders": c.type_d_cylinders,
-            ...[2, 4, 5, 6].reduce((t, x) => {
+            ...Object.values(OXYGEN_INVENTORY).reduce((t, x) => {
               const y = { ...t };
 
               if (c.inventory[x]?.item_name) {
@@ -330,7 +332,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
       <Suspense fallback={<ThemedSuspense />}>
         <GenericTable
           className="mb-8"
-          columns={["Name", ...OXYGEN_TYPES]}
+          columns={["Name", "TANK CAPACITY", ...Object.values(OXYGEN_TYPES)]}
           data={tableData}
           exported={exported}
           setOrderBy={setOrderByHandler}

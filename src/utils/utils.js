@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { feature } from "topojson";
 import fetch from "unfetch";
 
-import { FACILITY_TYPES } from "./constants";
+import { OXYGEN_INVENTORY } from "./constants";
 
 export const getNDateBefore = (d, n) => {
   const dt = new Date(d);
@@ -70,22 +70,26 @@ export const processFacilities = (data, filterFacilityTypes, orderBy) => {
             expected_type_d_cylinders: data.expected_type_d_cylinders,
             actualDischargedPatients: data.actual_discharged_patients,
             actualLivePatients: data.actual_live_patients,
-            // ...(data.inventory && Object.keys(data.inventory).length !== 0
-            //   ? {
             tte_tank: Number(
-              timeToEmpty(data.inventory && data.inventory[2]) || -1
-            ),
-            tte_b_cylinders: Number(
-              timeToEmpty(data.inventory && data.inventory[4]) || -1
-            ),
-            tte_c_cylinders: Number(
-              timeToEmpty(data.inventory && data.inventory[6]) || -1
+              timeToEmpty(
+                data.inventory && data.inventory[OXYGEN_INVENTORY.liquid]
+              ) || -1
             ),
             tte_d_cylinders: Number(
-              timeToEmpty(data.inventory && data.inventory[5]) || -1
+              timeToEmpty(
+                data.inventory && data.inventory[OXYGEN_INVENTORY.type_d]
+              ) || -1
             ),
-            //   }
-            // : {}),
+            tte_c_cylinders: Number(
+              timeToEmpty(
+                data.inventory && data.inventory[OXYGEN_INVENTORY.type_c]
+              ) || -1
+            ),
+            tte_b_cylinders: Number(
+              timeToEmpty(
+                data.inventory && data.inventory[OXYGEN_INVENTORY.type_b]
+              ) || -1
+            ),
           }
         : {
             ...data,
@@ -107,11 +111,6 @@ export const processFacilities = (data, filterFacilityTypes, orderBy) => {
         : new Date(a.modifiedDate) < new Date(b.modifiedDate)
         ? 1
         : -1;
-    })
-    .map((p) => {
-      orderBy && p["oxygenCapacity"] === 1500 && console.log("P", p);
-
-      return p;
     });
 };
 
