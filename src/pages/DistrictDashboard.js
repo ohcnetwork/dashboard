@@ -8,7 +8,11 @@ import { SWRConfig } from "swr";
 
 import ThemedSuspense from "../components/ThemedSuspense";
 import { PageTitle } from "../components/Typography/Title";
-import { CONTENT, DISTRICTS, FACILITY_TYPES } from "../utils/constants";
+import {
+  CONTENT,
+  FACILITY_TYPES,
+  ACTIVATED_DISTRICTS,
+} from "../utils/constants";
 import { getNDateBefore } from "../utils/utils";
 
 const Capacity = lazy(() => import("../components/DistrictDashboard/Capacity"));
@@ -18,10 +22,7 @@ const DistrictMap = lazy(() =>
 const CapacityTimeseries = lazy(() =>
   import("../components/DistrictDashboard/CapacityTimeseries")
 );
-const Covid = lazy(() => import("../components/DistrictDashboard/Covid"));
-const CovidTimeseries = lazy(() =>
-  import("../components/DistrictDashboard/CovidTimeseries")
-);
+
 const Filter = lazy(() => import("../components/DistrictDashboard/Filter"));
 const Patient = lazy(() => import("../components/DistrictDashboard/Patient"));
 const PatientTimeseries = lazy(() =>
@@ -45,10 +46,7 @@ function DistrictDashboard() {
   const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [timeseries, setTimeseries] = useState(false);
-  const [filterDistrict, setFilterDistrict] = useState({
-    id: 7,
-    name: "Ernakulam",
-  });
+  const [filterDistrict, setFilterDistrict] = useState(ACTIVATED_DISTRICTS[0]);
   const [filterFacilityTypes, setFilterFacilityTypes] = useState(
     FACILITY_TYPES
   );
@@ -136,12 +134,6 @@ function DistrictDashboard() {
             dates={dates}
           />
         );
-      case CONTENT.COVID:
-        return !timeseries ? (
-          <Covid filterDistrict={filterDistrict} date={date} />
-        ) : (
-          <CovidTimeseries filterDistrict={filterDistrict} dates={dates} />
-        );
       case CONTENT.LSG:
         return !timeseries ? (
           <Lsg filterDistrict={filterDistrict} date={date} />
@@ -224,17 +216,17 @@ function DistrictDashboard() {
               );
             })}
           </div>
-          <div className="relative hidden mt-2 dark:bg-gray-900 bg-white rounded-lg md:mt-0">
+          <div className="relative mt-2 dark:bg-gray-900 bg-white rounded-lg md:mt-0">
             <Button
               layout="link"
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Select district"
               aria-haspopup="true"
-              disabled
+              disabled={false}
               iconRight={ChevronDown}
-              className="shadow-xs"
+              className="w-full shadow-xs"
             >
-              Select District
+              {filterDistrict.name}
             </Button>
             <Dropdown
               isOpen={isOpen}
@@ -242,7 +234,7 @@ function DistrictDashboard() {
               onClose={() => setIsOpen(false)}
               className="z-40"
             >
-              {DISTRICTS.map((d, i) => (
+              {ACTIVATED_DISTRICTS.map((d, i) => (
                 <DropdownItem
                   key={i}
                   onClick={() => {
