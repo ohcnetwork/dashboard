@@ -14,8 +14,9 @@ import fuzzysort from "fuzzysort";
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 
-function FacilityTable({
+function GenericTable({
   columns = [],
+  setOrderBy,
   data,
   className,
   exported = null,
@@ -77,7 +78,11 @@ function FacilityTable({
             <TableHeader>
               <tr className="sticky top-0 text-center whitespace-pre bg-gray-100 dark:bg-gray-700">
                 {columns.map((item, i) => (
-                  <th className="" key={i}>
+                  <th
+                    className="sticky top-0 p-2 bg-gray-100 dark:bg-gray-700"
+                    key={i}
+                    onClick={(_) => setOrderBy && setOrderBy(item)}
+                  >
                     {item}
                   </th>
                 ))}
@@ -124,4 +129,4 @@ function FacilityTable({
   );
 }
 
-export default FacilityTable;
+export default GenericTable;
