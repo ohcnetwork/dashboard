@@ -207,7 +207,7 @@ function CapacityMap({ district, facilities, className }) {
                             {...props}
                           />
                         ) : (
-                          <></>
+                          React.null
                         );
                       })}
                     </g>
