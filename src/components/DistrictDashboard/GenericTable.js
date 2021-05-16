@@ -79,7 +79,7 @@ function GenericTable({
               <tr className="sticky top-0 text-center whitespace-pre bg-gray-100 dark:bg-gray-700">
                 {columns.map((item, i) => (
                   <th
-                    className="p-2"
+                    className="sticky top-0 p-2 bg-gray-100 dark:bg-gray-700"
                     key={i}
                     onClick={(_) => setOrderBy && setOrderBy(item)}
                   >
