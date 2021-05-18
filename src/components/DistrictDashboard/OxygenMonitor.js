@@ -145,20 +145,33 @@ const showStockWithBurnRate = (facility, k, inventoryItem) => {
           {inventoryItem?.unit} / hr{" "}
         </span>
       </small>
-      <small className="flex items-center mt-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-4 h-4"
-          fill="currentColor"
-          viewBox="0 0 16 16"
-        >
-          <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 5.29-11.584.531.531 0 0 0 .013-.012l.354-.354.353.354a.5.5 0 1 0 .707-.707l-1.414-1.415a.5.5 0 1 0-.707.707l.354.354-.354.354a.717.717 0 0 0-.012.012A6.973 6.973 0 0 0 9 2.071V1h.5a.5.5 0 0 0 0-1h-3zm2 5.6V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 1 1 1 0z" />
-        </svg>
-        <span className="pl-2 text-sm font-semibold">
-          {(inventoryItem?.stock / inventoryItem?.burn_rate).toFixed(2)}
+
+      <div className="flex">
+        <span className="relative inline-flex rounded-md shadow-sm">
+          <small className="flex items-center mt-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-4 h-4"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 5.29-11.584.531.531 0 0 0 .013-.012l.354-.354.353.354a.5.5 0 1 0 .707-.707l-1.414-1.415a.5.5 0 1 0-.707.707l.354.354-.354.354a.717.717 0 0 0-.012.012A6.973 6.973 0 0 0 9 2.071V1h.5a.5.5 0 0 0 0-1h-3zm2 5.6V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 1 1 1 0z" />
+            </svg>
+            <span className="pl-2 text-sm font-semibold">
+              {(inventoryItem?.stock / inventoryItem?.burn_rate).toFixed(2)}
+            </span>
+            <span className="pl-1 font-mono text-xs"> hr </span>
+          </small>
+          {(inventoryItem?.stock / inventoryItem?.burn_rate).toFixed(2) <
+            5.0 && (
+            <span className="absolute right-0 top-0 flex -mr-5 mt-3 w-4 h-4">
+              <span className="absolute inline-flex w-full h-full bg-red-500 rounded-full opacity-75 animate-ping"></span>
+              <span className="relative inline-flex w-4 h-4 bg-red-600 rounded-full"></span>
+            </span>
+          )}
         </span>
-        <span className="pl-1 font-mono text-xs"> hr </span>
-      </small>
+      </div>
+
       <small className="text-xs">
         {dayjs(new Date(inventoryItem?.modified_date)).fromNow()}
       </small>
