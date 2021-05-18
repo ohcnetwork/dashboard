@@ -119,7 +119,13 @@ const showStockWithBurnRate = (facility, k, inventoryItem) => {
       <div className={"text-md font-bold "}>
         {inventoryItem?.stock}
         {" / "}
-        {facility[OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[k]]]}
+        {OXYGEN_TYPES_KEYS[k] === "liquid"
+          ? (
+              facility[OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[k]]] *
+              0.001
+            ).toFixed(2)
+          : facility[OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[k]]]}
+
         <span className="pl-1 font-mono text-xs">{inventoryItem?.unit} </span>
       </div>
       <small className="flex items-center mt-2 text-sm">
