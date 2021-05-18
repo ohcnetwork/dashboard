@@ -122,7 +122,7 @@ const showStockWithBurnRate = (facility, k, inventoryItem) => {
         {OXYGEN_TYPES_KEYS[k] === "liquid"
           ? (
               facility[OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[k]]] *
-              0.001
+              0.8778
             ).toFixed(2)
           : facility[OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[k]]]}
 
