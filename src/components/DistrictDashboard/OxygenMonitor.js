@@ -203,6 +203,32 @@ const oxygenSelector = (selector) => {
       return null;
   }
 };
+
+const selectorToText = (selector) => {
+  switch (selector) {
+    case "inventoryModifiedDate":
+      return "last updated date";
+    case "tte_tank":
+      return "liquid oxygen time to empty";
+    case "tte_b_cylinders":
+      return "B type cylinder time to empty";
+    case "tte_c_cylinders":
+      return "C type cylinder time to empty";
+    case "tte_d_cylinders":
+      return "D type cylinder time to empty";
+    default:
+      return null;
+  }
+};
+
+const tableHead = (data) => {
+  return data.map((k) => (
+    <div>
+      <div>{k}</div>
+      <div>Stock / Capacity</div>
+    </div>
+  ));
+};
 function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
   const [orderBy, setOrderBy] = useState({
     selector: "inventoryModifiedDate",
@@ -360,6 +386,20 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           stockSummary(oxygenFlatData, n)
         )}
       </div>
+      {orderBy && (
+        <div className="flex items-center mt-4 space-x-2">
+          <div className="dark:text-white text-xs">
+            Showing Results Filtered by: {selectorToText(orderBy.selector)}{" "}
+            {orderBy.order === 1 ? "ASC" : "DESC"}
+          </div>
+          <div
+            onClick={(_) => setOrderBy(undefined)}
+            className="focus:shadow-outline-green inline-flex items-center justify-center px-2 text-white text-xs leading-5 bg-green-500 active:bg-green-500 hover:bg-green-600 border border-transparent rounded-lg focus:outline-none cursor-pointer transition-colors duration-150"
+          >
+            X Clear Filter
+          </div>
+        </div>
+      )}
 
       <Suspense fallback={<ThemedSuspense />}>
         <GenericTable
