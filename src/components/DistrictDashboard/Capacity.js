@@ -13,6 +13,7 @@ import {
   AVAILABILITY_TYPES_ORDERED,
   AVAILABILITY_TYPES_PROXY,
   AVAILABILITY_TYPES_TOTAL_ORDERED,
+  GOVT_FACILITY_TYPES,
 } from "../../utils/constants";
 import {
   dateString,
@@ -162,7 +163,9 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         return [
           ...a,
           {
-            "Govt/Pvt": c.facilityType.startsWith("Govt") ? "Govt" : "Pvt",
+            "Govt/Pvt": GOVT_FACILITY_TYPES.includes(c.facilityType)
+              ? "Govt"
+              : "Pvt",
             "Hops/CFLTC":
               c.facilityType === "First Line Treatment Centre"
                 ? "CFLTC"
