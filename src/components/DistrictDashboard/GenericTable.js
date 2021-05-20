@@ -66,6 +66,7 @@ function GenericTable({
           <Input
             className="w-40 rounded-lg sm:w-auto"
             placeholder={"Search " + title}
+            value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
           />
         </div>
