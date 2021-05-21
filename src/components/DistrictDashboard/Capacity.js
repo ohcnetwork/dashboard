@@ -194,10 +194,10 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           dayjs(c.modifiedDate).fromNow(),
           c.oxygenCapacity,
           `${c.actualLivePatients}/${c.actualDischargedPatients}`,
-          showBedsTypes([20, 100], c),
-          showBedsTypes([10, 110], c),
-          showBedsTypes([150, 120], c),
           showBedsTypes([1, 30], c),
+          showBedsTypes([150, 120], c),
+          showBedsTypes([10, 110], c),
+          showBedsTypes([20, 100], c),
         ],
       ];
     }, []);
@@ -282,10 +282,10 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
               "Last Updated",
               "Oxygen",
               "Patients/\nDischarged",
-              "Ventilators",
-              "ICU",
-              "Oxygen Beds",
               "Ordinary Beds",
+              "Oxygen Beds",
+              "ICU",
+              "Ventilators",
             ]}
             data={tableData}
             exported={exported}
