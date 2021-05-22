@@ -103,56 +103,37 @@ export const processFacilities = (data, filterFacilityTypes, orderBy) => {
             ...data,
           }),
     }))
-    .reduce(
-      (acc, f, i, arr) => {
-        const { zero, nonZero } = acc;
-        let returnable;
-        if (
-          filterFacilityTypes.includes(f.facilityType) &&
-          (orderBy
-            ? Math.round(f[orderBy.selector]) >= 0 &&
-              Number(f[orderBy.selector]) < Infinity
-            : true)
-        ) {
-          returnable = { zero, nonZero: [...nonZero, f] };
-        } else {
-          returnable = { nonZero, zero: [...zero, f] };
-        }
-        if (arr.length - 1 === i) {
-          return [
-            ...nonZero.sort((a, b) => {
-              return orderBy && a[orderBy.selector] !== undefined
-                ? a[orderBy.selector] < b[orderBy.selector]
-                  ? 1 * Number(orderBy.order)
-                  : -1 * Number(orderBy.order)
-                : new Date(a.modifiedDate) < new Date(b.modifiedDate)
-                ? 1
-                : -1;
-            }),
-            ...zero,
-          ];
-        }
-        return returnable;
-      },
-      { zero: [], nonZero: [] }
-    );
-  // .filter(
-  //   (f) =>
-  //     filterFacilityTypes.includes(f.facilityType) &&
-  //     (orderBy
-  //       ? Math.round(f[orderBy.selector]) >= 0 &&
-  //         Number(f[orderBy.selector]) < Infinity
-  //       : true)
-  // )
-  // .sort((a, b) => {
-  //   return orderBy && a[orderBy.selector] !== undefined
-  //     ? a[orderBy.selector] < b[orderBy.selector]
-  //       ? 1 * Number(orderBy.order)
-  //       : -1 * Number(orderBy.order)
-  //     : new Date(a.modifiedDate) < new Date(b.modifiedDate)
-  //     ? 1
-  //     : -1;
-  // });
+    .filter((f) => filterFacilityTypes.includes(f.facilityType))
+    .reduce((acc, f, i, arr) => {
+      const zero = acc?.zero || acc;
+      const nonZero = acc?.nonZero || acc;
+      let returnable;
+      if (
+        orderBy
+          ? Math.round(f[orderBy.selector]) >= 0 &&
+            Number(f[orderBy.selector]) < Infinity
+          : true
+      ) {
+        returnable = { zero, nonZero: [...nonZero, f] };
+      } else {
+        returnable = { nonZero, zero: [...zero, f] };
+      }
+      if (arr.length - 1 === i) {
+        return [
+          ...nonZero.sort((a, b) => {
+            return orderBy && a[orderBy.selector] !== undefined
+              ? a[orderBy.selector] < b[orderBy.selector]
+                ? 1 * Number(orderBy.order)
+                : -1 * Number(orderBy.order)
+              : new Date(a.modifiedDate) < new Date(b.modifiedDate)
+              ? 1
+              : -1;
+          }),
+          ...zero,
+        ];
+      }
+      return returnable;
+    }, []);
 };
 
 export const useKeralaMap = (district) => {

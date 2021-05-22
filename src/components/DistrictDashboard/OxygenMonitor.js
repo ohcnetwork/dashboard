@@ -235,9 +235,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
     order: 1,
   });
   const setOrderByHandler = (selector) => {
-    console.log("Setting OrderBy", selector);
     const orderBySelector = oxygenSelector(selector);
-    console.log("Setting OrderBy with oxygenSelector", orderBySelector);
     setOrderBy(
       orderBySelector
         ? { selector: orderBySelector, order: -(orderBy?.order || 1) }
