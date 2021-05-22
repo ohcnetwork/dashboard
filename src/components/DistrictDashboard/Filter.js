@@ -94,13 +94,13 @@ function Filter({
                   <Button
                     layout="link"
                     onClick={() => {
-                      const temp = [..._filterFacilityTypes];
-                      GOVT_FACILITY_TYPES.forEach((f) => {
-                        if (!temp.includes(f)) {
-                          temp.push(f);
-                        }
-                      });
-                      _setFilterFacilityTypes(temp);
+                      // const temp = [..._filterFacilityTypes];
+                      // GOVT_FACILITY_TYPES.forEach((f) => {
+                      //   if (!temp.includes(f)) {
+                      //     temp.push(f);
+                      //   }
+                      // });
+                      _setFilterFacilityTypes(GOVT_FACILITY_TYPES);
                     }}
                     className="whitespace-no-wrap dark:bg-gray-900 shadow-xs"
                   >
