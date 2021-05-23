@@ -28,12 +28,13 @@ const stockSummary = (oxygenFlatData, key) => {
   const entries = oxygenFlatData.filter((f) => f.item_name === key);
   const stock = entries.map((p) => p.stock).reduce((a, b) => a + b, 0);
   const valid_entries = entries.filter(
-    (a) => a?.burn_rate !== 0 && a?.burn_rate !== null
+    (a) => (a?.burn_rate || 0) !== 0 && (a?.burn_rate || null) !== null
   );
-
-  const burn_rate =
-    valid_entries.map((p) => p.burn_rate).reduce((a, b) => a + b, 0) /
-    valid_entries.length;
+  const depleted_entries = valid_entries.filter((a) => a.stock === 0);
+  const valid_nonzero_entries = valid_entries.filter((a) => a.stock !== 0);
+  const burn_rate = valid_nonzero_entries
+    .map((p) => p.burn_rate)
+    .reduce((acc, iter) => acc + iter, 0);
 
   return (
     <div
