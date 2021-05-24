@@ -168,8 +168,9 @@ const showStockWithBurnRate = (facility, k, inventoryItem) => {
             </span>
             <span className="pl-1 font-mono text-xs"> hr </span>
           </small>
-          {(inventoryItem?.stock / inventoryItem?.burn_rate).toFixed(2) <
-            5.0 && (
+          {( inventoryItem?.burn_rate !== 0 
+          &&(inventoryItem?.stock / inventoryItem?.burn_rate).toFixed(2) <
+            5.0) && (
             <span className="absolute right-0 top-0 flex -mr-5 mt-3 w-4 h-4">
               <span className="absolute inline-flex w-full h-full bg-red-500 rounded-full opacity-75 animate-ping"></span>
               <span className="relative inline-flex w-4 h-4 bg-red-600 rounded-full"></span>
