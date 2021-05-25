@@ -26,10 +26,24 @@ function GenericTable({
   const [filteredData, setFilteredData] = useState(data);
   const [page, setPage] = useState(1);
   const [tableData, setTableData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    setFilteredData(data);
-  }, [data]);
+    setFilteredData(
+      searchTerm
+        ? data.filter((v) =>
+            fuzzysort
+              .go(
+                searchTerm,
+                data.map((d) => ({ ...d, 0: d[0][0] })),
+                { key: "0" }
+              )
+              .map((v) => v.target)
+              .includes(v[0][0])
+          )
+        : data
+    );
+  }, [data, searchTerm]);
 
   useEffect(() => {
     setTableData(
@@ -52,22 +66,8 @@ function GenericTable({
           <Input
             className="w-40 rounded-lg sm:w-auto"
             placeholder={"Search " + title}
-            onChange={(e) => {
-              setFilteredData(
-                e.target.value
-                  ? data.filter((v) =>
-                      fuzzysort
-                        .go(
-                          e.target.value,
-                          data.map((d) => ({ ...d, 0: d[0][0] })),
-                          { key: "0" }
-                        )
-                        .map((v) => v.target)
-                        .includes(v[0][0])
-                    )
-                  : data
-              );
-            }}
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
           />
         </div>
       </div>
