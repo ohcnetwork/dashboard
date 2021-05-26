@@ -25,13 +25,42 @@ const getColor = ({ color1 = "00FF00", color2 = "FF0000", ratio }) => {
   return `#${hex(r)}${hex(g)}${hex(b)}`;
 };
 
-let bedColor = (capacity) => {
+const colorClasses = (capacity) => {
+  if (capacity) {
+    let a = (capacity.current_capacity / capacity.total_capacity) * 100;
+    if (a < 70.0) {
+      return "text-green-500";
+    } else if (a === 100.0) {
+      return "text-red-700";
+    } else {
+      return "text-yellow-400";
+    }
+  } else {
+    return "text-blue-500";
+  }
+};
+
+let canShowBed = (capacity, filter) => {
+  if (filter === "All") {
+    return true;
+  }
+  console.log(filter);
   console.log(capacity);
-  return capacity
-    ? getColor({
-        ratio: capacity.current_capacity / capacity.total_capacity,
-      })
-    : "#2563EB";
+  if (capacity && capacity.room_type === filter) {
+    return capacity.total_capacity !== 0;
+  } else {
+    return false;
+  }
+};
+
+let bedClasses = (zoom) => {
+  if (zoom < 11) {
+    return " w-6 h-6";
+  } else if (zoom < 14) {
+    return " w-8 h-8";
+  } else {
+    return " w-10 h-10";
+  }
 };
 
 class Marker extends Component {
@@ -49,7 +78,7 @@ class Marker extends Component {
         }}
         onClick={() => {
           let center = { lat: this.props.lat, lng: this.props.lng };
-          let zoom = 12;
+          let zoom = 13;
           this.props.setFocus(center, zoom);
         }}
       >
@@ -59,9 +88,16 @@ class Marker extends Component {
             this.setState({ popup: true });
           }}
         >
-          {(this.props.selectedBedType === "All" ||
-            data.capacity[this.props.selectedBedType]) && (
-            <div className="w-6 h-6 text-red-800">
+          {canShowBed(
+            data.capacity[this.props.selectedBedType],
+            this.props.selectedBedType
+          ) && (
+            <div
+              className={
+                colorClasses(data.capacity[this.props.selectedBedType]) +
+                bedClasses(this.props.zoom)
+              }
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
@@ -72,7 +108,7 @@ class Marker extends Component {
                 viewBox="0 0 640 512"
               >
                 <path
-                  fill={bedColor(data.capacity[this.props.selectedBedType])}
+                  fill="currentColor"
                   d="M176 256c44.11 0 80-35.89 80-80s-35.89-80-80-80-80 35.89-80 80 35.89 80 80 80zm352-128H304c-8.84 0-16 7.16-16 16v144H64V80c0-8.84-7.16-16-16-16H16C7.16 64 0 71.16 0 80v352c0 8.84 7.16 16 16 16h32c8.84 0 16-7.16 16-16v-48h512v48c0 8.84 7.16 16 16 16h32c8.84 0 16-7.16 16-16V240c0-61.86-50.14-112-112-112z"
                 />
               </svg>
