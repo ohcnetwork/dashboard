@@ -1,0 +1,50 @@
+.MapMarkerLabel {
+  white-space: nowrap;
+  background: white;
+  padding: 3px;
+}
+.MapMarkerOverlay {
+  background-color: #fff;
+}
+.MarkerWrapper {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.MapMarkerOverlay {
+  position: absolute;
+  bottom: 100%;
+  min-width: 600px;
+  border-radius: 5px;
+  background-color: #ffffffdb;
+  box-sizing: border-box;
+  padding: 10px;
+  z-index: 9999999;
+}
+.MapMarkerOverlay div {
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.MarkerOverlayListItem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: baseline;
+}
+.MarkerOverlayListItem p {
+  margin: 5px;
+  text-align: left;
+}
+.MarkerOverlayListItem p:nth-child(1) {
+  white-space: nowrap;
+  font-size: 14px;
+  color: #555;
+}
+.MarkerOverlayListItem p:nth-child(2) {
+  font-size: 16px;
+  color: #000;
+  width: 100%;
+}
+.MarkerOverlayListItem:nth-child(3) p:nth-child(2) {
+  white-space: nowrap;
+  text-align: left;
+}
