@@ -29,7 +29,7 @@ import { SectionTitle } from "../Typography/Title";
 import GenericTable from "./GenericTable";
 
 const CapacityForecast = lazy(() => import("./CapacityForecast"));
-const CapacityMap = lazy(() => import("../DistrictDashboard/CapacityMap"));
+const GMap = lazy(() => import("../DistrictDashboard/GMap"));
 dayjs.extend(relativeTime);
 
 const positiveVal = (value) => (value < 0 ? 0 : value);
@@ -298,7 +298,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           <SectionTitle>Map</SectionTitle>
         </div>
         <Suspense fallback={<ThemedSuspense />}>
-          <CapacityMap
+          <GMap
             className="mb-8"
             facilities={todayFiltered}
             district={filterDistrict.name}

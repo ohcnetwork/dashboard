@@ -13,7 +13,7 @@ import {
 import ThemedSuspense from "../ThemedSuspense";
 import { SectionTitle } from "../Typography/Title";
 
-const CapacityMap = lazy(() => import("../DistrictDashboard/CapacityMap"));
+const GMap = lazy(() => import("../DistrictDashboard/GMap"));
 dayjs.extend(relativeTime);
 
 function DistrictMap({ filterDistrict, filterFacilityTypes, date }) {
@@ -45,7 +45,7 @@ function DistrictMap({ filterDistrict, filterFacilityTypes, date }) {
         <SectionTitle>Map</SectionTitle>
       </div>
       <Suspense fallback={<ThemedSuspense />}>
-        <CapacityMap
+        <GMap
           className="mb-8"
           facilities={todayFiltered}
           district={filterDistrict.name}
