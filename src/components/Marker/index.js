@@ -44,8 +44,6 @@ let canShowBed = (capacity, filter) => {
   if (filter === "All") {
     return true;
   }
-  console.log(filter);
-  console.log(capacity);
   if (capacity && capacity.room_type === filter) {
     return capacity.total_capacity !== 0;
   } else {

@@ -1,5 +1,9 @@
 // Activated Districts
-export const ACTIVATED_DISTRICTS = [{ id: 7, name: "Ernakulam" }];
+export const ACTIVATED_DISTRICTS = [
+  { id: 7, name: "Ernakulam", lat: 10.1485476, lng: 76.5007524, zoom: 10 },
+];
+
+export const GMAP_KEY = "AIzaSyDsBAc3y7deI5ZO3NtK5GuzKwtUzQNJNUk";
 
 export const AVAILABILITY_TYPES_ORDERED = [
   20,

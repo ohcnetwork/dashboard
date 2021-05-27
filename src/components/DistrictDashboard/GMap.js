@@ -7,6 +7,7 @@ import Marker from "../Marker/index";
 import {
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
+  GMAP_KEY,
 } from "../../utils/constants";
 
 const selectedButtonClasses = (bool) => {
@@ -27,10 +28,10 @@ function GMap({ district, facilities, className }) {
     assets: [],
     showAddressSuggestion: false,
     center: {
-      lat: 10.1485476,
-      lng: 76.5007524,
+      lat: district.lat,
+      lng: district.lng,
     },
-    zoom: 10,
+    zoom: district.zoom,
   });
 
   return (
@@ -108,7 +109,7 @@ function GMap({ district, facilities, className }) {
                 <div style={{ height: "75vh", width: "100%" }}>
                   <GoogleMapReact
                     bootstrapURLKeys={{
-                      key: "AIzaSyDsBAc3y7deI5ZO3NtK5GuzKwtUzQNJNUk",
+                      key: GMAP_KEY,
                     }}
                     defaultCenter={{
                       lat: 10.1485476,
