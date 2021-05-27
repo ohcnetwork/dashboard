@@ -301,7 +301,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           <GMap
             className="mb-8"
             facilities={todayFiltered}
-            district={filterDistrict.name}
+            district={filterDistrict}
           />
         </Suspense>
       </animated.div>
