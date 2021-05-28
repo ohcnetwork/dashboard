@@ -1,5 +1,5 @@
 import { Card, CardBody, WindmillContext } from "@windmill/react-ui";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import Geosuggest from "react-geosuggest";
 import Marker from "../Marker/index";
@@ -33,6 +33,17 @@ function GMap({ district, facilities, className }) {
     },
     zoom: district.zoom,
   });
+
+  useEffect(() => {
+    setState({
+      ...state,
+      center: {
+        lat: district.lat,
+        lng: district.lng,
+      },
+      zoom: district.zoom,
+    });
+  }, [district]);
 
   return (
     <Card className={`${className} overflow-visible relative`}>
