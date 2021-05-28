@@ -61,16 +61,16 @@ export const AVAILABILITY_TYPES_PROXY = {
 };
 
 export const PATIENT_TYPES = {
-  icu: "ICU",
-  oxygen_bed: "Oxygen Bed",
   home_isolation: "Home Isolation",
-  home_quarantine: "Home Quarantine",
-  not_admitted: "Consultations",
   isolation_room: "Isolation Room",
+  oxygen_bed: "Oxygen Bed",
+  icu: "ICU",
   icu_with_invasive_ventilator: "ICU w/ IV",
   icu_with_non_invasive_ventilator: "ICU w/ Non-IV",
-  paediatric_ward: "Paediatric Ward",
+  home_quarantine: "Home Quarantine",
   gynaecology_ward: "Gynaecology Ward",
+  paediatric_ward: "Paediatric Ward",
+  not_admitted: "Consultations",
 };
 
 export const TESTS_TYPES = {
