@@ -76,7 +76,7 @@ function GenericTable({
         <div className="h-screen overflow-auto overscroll-auto">
           <table className="w-full">
             <TableHeader>
-              <tr className="sticky top-0 text-center whitespace-pre bg-gray-100 dark:bg-gray-700">
+              <tr className="top-0 text-center whitespace-pre bg-gray-100 dark:bg-gray-700">
                 {columns.map((item, i) => (
                   <th
                     className="sticky top-0 p-2 bg-gray-100 dark:bg-gray-700"
