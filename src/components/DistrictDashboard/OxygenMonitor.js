@@ -147,7 +147,7 @@ const showStockWithBurnRate = (facility, k, inventoryItem) => {
   return inventoryItem ? (
     <div key={k} className={inventoryItem?.is_low ? "text-red-500" : ""}>
       <div className={"text-md font-bold "}>
-        {inventoryItem?.stock}
+        {inventoryItem?.stock?.toFixed(2)}
         {" / "}
         {OXYGEN_TYPES_KEYS[k] === "liquid"
           ? (
