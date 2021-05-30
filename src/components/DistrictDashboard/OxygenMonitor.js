@@ -64,7 +64,9 @@ const stockSummary = (oxygenFlatData, key) => {
         </div>
         <div className="">
           <div>{key}</div>
-          <div className="text-3xl font-bold">{stock.toFixed(2)}</div>
+          <div className="text-3xl font-bold">
+            {stock - Math.floor(stock) !== 0 ? stock.toFixed(2) : stock}
+          </div>
           <div className="mt-1 text-sm">{entries[0]?.unit}</div>
         </div>
       </div>

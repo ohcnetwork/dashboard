@@ -54,7 +54,7 @@ function Filter({
       <p className="inline-flex dark:text-gray-400">Filters</p>
       <div className="inline-grid gap-1 grid-rows-none w-full sm:grid-flow-col-dense sm:grid-rows-1 sm:place-content-end">
         {![CONTENT.COVID, CONTENT.LSG].includes(content) && (
-          <div className="relative dark:bg-gray-900 bg-white rounded-lg">
+          <div className="relative h-10 dark:bg-gray-900 bg-white rounded-lg">
             <Button
               layout="link"
               onClick={() => setFacilityTypeFilterOpen(!facilityTypeFilterOpen)}
@@ -184,6 +184,7 @@ function Filter({
             onChange={dateOnChange}
             maxDate={maxDate}
             format="dd/MM/yyyy"
+            className="h-10"
           />
         ) : (
           <DateRangePicker
