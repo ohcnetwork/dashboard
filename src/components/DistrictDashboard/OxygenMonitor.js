@@ -302,7 +302,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         ) {
           const arr = [
             [
-              [c.name, c.facilityType, c.phoneNumber],
+              [c.name, c.facilityType, c.phoneNumber, c.id],
               [dayjs(new Date(c.inventoryModifiedDate)).fromNow()],
               ...Object.values(OXYGEN_INVENTORY).map((k) =>
                 showStockWithBurnRate(c, k, c.inventory[k])

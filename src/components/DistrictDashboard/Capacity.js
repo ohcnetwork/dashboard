@@ -126,6 +126,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     todayFiltered,
   } = useMemo(() => {
     const filtered = processFacilities(data.results, filterFacilityTypes);
+    // console.log(filtered);
     const facilitiesTrivia = filtered.reduce(
       (a, c) => {
         const key = c.date === dateString(date) ? "current" : "previous";
@@ -193,7 +194,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       return [
         ...a,
         [
-          [c.name, c.facilityType, c.phoneNumber],
+          [c.name, c.facilityType, c.phoneNumber, c.id],
           dayjs(c.modifiedDate).fromNow(),
           c.oxygenCapacity,
           `${c.actualLivePatients}/${c.actualDischargedPatients}`,
