@@ -10,25 +10,25 @@ export function CapacityCard({ data }) {
   });
 
   const showBedInfo = (bedData, category) => (
-    <div className="grid grid-cols-5 mt-2 bg-gray-200 dark:bg-gray-900 rounded-lg">
-      <div className="m-auto pl-3 pt-2 dark:text-gray-200 text-sm font-medium">
+    <div className="grid row-span-2 grid-cols-9 mt-2 h-12 bg-gray-200 dark:bg-gray-900 rounded-lg shadow">
+      <div className="col-span-1 pl-3 pt-3 dark:text-gray-200 text-sm font-medium">
         {category}
       </div>
       {bedData.map((bed) => (
-        <div className="grid grid-cols-2 ml-5 mr-5">
-          <div className="grid grid-rows-2">
-            <div className="text-center text-red-500 text-sm font-semibold">
+        <div className="grid col-span-2 grid-cols-2 ml-4 mr-4">
+          <div className="grid grid-rows-3">
+            <div className="row-span-1 text-center text-red-500 text-sm font-semibold">
               Used
             </div>
-            <div className="text-center dark:text-gray-200 text-gray-800 text-lg font-semibold">
+            <div className="row-span-2 text-center dark:text-gray-200 text-gray-800 text-lg font-semibold">
               {bed.used}/{bed.total}
             </div>
           </div>
-          <div className="grid grid-rows-2">
-            <div className="text-center text-green-500 text-sm font-semibold">
+          <div className="grid grid-rows-3">
+            <div className="row-span-1 text-center text-green-500 text-sm font-semibold">
               Vacant
             </div>
-            <div className="text-center dark:text-gray-200 text-gray-800 text-lg font-semibold">
+            <div className="row-span-2 text-center dark:text-gray-200 text-gray-800 text-lg font-semibold">
               {bed.vacant}
             </div>
           </div>
@@ -38,7 +38,7 @@ export function CapacityCard({ data }) {
   );
 
   return (
-    <Card className="flex flex-col mb-4 mt-4 pb-6 pl-4 pr-4 pt-2 rounded-xl">
+    <Card className="flex flex-col mb-4 mt-4 p-4 rounded-xl">
       <div className="flex flex-col">
         <div>
           <p className="dark:text-gray-200 text-xl font-medium">
@@ -59,8 +59,8 @@ export function CapacityCard({ data }) {
         </div>
       </div>
 
-      <div className="h-4/5 mt-7 flex flex-row">
-        <div className="flex flex-col mt-4 pr-3">
+      <div className="h-4/5 flex flex-row mt-1">
+        <div className="flex flex-col mt-8 pr-5">
           <div>
             <p className="dark:text-gray-400 text-gray-600 font-medium">
               Last Updated
@@ -79,25 +79,25 @@ export function CapacityCard({ data }) {
           </div>
         </div>
 
-        <div className="grid grid-rows-4 pl-5 w-full border-l">
-          <div className="grid grid-cols-5 h-6">
-            <div></div>
-            <div>
+        <div className="grid-rows-7 grid pl-5 w-full border-l">
+          <div className="grid row-span-1 grid-cols-9 h-6">
+            <div className="col-span-1"></div>
+            <div className="col-span-2">
               <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
                 ORDINARY BEDS
               </p>
             </div>
-            <div>
+            <div className="col-span-2">
               <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold font-semibold">
                 OXYGEN BEDS
               </p>
             </div>
-            <div>
+            <div className="col-span-2">
               <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold font-semibold">
                 ICU
               </p>
             </div>
-            <div>
+            <div className="col-span-2">
               <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold font-semibold">
                 VENTILATORS
               </p>
