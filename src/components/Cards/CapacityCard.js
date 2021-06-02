@@ -10,7 +10,7 @@ export function CapacityCard({ data }) {
   });
 
   const showBedInfo = (bedData, category) => (
-    <div className="grid row-span-2 grid-cols-9 mt-2 h-12 bg-gray-200 dark:bg-gray-900 rounded-lg shadow">
+    <div className="grid row-span-2 grid-cols-9 mt-2 h-12 bg-gray-200 dark:bg-gray-800 border dark:border border-gray-300 dark:border-gray-900 rounded shadow">
       <div className="col-span-1 pl-3 pt-3 dark:text-gray-200 text-sm font-medium">
         {category}
       </div>
@@ -65,7 +65,7 @@ export function CapacityCard({ data }) {
             <p className="dark:text-gray-400 text-gray-600 font-medium">
               Last Updated
             </p>
-            <p className="dark:text-gray-200 text-2xl font-medium">
+            <p className="dark:text-gray-200 text-xl font-medium">
               {data.last_updated}
             </p>
           </div>
@@ -73,7 +73,7 @@ export function CapacityCard({ data }) {
             <p className="dark:text-gray-400 text-gray-600 font-medium">
               Patient/Discharged
             </p>
-            <p className="dark:text-gray-200 text-2xl font-medium">
+            <p className="dark:text-gray-200 text-xl font-medium">
               {data.patient_discharged}
             </p>
           </div>
