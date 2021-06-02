@@ -10,8 +10,8 @@ export function CapacityCard({ data }) {
   });
 
   const showBedInfo = (bedData, category) => (
-    <div className="grid grid-cols-5 bg-gray-200 dark:bg-gray-900 rounded-lg">
-      <div className="pl-3 pt-2 dark:text-gray-200 text-sm font-medium">
+    <div className="grid grid-cols-5 mt-2 bg-gray-200 dark:bg-gray-900 rounded-lg">
+      <div className="m-auto pl-3 pt-2 dark:text-gray-200 text-sm font-medium">
         {category}
       </div>
       {bedData.map((bed) => (

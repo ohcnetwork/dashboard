@@ -1,12 +1,13 @@
-import { Button } from "@windmill/react-ui";
+import { Button, Pagination, Input } from "@windmill/react-ui";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense, useState, useMemo } from "react";
+import React, { lazy, Suspense, useEffect, useState, useMemo } from "react";
 import { ArrowRight } from "react-feather";
 import { animated, useTransition } from "react-spring";
 import useSWR from "swr";
 import { CSVLink } from "react-csv";
+import fuzzysort from "fuzzysort";
 
 import { careSummary } from "../../utils/api";
 import {
@@ -188,6 +189,35 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     leave: { opacity: 0 },
   });
 
+  const resultsPerPage = 10;
+  const [filteredData, setFilteredData] = useState(capacityCardData);
+  const [page, setPage] = useState(1);
+  const [tableData, setTableData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    setFilteredData(
+      searchTerm
+        ? capacityCardData.filter((v) =>
+            fuzzysort
+              .go(
+                searchTerm,
+                capacityCardData.map((d) => ({ ...d, 0: d.facility_name })),
+                { key: "0" }
+              )
+              .map((v) => v.target)
+              .includes(v.facility_name)
+          )
+        : capacityCardData
+    );
+  }, [capacityCardData, searchTerm]);
+
+  useEffect(() => {
+    setTableData(
+      filteredData.slice((page - 1) * resultsPerPage, page * resultsPerPage)
+    );
+  }, [filteredData, page]);
+
   return transitions.map(({ item, key, props }) =>
     item ? (
       <animated.div key={key} style={props}>
@@ -252,20 +282,32 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           ))}
         </div>
 
-        <div id="facility-capacity-cards" className="mt-4">
-          <div className="flex flex-row justify-between">
+        <div id="facility-capacity-cards" className="mb-16 mt-16">
+          <div className="flex flex-row items-center justify-between">
             <SectionTitle>Facilities</SectionTitle>
-            <div className="flex max-w-full space-x-1">
+            <div className="flex max-w-full space-x-4">
               {exported && (
                 <CSVLink data={exported.data} filename={exported.filename}>
                   <Button block>Export</Button>
                 </CSVLink>
               )}
+              <Input
+                className="sw-40 rounded-lg sm:w-auto"
+                placeholder={"Search Facility"}
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+              />
             </div>
           </div>
-          {capacityCardData.map((data) => (
+          {tableData.map((data) => (
             <CapacityCard data={data} key={data.facility_name} />
           ))}
+          <Pagination
+            totalResults={filteredData.length}
+            resultsPerPage={resultsPerPage}
+            label="Navigation"
+            onChange={setPage}
+          />
         </div>
 
         <div id="capacity-map">
