@@ -283,7 +283,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         </div>
 
         <div id="facility-capacity-cards" className="mb-16 mt-16">
-          <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-col items-center justify-between md:flex-row">
             <SectionTitle>Facilities</SectionTitle>
             <div className="flex max-w-full space-x-4">
               {exported && (
