@@ -17,7 +17,13 @@ export function CapacityCard({ data }) {
         {category}
       </div>
       {bedData.map((bed, idx) => {
-        if (!finalTotal[idx].total) return <></>;
+        if (!finalTotal[idx].total)
+          return (
+            <div
+              key={idx}
+              className="grid col-span-2 grid-cols-2 ml-4 mr-4"
+            ></div>
+          );
         return (
           <div key={idx} className="grid col-span-2 grid-cols-2 ml-4 mr-4">
             <div className="grid grid-rows-3">
