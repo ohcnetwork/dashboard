@@ -138,6 +138,14 @@ function GMap({ district, facilities, className }) {
                                 stylers: [{ color: "#242f3e" }],
                               },
                               {
+                                elementType: "labels.icon",
+                                stylers: [
+                                  {
+                                    visibility: "off",
+                                  },
+                                ],
+                              },
+                              {
                                 elementType: "labels.text.stroke",
                                 stylers: [{ color: "#242f3e" }],
                               },

@@ -9,15 +9,23 @@ export function CapacityCard({ data }) {
     return { used: used, total: total, vacant: vacant };
   });
 
+  const noCapacity = finalTotal.every((item) => item.total === 0);
+
   const showBedInfo = (bedData, category) => (
-    <div className="grid row-span-2 grid-cols-9 mt-2 h-12 bg-gray-200 dark:bg-gray-800 border dark:border border-gray-300 dark:border-gray-900 rounded shadow">
+    <div className="grid row-span-2 grid-cols-9 mt-2 h-12">
       <div className="col-span-1 pl-3 pt-3 dark:text-gray-200 text-sm font-medium">
         {category}
       </div>
       {bedData.map((bed, idx) => {
-        if (!finalTotal[idx].total) return <></>;
+        if (!finalTotal[idx].total)
+          return (
+            <div
+              key={idx}
+              className="grid col-span-2 grid-cols-2 ml-4 mr-4"
+            ></div>
+          );
         return (
-          <div className="grid col-span-2 grid-cols-2 ml-4 mr-4">
+          <div key={idx} className="grid col-span-2 grid-cols-2 ml-4 mr-4">
             <div className="grid grid-rows-3">
               <div className="row-span-1 text-center text-red-500 text-sm font-semibold">
                 Used
@@ -40,7 +48,7 @@ export function CapacityCard({ data }) {
     </div>
   );
 
-  return (
+  return !noCapacity ? (
     <Card className="flex flex-col mb-4 mt-4 p-4 rounded-xl">
       <div className="flex flex-col">
         <div>
@@ -91,17 +99,17 @@ export function CapacityCard({ data }) {
               </p>
             </div>
             <div className="col-span-2">
-              <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold font-semibold">
+              <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
                 OXYGEN BEDS
               </p>
             </div>
             <div className="col-span-2">
-              <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold font-semibold">
+              <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
                 ICU
               </p>
             </div>
             <div className="col-span-2">
-              <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold font-semibold">
+              <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
                 VENTILATORS
               </p>
             </div>
@@ -113,5 +121,7 @@ export function CapacityCard({ data }) {
         </div>
       </div>
     </Card>
+  ) : (
+    <></>
   );
 }
