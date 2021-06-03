@@ -12,6 +12,7 @@ import {
 import RadialCard from "../components/Chart/RadialCard";
 import {
   FACILITY_TYPES,
+  PATIENT_TYPES,
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
   AVAILABILITY_TYPES_TOTAL_ORDERED,
@@ -46,6 +47,20 @@ const initialFacilitiesTrivia = {
   oxygen: 0,
 };
 
+const initialPatientFacilitiesTrivia = {
+  count: 0,
+  icu: { total: 0, today: 0 },
+  oxygen_bed: { total: 0, today: 0 },
+  not_admitted: { total: 0, today: 0 },
+  home_isolation: { total: 0, today: 0 },
+  isolation_room: { total: 0, today: 0 },
+  home_quarantine: { total: 0, today: 0 },
+  paediatric_ward: { total: 0, today: 0 },
+  gynaecology_ward: { total: 0, today: 0 },
+  icu_with_invasive_ventilator: { total: 0, today: 0 },
+  icu_with_non_invasive_ventilator: { total: 0, today: 0 },
+};
+
 function Facility() {
   const params = useParams();
   const facilityId = params.facilityId;
@@ -55,6 +70,30 @@ function Facility() {
   const [facilityData, setFacilityData] = useState({});
   const [patientLoading, setPatientLoading] = useState(true);
   const [facilityLoading, setFacilityLoading] = useState(true);
+
+  const patientsFiltered =
+    patientData.results &&
+    processFacilities(patientData.results, FACILITY_TYPES);
+
+  const patientFacilitiesTrivia =
+    patientsFiltered &&
+    patientsFiltered.reduce(
+      (a, c) => {
+        const key = c.date === dateString(date) ? "current" : "previous";
+        a[key].count += 1;
+        Object.keys(PATIENT_TYPES).forEach((k) => {
+          a[key][k].today += c[`today_patients_${k}`] || 0;
+          a[key][k].total += c[`total_patients_${k}`] || 0;
+        });
+        return a;
+      },
+      {
+        current: JSON.parse(JSON.stringify(initialPatientFacilitiesTrivia)),
+        previous: JSON.parse(JSON.stringify(initialPatientFacilitiesTrivia)),
+      }
+    );
+
+  console.log(patientFacilitiesTrivia);
 
   const filtered =
     facilityData.results &&
@@ -100,7 +139,7 @@ function Facility() {
       2000,
       facilityId
     ).then((data) => {
-      setPatientData(data.results[0].data);
+      setPatientData(data);
       setPatientLoading(false);
     });
     careSummary(
@@ -177,6 +216,26 @@ function Facility() {
                   previous={facilitiesTrivia.previous[k]}
                   key={k}
                 />
+              ))}
+            </div>
+          </div>
+        </section>
+        <section className="my-8 px-6 py-4 dark:bg-gray-700 bg-white">
+          <h2 className="text-green-500 text-lg font-bold">Patients</h2>
+          <div className="mb-4 mt-8">
+            <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
+              {Object.keys(PATIENT_TYPES).map((k) => (
+                <div class="word-wrap pl-3 pr-2 py-2 break-words bg-gray-50 dark:bg-gray-800">
+                  <p className="dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
+                    {k.split("_").join(" ")}
+                  </p>
+                  <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
+                    {patientFacilitiesTrivia.previous[`${k}`].total}
+                    <sup className="ml-1 dark:text-gray-500 text-gray-600 text-lg font-thin">
+                      +1
+                    </sup>
+                  </h1>
+                </div>
               ))}
             </div>
           </div>
