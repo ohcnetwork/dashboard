@@ -24,6 +24,8 @@ const initialFacilitiesTrivia = {
   count: 0,
   icu: { total: 0, today: 0 },
   oxygen_bed: { total: 0, today: 0 },
+  bed_with_oxygen_support: { total: 0, today: 0 },
+  icu_with_oxygen_support: { total: 0, today: 0 },
   not_admitted: { total: 0, today: 0 },
   home_isolation: { total: 0, today: 0 },
   isolation_room: { total: 0, today: 0 },
@@ -47,6 +49,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
   );
 
   const { facilitiesTrivia, exported, tableData } = useMemo(() => {
+    console.log(data.results);
     const filtered = processFacilities(data.results, filterFacilityTypes);
     const facilitiesTrivia = filtered.reduce(
       (a, c) => {
