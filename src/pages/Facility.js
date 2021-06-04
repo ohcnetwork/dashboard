@@ -238,7 +238,10 @@ function Facility() {
               {Object.keys(PATIENT_TYPES).map(
                 (k) =>
                   patientFacilitiesTrivia.current[`${k}`].total !== 0 && (
-                    <div class="word-wrap pl-3 pr-2 py-2 break-words bg-gray-50 dark:bg-gray-800 rounded-md">
+                    <div
+                      key={k}
+                      className="word-wrap pl-3 pr-2 py-2 break-words bg-gray-50 dark:bg-gray-800 rounded-md"
+                    >
                       <p className="dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
                         {k.split("_").join(" ")}
                       </p>
@@ -276,7 +279,10 @@ function Facility() {
                 Object.keys(OXYGEN_TYPES_KEYS).map(
                   (k) =>
                     oxygenData[k] && (
-                      <div className="flex items-center justify-between p-4 bg-gray-50 rounded-md">
+                      <div
+                        key={k}
+                        className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-md"
+                      >
                         <div className="justify-butween flex items-center">
                           <div>
                             <svg
