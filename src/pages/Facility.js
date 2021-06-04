@@ -97,8 +97,6 @@ function Facility() {
       }
     );
 
-  console.log(patientFacilitiesTrivia);
-
   const filtered =
     facilityData.results &&
     processFacilities(facilityData.results, FACILITY_TYPES);
@@ -135,6 +133,8 @@ function Facility() {
         previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
       }
     );
+
+  console.log(facilitiesTrivia);
 
   useEffect(() => {
     careSummary(
@@ -203,27 +203,33 @@ function Facility() {
           <h2 className="text-green-500 text-lg font-bold">Capacity</h2>
           <div className="mb-4 mt-8">
             <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
-              {AVAILABILITY_TYPES_TOTAL_ORDERED.map((k) => (
-                <RadialCard
-                  label={k.name}
-                  count={facilitiesTrivia.current.count}
-                  current={facilitiesTrivia.current[k.id]}
-                  previous={facilitiesTrivia.previous[k.id]}
-                  key={k.name}
-                />
-              ))}
+              {AVAILABILITY_TYPES_TOTAL_ORDERED.map(
+                (k) =>
+                  facilitiesTrivia.current[k.id].total !== 0 && (
+                    <RadialCard
+                      label={k.name}
+                      count={facilitiesTrivia.current.count}
+                      current={facilitiesTrivia.current[k.id]}
+                      previous={facilitiesTrivia.previous[k.id]}
+                      key={k.name}
+                    />
+                  )
+              )}
             </div>
 
             <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
-              {AVAILABILITY_TYPES_ORDERED.map((k) => (
-                <RadialCard
-                  label={AVAILABILITY_TYPES[k]}
-                  count={facilitiesTrivia.current.count}
-                  current={facilitiesTrivia.current[k]}
-                  previous={facilitiesTrivia.previous[k]}
-                  key={k}
-                />
-              ))}
+              {AVAILABILITY_TYPES_ORDERED.map(
+                (k) =>
+                  facilitiesTrivia.current[k].total !== 0 && (
+                    <RadialCard
+                      label={AVAILABILITY_TYPES[k]}
+                      count={facilitiesTrivia.current.count}
+                      current={facilitiesTrivia.current[k]}
+                      previous={facilitiesTrivia.previous[k]}
+                      key={k}
+                    />
+                  )
+              )}
             </div>
           </div>
         </section>
@@ -231,19 +237,36 @@ function Facility() {
           <h2 className="text-green-500 text-lg font-bold">Patients</h2>
           <div className="mb-4 mt-8">
             <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
-              {Object.keys(PATIENT_TYPES).map((k) => (
-                <div class="word-wrap pl-3 pr-2 py-2 break-words bg-gray-50 dark:bg-gray-800 rounded-md">
-                  <p className="dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
-                    {k.split("_").join(" ")}
-                  </p>
-                  <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
-                    {patientFacilitiesTrivia.current[`${k}`]}
-                    <sup className="ml-1 dark:text-gray-500 text-gray-600 text-lg font-thin">
-                      +{patientFacilitiesTrivia.previous[`${k}`].today}
-                    </sup>
-                  </h1>
-                </div>
-              ))}
+              {Object.keys(PATIENT_TYPES).map(
+                (k) =>
+                  patientFacilitiesTrivia.current[`${k}`].total !== 0 && (
+                    <div class="word-wrap pl-3 pr-2 py-2 break-words bg-gray-50 dark:bg-gray-800 rounded-md">
+                      <p className="dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
+                        {k.split("_").join(" ")}
+                      </p>
+                      <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
+                        {patientFacilitiesTrivia.current[`${k}`].total}
+                        {
+                          <sup className="ml-1 dark:text-gray-500 text-gray-600 text-lg font-thin">
+                            {patientFacilitiesTrivia.current[`${k}`].total -
+                              patientFacilitiesTrivia.previous[`${k}`].total !==
+                              0 &&
+                              `${
+                                patientFacilitiesTrivia.current[`${k}`].total -
+                                  patientFacilitiesTrivia.previous[`${k}`]
+                                    .total >
+                                0
+                                  ? "+"
+                                  : "-"
+                              } ${
+                                patientFacilitiesTrivia.current[`${k}`].total
+                              }`}
+                          </sup>
+                        }
+                      </h1>
+                    </div>
+                  )
+              )}
             </div>
           </div>
         </section>
@@ -279,7 +302,11 @@ function Facility() {
                               {oxygenData[k].item_name}
                             </p>
                             <p className="dark:text-white text-2xl font-bold">
-                              {oxygenData[k].stock}
+                              {oxygenData[k].stock -
+                                Math.floor(oxygenData[k].stock) !==
+                              0
+                                ? oxygenData[k].stock.toFixed(2)
+                                : oxygenData[k].stock}
                             </p>
                             <p className="dark:text-gray-400 text-sm">
                               {oxygenData[k].unit}
@@ -309,7 +336,7 @@ function Facility() {
                               Burn Rate
                             </p>
                             <p className="dark:text-white text-2xl font-bold">
-                              {oxygenData[k].burn_rate}
+                              {oxygenData[k].burn_rate?.toFixed(2)}
                             </p>
                             <p className="dark:text-gray-400 text-sm">
                               Cylinders / hour
@@ -333,7 +360,9 @@ function Facility() {
                               Time to empty
                             </p>
                             <p className="dark:text-white text-2xl font-bold">
-                              {oxygenData[k].stock}
+                              {(
+                                oxygenData[k].stock / oxygenData[k].burn_rate
+                              ).toFixed(2)}
                             </p>
                             <p className="dark:text-gray-400 text-sm">hours</p>
                           </div>
