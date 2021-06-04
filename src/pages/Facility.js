@@ -134,8 +134,6 @@ function Facility() {
       }
     );
 
-  console.log(facilitiesTrivia);
-
   useEffect(() => {
     careSummary(
       "patient",
