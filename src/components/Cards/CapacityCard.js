@@ -93,7 +93,7 @@ export function CapacityCard({ data, facilityID }) {
         </div>
 
         <div className="grid-rows-7 grid mt-2 w-full overflow-x-scroll overflow-y-hidden md:mt-0 md:pl-5 md:border-l md:overflow-hidden">
-          <div className="w-800 grid row-span-1 grid-cols-9 md:w-full">
+          <div className="grid row-span-1 grid-cols-9 w-800 md:w-full">
             <div className="col-span-1"></div>
             <div className="col-span-2">
               <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">

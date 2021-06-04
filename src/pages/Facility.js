@@ -167,34 +167,50 @@ function Facility() {
       <div className="h-fulle w-full dark:text-white">
         <div className="flex flex-col items-start justify-center mt-4">
           <h1 className="mb-3 mt-6 text-3xl font-bold">
-            {facilityData.results[0].facility.name}
+            {facilityData?.results[0]?.facility.name}
           </h1>
 
           <div className="w -full flex flex-wrap items-center justify-start">
-            <div style={{ width: "50%" }} className="my-2 text-sm">
-              <span className="font-semibold">Phone: </span>
-              {facilityData.results[0].facility.phone_number}
-            </div>
-            <div style={{ width: "50%" }} className="my-2 text-sm">
-              <span className="font-semibold">Facility Type: </span>
-              {facilityData.results[0].facility.facility_type}
-            </div>
-            <div style={{ width: "50%" }} className="my-2 text-sm">
-              <span className="font-semibold">Address: </span>
-              {facilityData.results[0].facility.address}
-            </div>
-            <div style={{ width: "50%" }} className="my-2 text-sm">
-              <span className="font-semibold">Local Body: </span>
-              {facilityData.results[0].facility.local_body_object.name}
-            </div>
-            <div style={{ width: "50%" }} className="my-2 text-sm">
-              <span className="font-semibold">Ward: </span>
-              {`${facilityData.results[0].facility.ward_object.number}, ${facilityData.results[0].facility.ward_object.name}`}
-            </div>
-            <div style={{ width: "50%" }} className="my-2 text-sm">
-              <span className="font-semibold">District: </span>
-              {facilityData.results[0].facility.district_object.name}
-            </div>
+            {facilityData?.results[0]?.facility?.phone_number && (
+              <div style={{ width: "50%" }} className="my-2 text-sm">
+                <span className="font-semibold">Phone: </span>
+                {facilityData?.results[0]?.facility?.phone_number}
+              </div>
+            )}
+            {facilityData?.results[0]?.facility?.facility_type && (
+              <div style={{ width: "50%" }} className="my-2 text-sm">
+                <span className="font-semibold">Facility Type: </span>
+                {facilityData?.results[0]?.facility?.facility_type}
+              </div>
+            )}
+            {facilityData?.results[0]?.facility?.address && (
+              <div style={{ width: "50%" }} className="my-2 text-sm">
+                <span className="font-semibold">Address: </span>
+                {facilityData?.results[0]?.facility?.address}
+              </div>
+            )}
+            {facilityData?.results[0]?.facility?.local_body_object?.name && (
+              <div style={{ width: "50%" }} className="my-2 text-sm">
+                <span className="font-semibold">Local Body: </span>
+                {facilityData?.results[0]?.facility?.local_body_object?.name}
+              </div>
+            )}
+            {facilityData?.results[0]?.facility?.ward_object && (
+              <div style={{ width: "50%" }} className="my-2 text-sm">
+                <span className="font-semibold">Ward: </span>
+                {`${
+                  facilityData?.results[0]?.facility?.ward_object?.number || ""
+                }, ${
+                  facilityData?.results[0]?.facility?.ward_object?.name || ""
+                }`}
+              </div>
+            )}
+            {facilityData?.results[0]?.district_object && (
+              <div style={{ width: "50%" }} className="my-2 text-sm">
+                <span className="font-semibold">District: </span>
+                {facilityData?.results[0]?.district_object?.name}
+              </div>
+            )}
           </div>
         </div>
         <section className="my-8 px-6 py-4 dark:bg-gray-700 bg-white">
@@ -203,7 +219,7 @@ function Facility() {
             <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
               {AVAILABILITY_TYPES_TOTAL_ORDERED.map(
                 (k) =>
-                  facilitiesTrivia.current[k.id].total !== 0 && (
+                  facilitiesTrivia?.current[k.id]?.total !== 0 && (
                     <RadialCard
                       label={k.name}
                       count={facilitiesTrivia.current.count}
@@ -237,7 +253,7 @@ function Facility() {
             <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
               {Object.keys(PATIENT_TYPES).map(
                 (k) =>
-                  patientFacilitiesTrivia.current[`${k}`].total !== 0 && (
+                  patientFacilitiesTrivia?.current[`${k}`]?.total !== 0 && (
                     <div
                       key={k}
                       className="word-wrap pl-3 pr-2 py-2 break-words bg-gray-50 dark:bg-gray-800 rounded-md"
@@ -246,21 +262,23 @@ function Facility() {
                         {k.split("_").join(" ")}
                       </p>
                       <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
-                        {patientFacilitiesTrivia.current[`${k}`].total}
+                        {patientFacilitiesTrivia?.current[`${k}`]?.total}
                         {
                           <sup className="ml-1 dark:text-gray-500 text-gray-600 text-lg font-thin">
-                            {patientFacilitiesTrivia.current[`${k}`].total -
-                              patientFacilitiesTrivia.previous[`${k}`].total !==
+                            {patientFacilitiesTrivia?.current[`${k}`]?.total -
+                              patientFacilitiesTrivia?.previous[`${k}`]
+                                ?.total !==
                               0 &&
                               `${
-                                patientFacilitiesTrivia.current[`${k}`].total -
-                                  patientFacilitiesTrivia.previous[`${k}`]
-                                    .total >
+                                patientFacilitiesTrivia?.current[`${k}`]
+                                  ?.total -
+                                  patientFacilitiesTrivia?.previous[`${k}`]
+                                    ?.total >
                                 0
                                   ? "+"
                                   : "-"
                               } ${
-                                patientFacilitiesTrivia.current[`${k}`].total
+                                patientFacilitiesTrivia?.current[`${k}`]?.total
                               }`}
                           </sup>
                         }
@@ -303,17 +321,17 @@ function Facility() {
                           </div>
                           <div>
                             <p className="dark:text-gray-400 text-sm font-semibold">
-                              {oxygenData[k].item_name}
+                              {oxygenData[k]?.item_name}
                             </p>
                             <p className="dark:text-white text-2xl font-bold">
-                              {oxygenData[k].stock -
-                                Math.floor(oxygenData[k].stock) !==
+                              {oxygenData[k]?.stock -
+                                Math.floor(oxygenData[k]?.stock) !==
                               0
-                                ? oxygenData[k].stock.toFixed(2)
-                                : oxygenData[k].stock}
+                                ? oxygenData[k]?.stock.toFixed(2)
+                                : oxygenData[k]?.stock}
                             </p>
                             <p className="dark:text-gray-400 text-sm">
-                              {oxygenData[k].unit}
+                              {oxygenData[k]?.unit}
                             </p>
                           </div>
                         </div>
@@ -340,7 +358,7 @@ function Facility() {
                               Burn Rate
                             </p>
                             <p className="dark:text-white text-2xl font-bold">
-                              {oxygenData[k].burn_rate?.toFixed(2)}
+                              {oxygenData[k]?.burn_rate?.toFixed(2)}
                             </p>
                             <p className="dark:text-gray-400 text-sm">
                               Cylinders / hour
@@ -365,7 +383,7 @@ function Facility() {
                             </p>
                             <p className="dark:text-white text-2xl font-bold">
                               {(
-                                oxygenData[k].stock / oxygenData[k].burn_rate
+                                oxygenData[k]?.stock / oxygenData[k]?.burn_rate
                               ).toFixed(2)}
                             </p>
                             <p className="dark:text-gray-400 text-sm">hours</p>
