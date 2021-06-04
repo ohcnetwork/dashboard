@@ -28,6 +28,7 @@ const getColor = ({ color1 = "00FF00", color2 = "FF0000", ratio }) => {
 const colorClasses = (capacity) => {
   if (capacity) {
     let a = (capacity.current_capacity / capacity.total_capacity) * 100;
+
     if (a < 70.0) {
       return "text-green-500";
     } else if (a === 100.0) {
