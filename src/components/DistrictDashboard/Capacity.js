@@ -1,11 +1,13 @@
-import { Button } from "@windmill/react-ui";
+import { Button, Pagination, Input } from "@windmill/react-ui";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense, useState, useMemo } from "react";
+import React, { lazy, Suspense, useEffect, useState, useMemo } from "react";
 import { ArrowRight } from "react-feather";
 import { animated, useTransition } from "react-spring";
 import useSWR from "swr";
+import { CSVLink } from "react-csv";
+import fuzzysort from "fuzzysort";
 
 import { careSummary } from "../../utils/api";
 import {
@@ -21,12 +23,12 @@ import {
   getNDateBefore,
   processFacilities,
 } from "../../utils/utils";
+import { CapacityCard } from "../Cards/CapacityCard";
 import RadialCard from "../Chart/RadialCard";
 import { Pill } from "../Pill/Pill";
 import { ValuePill } from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
 import { SectionTitle } from "../Typography/Title";
-import GenericTable from "./GenericTable";
 
 const CapacityForecast = lazy(() => import("./CapacityForecast"));
 const GMap = lazy(() => import("../DistrictDashboard/GMap"));
@@ -34,54 +36,19 @@ dayjs.extend(relativeTime);
 
 const positiveVal = (value) => (value < 0 ? 0 : value);
 
-const showBedsTypes = (ids, c) => {
-  const data = ids.reduce((acc, i) => {
-    const total = Number.parseInt(c.capacity[i]?.total_capacity || 0);
-    const current = Number.parseInt(c.capacity[i]?.current_capacity || 0);
+const getCapacityBedData = (ids, facility) => {
+  return ids.map((i) => {
+    const total = Number.parseInt(facility.capacity[i]?.total_capacity || 0);
+    const current = Number.parseInt(
+      facility.capacity[i]?.current_capacity || 0
+    );
     const vacant = total - current;
-    const critical = total > 0 && vacant / total < 0.2;
-    return [
-      ...acc,
-      { title: AVAILABILITY_TYPES_PROXY[i], total, current, vacant },
-    ];
-  }, []);
-  const total = positiveVal(data[0].total + data[1].total);
-  const current = positiveVal(data[0].current + data[1].current);
-  const vacant = positiveVal(data[0].vacant + data[1].vacant);
-  const title = "Total";
-  const critical = total > 0 && vacant / total < 0.2;
-  if (data[0].total === 0 && data[1].total === 0) return React.null;
-  return (
-    <table className="table-auto w-full">
-      <thead>
-        <tr className="py-px text-xxs border-b space-x-4">
-          <th />
-          <th>Total</th>
-          <th>Used</th>
-          <th>Vacant</th>
-        </tr>
-      </thead>
-      <tbody>
-        {[...data, { total, current, vacant, critical, title }].map(
-          ({ total, current, vacant, critical, title }, i) => (
-            <tr
-              key={i}
-              className={clsx(
-                "py-px text-xs border-b",
-                data === 0 && "opacity-50",
-                critical && "text-red-600"
-              )}
-            >
-              <td className="text-xxs">{title}</td>
-              <td>{total}</td>
-              <td>{current}</td>
-              <td>{vacant}</td>
-            </tr>
-          )
-        )}
-      </tbody>
-    </table>
-  );
+    return {
+      used: current,
+      total: total,
+      vacant: vacant,
+    };
+  });
 };
 
 const initialFacilitiesTrivia = {
@@ -122,8 +89,8 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const {
     facilitiesTrivia,
     exported,
-    tableData,
     todayFiltered,
+    capacityCardData,
   } = useMemo(() => {
     const filtered = processFacilities(data.results, filterFacilityTypes);
     const facilitiesTrivia = filtered.reduce(
@@ -186,26 +153,34 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       }, []),
       filename: "capacity_export.csv",
     };
-    const tableData = filtered.reduce((a, c) => {
-      if (c.date !== dateString(date)) {
-        return a;
+
+    const capacityCardData = filtered.reduce((acc, facility) => {
+      if (facility.date !== dateString(date)) {
+        return acc;
       }
       return [
-        ...a,
-        [
-          [c.name, c.facilityType, c.phoneNumber, c.id],
-          dayjs(c.modifiedDate).fromNow(),
-          c.oxygenCapacity,
-          `${c.actualLivePatients}/${c.actualDischargedPatients}`,
-          showBedsTypes([1, 30], c),
-          showBedsTypes([150, 120], c),
-          showBedsTypes([10, 110], c),
-          showBedsTypes([20, 100], c),
-        ],
+        ...acc,
+        {
+          facility_name: facility.name,
+          facility_type: facility.facilityType,
+          phone_number: facility.phoneNumber,
+          last_updated: dayjs(facility.modifiedDate).fromNow(),
+          patient_discharged: `${facility.actualLivePatients || 0}/${
+            facility.actualDischargedPatients || 0
+          }`,
+          covid: getCapacityBedData([30, 120, 110, 100], facility),
+          non_covid: getCapacityBedData([1, 150, 10, 20], facility),
+        },
       ];
     }, []);
+
     const todayFiltered = filtered.filter((f) => f.date === dateString(date));
-    return { facilitiesTrivia, exported, tableData, todayFiltered };
+    return {
+      facilitiesTrivia,
+      exported,
+      todayFiltered,
+      capacityCardData,
+    };
   }, [data, filterFacilityTypes]);
 
   const transitions = useTransition(forecast, null, {
@@ -213,6 +188,35 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     from: { opacity: 0 },
     leave: { opacity: 0 },
   });
+
+  const resultsPerPage = 10;
+  const [filteredData, setFilteredData] = useState(capacityCardData);
+  const [page, setPage] = useState(1);
+  const [tableData, setTableData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    setFilteredData(
+      searchTerm
+        ? capacityCardData.filter((v) =>
+            fuzzysort
+              .go(
+                searchTerm,
+                capacityCardData.map((d) => ({ ...d, 0: d.facility_name })),
+                { key: "0" }
+              )
+              .map((v) => v.target)
+              .includes(v.facility_name)
+          )
+        : capacityCardData
+    );
+  }, [capacityCardData, searchTerm]);
+
+  useEffect(() => {
+    setTableData(
+      filteredData.slice((page - 1) * resultsPerPage, page * resultsPerPage)
+    );
+  }, [filteredData, page]);
 
   return transitions.map(({ item, key, props }) =>
     item ? (
@@ -277,23 +281,41 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             />
           ))}
         </div>
-        <Suspense fallback={<ThemedSuspense />}>
-          <GenericTable
-            className="mb-8"
-            columns={[
-              "Name",
-              "Last Updated",
-              "Oxygen",
-              "Patients/\nDischarged",
-              "Ordinary Beds",
-              "Oxygen Beds",
-              "ICU",
-              "Ventilators",
-            ]}
-            data={tableData}
-            exported={exported}
+
+        <div id="facility-capacity-cards" className="mb-16 mt-16">
+          <div className="flex flex-col items-center justify-between md:flex-row">
+            <SectionTitle>Facilities</SectionTitle>
+            <div className="flex max-w-full space-x-4">
+              {exported && (
+                <CSVLink data={exported.data} filename={exported.filename}>
+                  <Button block>Export</Button>
+                </CSVLink>
+              )}
+              <Input
+                className="sw-40 rounded-lg sm:w-auto"
+                placeholder={"Search Facility"}
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+              />
+            </div>
+          </div>
+
+          {tableData.map((data, index) => (
+            <CapacityCard
+              key={index}
+              data={data}
+              key={data.facility_name}
+              key={data.external_id}
+            />
+          ))}
+          <Pagination
+            totalResults={filteredData.length}
+            resultsPerPage={resultsPerPage}
+            label="Navigation"
+            onChange={setPage}
           />
-        </Suspense>
+        </div>
+
         <div id="capacity-map">
           <SectionTitle>Map</SectionTitle>
         </div>
