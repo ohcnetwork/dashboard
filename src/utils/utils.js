@@ -108,6 +108,9 @@ export const processFacilities = (data, filterFacilityTypes, orderBy) => {
       const zero = acc?.zero || acc;
       const nonZero = acc?.nonZero || acc;
       let returnable;
+      if (arr.length === 1) {
+        return arr;
+      }
       if (
         orderBy
           ? Math.round(f[orderBy.selector]) >= 0 &&
