@@ -62,17 +62,17 @@ function DistrictDashboard() {
     threshold: 0,
   });
 
-  const getDistrict = name => {
-    const district = ACTIVATED_DISTRICTS.find(district => 
-      district.name.toLowerCase() === name?.toLowerCase()
-    )
+  const getDistrict = (name) => {
+    const district = ACTIVATED_DISTRICTS.find(
+      (district) => district.name.toLowerCase() === name?.toLowerCase()
+    );
 
-    return district === undefined ? ACTIVATED_DISTRICTS[0] : district
-  }
+    return district === undefined ? ACTIVATED_DISTRICTS[0] : district;
+  };
 
   useEffect(() => {
-    setFilterDistrict(getDistrict(params.district))
-  }, [params.district])
+    setFilterDistrict(getDistrict(params.district));
+  }, [params.district]);
 
   useEffect(() => {
     setContent(CONTENT[params.content?.toUpperCase()] || CONTENT.CAPACITY);
