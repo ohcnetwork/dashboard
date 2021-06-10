@@ -1,12 +1,12 @@
-import React from "react";
 import { Card } from "@windmill/react-ui";
+import React from "react";
 
 export function CapacityCard({ data }) {
   const finalTotal = data.covid.map((val, idx) => {
     const used = val.used + data.non_covid[idx].used;
     const total = val.total + data.non_covid[idx].total;
     const vacant = val.vacant + data.non_covid[idx].vacant;
-    return { used: used, total: total, vacant: vacant };
+    return { used, total, vacant };
   });
 
   const noCapacity = finalTotal.every((item) => item.total === 0);
@@ -17,13 +17,11 @@ export function CapacityCard({ data }) {
         {category}
       </div>
       {bedData.map((bed, idx) => {
-        if (!finalTotal[idx].total)
+        if (!finalTotal[idx].total) {
           return (
-            <div
-              key={idx}
-              className="grid col-span-2 grid-cols-2 ml-4 mr-4"
-            ></div>
+            <div key={idx} className="grid col-span-2 grid-cols-2 ml-4 mr-4" />
           );
+        }
         return (
           <div key={idx} className="grid col-span-2 grid-cols-2 ml-4 mr-4">
             <div className="grid grid-rows-3">
@@ -92,7 +90,7 @@ export function CapacityCard({ data }) {
 
         <div className="grid-rows-7 grid mt-2 w-full overflow-x-scroll overflow-y-hidden md:mt-0 md:pl-5 md:border-l md:overflow-hidden">
           <div className="grid row-span-1 grid-cols-9 w-800 md:w-full">
-            <div className="col-span-1"></div>
+            <div className="col-span-1" />
             <div className="col-span-2">
               <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
                 ORDINARY BEDS
