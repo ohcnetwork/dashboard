@@ -1,14 +1,14 @@
 import { Card, CardBody, WindmillContext } from "@windmill/react-ui";
-import React, { useContext, useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
+import React, { useContext, useState, useEffect } from "react";
 import Geosuggest from "react-geosuggest";
-import Marker from "../Marker/index";
 
 import {
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
   GMAP_KEY,
 } from "../../utils/constants";
+import Marker from "../Marker";
 
 const selectedButtonClasses = (bool) => {
   const d = " px-4 py-2 font-bold rounded-lg shadow ";
@@ -24,7 +24,7 @@ function GMap({ district, facilities, className }) {
   const [selectedBedType, setSelectedBedType] = useState("All");
   const { mode } = useContext(WindmillContext);
 
-  let [state, setState] = useState({
+  const [state, setState] = useState({
     assets: [],
     showAddressSuggestion: false,
     center: {
@@ -123,8 +123,8 @@ function GMap({ district, facilities, className }) {
                       key: GMAP_KEY,
                     }}
                     defaultCenter={{
-                      lat: 10.1485476,
-                      lng: 76.5007524,
+                      lat: 10.148_547_6,
+                      lng: 76.500_752_4,
                     }}
                     defaultZoom={8}
                     center={state.center}
@@ -424,14 +424,14 @@ function GMap({ district, facilities, className }) {
                         <Marker
                           key={f.id}
                           data={f}
-                          lat={f.location["latitude"]}
-                          lng={f.location["longitude"]}
+                          lat={f.location.latitude}
+                          lng={f.location.longitude}
                           coordinates={Object.values(f.location).reverse()}
                           group={0}
                           zoom={state.zoom}
                           selectedBedType={selectedBedType}
                           setFocus={(center, zoom) => {
-                            setState({ ...state, center, zoom: zoom });
+                            setState({ ...state, center, zoom });
                           }}
                         />
                       ))}

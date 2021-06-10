@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import "./marker.css";
 import {
   AVAILABILITY_TYPES,
@@ -27,47 +28,44 @@ const getColor = ({ color1 = "00FF00", color2 = "FF0000", ratio }) => {
 
 const colorClasses = (capacity) => {
   if (capacity) {
-    let a = (capacity.current_capacity / capacity.total_capacity) * 100;
+    const a = (capacity.current_capacity / capacity.total_capacity) * 100;
 
-    if (a < 70.0) {
+    if (a < 70) {
       return "text-green-500";
-    } else if (a === 100.0) {
+    } else if (a === 100) {
       return "text-red-700";
-    } else {
-      return "text-yellow-400";
     }
-  } else {
-    return "text-blue-500";
+    return "text-yellow-400";
   }
+  return "text-blue-500";
 };
 
-let canShowBed = (capacity, filter) => {
+const canShowBed = (capacity, filter) => {
   if (filter === "All") {
     return true;
   }
   if (capacity && capacity.room_type === filter) {
     return capacity.total_capacity !== 0;
-  } else {
-    return false;
   }
+  return false;
 };
 
-let bedClasses = (zoom) => {
+const bedClasses = (zoom) => {
   if (zoom < 11) {
     return " w-6 h-6";
   } else if (zoom < 14) {
     return " w-8 h-8";
-  } else {
-    return " w-10 h-10";
   }
+  return " w-10 h-10";
 };
 
 class Marker extends Component {
   state = {
     popup: false,
   };
+
   render() {
-    let data = this.props.data;
+    const { data } = this.props;
 
     return (
       <div
@@ -76,8 +74,8 @@ class Marker extends Component {
           this.setState({ popup: false });
         }}
         onClick={() => {
-          let center = { lat: this.props.lat, lng: this.props.lng };
-          let zoom = 13;
+          const center = { lat: this.props.lat, lng: this.props.lng };
+          const zoom = 13;
           this.props.setFocus(center, zoom);
         }}
       >
