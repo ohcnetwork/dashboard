@@ -196,20 +196,23 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    setFilteredData(
-      searchTerm
-        ? capacityCardData.filter((v) =>
-            fuzzysort
-              .go(
-                searchTerm,
-                capacityCardData.map((d) => ({ ...d, 0: d.facility_name })),
-                { key: "0" }
-              )
-              .map((v) => v.target)
-              .includes(v.facility_name)
-          )
-        : capacityCardData
-    );
+    const debounce_timer = setTimeout(() => {
+      setFilteredData(
+        searchTerm
+          ? capacityCardData.filter((v) =>
+              fuzzysort
+                .go(
+                  searchTerm,
+                  capacityCardData.map((d) => ({ ...d, 0: d.facility_name })),
+                  { key: "0" }
+                )
+                .map((v) => v.target)
+                .includes(v.facility_name)
+            )
+          : capacityCardData
+      );
+    }, 1000);
+    return () => clearTimeout(debounce_timer);
   }, [capacityCardData, searchTerm]);
 
   useEffect(() => {
