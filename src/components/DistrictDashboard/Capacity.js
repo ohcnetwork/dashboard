@@ -302,10 +302,8 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
 
           {tableData.map((data, index) => (
             <CapacityCard
-              key={index}
               data={data}
-              key={data.facility_name}
-              key={data.external_id}
+              key={index}
             />
           ))}
           <Pagination
