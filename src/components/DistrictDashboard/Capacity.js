@@ -301,10 +301,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           </div>
 
           {tableData.map((data, index) => (
-            <CapacityCard
-              data={data}
-              key={index}
-            />
+            <CapacityCard data={data} key={index} />
           ))}
           <Pagination
             totalResults={filteredData.length}
