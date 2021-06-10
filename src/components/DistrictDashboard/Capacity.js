@@ -2,12 +2,12 @@ import { Button, Pagination, Input } from "@windmill/react-ui";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import fuzzysort from "fuzzysort";
 import React, { lazy, Suspense, useEffect, useState, useMemo } from "react";
+import { CSVLink } from "react-csv";
 import { ArrowRight } from "react-feather";
 import { animated, useTransition } from "react-spring";
 import useSWR from "swr";
-import { CSVLink } from "react-csv";
-import fuzzysort from "fuzzysort";
 
 import { careSummary } from "../../utils/api";
 import {
@@ -45,8 +45,8 @@ const getCapacityBedData = (ids, facility) => {
     const vacant = total - current;
     return {
       used: current,
-      total: total,
-      vacant: vacant,
+      total,
+      vacant,
     };
   });
 };
@@ -106,11 +106,11 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         });
 
         AVAILABILITY_TYPES_TOTAL_ORDERED.forEach((k) => {
-          let current_covid = c.capacity[k.covid]?.current_capacity || 0;
-          let current_non_covid =
+          const current_covid = c.capacity[k.covid]?.current_capacity || 0;
+          const current_non_covid =
             c.capacity[k.non_covid]?.current_capacity || 0;
-          let total_covid = c.capacity[k.covid]?.total_capacity || 0;
-          let total_non_covid = c.capacity[k.non_covid]?.total_capacity || 0;
+          const total_covid = c.capacity[k.covid]?.total_capacity || 0;
+          const total_non_covid = c.capacity[k.non_covid]?.total_capacity || 0;
           a[key][k.id].used += current_covid + current_non_covid;
           a[key][k.id].total += total_covid + total_non_covid;
         });
@@ -293,7 +293,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
               )}
               <Input
                 className="sw-40 rounded-lg sm:w-auto"
-                placeholder={"Search Facility"}
+                placeholder="Search Facility"
                 value={searchTerm}
                 onChange={(event) => setSearchTerm(event.target.value)}
               />
