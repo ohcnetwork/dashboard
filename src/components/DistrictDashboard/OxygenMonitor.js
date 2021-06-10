@@ -37,7 +37,7 @@ const stockSummary = (oxygenFlatData, key) => {
     .reduce((acc, iter) => acc + iter, 0);
   const facilities_with_less_than_5_hrs_of_oxygen = valid_nonzero_entries
     .map((p) => p.stock / p.burn_rate)
-    .filter((f) => f < 5.0);
+    .filter((f) => f < 5);
 
   return (
     <div
@@ -154,7 +154,7 @@ const stockSummary = (oxygenFlatData, key) => {
 const showStockWithBurnRate = (facility, k, inventoryItem) => {
   return inventoryItem ? (
     <div key={k} className={inventoryItem?.is_low ? "text-red-500" : ""}>
-      <div className={"text-md font-bold "}>
+      <div className="text-md font-bold">
         {inventoryItem?.stock?.toFixed(2)}
         {" / "}
         {OXYGEN_TYPES_KEYS[k] === "liquid"
@@ -227,7 +227,7 @@ const showStockWithBurnRate = (facility, k, inventoryItem) => {
       </small>
     </div>
   ) : (
-    <div key={k}></div>
+    <div key={k} />
   );
 };
 
@@ -342,7 +342,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           return Object.values(c.inventory);
         }
       })
-      .filter(function (element) {
+      .filter((element) => {
         return element !== undefined;
       })
       .flat();
@@ -435,7 +435,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
             {orderBy.order === 1 ? "ASC" : "DESC"}
           </div>
           <div
-            onClick={(_) => setOrderBy(undefined)}
+            onClick={(_) => setOrderBy()}
             className="focus:shadow-outline-green inline-flex items-center justify-center px-2 text-white text-xs leading-5 bg-green-500 active:bg-green-500 hover:bg-green-600 border border-transparent rounded-lg focus:outline-none cursor-pointer transition-colors duration-150"
           >
             X Clear Filter
