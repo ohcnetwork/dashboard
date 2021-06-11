@@ -62,6 +62,18 @@ function DistrictDashboard() {
     threshold: 0,
   });
 
+  const getDistrict = (name) => {
+    const district = ACTIVATED_DISTRICTS.find(
+      (district) => district.name.toLowerCase() === name?.toLowerCase()
+    );
+
+    return district === undefined ? ACTIVATED_DISTRICTS[0] : district;
+  };
+
+  useEffect(() => {
+    setFilterDistrict(getDistrict(params.district));
+  }, [params.district]);
+
   useEffect(() => {
     setContent(CONTENT[params.content?.toUpperCase()] || CONTENT.CAPACITY);
   }, [params.content]);
@@ -70,7 +82,7 @@ function DistrictDashboard() {
     window.history.replaceState(
       null,
       "Care Dashboard",
-      `/district/${Object.entries(CONTENT)
+      `/district/${filterDistrict.name.toLowerCase()}/${Object.entries(CONTENT)
         .find((a) => a[1] === content)[0]
         .toLowerCase()}`
     );
