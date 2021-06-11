@@ -9,7 +9,7 @@ const routes = [
     component: DistrictDashboard,
   },
   {
-    path: "/district/:content",
+    path: "/district/:district/:content",
     component: DistrictDashboard,
   },
   {
