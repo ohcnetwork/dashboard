@@ -41,12 +41,11 @@
     "unfetch": "^4.2.0"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.14.5",
     "@poi/plugin-pwa": "^12.0.3",
     "@svgr/webpack": "^5.5.0",
     "cssnano": "4.1.10",
     "eslint-config-galex": "^2.10.6",
-    "husky": "^4.3.8",
+    "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
     "poi": "^12.10.3",
     "postcss-flexbugs-fixes": "4.2.1",
