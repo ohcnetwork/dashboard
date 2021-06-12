@@ -161,7 +161,6 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       return [
         ...acc,
         {
-          facility_id: facility.id,
           facility_name: facility.name,
           facility_type: facility.facilityType,
           phone_number: facility.phoneNumber,
@@ -308,7 +307,6 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             <CapacityCard
               key={index}
               data={data}
-              facilityID={data.id}
               key={data.facility_name}
               key={data.external_id}
             />

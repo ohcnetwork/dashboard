@@ -25,11 +25,11 @@ function RadialCard({ label, count, current, previous }) {
   const circlePath = `M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831`;
 
   return (
-    <Card className="flex items-center justify-between bg-gray-50">
+    <Card className="flex items-center justify-between">
       <div className="relative flex content-center justify-center m-2 w-4/5">
         <svg viewBox="0 0 36 36" className="w-4/5">
           <path
-            className="text-gray-200 dark:text-gray-400 stroke-current stroke-2"
+            className="text-gray-100 dark:text-gray-400 stroke-current stroke-2"
             fill="none"
             d={circlePath}
           />

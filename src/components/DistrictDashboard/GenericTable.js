@@ -13,7 +13,6 @@ import {
 import fuzzysort from "fuzzysort";
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
-import { Link } from "react-router-dom";
 
 function GenericTable({
   columns = [],
@@ -97,18 +96,9 @@ function GenericTable({
                       <TableCell key={j}>
                         {j === 0 ? (
                           <div className="flex flex-col w-32 whitespace-pre-wrap">
-                            {col.length === 4 ? (
-                              <Link
-                                className="text-xs font-semibold xl:text-sm"
-                                to={`/facility/${col[3]}`}
-                              >
-                                {col[0]}
-                              </Link>
-                            ) : (
-                              <p className="dark:text-gray-400 text-gray-600 text-xxs xl:text-xs">
-                                {col[0]}
-                              </p>
-                            )}
+                            <p className="text-xs font-semibold xl:text-sm">
+                              {col[0]}
+                            </p>
                             <p className="dark:text-gray-400 text-gray-600 text-xxs xl:text-xs">
                               {col[1]}
                             </p>
