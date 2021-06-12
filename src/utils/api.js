@@ -5,7 +5,8 @@ export function careSummary(
   start_date,
   end_date,
   district,
-  limit = 2000
+  limit = 2000,
+  facility = ""
 ) {
   return fetch(
     `/api/v1/${type}_summary/?` +
@@ -14,6 +15,7 @@ export function careSummary(
         end_date,
         district,
         limit,
+        facility,
       })
   ).then((r) => r.json());
 }

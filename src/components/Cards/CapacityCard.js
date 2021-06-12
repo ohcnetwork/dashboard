@@ -1,7 +1,7 @@
 import { Card } from "@windmill/react-ui";
 import React from "react";
 
-export function CapacityCard({ data }) {
+export function CapacityCard({ data, facilityID }) {
   const finalTotal = data.covid.map((val, idx) => {
     const used = val.used + data.non_covid[idx].used;
     const total = val.total + data.non_covid[idx].total;
@@ -50,9 +50,11 @@ export function CapacityCard({ data }) {
     <Card className="flex flex-col mb-4 mt-4 p-4 rounded-xl">
       <div className="flex flex-col">
         <div>
-          <p className="dark:text-gray-200 text-xl font-medium">
-            {data.facility_name}
-          </p>
+          <a href={`/facility/${data.facility_id}`}>
+            <p className="dark:text-gray-200 text-xl font-medium">
+              {data.facility_name}
+            </p>
+          </a>
         </div>
         <div className="flex flex-row justify-between w-full md:w-3/12">
           <div>
