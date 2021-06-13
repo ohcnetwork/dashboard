@@ -2,22 +2,13 @@ import { Card } from "@windmill/react-ui";
 import React from "react";
 
 export function CapacityCard({ data }) {
-  const finalTotal = data.covid.map((val, idx) => {
-    const used = val.used + data.non_covid[idx].used;
-    const total = val.total + data.non_covid[idx].total;
-    const vacant = val.vacant + data.non_covid[idx].vacant;
-    return { used, total, vacant };
-  });
-
-  const noCapacity = finalTotal.every((item) => item.total === 0);
-
   const showBedInfo = (bedData, category) => (
     <div className="grid row-span-2 grid-cols-9 mt-2 h-12">
       <div className="col-span-1 pl-3 pt-3 dark:text-gray-200 text-sm font-medium">
         {category}
       </div>
       {bedData.map((bed, idx) => {
-        if (!finalTotal[idx].total) {
+        if (!data.final_total[idx].total) {
           return (
             <div key={idx} className="grid col-span-2 grid-cols-2 ml-4 mr-4" />
           );
@@ -46,7 +37,7 @@ export function CapacityCard({ data }) {
     </div>
   );
 
-  return !noCapacity ? (
+  return (
     <Card className="flex flex-col mb-4 mt-4 p-4 rounded-xl">
       <div className="flex flex-col">
         <div>
@@ -115,11 +106,9 @@ export function CapacityCard({ data }) {
 
           {showBedInfo(data.covid, "Covid")}
           {showBedInfo(data.non_covid, "Non-Covid")}
-          {showBedInfo(finalTotal, "Total")}
+          {showBedInfo(data.final_total, "Total")}
         </div>
       </div>
     </Card>
-  ) : (
-    <></>
   );
 }
