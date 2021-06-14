@@ -4,12 +4,13 @@ import {
 } from "../../utils/constants";
 
 const Oxygen = ({ oxygenData }) => {
+  console.log(oxygenData)
   return (
     <section className="my-8 p-6 dark:bg-gray-700 bg-white">
       <h2 className="text-green-500 text-lg font-bold">Oxygen</h2>
       <div className="mb-4 mt-8">
         <div className="grid-col-1 grid gap-6 mb-8">
-          {oxygenData &&
+          {Object.keys(oxygenData).length ?
             Object.keys(OXYGEN_TYPES_KEYS).map(
               (k) =>
                 oxygenData[k] && (
@@ -107,7 +108,8 @@ const Oxygen = ({ oxygenData }) => {
                     </div>
                   </div>
                 )
-            )}
+            ) : <div className="word-wrap py-4 text-center my-4 font-bold text-2xl md:text-3xl px-2 break-words bg-gray-50 dark:bg-gray-800 rounded-md text-gray-600"><p>No Data Available</p></div>
+          }
         </div>
       </div>
     </section>
