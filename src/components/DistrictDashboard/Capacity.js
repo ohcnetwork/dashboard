@@ -325,6 +325,10 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             <CapacityCard data={data} key={index} />
           ))}
 
+          <p>{`SHOWING ${page * resultsPerPage + 1}-${
+            page * resultsPerPage + tableData.length
+          } OF ${filteredData.length}`}</p>
+
           <ReactPaginate
             pageCount={pageCount}
             marginPagesDisplayed={1}
