@@ -28,7 +28,6 @@ const Patients = ({ patientsFiltered, date }) => {
       (a, c) => {
         const key = c.date === dateString(date) ? "current" : "previous";
         a[key].count += 1;
-        console.log(a)
         Object.keys(PATIENT_TYPES).forEach((k) => {
           if (a[key][k]) {
             a[key][k].today += c[`today_patients_${k}`] || 0;
