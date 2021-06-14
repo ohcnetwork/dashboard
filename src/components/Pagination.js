@@ -13,7 +13,7 @@ const Pagination = ({
   const currentPageLastResult = currentPage * resultsPerPage + currentResults;
   return (
     <div className="grid grid-rows-2 md:grid-cols-2">
-      <div className="mt-1 dark:text-gray-400 text-gray-600 text-xs">
+      <div className="mt-1 dark:text-gray-400 text-gray-600 text-xs font-semibold">
         {`SHOWING ${currentPageFirstResult}-${currentPageLastResult} OF ${totalResults}`}
       </div>
       <div>

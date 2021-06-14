@@ -1,7 +1,6 @@
 import {
   Button,
   Input,
-  Pagination,
   Table as WTable,
   TableBody,
   TableCell,
@@ -10,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@windmill/react-ui";
+import Pagination from "../Pagination";
 import fuzzysort from "fuzzysort";
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
@@ -24,7 +24,7 @@ function GenericTable({
 }) {
   const resultsPerPage = 25;
   const [filteredData, setFilteredData] = useState(data);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [tableData, setTableData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -43,11 +43,12 @@ function GenericTable({
           )
         : data
     );
-  }, [data, searchTerm]);
+    setPage(0);
+  }, [searchTerm]);
 
   useEffect(() => {
     setTableData(
-      filteredData.slice((page - 1) * resultsPerPage, page * resultsPerPage)
+      filteredData.slice(page * resultsPerPage, (page + 1) * resultsPerPage)
     );
   }, [filteredData, page]);
 
@@ -118,10 +119,11 @@ function GenericTable({
         </div>
         <TableFooter>
           <Pagination
-            totalResults={filteredData.length}
             resultsPerPage={resultsPerPage}
-            label="Table navigation"
-            onChange={setPage}
+            totalResults={filteredData.length}
+            currentPage={page}
+            currentResults={tableData.length}
+            handlePageClick={setPage}
           />
         </TableFooter>
       </TableContainer>
