@@ -129,7 +129,7 @@ function Filter({
                         _setFilterFacilityTypes(_tmp);
                       }}
                       type="checkbox"
-                      checked={_filterFacilityTypes.includes(d)}
+                      defaultChecked={_filterFacilityTypes.includes(d)}
                     />
                     <span className="ml-2">{d}</span>
                   </Label>
