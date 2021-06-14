@@ -1,13 +1,16 @@
 import React from "react";
 
 const ExpectedBurnRate = ({ patientData }) => {
+
   return (<section className="my-8 px-6 py-4 dark:bg-gray-700 bg-white">
     <h2 className="text-green-500 text-lg font-bold">
       Expected Burn Rate
     </h2>
     {(patientData.results[0]?.data?.total_patients_bed_with_oxygen_support || patientData.results[0].data
-      ?.total_patients_bed_with_oxygen_support || patientData.results[0].data
-        ?.total_patients_icu_with_oxygen_support) ?
+      ?.total_patients_icu_with_oxygen_support || (patientData.results[0].data
+        ?.total_patients_icu_with_invasive_ventilator +
+        patientData.results[0].data
+          ?.total_patients_icu_with_non_invasive_ventilator)) ?
       <div className="grid-col-1 grid gap-6 mb-4 mt-8 md:grid-cols-3">
         {patientData.results[0].data
           .total_patients_bed_with_oxygen_support ? (
