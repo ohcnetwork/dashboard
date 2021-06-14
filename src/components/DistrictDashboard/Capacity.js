@@ -1,5 +1,5 @@
 import { Button, Input } from "@windmill/react-ui";
-import ReactPaginate from "react-paginate";
+import Pagination from "../Pagination";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -210,7 +210,6 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
 
   const [page, setPage] = useState(0);
   const resultsPerPage = 10;
-  const pageCount = Math.ceil(filteredData.length / resultsPerPage);
 
   useEffect(() => {
     const debounce_timer = setTimeout(() => {
@@ -325,40 +324,14 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             <CapacityCard data={data} key={index} />
           ))}
 
-          <p>{`SHOWING ${page * resultsPerPage + 1}-${
-            page * resultsPerPage + tableData.length
-          } OF ${filteredData.length}`}</p>
-
-          <ReactPaginate
-            pageCount={pageCount}
-            marginPagesDisplayed={1}
-            pageRangeDisplayed={4}
-            previousLabel={"<"}
-            nextLabel={">"}
-            initialPage={0}
-            onPageChange={(e) => setPage(e.selected)}
-            forcePage={page}
-            breakLabel={"..."}
-            breakClassName={
-              "text-gray-600 dark:text-gray-400 inline-flex items-center"
-            }
-            previousLinkClassName={
-              "px-3 py-1 text-xs font-semibold hover:bg-gray-100 rounded dark:text-gray-600 dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
-            }
-            nextLinkClassName={
-              "px-3 py-1 text-xs font-semibold hover:bg-gray-100 rounded dark:text-gray-600 dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
-            }
-            containerClassName={"flex mt-2 sm:mt-auto sm:justify-end"}
-            pageClassName={"mx-1 inline-flex items-center text-gray-600"}
-            pageLinkClassName={
-              "px-3 py-1 text-xs font-semibold hover:bg-gray-100 rounded dark:hover:bg-gray-500 dark:hover:bg-opacity-10"
-            }
-            activeLinkClassName={
-              "px-3 py-1 text-xs text-gray-200 font-semibold bg-green-500 hover:bg-green-600"
-            }
+          <Pagination
+            resultsPerPage={resultsPerPage}
+            totalResults={filteredData.length}
+            currentPage={page}
+            currentResults={tableData.length}
+            handlePageClick={setPage}
           />
         </div>
-
         <div id="capacity-map">
           <SectionTitle>Map</SectionTitle>
         </div>
