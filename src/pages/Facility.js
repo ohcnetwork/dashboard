@@ -1,6 +1,5 @@
 import React, { lazy, useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router";
-import useSWR from "swr";
 import { careSummary } from "../utils/api";
 const GMap = lazy(() => import("../components/DistrictDashboard/GMap"));
 
@@ -10,45 +9,20 @@ import {
   getNDateBefore,
   processFacilities,
 } from "../utils/utils";
-import RadialCard from "../components/Chart/RadialCard";
+
 import {
   FACILITY_TYPES,
   PATIENT_TYPES,
-  AVAILABILITY_TYPES,
-  AVAILABILITY_TYPES_ORDERED,
-  AVAILABILITY_TYPES_TOTAL_ORDERED,
   OXYGEN_TYPES_KEYS,
   ACTIVATED_DISTRICTS,
 } from "../utils/constants";
+import Capacity from "../components/Facility/Capacity";
 
-import { PageTitle } from "../components/Typography/Title";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-const initialFacilitiesTrivia = {
-  20: { total: 0, used: 0 },
-  10: { total: 0, used: 0 },
-  150: { total: 0, used: 0 },
-  1: { total: 0, used: 0 },
-  70: { total: 0, used: 0 },
-  50: { total: 0, used: 0 },
-  60: { total: 0, used: 0 },
-  40: { total: 0, used: 0 },
-  100: { total: 0, used: 0 },
-  110: { total: 0, used: 0 },
-  120: { total: 0, used: 0 },
-  30: { total: 0, used: 0 },
-  1111: { total: 0, used: 0 },
-  2222: { total: 0, used: 0 },
-  3333: { total: 0, used: 0 },
-  4444: { total: 0, used: 0 },
-  actualDischargedPatients: 0,
-  actualLivePatients: 0,
-  count: 0,
-  oxygen: 0,
-};
 
 const initialPatientFacilitiesTrivia = {
   count: 0,
@@ -85,9 +59,12 @@ function Facility() {
       (a, c) => {
         const key = c.date === dateString(date) ? "current" : "previous";
         a[key].count += 1;
+        console.log(a)
         Object.keys(PATIENT_TYPES).forEach((k) => {
-          a[key][k].today += c[`today_patients_${k}`] || 0;
-          a[key][k].total += c[`total_patients_${k}`] || 0;
+          if (a[key][k]) {
+            a[key][k].today += c[`today_patients_${k}`] || 0;
+            a[key][k].total += c[`total_patients_${k}`] || 0;
+          }
         });
         return a;
       },
@@ -97,42 +74,14 @@ function Facility() {
       }
     );
 
+
+
   const filtered =
     facilityData.results &&
     processFacilities(facilityData.results, FACILITY_TYPES);
   const todayFiltered =
     filtered && filtered.filter((f) => f.date === dateString(date));
-  const facilitiesTrivia =
-    filtered &&
-    filtered.reduce(
-      (a, c) => {
-        const key = c.date === dateString(date) ? "current" : "previous";
-        a[key].count += 1;
-        a[key].oxygen += c.oxygenCapacity || 0;
-        a[key].actualLivePatients += c.actualLivePatients || 0;
-        a[key].actualDischargedPatients += c.actualDischargedPatients || 0;
-        Object.keys(AVAILABILITY_TYPES).forEach((k) => {
-          a[key][k].used += c.capacity[k]?.current_capacity || 0;
-          a[key][k].total += c.capacity[k]?.total_capacity || 0;
-        });
 
-        AVAILABILITY_TYPES_TOTAL_ORDERED.forEach((k) => {
-          let current_covid = c.capacity[k.covid]?.current_capacity || 0;
-          let current_non_covid =
-            c.capacity[k.non_covid]?.current_capacity || 0;
-          let total_covid = c.capacity[k.covid]?.total_capacity || 0;
-          let total_non_covid = c.capacity[k.non_covid]?.total_capacity || 0;
-          a[key][k.id].used += current_covid + current_non_covid;
-          a[key][k.id].total += total_covid + total_non_covid;
-        });
-
-        return a;
-      },
-      {
-        current: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
-        previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
-      }
-    );
 
   useEffect(() => {
     careSummary(
@@ -198,11 +147,9 @@ function Facility() {
             {facilityData?.results[0]?.facility?.ward_object && (
               <div style={{ width: "50%" }} className="my-2 text-sm">
                 <span className="font-semibold">Ward: </span>
-                {`${
-                  facilityData?.results[0]?.facility?.ward_object?.number || ""
-                }, ${
-                  facilityData?.results[0]?.facility?.ward_object?.name || ""
-                }`}
+                {`${facilityData?.results[0]?.facility?.ward_object?.number || ""
+                  }, ${facilityData?.results[0]?.facility?.ward_object?.name || ""
+                  }`}
               </div>
             )}
             {facilityData?.results[0]?.district_object && (
@@ -213,47 +160,14 @@ function Facility() {
             )}
           </div>
         </div>
-        <section className="my-8 px-6 py-4 dark:bg-gray-700 bg-white">
-          <h2 className="text-green-500 text-lg font-bold">Capacity</h2>
-          <div className="mb-4 mt-8">
-            <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
-              {AVAILABILITY_TYPES_TOTAL_ORDERED.map(
-                (k) =>
-                  facilitiesTrivia?.current[k.id]?.total !== 0 && (
-                    <RadialCard
-                      label={k.name}
-                      count={facilitiesTrivia.current.count}
-                      current={facilitiesTrivia.current[k.id]}
-                      previous={facilitiesTrivia.previous[k.id]}
-                      key={k.name}
-                    />
-                  )
-              )}
-            </div>
-
-            <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
-              {AVAILABILITY_TYPES_ORDERED.map(
-                (k) =>
-                  facilitiesTrivia.current[k].total !== 0 && (
-                    <RadialCard
-                      label={AVAILABILITY_TYPES[k]}
-                      count={facilitiesTrivia.current.count}
-                      current={facilitiesTrivia.current[k]}
-                      previous={facilitiesTrivia.previous[k]}
-                      key={k}
-                    />
-                  )
-              )}
-            </div>
-          </div>
-        </section>
+        <Capacity filtered={filtered} date={date} />
         <section className="my-8 px-6 py-4 dark:bg-gray-700 bg-white">
           <h2 className="text-green-500 text-lg font-bold">Patients</h2>
           <div className="mb-4 mt-8">
             <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
               {Object.keys(PATIENT_TYPES).map(
                 (k) =>
-                  patientFacilitiesTrivia?.current[`${k}`]?.total !== 0 && (
+                  patientFacilitiesTrivia?.current[`${k}`]?.total ? (
                     <div
                       key={k}
                       className="word-wrap pl-3 pr-2 py-2 break-words bg-gray-50 dark:bg-gray-800 rounded-md"
@@ -267,24 +181,21 @@ function Facility() {
                           <sup className="ml-1 dark:text-gray-500 text-gray-600 text-lg font-thin">
                             {patientFacilitiesTrivia?.current[`${k}`]?.total -
                               patientFacilitiesTrivia?.previous[`${k}`]
-                                ?.total !==
-                              0 &&
-                              `${
-                                patientFacilitiesTrivia?.current[`${k}`]
-                                  ?.total -
-                                  patientFacilitiesTrivia?.previous[`${k}`]
-                                    ?.total >
+                                ?.total &&
+                              `${patientFacilitiesTrivia?.current[`${k}`]
+                                ?.total -
+                                patientFacilitiesTrivia?.previous[`${k}`]
+                                  ?.total >
                                 0
-                                  ? "+"
-                                  : "-"
-                              } ${
-                                patientFacilitiesTrivia?.current[`${k}`]?.total
+                                ? "+"
+                                : "-"
+                              } ${patientFacilitiesTrivia?.current[`${k}`]?.total
                               }`}
                           </sup>
                         }
                       </h1>
                     </div>
-                  )
+                  ) : null
               )}
             </div>
           </div>
@@ -326,7 +237,7 @@ function Facility() {
                             <p className="dark:text-white text-2xl font-bold">
                               {oxygenData[k]?.stock -
                                 Math.floor(oxygenData[k]?.stock) !==
-                              0
+                                0
                                 ? oxygenData[k]?.stock.toFixed(2)
                                 : oxygenData[k]?.stock}
                             </p>
@@ -402,144 +313,144 @@ function Facility() {
           <div className="grid-col-1 grid gap-6 mb-4 mt-8 md:grid-cols-3">
             {patientData.results[0].data
               .total_patients_bed_with_oxygen_support !== 0 && (
-              <div
-                key={"OXYGEN_BED"}
-                className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
-              >
-                <div>
-                  <p className="ml-4 dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
-                    {"Oxygen Bed"}
-                  </p>
+                <div
+                  key={"OXYGEN_BED"}
+                  className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
+                >
+                  <div>
+                    <p className="ml-4 dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
+                      {"Oxygen Bed"}
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fas"
+                      data-icon="fire"
+                      className="w-10 h-10 text-orange-500"
+                      role="img"
+                      viewBox="0 0 384 512"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M216 23.86c0-23.8-30.65-32.77-44.15-13.04C48 191.85 224 200 224 288c0 35.63-29.11 64.46-64.85 63.99-35.17-.45-63.15-29.77-63.15-64.94v-85.51c0-21.7-26.47-32.23-41.43-16.5C27.8 213.16 0 261.33 0 320c0 105.87 86.13 192 192 192s192-86.13 192-192c0-170.29-168-193-168-296.14z"
+                      />
+                    </svg>
+                    <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
+                      {patientData.results[0].data
+                        .total_patients_bed_with_oxygen_support *
+                        7.4 *
+                        8.778}
+                      <span className="ml-1 text-lg font-bold">
+                        m<sup>3</sup>/hr
+                      </span>
+                      {
+                        <sup className="ml-1 dark:text-gray-500 text-gray-600 text-lg">
+                          {`${patientData.results[0].data.total_patients_bed_with_oxygen_support}`}
+                        </sup>
+                      }
+                    </h1>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                    data-prefix="fas"
-                    data-icon="fire"
-                    className="w-10 h-10 text-orange-500"
-                    role="img"
-                    viewBox="0 0 384 512"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M216 23.86c0-23.8-30.65-32.77-44.15-13.04C48 191.85 224 200 224 288c0 35.63-29.11 64.46-64.85 63.99-35.17-.45-63.15-29.77-63.15-64.94v-85.51c0-21.7-26.47-32.23-41.43-16.5C27.8 213.16 0 261.33 0 320c0 105.87 86.13 192 192 192s192-86.13 192-192c0-170.29-168-193-168-296.14z"
-                    />
-                  </svg>
-                  <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
-                    {patientData.results[0].data
-                      .total_patients_bed_with_oxygen_support *
-                      7.4 *
-                      8.778}
-                    <span className="ml-1 text-lg font-bold">
-                      m<sup>3</sup>/hr
-                    </span>
-                    {
-                      <sup className="ml-1 dark:text-gray-500 text-gray-600 text-lg">
-                        {`${patientData.results[0].data.total_patients_bed_with_oxygen_support}`}
-                      </sup>
-                    }
-                  </h1>
-                </div>
-              </div>
-            )}
+              )}
             {patientData.results[0].data
               .total_patients_icu_with_oxygen_support !== 0 && (
-              <div
-                key={"ICU"}
-                className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
-              >
-                <div>
-                  <p className="ml-4 dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
-                    {"ICU"}
-                  </p>
+                <div
+                  key={"ICU"}
+                  className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
+                >
+                  <div>
+                    <p className="ml-4 dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
+                      {"ICU"}
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fas"
+                      data-icon="fire"
+                      className="w-10 h-10 text-orange-500"
+                      role="img"
+                      viewBox="0 0 384 512"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M216 23.86c0-23.8-30.65-32.77-44.15-13.04C48 191.85 224 200 224 288c0 35.63-29.11 64.46-64.85 63.99-35.17-.45-63.15-29.77-63.15-64.94v-85.51c0-21.7-26.47-32.23-41.43-16.5C27.8 213.16 0 261.33 0 320c0 105.87 86.13 192 192 192s192-86.13 192-192c0-170.29-168-193-168-296.14z"
+                      />
+                    </svg>
+                    <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
+                      {patientData.results[0].data
+                        .total_patients_icu_with_oxygen_support *
+                        10 *
+                        8.778}
+                      <span className="ml-1 text-lg font-bold">
+                        m<sup>3</sup>/hr
+                      </span>
+                      {
+                        <sup className="ml-1 dark:text-gray-500 text-gray-600 text-lg">
+                          {`${patientData.results[0].data.total_patients_icu_with_oxygen_support}`}
+                        </sup>
+                      }
+                    </h1>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                    data-prefix="fas"
-                    data-icon="fire"
-                    className="w-10 h-10 text-orange-500"
-                    role="img"
-                    viewBox="0 0 384 512"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M216 23.86c0-23.8-30.65-32.77-44.15-13.04C48 191.85 224 200 224 288c0 35.63-29.11 64.46-64.85 63.99-35.17-.45-63.15-29.77-63.15-64.94v-85.51c0-21.7-26.47-32.23-41.43-16.5C27.8 213.16 0 261.33 0 320c0 105.87 86.13 192 192 192s192-86.13 192-192c0-170.29-168-193-168-296.14z"
-                    />
-                  </svg>
-                  <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
-                    {patientData.results[0].data
-                      .total_patients_icu_with_oxygen_support *
-                      10 *
-                      8.778}
-                    <span className="ml-1 text-lg font-bold">
-                      m<sup>3</sup>/hr
-                    </span>
-                    {
-                      <sup className="ml-1 dark:text-gray-500 text-gray-600 text-lg">
-                        {`${patientData.results[0].data.total_patients_icu_with_oxygen_support}`}
-                      </sup>
-                    }
-                  </h1>
-                </div>
-              </div>
-            )}
+              )}
             {patientData.results[0].data
               .total_patients_icu_with_invasive_ventilator +
               patientData.results[0].data
                 .total_patients_icu_with_non_invasive_ventilator !==
               0 && (
-              <div
-                key={"Ventilator"}
-                className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
-              >
-                <div>
-                  <p className="ml-4 dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
-                    {"Ventilator"}
-                  </p>
+                <div
+                  key={"Ventilator"}
+                  className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
+                >
+                  <div>
+                    <p className="ml-4 dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
+                      {"Ventilator"}
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fas"
+                      data-icon="fire"
+                      className="w-10 h-10 text-orange-500"
+                      role="img"
+                      viewBox="0 0 384 512"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M216 23.86c0-23.8-30.65-32.77-44.15-13.04C48 191.85 224 200 224 288c0 35.63-29.11 64.46-64.85 63.99-35.17-.45-63.15-29.77-63.15-64.94v-85.51c0-21.7-26.47-32.23-41.43-16.5C27.8 213.16 0 261.33 0 320c0 105.87 86.13 192 192 192s192-86.13 192-192c0-170.29-168-193-168-296.14z"
+                      />
+                    </svg>
+                    <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
+                      {(patientData.results[0].data
+                        .total_patients_icu_with_invasive_ventilator +
+                        patientData.results[0].data
+                          .total_patients_icu_with_non_invasive_ventilator) *
+                        10 *
+                        8.778}
+                      <span className="ml-1 text-lg font-bold">
+                        m<sup>3</sup>/hr
+                      </span>
+                      {
+                        <sup className="ml-1 dark:text-gray-500 text-gray-600 text-lg">
+                          {patientData.results[0].data
+                            .total_patients_icu_with_invasive_ventilator +
+                            patientData.results[0].data
+                              .total_patients_icu_with_non_invasive_ventilator}
+                        </sup>
+                      }
+                    </h1>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                    data-prefix="fas"
-                    data-icon="fire"
-                    className="w-10 h-10 text-orange-500"
-                    role="img"
-                    viewBox="0 0 384 512"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M216 23.86c0-23.8-30.65-32.77-44.15-13.04C48 191.85 224 200 224 288c0 35.63-29.11 64.46-64.85 63.99-35.17-.45-63.15-29.77-63.15-64.94v-85.51c0-21.7-26.47-32.23-41.43-16.5C27.8 213.16 0 261.33 0 320c0 105.87 86.13 192 192 192s192-86.13 192-192c0-170.29-168-193-168-296.14z"
-                    />
-                  </svg>
-                  <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
-                    {(patientData.results[0].data
-                      .total_patients_icu_with_invasive_ventilator +
-                      patientData.results[0].data
-                        .total_patients_icu_with_non_invasive_ventilator) *
-                      10 *
-                      8.778}
-                    <span className="ml-1 text-lg font-bold">
-                      m<sup>3</sup>/hr
-                    </span>
-                    {
-                      <sup className="ml-1 dark:text-gray-500 text-gray-600 text-lg">
-                        {patientData.results[0].data
-                          .total_patients_icu_with_invasive_ventilator +
-                          patientData.results[0].data
-                            .total_patients_icu_with_non_invasive_ventilator}
-                      </sup>
-                    }
-                  </h1>
-                </div>
-              </div>
-            )}
+              )}
           </div>
         </section>
 
