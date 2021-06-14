@@ -51,6 +51,15 @@ const getCapacityBedData = (ids, facility) => {
   });
 };
 
+const getFinalTotalData = (covid, nonCovid) => {
+  return covid.map((val, idx) => {
+    const used = val.used + nonCovid[idx].used;
+    const total = val.total + nonCovid[idx].total;
+    const vacant = val.vacant + nonCovid[idx].vacant;
+    return { used, total, vacant };
+  });
+};
+
 const initialFacilitiesTrivia = {
   20: { total: 0, used: 0 },
   10: { total: 0, used: 0 },
@@ -155,13 +164,16 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     };
 
     const capacityCardData = filtered.reduce((acc, facility) => {
-      if (facility.date !== dateString(date)) {
+      const covidData = getCapacityBedData([30, 120, 110, 100], facility);
+      const nonCovidData = getCapacityBedData([1, 150, 10, 20], facility);
+      const finalTotalData = getFinalTotalData(covidData, nonCovidData);
+      const noCapacity = finalTotalData.every((item) => item.total === 0);
+      if (facility.date !== dateString(date) || noCapacity) {
         return acc;
       }
       return [
         ...acc,
         {
-          facility_id: facility.id,
           facility_name: facility.name,
           facility_type: facility.facilityType,
           phone_number: facility.phoneNumber,
@@ -169,8 +181,9 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           patient_discharged: `${facility.actualLivePatients || 0}/${
             facility.actualDischargedPatients || 0
           }`,
-          covid: getCapacityBedData([30, 120, 110, 100], facility),
-          non_covid: getCapacityBedData([1, 150, 10, 20], facility),
+          covid: covidData,
+          non_covid: nonCovidData,
+          final_total: finalTotalData,
         },
       ];
     }, []);
@@ -305,13 +318,7 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           </div>
 
           {tableData.map((data, index) => (
-            <CapacityCard
-              key={index}
-              data={data}
-              facilityID={data.id}
-              key={data.facility_name}
-              key={data.external_id}
-            />
+            <CapacityCard data={data} key={index} />
           ))}
           <Pagination
             totalResults={filteredData.length}
