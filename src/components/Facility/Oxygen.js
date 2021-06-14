@@ -4,7 +4,6 @@ import {
 } from "../../utils/constants";
 
 const Oxygen = ({ oxygenData }) => {
-  console.log(oxygenData)
   return (
     <section className="my-8 p-6 dark:bg-gray-700 bg-white">
       <h2 className="text-green-500 text-lg font-bold">Oxygen</h2>

@@ -5,8 +5,8 @@ const ExpectedBurnRate = ({ patientData }) => {
     <h2 className="text-green-500 text-lg font-bold">
       Expected Burn Rate
     </h2>
-    {(patientData.results[0]?.data && patientData.results[0]?.data?.total_patients_bed_with_oxygen_support && patientData.results[0].data
-      ?.total_patients_bed_with_oxygen_support && patientData.results[0].data
+    {(patientData.results[0]?.data?.total_patients_bed_with_oxygen_support || patientData.results[0].data
+      ?.total_patients_bed_with_oxygen_support || patientData.results[0].data
         ?.total_patients_icu_with_oxygen_support) ?
       <div className="grid-col-1 grid gap-6 mb-4 mt-8 md:grid-cols-3">
         {patientData.results[0].data
