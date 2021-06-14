@@ -335,19 +335,22 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             onPageChange={(e) => setPage(e.selected)}
             forcePage={page}
             breakLabel={"..."}
-            breakClassName={"text-gray-600 dark:text-gray-400"}
-            previousClassName={
-              "align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none p-2 rounded-md text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent active:bg-transparent hover:bg-gray-100 focus:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
+            breakClassName={
+              "text-gray-600 dark:text-gray-400 inline-flex items-center"
             }
-            nextClassName={
-              "align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none p-2 rounded-md text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent active:bg-transparent hover:bg-gray-100 focus:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
+            previousLinkClassName={
+              "px-3 py-1 text-xs font-semibold hover:bg-gray-100 rounded dark:text-gray-600 dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
+            }
+            nextLinkClassName={
+              "px-3 py-1 text-xs font-semibold hover:bg-gray-100 rounded dark:text-gray-600 dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
             }
             containerClassName={"flex mt-2 sm:mt-auto sm:justify-end"}
-            pageClassName={
-              "mx-3 align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none px-1 py-0.5 rounded-md text-xs text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent active:bg-transparent hover:bg-gray-100 focus:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
+            pageClassName={"mx-1 inline-flex items-center text-gray-600"}
+            pageLinkClassName={
+              "px-3 py-1 text-xs font-semibold hover:bg-gray-100 rounded dark:hover:bg-gray-500 dark:hover:bg-opacity-10"
             }
-            activeClassName={
-              "align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none px-3 py-1 rounded-md text-xs text-white bg-green-500 border border-transparent active:bg-green-500 hover:bg-green-600 focus:shadow-outline-green"
+            activeLinkClassName={
+              "px-3 py-1 text-xs text-gray-200 font-semibold bg-green-500 hover:bg-green-600"
             }
           />
         </div>
