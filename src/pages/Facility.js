@@ -1,5 +1,5 @@
 import React, { lazy, useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router";
+import { useParams } from "react-router";
 import { careSummary } from "../utils/api";
 const GMap = lazy(() => import("../components/DistrictDashboard/GMap"));
 
@@ -18,6 +18,7 @@ import Capacity from "../components/Facility/Capacity";
 import Patients from "../components/Facility/Patients";
 import Oxygen from "../components/Facility/Oxygen";
 import ExpectedBurnRate from "../components/Facility/ExpectedBurnRate";
+import FacilityInfo from "../components/Facility/FacilityInfo";
 
 function Facility() {
   const params = useParams();
@@ -72,52 +73,7 @@ function Facility() {
     !facilityLoading &&
     !patientLoading && (
       <div className="h-fulle w-full dark:text-white">
-        <div className="flex flex-col items-start justify-center mt-4">
-          <h1 className="mb-3 mt-6 text-3xl font-bold">
-            {facilityData?.results[0]?.facility.name}
-          </h1>
-
-          <div className="w -full flex flex-wrap items-center justify-start">
-            {facilityData?.results[0]?.facility?.phone_number && (
-              <div style={{ width: "50%" }} className="my-2 text-sm">
-                <span className="font-semibold">Phone: </span>
-                {facilityData?.results[0]?.facility?.phone_number}
-              </div>
-            )}
-            {facilityData?.results[0]?.facility?.facility_type && (
-              <div style={{ width: "50%" }} className="my-2 text-sm">
-                <span className="font-semibold">Facility Type: </span>
-                {facilityData?.results[0]?.facility?.facility_type}
-              </div>
-            )}
-            {facilityData?.results[0]?.facility?.address && (
-              <div style={{ width: "50%" }} className="my-2 text-sm">
-                <span className="font-semibold">Address: </span>
-                {facilityData?.results[0]?.facility?.address}
-              </div>
-            )}
-            {facilityData?.results[0]?.facility?.local_body_object?.name && (
-              <div style={{ width: "50%" }} className="my-2 text-sm">
-                <span className="font-semibold">Local Body: </span>
-                {facilityData?.results[0]?.facility?.local_body_object?.name}
-              </div>
-            )}
-            {facilityData?.results[0]?.facility?.ward_object && (
-              <div style={{ width: "50%" }} className="my-2 text-sm">
-                <span className="font-semibold">Ward: </span>
-                {`${facilityData?.results[0]?.facility?.ward_object?.number || ""
-                  }, ${facilityData?.results[0]?.facility?.ward_object?.name || ""
-                  }`}
-              </div>
-            )}
-            {facilityData?.results[0]?.district_object && (
-              <div style={{ width: "50%" }} className="my-2 text-sm">
-                <span className="font-semibold">District: </span>
-                {facilityData?.results[0]?.district_object?.name}
-              </div>
-            )}
-          </div>
-        </div>
+        <FacilityInfo facilityData={facilityData} />
         <Capacity filtered={filtered} date={date} />
         <Patients patientsFiltered={patientsFiltered} date={date} />
         <Oxygen oxygenData={oxygenData} />
