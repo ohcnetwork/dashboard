@@ -57,9 +57,10 @@ function Filter({
           <div className="relative h-10 dark:bg-gray-900 bg-white rounded-lg">
             <Button
               layout="link"
-              onClick={() => setFacilityTypeFilterOpen(!facilityTypeFilterOpen)}
+              onClick={() => setFacilityTypeFilterOpen(true)}
               iconRight={ChevronDown}
               className="w-full shadow-xs"
+              disabled={facilityTypeFilterOpen}
             >
               Facility Type
             </Button>
