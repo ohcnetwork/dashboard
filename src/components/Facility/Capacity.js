@@ -39,25 +39,26 @@ const Capacity = ({ filtered, date }) => {
     filtered.reduce(
       (a, c) => {
         const key = c.date === dateString(date) ? "current" : "previous";
-        a[key].count += 1;
-        a[key].oxygen += c.oxygenCapacity || 0;
-        a[key].actualLivePatients += c.actualLivePatients || 0;
-        a[key].actualDischargedPatients += c.actualDischargedPatients || 0;
-        Object.keys(AVAILABILITY_TYPES).forEach((k) => {
-          a[key][k].used += c.capacity[k]?.current_capacity || 0;
-          a[key][k].total += c.capacity[k]?.total_capacity || 0;
-        });
+        if (a[key]) {
+          a[key].count += 1;
+          a[key].oxygen += c.oxygenCapacity || 0;
+          a[key].actualLivePatients += c.actualLivePatients || 0;
+          a[key].actualDischargedPatients += c.actualDischargedPatients || 0;
+          Object.keys(AVAILABILITY_TYPES).forEach((k) => {
+            a[key][k].used += c.capacity[k]?.current_capacity || 0;
+            a[key][k].total += c.capacity[k]?.total_capacity || 0;
+          });
 
-        AVAILABILITY_TYPES_TOTAL_ORDERED.forEach((k) => {
-          let current_covid = c.capacity[k.covid]?.current_capacity || 0;
-          let current_non_covid =
-            c.capacity[k.non_covid]?.current_capacity || 0;
-          let total_covid = c.capacity[k.covid]?.total_capacity || 0;
-          let total_non_covid = c.capacity[k.non_covid]?.total_capacity || 0;
-          a[key][k.id].used += current_covid + current_non_covid;
-          a[key][k.id].total += total_covid + total_non_covid;
-        });
-
+          AVAILABILITY_TYPES_TOTAL_ORDERED.forEach((k) => {
+            let current_covid = c.capacity[k.covid]?.current_capacity || 0;
+            let current_non_covid =
+              c.capacity[k.non_covid]?.current_capacity || 0;
+            let total_covid = c.capacity[k.covid]?.total_capacity || 0;
+            let total_non_covid = c.capacity[k.non_covid]?.total_capacity || 0;
+            a[key][k.id].used += current_covid + current_non_covid;
+            a[key][k.id].total += total_covid + total_non_covid;
+          });
+        }
         return a;
       },
       {

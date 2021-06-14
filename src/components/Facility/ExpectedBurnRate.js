@@ -5,9 +5,12 @@ const ExpectedBurnRate = ({ patientData }) => {
     <h2 className="text-green-500 text-lg font-bold">
       Expected Burn Rate
     </h2>
-    <div className="grid-col-1 grid gap-6 mb-4 mt-8 md:grid-cols-3">
-      {patientData.results[0].data
-        .total_patients_bed_with_oxygen_support !== 0 && (
+    {(patientData.results[0]?.data && patientData.results[0]?.data?.total_patients_bed_with_oxygen_support && patientData.results[0].data
+      ?.total_patients_bed_with_oxygen_support && patientData.results[0].data
+        ?.total_patients_icu_with_oxygen_support) ?
+      <div className="grid-col-1 grid gap-6 mb-4 mt-8 md:grid-cols-3">
+        {patientData.results[0].data
+          .total_patients_bed_with_oxygen_support ? (
           <div
             key={"OXYGEN_BED"}
             className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
@@ -49,9 +52,9 @@ const ExpectedBurnRate = ({ patientData }) => {
               </h1>
             </div>
           </div>
-        )}
-      {patientData.results[0].data
-        .total_patients_icu_with_oxygen_support !== 0 && (
+        ) : null}
+        {patientData.results[0].data
+          .total_patients_icu_with_oxygen_support ? (
           <div
             key={"ICU"}
             className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
@@ -93,12 +96,11 @@ const ExpectedBurnRate = ({ patientData }) => {
               </h1>
             </div>
           </div>
-        )}
-      {patientData.results[0].data
-        .total_patients_icu_with_invasive_ventilator +
-        patientData.results[0].data
-          .total_patients_icu_with_non_invasive_ventilator !==
-        0 && (
+        ) : null}
+        {patientData.results[0].data
+          .total_patients_icu_with_invasive_ventilator +
+          patientData.results[0].data
+            .total_patients_icu_with_non_invasive_ventilator ? (
           <div
             key={"Ventilator"}
             className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
@@ -145,8 +147,9 @@ const ExpectedBurnRate = ({ patientData }) => {
               </h1>
             </div>
           </div>
-        )}
-    </div>
+        ) : null}
+      </div>
+      : <div className="word-wrap py-4 text-center my-4 font-bold text-2xl md:text-3xl px-2 break-words bg-gray-50 dark:bg-gray-800 rounded-md text-gray-600"><p>No Data Available</p></div>}
   </section>
   )
 }
