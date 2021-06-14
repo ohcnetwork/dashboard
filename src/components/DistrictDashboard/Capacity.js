@@ -1,4 +1,5 @@
-import { Button, Pagination, Input } from "@windmill/react-ui";
+import { Button, Input } from "@windmill/react-ui";
+import ReactPaginate from "react-paginate";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -203,11 +204,13 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     leave: { opacity: 0 },
   });
 
-  const resultsPerPage = 10;
   const [filteredData, setFilteredData] = useState(capacityCardData);
-  const [page, setPage] = useState(1);
   const [tableData, setTableData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [page, setPage] = useState(0);
+  const resultsPerPage = 10;
+  const pageCount = Math.ceil(filteredData.length / resultsPerPage);
 
   useEffect(() => {
     const debounce_timer = setTimeout(() => {
@@ -225,13 +228,14 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
             )
           : capacityCardData
       );
+      setPage(0);
     }, 1000);
     return () => clearTimeout(debounce_timer);
   }, [capacityCardData, searchTerm]);
 
   useEffect(() => {
     setTableData(
-      filteredData.slice((page - 1) * resultsPerPage, page * resultsPerPage)
+      filteredData.slice(page * resultsPerPage, (page + 1) * resultsPerPage)
     );
   }, [filteredData, page]);
 
@@ -320,11 +324,31 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           {tableData.map((data, index) => (
             <CapacityCard data={data} key={index} />
           ))}
-          <Pagination
-            totalResults={filteredData.length}
-            resultsPerPage={resultsPerPage}
-            label="Navigation"
-            onChange={setPage}
+
+          <ReactPaginate
+            pageCount={pageCount}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={4}
+            previousLabel={"<"}
+            nextLabel={">"}
+            initialPage={0}
+            onPageChange={(e) => setPage(e.selected)}
+            forcePage={page}
+            breakLabel={"..."}
+            breakClassName={"text-gray-600 dark:text-gray-400"}
+            previousClassName={
+              "align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none p-2 rounded-md text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent active:bg-transparent hover:bg-gray-100 focus:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
+            }
+            nextClassName={
+              "align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none p-2 rounded-md text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent active:bg-transparent hover:bg-gray-100 focus:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
+            }
+            containerClassName={"flex mt-2 sm:mt-auto sm:justify-end"}
+            pageClassName={
+              "mx-3 align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none px-1 py-0.5 rounded-md text-xs text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent active:bg-transparent hover:bg-gray-100 focus:shadow-outline-gray dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
+            }
+            activeClassName={
+              "align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none px-3 py-1 rounded-md text-xs text-white bg-green-500 border border-transparent active:bg-green-500 hover:bg-green-600 focus:shadow-outline-green"
+            }
           />
         </div>
 
