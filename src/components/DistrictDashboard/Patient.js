@@ -49,7 +49,6 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
   );
 
   const { facilitiesTrivia, exported, tableData } = useMemo(() => {
-    console.log(data.results);
     const filtered = processFacilities(data.results, filterFacilityTypes);
     const facilitiesTrivia = filtered.reduce(
       (a, c) => {
