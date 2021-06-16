@@ -68,7 +68,7 @@ function Facility() {
     });
   }, []);
 
-  // bedData = patientData.results[0].data;
+
   return (
     !facilityLoading &&
     !patientLoading && (
