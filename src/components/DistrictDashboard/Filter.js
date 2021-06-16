@@ -57,9 +57,10 @@ function Filter({
           <div className="relative h-10 dark:bg-gray-900 bg-white rounded-lg">
             <Button
               layout="link"
-              onClick={() => setFacilityTypeFilterOpen(!facilityTypeFilterOpen)}
+              onClick={() => setFacilityTypeFilterOpen(true)}
               iconRight={ChevronDown}
               className="w-full shadow-xs"
+              disabled={facilityTypeFilterOpen}
             >
               Facility Type
             </Button>
@@ -129,7 +130,7 @@ function Filter({
                         _setFilterFacilityTypes(_tmp);
                       }}
                       type="checkbox"
-                      checked={_filterFacilityTypes.includes(d)}
+                      defaultChecked={_filterFacilityTypes.includes(d)}
                     />
                     <span className="ml-2">{d}</span>
                   </Label>

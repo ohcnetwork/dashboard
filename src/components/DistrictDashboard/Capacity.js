@@ -1,4 +1,5 @@
-import { Button, Pagination, Input } from "@windmill/react-ui";
+import { Button, Input } from "@windmill/react-ui";
+import Pagination from "../Pagination";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -203,11 +204,12 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     leave: { opacity: 0 },
   });
 
-  const resultsPerPage = 10;
   const [filteredData, setFilteredData] = useState(capacityCardData);
-  const [page, setPage] = useState(1);
   const [tableData, setTableData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [page, setPage] = useState(0);
+  const resultsPerPage = 10;
 
   useEffect(() => {
     const debounce_timer = setTimeout(() => {
@@ -225,13 +227,14 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           )
           : capacityCardData
       );
+      setPage(0);
     }, 1000);
     return () => clearTimeout(debounce_timer);
-  }, [capacityCardData, searchTerm]);
+  }, [searchTerm]);
 
   useEffect(() => {
     setTableData(
-      filteredData.slice((page - 1) * resultsPerPage, page * resultsPerPage)
+      filteredData.slice(page * resultsPerPage, (page + 1) * resultsPerPage)
     );
   }, [filteredData, page]);
 
@@ -320,14 +323,15 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
           {tableData.map((data, index) => (
             <CapacityCard data={data} key={index} />
           ))}
+
           <Pagination
-            totalResults={filteredData.length}
             resultsPerPage={resultsPerPage}
-            label="Navigation"
-            onChange={setPage}
+            totalResults={filteredData.length}
+            currentPage={page}
+            currentResults={tableData.length}
+            handlePageClick={setPage}
           />
         </div>
-
         <div id="capacity-map">
           <SectionTitle>Map</SectionTitle>
         </div>
