@@ -29,6 +29,7 @@
     "react-feather": "^2.0.9",
     "react-geosuggest": "^2.14.1",
     "react-intersection-observer": "^8.31.0",
+    "react-paginate": "^7.1.3",
     "react-router-dom": "5.2.0",
     "react-simple-maps": "^2.3.0",
     "react-spring": "^8.0.27",
