@@ -1,6 +1,6 @@
 import React, { lazy, useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { careSummary } from "../utils/api";
+import { individualCareSummary } from "../utils/api";
 const GMap = lazy(() => import("../components/DistrictDashboard/GMap"));
 
 import {
@@ -10,10 +10,7 @@ import {
   processFacilities,
 } from "../utils/utils";
 
-import {
-  FACILITY_TYPES,
-  ACTIVATED_DISTRICTS,
-} from "../utils/constants";
+import { FACILITY_TYPES, ACTIVATED_DISTRICTS } from "../utils/constants";
 import Capacity from "../components/Facility/Capacity";
 import Patients from "../components/Facility/Patients";
 import Oxygen from "../components/Facility/Oxygen";
@@ -22,7 +19,7 @@ import FacilityInfo from "../components/Facility/FacilityInfo";
 
 function Facility() {
   const params = useParams();
-  const facilityId = params.facilityId;
+  const facility = params.facilityId;
   // const date = Date.parse(query.get("date"));
   const date = new Date();
   const [patientData, setPatientData] = useState({});
@@ -41,33 +38,27 @@ function Facility() {
   const todayFiltered =
     filtered && filtered.filter((f) => f.date === dateString(date));
 
-
   useEffect(() => {
-    careSummary(
+    individualCareSummary(
       "patient",
       dateString(getNDateBefore(date, 1)),
       dateString(getNDateAfter(date, 1)),
-      "",
-      2000,
-      facilityId
+      facility
     ).then((data) => {
       setPatientData(data);
       setPatientLoading(false);
     });
-    careSummary(
+    individualCareSummary(
       "facility",
       dateString(getNDateBefore(date, 1)),
       dateString(getNDateAfter(date, 1)),
-      "",
-      2000,
-      facilityId
+      facility
     ).then((data) => {
       setFacilityData(data);
-      setOxygen(data.results[0].data.inventory);
+      setOxygen(data.results[0]?.data?.inventory || {});
       setFacilityLoading(false);
     });
   }, []);
-
 
   return (
     !facilityLoading &&

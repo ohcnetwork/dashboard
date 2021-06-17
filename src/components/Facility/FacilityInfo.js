@@ -1,7 +1,9 @@
-import React from "react"
+import React from "react";
 
 const FacilityInfo = ({ facilityData }) => {
-  return (
+  return facilityData &&
+    facilityData.results &&
+    facilityData.results?.length >= 1 ? (
     <div className="flex flex-col items-start justify-center mt-4">
       <h1 className="mb-3 mt-6 text-3xl font-bold">
         {facilityData?.results[0]?.facility.name}
@@ -35,9 +37,9 @@ const FacilityInfo = ({ facilityData }) => {
         {facilityData?.results[0]?.facility?.ward_object && (
           <div style={{ width: "50%" }} className="my-2 text-sm">
             <span className="font-semibold">Ward: </span>
-            {`${facilityData?.results[0]?.facility?.ward_object?.number || ""
-              }, ${facilityData?.results[0]?.facility?.ward_object?.name || ""
-              }`}
+            {`${
+              facilityData?.results[0]?.facility?.ward_object?.number || ""
+            }, ${facilityData?.results[0]?.facility?.ward_object?.name || ""}`}
           </div>
         )}
         {facilityData?.results[0]?.district_object && (
@@ -48,7 +50,11 @@ const FacilityInfo = ({ facilityData }) => {
         )}
       </div>
     </div>
-  )
-}
+  ) : (
+    <div className="word-wrap my-4 px-2 py-4 text-center text-gray-600 break-words text-2xl font-bold bg-gray-50 dark:bg-gray-800 rounded-md md:text-3xl">
+      <p>No Data Available</p>
+    </div>
+  );
+};
 
-export default FacilityInfo
+export default FacilityInfo;
