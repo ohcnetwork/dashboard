@@ -41,9 +41,11 @@ export function CapacityCard({ data }) {
     <Card className="flex flex-col mb-4 mt-4 p-4 rounded-xl">
       <div className="flex flex-col">
         <div>
-          <p className="dark:text-gray-200 text-xl font-medium">
-            {data.facility_name}
-          </p>
+          <a href={`/facility/${data.facility_id}`}>
+            <p className="dark:text-gray-200 text-xl font-medium">
+              {data.facility_name}
+            </p>
+          </a>
         </div>
         <div className="flex flex-row justify-between w-full md:w-3/12">
           <div>

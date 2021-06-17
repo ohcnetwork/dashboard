@@ -176,12 +176,12 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         ...acc,
         {
           facility_name: facility.name,
+          facility_id: facility.id,
           facility_type: facility.facilityType,
           phone_number: facility.phoneNumber,
           last_updated: dayjs(facility.modifiedDate).fromNow(),
-          patient_discharged: `${facility.actualLivePatients || 0}/${
-            facility.actualDischargedPatients || 0
-          }`,
+          patient_discharged: `${facility.actualLivePatients || 0}/${facility.actualDischargedPatients || 0
+            }`,
           covid: covidData,
           non_covid: nonCovidData,
           final_total: finalTotalData,
@@ -216,15 +216,15 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       setFilteredData(
         searchTerm
           ? capacityCardData.filter((v) =>
-              fuzzysort
-                .go(
-                  searchTerm,
-                  capacityCardData.map((d) => ({ ...d, 0: d.facility_name })),
-                  { key: "0" }
-                )
-                .map((v) => v.target)
-                .includes(v.facility_name)
-            )
+            fuzzysort
+              .go(
+                searchTerm,
+                capacityCardData.map((d) => ({ ...d, 0: d.facility_name })),
+                { key: "0" }
+              )
+              .map((v) => v.target)
+              .includes(v.facility_name)
+          )
           : capacityCardData
       );
       setPage(0);
