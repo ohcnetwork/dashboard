@@ -1,8 +1,3 @@
-import polylabel from "polylabel";
-import { useEffect, useState } from "react";
-import { feature } from "topojson";
-import fetch from "unfetch";
-
 import { OXYGEN_INVENTORY } from "./constants";
 
 export const getNDateBefore = (d, n) => {
@@ -137,56 +132,4 @@ export const processFacilities = (data, filterFacilityTypes, orderBy) => {
       }
       return returnable;
     }, []);
-};
-
-export const useKeralaMap = (district) => {
-  const [topojson, setTopojson] = useState({});
-  const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
-  const [markers, setMarkers] = useState([]);
-  const [projectionConfig, setProjectionConfig] = useState({});
-  useEffect(() => {
-    fetch("/kerala_lsgd.json")
-      .then((r) => r.json())
-      .then((data) => {
-        setTopojson(data);
-        setMarkers(feature(data, data.objects.data).features);
-      })
-      .catch((error) => {
-        throw error;
-      });
-    fetch("/kerala_district.json")
-      .then((r) => r.json())
-      .then((data) => {
-        const { features } = feature(data, data.objects.data);
-        const config = features.reduce((a, c) => {
-          return {
-            ...a,
-            [c.properties.DISTRICT]: polylabel(c.geometry.coordinates),
-          };
-        }, {});
-        setProjectionConfig(config);
-        setPosition({ ...position, coordinates: config[district] || [0, 0] });
-      })
-      .catch((error) => {
-        throw error;
-      });
-  }, []);
-
-  const handleZoomIn = () => {
-    setPosition((pos) => ({ ...pos, zoom: pos.zoom * 2 }));
-  };
-
-  const handleZoomOut = () => {
-    setPosition((pos) => ({ ...pos, zoom: pos.zoom / 2 }));
-  };
-
-  return {
-    topojson,
-    position,
-    setPosition,
-    markers,
-    projectionConfig,
-    handleZoomIn,
-    handleZoomOut,
-  };
 };
