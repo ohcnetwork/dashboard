@@ -43,6 +43,13 @@ const highestExistingCard = (cards) => {
   return index;
 };
 
+const typeOfBed = (index) => {
+  if (index % 4 == 1) return "Ordinary";
+  if (index % 4 == 2) return "Oxygen";
+  if (index % 4 == 3) return "ICU";
+  if (index % 4 == 0) return "Ventilator";
+};
+
 const renderCapacityCards = (facilitiesTrivia) => {
   let ordinary = 0,
     oxygen = 1,
@@ -137,7 +144,7 @@ const renderCapacityCards = (facilitiesTrivia) => {
     ) : (
       index < highestExistingCard(cards) && (
         <div className="flex items-center justify-center w-full h-full text-gray-400 dark:text-gray-500 text-xs font-bold bg-gray-100 dark:bg-transparent border dark:border-gray-900 rounded-md md:text-sm">
-          No Capacity
+          {`No ${typeOfBed(index + 1)} Bed`}
         </div>
       )
     )
