@@ -42,10 +42,12 @@ const ExpectedBurnRate = ({ patientData }) => {
                   />
                 </svg>
                 <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
-                  {patientData.results[0].data
-                    .total_patients_bed_with_oxygen_support *
+                  {(
+                    patientData.results[0].data
+                      .total_patients_bed_with_oxygen_support *
                     7.4 *
-                    8.778}
+                    8.778
+                  ).toFixed(2)}
                   <span className="ml-1 text-lg font-bold">
                     m<sup>3</sup>/hr
                   </span>
@@ -86,10 +88,12 @@ const ExpectedBurnRate = ({ patientData }) => {
                   />
                 </svg>
                 <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
-                  {patientData.results[0].data
-                    .total_patients_icu_with_oxygen_support *
+                  {(
+                    patientData.results[0].data
+                      .total_patients_icu_with_oxygen_support *
                     10 *
-                    8.778}
+                    8.778
+                  ).toFixed(2)}
                   <span className="ml-1 text-lg font-bold">
                     m<sup>3</sup>/hr
                   </span>
@@ -132,12 +136,14 @@ const ExpectedBurnRate = ({ patientData }) => {
                   />
                 </svg>
                 <h1 className="mb-2 mt-3 text-gray-800 dark:text-white text-3xl font-bold">
-                  {(patientData.results[0].data
-                    .total_patients_icu_with_invasive_ventilator +
-                    patientData.results[0].data
-                      .total_patients_icu_with_non_invasive_ventilator) *
+                  {(
+                    (patientData.results[0].data
+                      .total_patients_icu_with_invasive_ventilator +
+                      patientData.results[0].data
+                        .total_patients_icu_with_non_invasive_ventilator) *
                     10 *
-                    8.778}
+                    8.778
+                  ).toFixed(2)}
                   <span className="ml-1 text-lg font-bold">
                     m<sup>3</sup>/hr
                   </span>

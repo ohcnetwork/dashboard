@@ -1,7 +1,5 @@
 import React from "react";
-import {
-  OXYGEN_TYPES_KEYS,
-} from "../../utils/constants";
+import { OXYGEN_TYPES_KEYS } from "../../utils/constants";
 
 const Oxygen = ({ oxygenData }) => {
   return (
@@ -9,15 +7,15 @@ const Oxygen = ({ oxygenData }) => {
       <h2 className="text-green-500 text-lg font-bold">Oxygen</h2>
       <div className="mb-4 mt-8">
         <div className="grid-col-1 grid gap-6 mb-8">
-          {Object.keys(oxygenData).length ?
+          {Object.keys(oxygenData).length ? (
             Object.keys(OXYGEN_TYPES_KEYS).map(
               (k) =>
                 oxygenData[k] && (
                   <div
                     key={k}
-                    className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-md"
+                    className="flex items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-md"
                   >
-                    <div className="justify-butween flex items-center">
+                    <div className="flex items-center justify-start w-1/3">
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +40,7 @@ const Oxygen = ({ oxygenData }) => {
                         <p className="dark:text-white text-2xl font-bold">
                           {oxygenData[k]?.stock -
                             Math.floor(oxygenData[k]?.stock) !==
-                            0
+                          0
                             ? oxygenData[k]?.stock.toFixed(2)
                             : oxygenData[k]?.stock}
                         </p>
@@ -51,7 +49,7 @@ const Oxygen = ({ oxygenData }) => {
                         </p>
                       </div>
                     </div>
-                    <div className="justify-butween flex items-center">
+                    <div className="flex items-center justify-center w-1/3">
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +79,7 @@ const Oxygen = ({ oxygenData }) => {
                         </p>
                       </div>
                     </div>
-                    <div className="justify-butween flex items-center">
+                    <div className="flex items-center justify-end w-1/3">
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -107,12 +105,16 @@ const Oxygen = ({ oxygenData }) => {
                     </div>
                   </div>
                 )
-            ) : <div className="word-wrap py-4 text-center my-4 font-bold text-2xl md:text-3xl px-2 break-words bg-gray-50 dark:bg-gray-800 rounded-md text-gray-600"><p>No Data Available</p></div>
-          }
+            )
+          ) : (
+            <div className="word-wrap my-4 px-2 py-4 text-center text-gray-600 break-words text-2xl font-bold bg-gray-50 dark:bg-gray-800 rounded-md md:text-3xl">
+              <p>No Data Available</p>
+            </div>
+          )}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
 export default Oxygen;
