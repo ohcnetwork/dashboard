@@ -10,10 +10,8 @@ import { dateString, getNDateAfter, getNDateBefore } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import { ValuePill } from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
-import { SectionTitle } from "../Typography/Title";
 import GenericTable from "./GenericTable";
 
-const LsgPatientMap = lazy(() => import("./LsgPatientMap"));
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
@@ -166,15 +164,6 @@ function Lsg({ filterDistrict, date }) {
           ]}
           data={tableData}
           exported={exported}
-        />
-      </Suspense>
-      <SectionTitle>LSG Map (Updated every 1 hr)</SectionTitle>
-      <Suspense fallback={<ThemedSuspense />}>
-        <LsgPatientMap
-          className="mb-8"
-          district={filterDistrict.name}
-          patients={lsgPatientsToday}
-          dateString={dateString(date)}
         />
       </Suspense>
     </>
