@@ -19,6 +19,8 @@ const initiallsgTrivia = {
   count: 0,
   icu: { total: 0, today: 0 },
   oxygen_bed: { total: 0, today: 0 },
+  bed_with_oxygen_support: { total: 0, today: 0 },
+  icu_with_oxygen_support: { total: 0, today: 0 },
   not_admitted: { total: 0, today: 0 },
   home_isolation: { total: 0, today: 0 },
   isolation_room: { total: 0, today: 0 },
@@ -34,7 +36,7 @@ function Lsg({ filterDistrict, date }) {
     ["Patient", date, filterDistrict.id],
     (url, date, district) =>
       careSummary(
-        "district/patient",
+        "district_patient",
         dateString(getNDateBefore(date, 1)),
         dateString(getNDateAfter(date, 1)),
         district

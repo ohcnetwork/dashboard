@@ -3,7 +3,7 @@ import React from "react";
 import { ChevronsDown, ChevronsUp } from "react-feather";
 import { animated, config, useSpring } from "react-spring";
 
-function RadialCard({ label, count, current, previous }) {
+function RadialCard({ label, count, current, previous, col = "" }) {
   const current_used = Math.round((current.used / current.total) * 100);
   const previous_used = Math.round((previous.used / previous.total) * 100);
   const diff = current_used - previous_used;
@@ -25,7 +25,7 @@ function RadialCard({ label, count, current, previous }) {
   const circlePath = `M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831`;
 
   return (
-    <Card className="flex items-center justify-between">
+    <Card className={`flex items-center justify-between ${col}`}>
       <div className="relative flex content-center justify-center m-2 w-4/5">
         <svg viewBox="0 0 36 36" className="w-4/5">
           <path

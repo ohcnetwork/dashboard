@@ -97,9 +97,17 @@ function GenericTable({
                       <TableCell key={j}>
                         {j === 0 ? (
                           <div className="flex flex-col w-32 whitespace-pre-wrap">
-                            <p className="text-xs font-semibold xl:text-sm">
-                              {col[0]}
-                            </p>
+                            {col[3] ? (
+                              <a href={`/facility/${col[3]}`}>
+                                <p className="text-xs font-semibold xl:text-sm">
+                                  {col[0]}
+                                </p>
+                              </a>
+                            ) : (
+                              <p className="text-xs font-semibold xl:text-sm">
+                                {col[0]}
+                              </p>
+                            )}
                             <p className="dark:text-gray-400 text-gray-600 text-xxs xl:text-xs">
                               {col[1]}
                             </p>
