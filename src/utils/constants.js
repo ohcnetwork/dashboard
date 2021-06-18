@@ -6,19 +6,13 @@ export const ACTIVATED_DISTRICTS = [
 export const GMAP_KEY = "AIzaSyDsBAc3y7deI5ZO3NtK5GuzKwtUzQNJNUk";
 
 export const AVAILABILITY_TYPES_ORDERED = [
-  1,
-  150,
-  10,
-  20,
-  30,
-  120,
-  110,
-  100,
-  40,
-  60,
-  50,
-  70,
+  1, 150, 10, 20, 30, 120, 110, 100, 40, 60, 50, 70,
 ];
+
+export const ORDINARY = [4444, 30, 1, 4];
+export const OXYGEN = [3333, 120, 150, 60];
+export const ICU = [2222, 110, 10, 50];
+export const VENTILATOR = [1111, 100, 20, 70];
 
 export const AVAILABILITY_TYPES_TOTAL_ORDERED = [
   { id: 4444, name: "Ordinary Bed", non_covid: 1, covid: 30 },

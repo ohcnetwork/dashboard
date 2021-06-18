@@ -1,12 +1,14 @@
-import React from "react"
+import React from "react";
 import {
+  ORDINARY,
+  OXYGEN,
+  ICU,
+  VENTILATOR,
   AVAILABILITY_TYPES,
   AVAILABILITY_TYPES_ORDERED,
   AVAILABILITY_TYPES_TOTAL_ORDERED,
-} from "../../utils/constants"
-import {
-  dateString,
-} from "../../utils/utils";
+} from "../../utils/constants";
+import { dateString } from "../../utils/utils";
 import RadialCard from "../Chart/RadialCard";
 
 const initialFacilitiesTrivia = {
@@ -32,8 +34,127 @@ const initialFacilitiesTrivia = {
   oxygen: 0,
 };
 
-const Capacity = ({ filtered, date }) => {
+const highestExistingCard = (cards) => {
+  let index = 0;
+  cards.forEach((c, i) => {
+    if (c.name && i > index) index = i;
+  });
 
+  return index;
+};
+
+const typeOfBed = (index) => {
+  if (index % 4 == 1) return "Ordinary";
+  if (index % 4 == 2) return "Oxygen";
+  if (index % 4 == 3) return "ICU";
+  if (index % 4 == 0) return "Ventilator";
+};
+
+const renderCapacityCards = (facilitiesTrivia) => {
+  let ordinary = 0,
+    oxygen = 1,
+    icu = 2,
+    ventilator = 3,
+    cards = new Array(16).fill({});
+
+  AVAILABILITY_TYPES_TOTAL_ORDERED.forEach((bed) => {
+    if (!facilitiesTrivia?.current[bed.id]?.total) return;
+    if (ORDINARY.includes(bed.id)) {
+      cards[ordinary] = {
+        name: bed.name,
+        current: facilitiesTrivia.current[bed.id],
+        previous: facilitiesTrivia.previous[bed.id],
+        col: "col-start-1",
+      };
+      ordinary += 4;
+    } else if (OXYGEN.includes(bed.id)) {
+      cards[oxygen] = {
+        name: bed.name,
+        current: facilitiesTrivia.current[bed.id],
+        previous: facilitiesTrivia.previous[bed.id],
+        col: "col-start-2",
+      };
+      oxygen += 4;
+    } else if (ICU.includes(bed.id)) {
+      cards[icu] = {
+        name: bed.name,
+        current: facilitiesTrivia.current[bed.id],
+        previous: facilitiesTrivia.previous[bed.id],
+        col: "col-start-3",
+      };
+      icu += 4;
+    } else if (VENTILATOR.includes(bed.id)) {
+      cards[ventilator] = {
+        name: bed.name,
+        current: facilitiesTrivia.current[bed.id],
+        previous: facilitiesTrivia.previous[bed.id],
+        col: "col-start-4",
+      };
+      ventilator += 4;
+    }
+  });
+
+  AVAILABILITY_TYPES_ORDERED.forEach((bedId) => {
+    if (!facilitiesTrivia?.current[bedId]?.total) return;
+    if (ORDINARY.includes(bedId)) {
+      cards[ordinary] = {
+        name: AVAILABILITY_TYPES[bedId],
+        current: facilitiesTrivia.current[bedId],
+        previous: facilitiesTrivia.previous[bedId],
+        col: "col-start-1",
+      };
+      ordinary += 4;
+    } else if (OXYGEN.includes(bedId)) {
+      cards[oxygen] = {
+        name: AVAILABILITY_TYPES[bedId],
+        current: facilitiesTrivia.current[bedId],
+        previous: facilitiesTrivia.previous[bedId],
+        col: "col-start-2",
+      };
+      oxygen += 4;
+    } else if (ICU.includes(bedId)) {
+      cards[icu] = {
+        name: AVAILABILITY_TYPES[bedId],
+        current: facilitiesTrivia.current[bedId],
+        previous: facilitiesTrivia.previous[bedId],
+        col: "col-start-3",
+      };
+      icu += 4;
+    } else if (VENTILATOR.includes(bedId)) {
+      cards[ventilator] = {
+        name: AVAILABILITY_TYPES[bedId],
+        current: facilitiesTrivia.current[bedId],
+        previous: facilitiesTrivia.previous[bedId],
+        col: "col-start-4",
+      };
+      ventilator += 4;
+    }
+  });
+
+  return cards.map((card, index) =>
+    card.name ? (
+      <RadialCard
+        label={card.name}
+        count={facilitiesTrivia.current.count}
+        current={card.current}
+        previous={card.previous}
+        key={card.name}
+        col={card.col}
+      />
+    ) : (
+      index < highestExistingCard(cards) && (
+        <div
+          key={index}
+          className="flex items-center justify-center w-full h-full text-gray-400 dark:text-gray-500 text-xs font-bold bg-gray-100 dark:bg-transparent border dark:border-gray-900 rounded-md md:text-sm"
+        >
+          {`No ${typeOfBed(index + 1)} Bed`}
+        </div>
+      )
+    )
+  );
+};
+
+const Capacity = ({ filtered, date }) => {
   const facilitiesTrivia =
     filtered &&
     filtered.reduce(
@@ -67,14 +188,14 @@ const Capacity = ({ filtered, date }) => {
       }
     );
 
-
-  return (<section className="my-8 px-6 py-4 dark:bg-gray-700 bg-white">
-    <h2 className="text-green-500 text-lg font-bold">Capacity</h2>
-    <div className="mb-4 mt-8">
-      <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
+  return (
+    <section className="my-8 px-6 py-4 dark:bg-gray-700 bg-white">
+      <h2 className="text-green-500 text-lg font-bold">Capacity</h2>
+      <div className="mb-4 mt-8">
+        {/* <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
         {AVAILABILITY_TYPES_TOTAL_ORDERED.map(
           (k) =>
-            facilitiesTrivia?.current[k.id]?.total !== 0 && (
+            facilitiesTrivia?.current[k.id]?.total ? (
               <RadialCard
                 label={k.name}
                 count={facilitiesTrivia.current.count}
@@ -83,13 +204,15 @@ const Capacity = ({ filtered, date }) => {
                 key={k.name}
               />
             )
+              : null
         )}
-      </div>
+      </div> */}
 
-      <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
-        {AVAILABILITY_TYPES_ORDERED.map(
+        <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
+          {renderCapacityCards(facilitiesTrivia)}
+          {/* {AVAILABILITY_TYPES_ORDERED.map(
           (k) =>
-            facilitiesTrivia.current[k].total !== 0 && (
+            facilitiesTrivia.current[k].total ? (
               <RadialCard
                 label={AVAILABILITY_TYPES[k]}
                 count={facilitiesTrivia.current.count}
@@ -97,11 +220,12 @@ const Capacity = ({ filtered, date }) => {
                 previous={facilitiesTrivia.previous[k]}
                 key={k}
               />
-            )
-        )}
+            ) : null
+        )} */}
+        </div>
       </div>
-    </div>
-  </section>)
-}
+    </section>
+  );
+};
 
-export default Capacity
+export default Capacity;
