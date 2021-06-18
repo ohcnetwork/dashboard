@@ -1,29 +1,18 @@
-import React from "react";
 import { Card } from "@windmill/react-ui";
+import React from "react";
 
 export function CapacityCard({ data }) {
-  const finalTotal = data.covid.map((val, idx) => {
-    const used = val.used + data.non_covid[idx].used;
-    const total = val.total + data.non_covid[idx].total;
-    const vacant = val.vacant + data.non_covid[idx].vacant;
-    return { used: used, total: total, vacant: vacant };
-  });
-
-  const noCapacity = finalTotal.every((item) => item.total === 0);
-
   const showBedInfo = (bedData, category) => (
     <div className="grid row-span-2 grid-cols-9 mt-2 h-12">
       <div className="col-span-1 pl-3 pt-3 dark:text-gray-200 text-sm font-medium">
         {category}
       </div>
       {bedData.map((bed, idx) => {
-        if (!finalTotal[idx].total)
+        if (!data.final_total[idx].total) {
           return (
-            <div
-              key={idx}
-              className="grid col-span-2 grid-cols-2 ml-4 mr-4"
-            ></div>
+            <div key={idx} className="grid col-span-2 grid-cols-2 ml-4 mr-4" />
           );
+        }
         return (
           <div key={idx} className="grid col-span-2 grid-cols-2 ml-4 mr-4">
             <div className="grid grid-rows-3">
@@ -48,13 +37,15 @@ export function CapacityCard({ data }) {
     </div>
   );
 
-  return !noCapacity ? (
+  return (
     <Card className="flex flex-col mb-4 mt-4 p-4 rounded-xl">
       <div className="flex flex-col">
         <div>
-          <p className="dark:text-gray-200 text-xl font-medium">
-            {data.facility_name}
-          </p>
+          <a href={`/facility/${data.facility_id}`}>
+            <p className="dark:text-gray-200 text-xl font-medium">
+              {data.facility_name}
+            </p>
+          </a>
         </div>
         <div className="flex flex-row justify-between w-full md:w-3/12">
           <div>
@@ -92,7 +83,7 @@ export function CapacityCard({ data }) {
 
         <div className="grid-rows-7 grid mt-2 w-full overflow-x-scroll overflow-y-hidden md:mt-0 md:pl-5 md:border-l md:overflow-hidden">
           <div className="grid row-span-1 grid-cols-9 w-800 md:w-full">
-            <div className="col-span-1"></div>
+            <div className="col-span-1" />
             <div className="col-span-2">
               <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
                 ORDINARY BEDS
@@ -117,11 +108,9 @@ export function CapacityCard({ data }) {
 
           {showBedInfo(data.covid, "Covid")}
           {showBedInfo(data.non_covid, "Non-Covid")}
-          {showBedInfo(finalTotal, "Total")}
+          {showBedInfo(data.final_total, "Total")}
         </div>
       </div>
     </Card>
-  ) : (
-    <></>
   );
 }
