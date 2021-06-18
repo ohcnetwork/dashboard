@@ -137,7 +137,7 @@ const renderCapacityCards = (facilitiesTrivia) => {
     ) : (
       index < highestExistingCard(cards) && (
         <div className="flex items-center justify-center w-full h-full text-gray-400 dark:text-gray-500 text-xs font-bold bg-gray-100 dark:bg-transparent border dark:border-gray-900 rounded-md md:text-sm">
-          No Data
+          No Capacity
         </div>
       )
     )
