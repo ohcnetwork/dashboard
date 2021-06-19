@@ -35,11 +35,14 @@ function GenericTable({
             fuzzysort
               .go(
                 searchTerm,
-                data.map((d) => ({ ...d, 0: d[0][0] })),
+                data.map((d) => {
+                  const val = d[0][0].props ? d[0][0].props.children : d[0][0];
+                  return { ...d, 0: val };
+                }),
                 { key: "0" }
               )
               .map((v) => v.target)
-              .includes(v[0][0])
+              .includes(v[0][0].props ? v[0][0].props.children : v[0][0])
           )
         : data
     );
