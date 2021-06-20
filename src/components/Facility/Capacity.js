@@ -64,7 +64,7 @@ const renderCapacityCards = (facilitiesTrivia) => {
         name: bed.name,
         current: facilitiesTrivia.current[bed.id],
         previous: facilitiesTrivia.previous[bed.id],
-        col: "col-start-1",
+        col: "md:col-start-1",
       };
       ordinary += 4;
     } else if (OXYGEN.includes(bed.id)) {
@@ -72,7 +72,7 @@ const renderCapacityCards = (facilitiesTrivia) => {
         name: bed.name,
         current: facilitiesTrivia.current[bed.id],
         previous: facilitiesTrivia.previous[bed.id],
-        col: "col-start-2",
+        col: "md:col-start-2",
       };
       oxygen += 4;
     } else if (ICU.includes(bed.id)) {
@@ -80,7 +80,7 @@ const renderCapacityCards = (facilitiesTrivia) => {
         name: bed.name,
         current: facilitiesTrivia.current[bed.id],
         previous: facilitiesTrivia.previous[bed.id],
-        col: "col-start-3",
+        col: "md:col-start-3",
       };
       icu += 4;
     } else if (VENTILATOR.includes(bed.id)) {
@@ -88,7 +88,7 @@ const renderCapacityCards = (facilitiesTrivia) => {
         name: bed.name,
         current: facilitiesTrivia.current[bed.id],
         previous: facilitiesTrivia.previous[bed.id],
-        col: "col-start-4",
+        col: "md:col-start-4",
       };
       ventilator += 4;
     }
@@ -101,7 +101,7 @@ const renderCapacityCards = (facilitiesTrivia) => {
         name: AVAILABILITY_TYPES[bedId],
         current: facilitiesTrivia.current[bedId],
         previous: facilitiesTrivia.previous[bedId],
-        col: "col-start-1",
+        col: "md:col-start-1",
       };
       ordinary += 4;
     } else if (OXYGEN.includes(bedId)) {
@@ -109,7 +109,7 @@ const renderCapacityCards = (facilitiesTrivia) => {
         name: AVAILABILITY_TYPES[bedId],
         current: facilitiesTrivia.current[bedId],
         previous: facilitiesTrivia.previous[bedId],
-        col: "col-start-2",
+        col: "md:col-start-2",
       };
       oxygen += 4;
     } else if (ICU.includes(bedId)) {
@@ -117,7 +117,7 @@ const renderCapacityCards = (facilitiesTrivia) => {
         name: AVAILABILITY_TYPES[bedId],
         current: facilitiesTrivia.current[bedId],
         previous: facilitiesTrivia.previous[bedId],
-        col: "col-start-3",
+        col: "md:col-start-3",
       };
       icu += 4;
     } else if (VENTILATOR.includes(bedId)) {
@@ -125,7 +125,7 @@ const renderCapacityCards = (facilitiesTrivia) => {
         name: AVAILABILITY_TYPES[bedId],
         current: facilitiesTrivia.current[bedId],
         previous: facilitiesTrivia.previous[bedId],
-        col: "col-start-4",
+        col: "md:col-start-4",
       };
       ventilator += 4;
     }
@@ -145,7 +145,7 @@ const renderCapacityCards = (facilitiesTrivia) => {
       index < highestExistingCard(cards) && (
         <div
           key={index}
-          className="flex items-center justify-center w-full h-full text-gray-400 dark:text-gray-500 text-xs font-bold bg-gray-100 dark:bg-transparent border dark:border-gray-900 rounded-md md:text-sm"
+          className="hidden items-center justify-center w-full h-full text-gray-400 dark:text-gray-500 text-xs font-bold bg-gray-100 dark:bg-transparent border dark:border-gray-900 rounded-md md:flex md:text-sm"
         >
           {`No ${typeOfBed(index + 1)} Bed`}
         </div>
