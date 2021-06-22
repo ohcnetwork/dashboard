@@ -20,7 +20,7 @@
     "fuzzysort": "^1.1.4",
     "google-map-react": "^2.1.9",
     "html2canvas": "^1.0.0-rc.7",
-    "prettier-plugin-tailwind": "^2.1.9",
+    "prettier-plugin-tailwind": "^2.2.11",
     "react": "^16.13.1",
     "react-csv": "^2.0.3",
     "react-date-picker": "^8.0.7",
