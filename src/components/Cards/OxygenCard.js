@@ -84,12 +84,12 @@ export function OxygenCard({ data }) {
       {oxygenData.map((val, idx) =>
         !val ? (
           <div
-            key={idx}
+            key={`${idx}_${data.facility_name}`}
             className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-lg font-semibold"
           ></div>
         ) : (
           <div
-            key={idx}
+            key={`${idx}_${data.facility_name}`}
             className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-lg font-semibold"
           >
             <div className="flex flex-row justify-center">
@@ -153,8 +153,11 @@ export function OxygenCard({ data }) {
       <div className="grid-rows-7 grid mt-2 pt-2 w-full border-t overflow-x-scroll overflow-y-hidden md:mt-4 md:pt-0 md:border-0 md:overflow-hidden">
         <div className="grid row-span-1 grid-cols-9 w-800 md:w-full">
           <div className="col-span-1" />
-          {Object.values(OXYGEN_TYPES).map((val) => (
-            <div className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
+          {Object.values(OXYGEN_TYPES).map((val, idx) => (
+            <div
+              key={idx}
+              className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-sm font-semibold"
+            >
               {val.toUpperCase()}
             </div>
           ))}

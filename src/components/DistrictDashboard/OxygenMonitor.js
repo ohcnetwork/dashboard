@@ -471,8 +471,8 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           </div>
         </div>
 
-        {tableData.map((data, idx) => (
-          <OxygenCard data={data} key={idx} />
+        {tableData.map((data) => (
+          <OxygenCard data={data} key={data.id} />
         ))}
 
         <Pagination
