@@ -1,5 +1,6 @@
 import { Card } from "@windmill/react-ui";
 import React from "react";
+import { OXYGEN_TYPES } from "../../utils/constants";
 
 export function OxygenCard({ data }) {
   const getSVG = (parameter) => {
@@ -60,22 +61,42 @@ export function OxygenCard({ data }) {
     }
   };
 
+  const getUnit = (parameter, id) => {
+    if (parameter === "Quantity") {
+      return <div className="text-xs">{data.quantity_unit[id]}</div>;
+    } else if (parameter === "Burn Rate") {
+      return <div className="text-xs">{data.quantity_unit[id]}/hr</div>;
+    } else {
+      return <div className="text-xs">hr</div>;
+    }
+  };
+
   const showOxygenInfo = (oxygenData, parameter) => (
     <div className="grid row-span-2 grid-cols-9 items-center mt-2">
       <div className="flex flex-row col-span-1 items-center">
         {getSVG(parameter)}
         <div>{parameter}</div>
       </div>
-      {oxygenData.map((val, idx) => (
-        <div
-          key={idx}
-          className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-lg font-semibold"
-        >
-          {val}
-        </div>
-      ))}
+      {oxygenData.map((val, idx) =>
+        !val ? (
+          <div
+            key={idx}
+            className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-lg font-semibold"
+          ></div>
+        ) : (
+          <div
+            key={idx}
+            className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-lg font-semibold"
+          >
+            <div>{val}</div>
+            {getUnit(parameter, idx)}
+          </div>
+        )
+      )}
     </div>
   );
+
+  console.log(data.quantity);
 
   return (
     <Card className="flex flex-col mb-4 mt-4 p-4 rounded-xl">
@@ -114,26 +135,11 @@ export function OxygenCard({ data }) {
       <div className="grid-rows-7 grid mt-4 w-full">
         <div className="grid row-span-1 grid-cols-9 md:w-full">
           <div className="col-span-1" />
-          <div className="col-span-2">
-            <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
-              ORDINARY BEDS
-            </p>
-          </div>
-          <div className="col-span-2">
-            <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
-              OXYGEN BEDS
-            </p>
-          </div>
-          <div className="col-span-2">
-            <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
-              ICU
-            </p>
-          </div>
-          <div className="col-span-2">
-            <p className="text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
-              VENTILATORS
-            </p>
-          </div>
+          {Object.values(OXYGEN_TYPES).map((val) => (
+            <div className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
+              {val}
+            </div>
+          ))}
         </div>
 
         <div className="grid row-span-1 grid-cols-9 md:w-full">

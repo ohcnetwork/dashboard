@@ -152,6 +152,61 @@ const stockSummary = (oxygenFlatData, key) => {
   );
 };
 
+const getCardData = (facility) => {
+  const last_updated = [];
+  const quantity = [];
+  const burn_rate = [];
+  const time_to_empty = [];
+  const quantity_unit = [];
+  Object.values(OXYGEN_INVENTORY).forEach((id) => {
+    if (!facility.inventory[id]) {
+      last_updated.push(null);
+      quantity.push(null);
+      burn_rate.push(null);
+      time_to_empty.push(null);
+      quantity_unit.push(null);
+    } else {
+      last_updated.push(
+        dayjs(new Date(facility.inventory[id]?.modified_date)).fromNow()
+      );
+
+      const quantity_info = `${facility.inventory[id]?.stock?.toFixed(2)}/${
+        OXYGEN_TYPES_KEYS[id] === "liquid"
+          ? (
+              facility[OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[id]]] *
+              0.8778
+            ).toFixed(2)
+          : facility[OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[id]]]
+      }`;
+      quantity.push(quantity_info);
+
+      quantity_unit.push(facility.inventory[id]?.unit);
+
+      burn_rate.push(
+        facility.inventory[id]?.burn_rate > 0
+          ? facility.inventory[id]?.burn_rate?.toFixed(2)
+          : ""
+      );
+
+      const time_info =
+        facility.inventory[id]?.burn_rate > 0
+          ? (
+              facility.inventory[id]?.stock / facility.inventory[id]?.burn_rate
+            ).toFixed(2)
+          : "";
+      time_to_empty.push(time_info);
+    }
+  });
+
+  return {
+    last_updated: last_updated,
+    quantity: quantity,
+    burn_rate: burn_rate,
+    time_to_empty: time_to_empty,
+    quantity_unit: quantity_unit,
+  };
+};
+
 const showStockWithBurnRate = (facility, k, inventoryItem) => {
   return inventoryItem ? (
     <div key={k} className={inventoryItem?.is_low ? "text-red-500" : ""}>
@@ -323,34 +378,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
               facility_last_updated: dayjs(
                 new Date(facility.inventoryModifiedDate)
               ).fromNow(),
-              last_updated: Object.values(OXYGEN_INVENTORY).map((id) =>
-                dayjs(new Date(facility.inventory[id]?.modified_date)).fromNow()
-              ),
-              quantity: Object.values(OXYGEN_INVENTORY).map(
-                (id) =>
-                  `${facility.inventory[id]?.stock?.toFixed(2)}/${
-                    OXYGEN_TYPES_KEYS[id] === "liquid"
-                      ? (
-                          facility[
-                            OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[id]]
-                          ] * 0.8778
-                        ).toFixed(2)
-                      : facility[
-                          OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[id]]
-                        ]
-                  }`
-              ),
-              burn_rate: Object.values(OXYGEN_INVENTORY).map((id) =>
-                facility.inventory[id]?.burn_rate?.toFixed(2)
-              ),
-              time_to_empty: Object.values(OXYGEN_INVENTORY).map((id) =>
-                facility.inventory[id]?.burn_rate
-                  ? (
-                      facility.inventory[id]?.stock /
-                      facility.inventory[id]?.burn_rate
-                    ).toFixed(2)
-                  : 0
-              ),
+              ...getCardData(facility),
             },
           ];
         }
