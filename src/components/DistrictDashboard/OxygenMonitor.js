@@ -1,12 +1,11 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense, useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import useSWR from "swr";
 
 import { careSummary } from "../../utils/api";
 import {
-  OXYGEN_TYPES,
   OXYGEN_INVENTORY,
   OXYGEN_INVENTORY_NAME,
   OXYGEN_CAPACITY_TRANSLATION,
@@ -18,8 +17,6 @@ import {
   getNDateBefore,
   processFacilities,
 } from "../../utils/utils";
-import ThemedSuspense from "../ThemedSuspense";
-import GenericTable from "./GenericTable";
 import { OxygenCard } from "../Cards/OxygenCard";
 import { SectionTitle } from "../Typography/Title";
 import { CSVLink } from "react-csv";
@@ -217,86 +214,6 @@ const getCardData = (facility) => {
   };
 };
 
-const showStockWithBurnRate = (facility, k, inventoryItem) => {
-  return inventoryItem ? (
-    <div key={k} className={inventoryItem?.is_low ? "text-red-500" : ""}>
-      <div className="text-md font-bold">
-        {inventoryItem?.stock?.toFixed(2)}
-        {" / "}
-        {OXYGEN_TYPES_KEYS[k] === "liquid"
-          ? (
-              facility[OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[k]]] *
-              0.8778
-            ).toFixed(2)
-          : facility[OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[k]]]}
-
-        <span className="pl-1 font-mono text-xs">{inventoryItem?.unit} </span>
-      </div>
-      <small className="flex items-center mt-2 text-sm">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          focusable="false"
-          data-prefix="fas"
-          data-icon="fire"
-          className="w-4 h-4"
-          role="img"
-          viewBox="0 0 384 512"
-        >
-          <path
-            fill="currentColor"
-            d="M216 23.86c0-23.8-30.65-32.77-44.15-13.04C48 191.85 224 200 224 288c0 35.63-29.11 64.46-64.85 63.99-35.17-.45-63.15-29.77-63.15-64.94v-85.51c0-21.7-26.47-32.23-41.43-16.5C27.8 213.16 0 261.33 0 320c0 105.87 86.13 192 192 192s192-86.13 192-192c0-170.29-168-193-168-296.14z"
-          />
-        </svg>
-        <span className="pl-2 font-semibold">
-          {inventoryItem?.burn_rate > 0
-            ? inventoryItem?.burn_rate?.toFixed(2)
-            : "-"}
-        </span>
-        <span className="pl-1 font-mono text-xs">
-          {inventoryItem?.unit} / hr{" "}
-        </span>
-      </small>
-
-      <div className="flex">
-        <span className="relative inline-flex rounded-md shadow-sm">
-          <small className="flex items-center mt-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-4 h-4"
-              fill="currentColor"
-              viewBox="0 0 16 16"
-            >
-              <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 5.29-11.584.531.531 0 0 0 .013-.012l.354-.354.353.354a.5.5 0 1 0 .707-.707l-1.414-1.415a.5.5 0 1 0-.707.707l.354.354-.354.354a.717.717 0 0 0-.012.012A6.973 6.973 0 0 0 9 2.071V1h.5a.5.5 0 0 0 0-1h-3zm2 5.6V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 1 1 1 0z" />
-            </svg>
-
-            <span className="pl-2 text-sm font-semibold">
-              {inventoryItem?.burn_rate > 0
-                ? (inventoryItem?.stock / inventoryItem?.burn_rate).toFixed(2)
-                : "-"}
-            </span>
-            <span className="pl-1 font-mono text-xs"> hr </span>
-          </small>
-          {inventoryItem?.burn_rate !== 0 &&
-            (inventoryItem?.stock / inventoryItem?.burn_rate).toFixed(2) <
-              5.0 && (
-              <span className="absolute right-0 top-0 flex -mr-5 mt-3 w-4 h-4">
-                <span className="absolute inline-flex w-full h-full bg-red-500 rounded-full opacity-75 animate-ping"></span>
-                <span className="relative inline-flex w-4 h-4 bg-red-600 rounded-full"></span>
-              </span>
-            )}
-        </span>
-      </div>
-
-      <small className="text-xs">
-        {dayjs(new Date(inventoryItem?.modified_date)).fromNow()}
-      </small>
-    </div>
-  ) : (
-    <div key={k} />
-  );
-};
-
 const oxygenSelector = (selector) => {
   switch (selector.toLowerCase()) {
     case "last updated":
@@ -331,14 +248,6 @@ const selectorToText = (selector) => {
   }
 };
 
-const tableHead = (data) => {
-  return data.map((k) => (
-    <div>
-      <div>{k}</div>
-      <div>Stock / Capacity</div>
-    </div>
-  ));
-};
 function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
   const [orderBy, setOrderBy] = useState({
     selector: "inventoryModifiedDate",

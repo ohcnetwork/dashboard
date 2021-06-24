@@ -116,8 +116,6 @@ export function OxygenCard({ data }) {
     </div>
   );
 
-  console.log(data.quantity);
-
   return (
     <Card className="flex flex-col mb-4 mt-4 p-4 rounded-xl">
       <div className="flex flex-col justify-between md:flex-row">
