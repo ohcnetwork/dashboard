@@ -20,6 +20,7 @@ import {
 } from "../../utils/utils";
 import ThemedSuspense from "../ThemedSuspense";
 import GenericTable from "./GenericTable";
+import { OxygenCard } from "../Cards/OxygenCard";
 
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
@@ -303,35 +304,62 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
       orderBy
     );
 
-    const tableData = filtered.reduce((a, c) => {
-      if (c.date === dateString(date)) {
+    const tableData = filtered.reduce((acc, facility) => {
+      if (facility.date === dateString(date)) {
         if (
-          c.inventory &&
-          Object.keys(c.inventory).length !== 0 &&
-          Object.keys(c.inventory).some((e) =>
-            Object.values(OXYGEN_INVENTORY).includes(Number(e))
+          facility.inventory &&
+          Object.keys(facility.inventory).length !== 0 &&
+          Object.keys(facility.inventory).some((key) =>
+            Object.values(OXYGEN_INVENTORY).includes(Number(key))
           )
         ) {
-          const arr = [
-            [
-              [
-                <a href={`/facility/${c.id}`}>{c.name}</a>,
-                c.facilityType,
-                c.phoneNumber,
-              ],
-              [dayjs(new Date(c.inventoryModifiedDate)).fromNow()],
-              ...Object.values(OXYGEN_INVENTORY).map((k) =>
-                showStockWithBurnRate(c, k, c.inventory[k])
+          return [
+            ...acc,
+            {
+              facility_id: facility.id,
+              facility_name: facility.name,
+              facility_type: facility.facilityType,
+              phone_number: facility.phoneNumber,
+              facility_last_updated: dayjs(
+                new Date(facility.inventoryModifiedDate)
+              ).fromNow(),
+              last_updated: Object.values(OXYGEN_INVENTORY).map((id) =>
+                dayjs(new Date(facility.inventory[id]?.modified_date)).fromNow()
               ),
-            ],
+              quantity: Object.values(OXYGEN_INVENTORY).map(
+                (id) =>
+                  `${facility.inventory[id]?.stock?.toFixed(2)}/${
+                    OXYGEN_TYPES_KEYS[id] === "liquid"
+                      ? (
+                          facility[
+                            OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[id]]
+                          ] * 0.8778
+                        ).toFixed(2)
+                      : facility[
+                          OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[id]]
+                        ]
+                  }`
+              ),
+              burn_rate: Object.values(OXYGEN_INVENTORY).map((id) =>
+                facility.inventory[id]?.burn_rate?.toFixed(2)
+              ),
+              time_to_empty: Object.values(OXYGEN_INVENTORY).map((id) =>
+                facility.inventory[id]?.burn_rate
+                  ? (
+                      facility.inventory[id]?.stock /
+                      facility.inventory[id]?.burn_rate
+                    ).toFixed(2)
+                  : 0
+              ),
+            },
           ];
-
-          return [...a, ...arr];
         }
-        return a;
+        return acc;
       }
-      return a;
+      return acc;
     }, []);
+
+    console.log("table data new", tableData);
 
     const oxygenFlatData = filtered
       .map((c) => {
@@ -447,15 +475,9 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         </div>
       )}
 
-      <Suspense fallback={<ThemedSuspense />}>
-        <GenericTable
-          className="mb-8"
-          columns={["Name", "LAST UPDATED", ...Object.values(OXYGEN_TYPES)]}
-          data={tableData}
-          exported={exported}
-          setOrderBy={setOrderByHandler}
-        />
-      </Suspense>
+      {tableData.map((data, idx) => (
+        <OxygenCard data={data} key={idx} />
+      ))}
     </>
   );
 }
