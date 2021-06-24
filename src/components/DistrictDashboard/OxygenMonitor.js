@@ -438,7 +438,9 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           stockSummary(oxygenFlatData, n)
         )}
       </div>
-      {orderBy && (
+
+      {/* Commented for now... to be added as a seperate component*/}
+      {/* {orderBy && (
         <div className="flex items-center mt-4 space-x-2">
           <div className="dark:text-white text-xs">
             Showing Results Filtered by: {selectorToText(orderBy.selector)}{" "}
@@ -451,7 +453,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
             X Clear Filter
           </div>
         </div>
-      )}
+      )} */}
 
       <div id="facility-oxygen-cards" className="mb-16 mt-16">
         <div className="flex flex-col items-center justify-between md:flex-row">
