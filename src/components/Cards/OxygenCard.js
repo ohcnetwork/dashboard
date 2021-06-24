@@ -63,19 +63,23 @@ export function OxygenCard({ data }) {
 
   const getUnit = (parameter, id) => {
     if (parameter === "Quantity") {
-      return <div className="text-xs">{data.quantity_unit[id]}</div>;
+      return <div className="font-mono text-xs">{data.quantity_unit[id]}</div>;
     } else if (parameter === "Burn Rate") {
-      return <div className="text-xs">{data.quantity_unit[id]}/hr</div>;
+      return (
+        <div className="font-mono text-xs">{data.quantity_unit[id]}/hr</div>
+      );
     } else {
-      return <div className="text-xs">hr</div>;
+      return <div className="font-mono text-xs">hr</div>;
     }
   };
 
   const showOxygenInfo = (oxygenData, parameter) => (
-    <div className="grid row-span-2 grid-cols-9 items-center mt-2">
+    <div className="grid row-span-2 grid-cols-9 items-center mt-4">
       <div className="flex flex-row col-span-1 items-center">
         {getSVG(parameter)}
-        <div>{parameter}</div>
+        <div className="dark:text-gray-200 text-sm font-medium">
+          {parameter}
+        </div>
       </div>
       {oxygenData.map((val, idx) =>
         !val ? (
@@ -89,7 +93,11 @@ export function OxygenCard({ data }) {
             className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-lg font-semibold"
           >
             <div className="flex flex-row justify-center">
-              <div className={data.is_low[idx] ? "text-red-500" : ""}>
+              <div
+                className={`text-gray-800 dark:text-gray-200 text-lg font-semibold ${
+                  data.is_low[idx] ? "text-red-500 dark:text-red-500" : ""
+                }`}
+              >
                 {val}
               </div>
               {parameter === "Time to Empty" && val < 5.0 && (
@@ -135,7 +143,7 @@ export function OxygenCard({ data }) {
           </div>
         </div>
         <div className="flex flex-col">
-          <p className="dark:text-gray-400 text-gray-600 font-medium">
+          <p className="dark:text-gray-400 text-gray-600 text-sm font-medium">
             Last Updated
           </p>
           <p className="dark:text-gray-200 text-xl font-medium">
@@ -149,13 +157,15 @@ export function OxygenCard({ data }) {
           <div className="col-span-1" />
           {Object.values(OXYGEN_TYPES).map((val) => (
             <div className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
-              {val}
+              {val.toUpperCase()}
             </div>
           ))}
         </div>
 
         <div className="grid row-span-1 grid-cols-9 md:w-full">
-          <div className="col-span-1 text-xs">LAST UPDATED</div>
+          <div className="col-span-1 dark:text-gray-400 text-gray-600 text-xs font-semibold">
+            LAST UPDATED
+          </div>
           {data.last_updated.map((val, idx) => (
             <div
               key={idx}
