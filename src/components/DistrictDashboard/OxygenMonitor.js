@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense, useMemo, useState } from "react";
+import React, { lazy, Suspense, useMemo, useState, useEffect } from "react";
 import useSWR from "swr";
 
 import { careSummary } from "../../utils/api";
@@ -21,6 +21,11 @@ import {
 import ThemedSuspense from "../ThemedSuspense";
 import GenericTable from "./GenericTable";
 import { OxygenCard } from "../Cards/OxygenCard";
+import { SectionTitle } from "../Typography/Title";
+import { CSVLink } from "react-csv";
+import Pagination from "../Pagination";
+import { Button, Input } from "@windmill/react-ui";
+import fuzzysort from "fuzzysort";
 
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
@@ -357,14 +362,14 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         district
       )
   );
-  const { tableData, oxygenFlatData, exported } = useMemo(() => {
+  const { oxygenCardData, oxygenFlatData, exported } = useMemo(() => {
     const filtered = processFacilities(
       data.results,
       filterFacilityTypes,
       orderBy
     );
 
-    const tableData = filtered.reduce((acc, facility) => {
+    const oxygenCardData = filtered.reduce((acc, facility) => {
       if (facility.date === dateString(date)) {
         if (
           facility.inventory &&
@@ -391,8 +396,6 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
       }
       return acc;
     }, []);
-
-    console.log("table data new", tableData);
 
     const oxygenFlatData = filtered
       .map((c) => {
@@ -480,8 +483,41 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
       filename: "oxygen_export.csv",
     };
 
-    return { tableData, oxygenFlatData, exported };
+    return { oxygenCardData, oxygenFlatData, exported };
   }, [data, filterFacilityTypes, orderBy]);
+
+  const [filteredData, setFilteredData] = useState(oxygenCardData);
+  const [tableData, setTableData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(0);
+  const resultsPerPage = 10;
+
+  useEffect(() => {
+    const debounce_timer = setTimeout(() => {
+      setFilteredData(
+        searchTerm
+          ? oxygenCardData.filter((v) =>
+              fuzzysort
+                .go(
+                  searchTerm,
+                  oxygenCardData.map((d) => ({ ...d, 0: d.facility_name })),
+                  { key: "0" }
+                )
+                .map((v) => v.target)
+                .includes(v.facility_name)
+            )
+          : oxygenCardData
+      );
+      setPage(0);
+    }, 1000);
+    return () => clearTimeout(debounce_timer);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    setTableData(
+      filteredData.slice(page * resultsPerPage, (page + 1) * resultsPerPage)
+    );
+  }, [filteredData, page]);
 
   return (
     <>
@@ -508,9 +544,36 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
         </div>
       )}
 
-      {tableData.map((data, idx) => (
-        <OxygenCard data={data} key={idx} />
-      ))}
+      <div id="facility-oxygen-cards" className="mb-16 mt-16">
+        <div className="flex flex-col items-center justify-between md:flex-row">
+          <SectionTitle>Facilities</SectionTitle>
+          <div className="flex max-w-full space-x-4">
+            {exported && (
+              <CSVLink data={exported.data} filename={exported.filename}>
+                <Button block>Export</Button>
+              </CSVLink>
+            )}
+            <Input
+              className="sw-40 rounded-lg sm:w-auto"
+              placeholder="Search Facility"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+            />
+          </div>
+        </div>
+
+        {tableData.map((data, idx) => (
+          <OxygenCard data={data} key={idx} />
+        ))}
+
+        <Pagination
+          resultsPerPage={resultsPerPage}
+          totalResults={filteredData.length}
+          currentPage={page}
+          currentResults={tableData.length}
+          handlePageClick={setPage}
+        />
+      </div>
     </>
   );
 }
