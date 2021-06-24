@@ -162,7 +162,7 @@ export function OxygenCard({ data }) {
           ))}
         </div>
 
-        <div className="grid row-span-1 grid-cols-9 md:w-full">
+        <div className="md:w-ful grid row-span-1 grid-cols-9 md:mt-1 md:pb-1 md:pt-1 md:border-b md:border-t">
           <div className="col-span-1 dark:text-gray-400 text-gray-600 text-xs font-semibold">
             LAST UPDATED
           </div>
