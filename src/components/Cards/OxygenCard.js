@@ -120,7 +120,7 @@ export function OxygenCard({ data }) {
 
   return (
     <Card className="flex flex-col mb-4 mt-4 p-4 rounded-xl">
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-col justify-between md:flex-row">
         <div className="flex flex-col">
           <div>
             <a href={`/facility/${data.facility_id}`}>
@@ -142,7 +142,7 @@ export function OxygenCard({ data }) {
             </div>
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col mt-1 pt-2 border-t md:mt-0 md:pt-0 md:border-0">
           <p className="dark:text-gray-400 text-gray-600 text-sm font-medium">
             Last Updated
           </p>
@@ -152,8 +152,8 @@ export function OxygenCard({ data }) {
         </div>
       </div>
 
-      <div className="grid-rows-7 grid mt-4 w-full">
-        <div className="grid row-span-1 grid-cols-9 md:w-full">
+      <div className="grid-rows-7 grid mt-2 pt-2 w-full border-t overflow-x-scroll overflow-y-hidden md:mt-4 md:pt-0 md:border-0 md:overflow-hidden">
+        <div className="grid row-span-1 grid-cols-9 w-800 md:w-full">
           <div className="col-span-1" />
           {Object.values(OXYGEN_TYPES).map((val) => (
             <div className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-sm font-semibold">
