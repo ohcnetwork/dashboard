@@ -158,6 +158,7 @@ const getCardData = (facility) => {
   const burn_rate = [];
   const time_to_empty = [];
   const quantity_unit = [];
+  const is_low = [];
   Object.values(OXYGEN_INVENTORY).forEach((id) => {
     if (!facility.inventory[id]) {
       last_updated.push(null);
@@ -165,12 +166,13 @@ const getCardData = (facility) => {
       burn_rate.push(null);
       time_to_empty.push(null);
       quantity_unit.push(null);
+      is_low.push(null);
     } else {
       last_updated.push(
         dayjs(new Date(facility.inventory[id]?.modified_date)).fromNow()
       );
 
-      const quantity_info = `${facility.inventory[id]?.stock?.toFixed(2)}/${
+      const quantity_info = `${facility.inventory[id]?.stock?.toFixed(2)} / ${
         OXYGEN_TYPES_KEYS[id] === "liquid"
           ? (
               facility[OXYGEN_CAPACITY_TRANSLATION[OXYGEN_TYPES_KEYS[id]]] *
@@ -195,6 +197,8 @@ const getCardData = (facility) => {
             ).toFixed(2)
           : "";
       time_to_empty.push(time_info);
+
+      is_low.push(facility.inventory[id]?.is_low);
     }
   });
 
@@ -204,6 +208,7 @@ const getCardData = (facility) => {
     burn_rate: burn_rate,
     time_to_empty: time_to_empty,
     quantity_unit: quantity_unit,
+    is_low: is_low,
   };
 };
 

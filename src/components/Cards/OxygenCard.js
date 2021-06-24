@@ -88,7 +88,19 @@ export function OxygenCard({ data }) {
             key={idx}
             className="col-span-2 text-center dark:text-gray-400 text-gray-600 text-lg font-semibold"
           >
-            <div>{val}</div>
+            <div className="flex flex-row justify-center">
+              <div className={data.is_low[idx] ? "text-red-500" : ""}>
+                {val}
+              </div>
+              {parameter === "Time to Empty" && val < 5.0 && (
+                <span className="relative inline-flex rounded-md shadow-sm">
+                  <span className="absolute flex w-4 h-4">
+                    <span className="absolute inline-flex w-full h-full bg-red-500 rounded-full opacity-75 animate-ping"></span>
+                    <span className="relative inline-flex w-4 h-4 bg-red-600 rounded-full"></span>
+                  </span>
+                </span>
+              )}
+            </div>
             {getUnit(parameter, idx)}
           </div>
         )
