@@ -6,7 +6,7 @@ export function Pill({ title, children }) {
       <span className="mx-2 text-xxs font-medium leading-none xl:text-sm">
         {title}
       </span>
-      <div className="flex h-full text-sm bg-green-500 rounded-lg xl:text-base">
+      <div className="flex h-full text-sm bg-primary-500 rounded-lg xl:text-base">
         {children}
       </div>
     </div>

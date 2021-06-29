@@ -190,7 +190,7 @@ const Capacity = ({ filtered, date }) => {
 
   return (
     <section className="my-8 px-6 py-4 dark:bg-gray-700 bg-white">
-      <h2 className="text-green-500 text-lg font-bold">Capacity</h2>
+      <h2 className="text-primary-500 text-lg font-bold">Capacity</h2>
       <div className="mb-4 mt-8">
         {/* <div className="grid-col-1 grid gap-6 mb-8 md:grid-cols-4">
         {AVAILABILITY_TYPES_TOTAL_ORDERED.map(

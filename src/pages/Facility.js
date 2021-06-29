@@ -70,7 +70,7 @@ function Facility() {
         <Oxygen oxygenData={oxygenData} />
         <ExpectedBurnRate patientData={patientData} />
         <section className="my-8 px-6 py-4 dark:bg-gray-700 bg-white">
-          <h2 className="text-green-500 text-lg font-bold">Map</h2>
+          <h2 className="text-primary-500 text-lg font-bold">Map</h2>
           <GMap
             className="mb-8 mt-6"
             facilities={todayFiltered}
