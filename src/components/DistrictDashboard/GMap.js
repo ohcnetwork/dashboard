@@ -15,8 +15,8 @@ const selectedButtonClasses = (bool) => {
   return (
     d +
     (bool
-      ? "bg-green-500 text-white"
-      : "dark:hover:bg-green-500 hover:text-white hover:bg-green-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white")
+      ? "bg-primary-500 text-white"
+      : "dark:hover:bg-primary-500 hover:text-white hover:bg-primary-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white")
   );
 };
 

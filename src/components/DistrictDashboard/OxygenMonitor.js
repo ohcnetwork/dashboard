@@ -448,7 +448,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
           </div>
           <div
             onClick={(_) => setOrderBy()}
-            className="focus:shadow-outline-green inline-flex items-center justify-center px-2 text-white text-xs leading-5 bg-green-500 active:bg-green-500 hover:bg-green-600 border border-transparent rounded-lg focus:outline-none cursor-pointer transition-colors duration-150"
+            className="focus:shadow-outline-primary inline-flex items-center justify-center px-2 text-white text-xs leading-5 bg-primary-500 active:bg-primary-500 hover:bg-primary-600 border border-transparent rounded-lg focus:outline-none cursor-pointer transition-colors duration-150"
           >
             X Clear Filter
           </div>

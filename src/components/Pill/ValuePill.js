@@ -18,7 +18,7 @@ export function ValuePill({ title, value = 0 }) {
       <span className="mx-2 text-xxs font-medium leading-none xl:text-sm">
         {title}
       </span>
-      <div className="flex items-center h-full text-xs font-medium bg-green-500 rounded-lg xl:text-base">
+      <div className="flex items-center h-full text-xs font-medium bg-primary-500 rounded-lg xl:text-base">
         <animated.span className="inline-flex items-center justify-center align-bottom px-3 py-1 text-white leading-5 rounded-md shadow-xs">
           {v.interpolate((x) => Math.round(x))}
         </animated.span>

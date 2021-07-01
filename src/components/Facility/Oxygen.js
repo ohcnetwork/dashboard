@@ -11,7 +11,7 @@ const Oxygen = ({ oxygenData }) => {
         oxygenData[k] && (
           <div
             key={k}
-            className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-md"
+            className="bg-gray-50 flex items-center justify-between p-4 dark:bg-gray-800 rounded-md"
           >
             <div className="justify-butween flex items-center">
               <div>
@@ -104,7 +104,7 @@ const Oxygen = ({ oxygenData }) => {
       return elems;
     } else {
       return (
-        <div className="word-wrap my-4 px-2 py-4 text-center text-gray-600 break-words text-2xl font-bold bg-gray-50 dark:bg-gray-800 rounded-md md:text-3xl">
+        <div className="word-wrap bg-gray-50 my-4 px-2 py-4 text-center text-gray-600 break-words text-2xl font-bold dark:bg-gray-800 rounded-md md:text-3xl">
           <p>No Data Available</p>
         </div>
       );
@@ -112,13 +112,13 @@ const Oxygen = ({ oxygenData }) => {
   };
   return (
     <section className="my-8 p-6 dark:bg-gray-700 bg-white">
-      <h2 className="text-green-500 text-lg font-bold">Oxygen</h2>
+      <h2 className="text-primary-500 text-lg font-bold">Oxygen</h2>
       <div className="mb-4 mt-8">
         <div className="grid-col-1 grid gap-6 mb-8">
           {Object.keys(oxygenData).length ? (
             renderOxygenCards()
           ) : (
-            <div className="word-wrap my-4 px-2 py-4 text-center text-gray-600 break-words text-2xl font-bold bg-gray-50 dark:bg-gray-800 rounded-md md:text-3xl">
+            <div className="word-wrap bg-gray-50 my-4 px-2 py-4 text-center text-gray-600 break-words text-2xl font-bold dark:bg-gray-800 rounded-md md:text-3xl">
               <p>No Oxygen Data Available</p>
             </div>
           )}

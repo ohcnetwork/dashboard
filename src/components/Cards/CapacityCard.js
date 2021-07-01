@@ -24,7 +24,7 @@ export function CapacityCard({ data }) {
               </div>
             </div>
             <div className="grid grid-rows-3">
-              <div className="row-span-1 text-center text-green-500 text-sm font-semibold">
+              <div className="row-span-1 text-center text-primary-500 text-sm font-semibold">
                 Vacant
               </div>
               <div className="row-span-2 text-center dark:text-gray-200 text-gray-800 text-lg font-semibold">

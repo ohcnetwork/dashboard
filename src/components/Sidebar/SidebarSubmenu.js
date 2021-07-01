@@ -14,7 +14,7 @@ function SidebarSubmenu({ route }) {
     <li className="relative px-6 py-3" key={route.name}>
       <Route path={route.path} exact={route.exact}>
         <span
-          className="absolute inset-y-0 left-0 w-1 bg-green-500 rounded-br-lg rounded-tr-lg"
+          className="absolute inset-y-0 left-0 w-1 bg-primary-500 rounded-br-lg rounded-tr-lg"
           aria-hidden="true"
         />
       </Route>
@@ -39,7 +39,7 @@ function SidebarSubmenu({ route }) {
         leaveTo="opacity-0 max-h-0"
       >
         <ul
-          className="mt-2 p-2 dark:text-gray-400 text-gray-500 text-sm font-medium bg-gray-50 dark:bg-gray-900 rounded-md shadow-inner overflow-hidden space-y-2"
+          className="bg-gray-50 mt-2 p-2 dark:text-gray-400 text-gray-500 text-sm font-medium dark:bg-gray-900 rounded-md shadow-inner overflow-hidden space-y-2"
           aria-label="submenu"
         >
           {route.routes.map((r) => (
