@@ -96,107 +96,105 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
         district
       )
   );
-  const {
-    facilitiesTrivia,
-    exported,
-    todayFiltered,
-    capacityCardData,
-  } = useMemo(() => {
-    const filtered = processFacilities(data.results, filterFacilityTypes);
-    const facilitiesTrivia = filtered.reduce(
-      (a, c) => {
-        const key = c.date === dateString(date) ? "current" : "previous";
-        a[key].count += 1;
-        a[key].oxygen += c.oxygenCapacity || 0;
-        a[key].actualLivePatients += c.actualLivePatients || 0;
-        a[key].actualDischargedPatients += c.actualDischargedPatients || 0;
-        Object.keys(AVAILABILITY_TYPES).forEach((k) => {
-          a[key][k].used += c.capacity[k]?.current_capacity || 0;
-          a[key][k].total += c.capacity[k]?.total_capacity || 0;
-        });
+  const { facilitiesTrivia, exported, todayFiltered, capacityCardData } =
+    useMemo(() => {
+      const filtered = processFacilities(data.results, filterFacilityTypes);
+      const facilitiesTrivia = filtered.reduce(
+        (a, c) => {
+          const key = c.date === dateString(date) ? "current" : "previous";
+          a[key].count += 1;
+          a[key].oxygen += c.oxygenCapacity || 0;
+          a[key].actualLivePatients += c.actualLivePatients || 0;
+          a[key].actualDischargedPatients += c.actualDischargedPatients || 0;
+          Object.keys(AVAILABILITY_TYPES).forEach((k) => {
+            a[key][k].used += c.capacity[k]?.current_capacity || 0;
+            a[key][k].total += c.capacity[k]?.total_capacity || 0;
+          });
 
-        AVAILABILITY_TYPES_TOTAL_ORDERED.forEach((k) => {
-          const current_covid = c.capacity[k.covid]?.current_capacity || 0;
-          const current_non_covid =
-            c.capacity[k.non_covid]?.current_capacity || 0;
-          const total_covid = c.capacity[k.covid]?.total_capacity || 0;
-          const total_non_covid = c.capacity[k.non_covid]?.total_capacity || 0;
-          a[key][k.id].used += current_covid + current_non_covid;
-          a[key][k.id].total += total_covid + total_non_covid;
-        });
+          AVAILABILITY_TYPES_TOTAL_ORDERED.forEach((k) => {
+            const current_covid = c.capacity[k.covid]?.current_capacity || 0;
+            const current_non_covid =
+              c.capacity[k.non_covid]?.current_capacity || 0;
+            const total_covid = c.capacity[k.covid]?.total_capacity || 0;
+            const total_non_covid =
+              c.capacity[k.non_covid]?.total_capacity || 0;
+            a[key][k.id].used += current_covid + current_non_covid;
+            a[key][k.id].total += total_covid + total_non_covid;
+          });
 
-        return a;
-      },
-      {
-        current: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
-        previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
-      }
-    );
-    const exported = {
-      data: filtered.reduce((a, c) => {
-        if (c.date !== dateString(date)) {
           return a;
+        },
+        {
+          current: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
+          previous: JSON.parse(JSON.stringify(initialFacilitiesTrivia)),
+        }
+      );
+      const exported = {
+        data: filtered.reduce((a, c) => {
+          if (c.date !== dateString(date)) {
+            return a;
+          }
+          return [
+            ...a,
+            {
+              "Govt/Pvt": GOVT_FACILITY_TYPES.includes(c.facilityType)
+                ? "Govt"
+                : "Pvt",
+              "Hops/CFLTC":
+                c.facilityType === "First Line Treatment Centre"
+                  ? "CFLTC"
+                  : "Hops",
+              "Hospital/CFLTC Address": c.address,
+              "Hospital/CFLTC Name": c.name,
+              Mobile: c.phoneNumber,
+              ...AVAILABILITY_TYPES_ORDERED.reduce((t, x) => {
+                const y = { ...t };
+                y[`Current ${AVAILABILITY_TYPES[x]}`] =
+                  c.capacity[x]?.current_capacity || 0;
+                y[`Total ${AVAILABILITY_TYPES[x]}`] =
+                  c.capacity[x]?.total_capacity || 0;
+                return y;
+              }, {}),
+            },
+          ];
+        }, []),
+        filename: "capacity_export.csv",
+      };
+
+      const capacityCardData = filtered.reduce((acc, facility) => {
+        const covidData = getCapacityBedData([30, 120, 110, 100], facility);
+        const nonCovidData = getCapacityBedData([1, 150, 10, 20], facility);
+        const finalTotalData = getFinalTotalData(covidData, nonCovidData);
+        const noCapacity = finalTotalData.every((item) => item.total === 0);
+        if (facility.date !== dateString(date) || noCapacity) {
+          return acc;
         }
         return [
-          ...a,
+          ...acc,
           {
-            "Govt/Pvt": GOVT_FACILITY_TYPES.includes(c.facilityType)
-              ? "Govt"
-              : "Pvt",
-            "Hops/CFLTC":
-              c.facilityType === "First Line Treatment Centre"
-                ? "CFLTC"
-                : "Hops",
-            "Hospital/CFLTC Address": c.address,
-            "Hospital/CFLTC Name": c.name,
-            Mobile: c.phoneNumber,
-            ...AVAILABILITY_TYPES_ORDERED.reduce((t, x) => {
-              const y = { ...t };
-              y[`Current ${AVAILABILITY_TYPES[x]}`] =
-                c.capacity[x]?.current_capacity || 0;
-              y[`Total ${AVAILABILITY_TYPES[x]}`] =
-                c.capacity[x]?.total_capacity || 0;
-              return y;
-            }, {}),
+            facility_name: facility.name,
+            facility_id: facility.id,
+            facility_type: facility.facilityType,
+            phone_number: facility.phoneNumber,
+            last_updated: dayjs(facility.modifiedDate).fromNow(),
+            patient_discharged: `${facility.actualLivePatients || 0}/${
+              facility.actualDischargedPatients || 0
+            }`,
+            covid: covidData,
+            non_covid: nonCovidData,
+            final_total: finalTotalData,
           },
         ];
-      }, []),
-      filename: "capacity_export.csv",
-    };
+      }, []);
 
-    const capacityCardData = filtered.reduce((acc, facility) => {
-      const covidData = getCapacityBedData([30, 120, 110, 100], facility);
-      const nonCovidData = getCapacityBedData([1, 150, 10, 20], facility);
-      const finalTotalData = getFinalTotalData(covidData, nonCovidData);
-      const noCapacity = finalTotalData.every((item) => item.total === 0);
-      if (facility.date !== dateString(date) || noCapacity) {
-        return acc;
-      }
-      return [
-        ...acc,
-        {
-          facility_name: facility.name,
-          facility_id: facility.id,
-          facility_type: facility.facilityType,
-          phone_number: facility.phoneNumber,
-          last_updated: dayjs(facility.modifiedDate).fromNow(),
-          patient_discharged: `${facility.actualLivePatients || 0}/${facility.actualDischargedPatients || 0
-            }`,
-          covid: covidData,
-          non_covid: nonCovidData,
-          final_total: finalTotalData,
-        },
-      ];
-    }, []);
-
-    const todayFiltered = filtered.filter((f) => f.date === dateString(date));
-    return {
-      facilitiesTrivia,
-      exported,
-      todayFiltered,
-      capacityCardData,
-    };
-  }, [data, filterFacilityTypes]);
+      const todayFiltered = filtered.filter((f) => f.date === dateString(date));
+      return {
+        facilitiesTrivia,
+        exported,
+        todayFiltered,
+        capacityCardData,
+      };
+    }, [data, filterFacilityTypes]);
 
   const transitions = useTransition(forecast, null, {
     enter: { opacity: 1 },
@@ -215,16 +213,9 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
     const debounce_timer = setTimeout(() => {
       setFilteredData(
         searchTerm
-          ? capacityCardData.filter((v) =>
-            fuzzysort
-              .go(
-                searchTerm,
-                capacityCardData.map((d) => ({ ...d, 0: d.facility_name })),
-                { key: "0" }
-              )
-              .map((v) => v.target)
-              .includes(v.facility_name)
-          )
+          ? fuzzysort
+              .go(searchTerm, capacityCardData, { key: "facility_name" })
+              .map((v) => v.obj)
           : capacityCardData
       );
       setPage(0);
