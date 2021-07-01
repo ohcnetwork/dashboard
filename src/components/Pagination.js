@@ -42,7 +42,7 @@ const Pagination = ({
             "px-3 py-1 text-xs font-semibold hover:bg-gray-100 rounded dark:hover:bg-gray-500 dark:hover:bg-opacity-10"
           }
           activeLinkClassName={
-            "px-3 py-1 text-xs text-gray-200 font-semibold bg-green-500 hover:bg-green-600"
+            "px-3 py-1 text-xs text-gray-200 font-semibold bg-primary-500 hover:bg-primary-600"
           }
         />
       </div>

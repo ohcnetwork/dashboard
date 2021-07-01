@@ -31,7 +31,7 @@ const colorClasses = (capacity) => {
     const a = (capacity.current_capacity / capacity.total_capacity) * 100;
 
     if (a < 70) {
-      return "text-green-500";
+      return "text-primary-500";
     } else if (a === 100) {
       return "text-red-700";
     }

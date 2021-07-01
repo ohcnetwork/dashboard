@@ -271,7 +271,7 @@ function SingleCapacityForecast({ title, past, forecasted }) {
                 <Line
                   type="monotone"
                   dataKey="usage"
-                  stroke="var(--color-green-400)"
+                  stroke="var(--color-primary-400)"
                   strokeWidth={2}
                 />
               </LineChart>
@@ -315,13 +315,13 @@ function SingleCapacityForecast({ title, past, forecasted }) {
                     <Line
                       type="monotone"
                       dataKey="usage"
-                      stroke="var(--color-green-400)"
+                      stroke="var(--color-primary-400)"
                       strokeWidth={2}
                     />
                     <Line
                       type="monotone"
                       dataKey="forecasted"
-                      stroke="var(--color-green-400)"
+                      stroke="var(--color-primary-400)"
                       strokeWidth={2}
                       strokeDasharray="3 3"
                     />

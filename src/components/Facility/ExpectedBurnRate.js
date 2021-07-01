@@ -5,7 +5,7 @@ const ExpectedBurnRate = ({ patientData }) => {
     patientData.results &&
     patientData.results?.length >= 1 ? (
     <section className="my-8 px-6 py-4 dark:bg-gray-700 bg-white">
-      <h2 className="text-green-500 text-lg font-bold">Expected Burn Rate</h2>
+      <h2 className="text-primary-500 text-lg font-bold">Expected Burn Rate</h2>
       {patientData.results[0]?.data?.total_patients_bed_with_oxygen_support ||
       patientData.results[0].data?.total_patients_icu_with_oxygen_support ||
       patientData.results[0].data?.total_patients_icu_with_invasive_ventilator +
@@ -16,7 +16,7 @@ const ExpectedBurnRate = ({ patientData }) => {
             .total_patients_bed_with_oxygen_support ? (
             <div
               key={"OXYGEN_BED"}
-              className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
+              className="word-wrap bg-gray-50 flex flex-col pb-3 pl-3 pr-4 pt-6 break-words dark:bg-gray-800 rounded-md space-x-3"
             >
               <div>
                 <p className="ml-4 dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
@@ -62,7 +62,7 @@ const ExpectedBurnRate = ({ patientData }) => {
             .total_patients_icu_with_oxygen_support ? (
             <div
               key={"ICU"}
-              className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
+              className="word-wrap bg-gray-50 flex flex-col pb-3 pl-3 pr-4 pt-6 break-words dark:bg-gray-800 rounded-md space-x-3"
             >
               <div>
                 <p className="ml-4 dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
@@ -110,7 +110,7 @@ const ExpectedBurnRate = ({ patientData }) => {
             .total_patients_icu_with_non_invasive_ventilator ? (
             <div
               key={"Ventilator"}
-              className="word-wrap flex flex-col pb-3 pl-3 pr-4 pt-6 break-words bg-gray-50 dark:bg-gray-800 rounded-md space-x-3"
+              className="word-wrap bg-gray-50 flex flex-col pb-3 pl-3 pr-4 pt-6 break-words dark:bg-gray-800 rounded-md space-x-3"
             >
               <div>
                 <p className="ml-4 dark:text-gray-300 text-gray-500 text-lg font-semibold capitalize">
@@ -159,13 +159,13 @@ const ExpectedBurnRate = ({ patientData }) => {
           ) : null}
         </div>
       ) : (
-        <div className="word-wrap my-4 px-2 py-4 text-center text-gray-600 break-words text-2xl font-bold bg-gray-50 dark:bg-gray-800 rounded-md md:text-3xl">
+        <div className="word-wrap bg-gray-50 my-4 px-2 py-4 text-center text-gray-600 break-words text-2xl font-bold dark:bg-gray-800 rounded-md md:text-3xl">
           <p>No Data Available</p>
         </div>
       )}
     </section>
   ) : (
-    <div className="word-wrap my-4 px-2 py-4 text-center text-gray-600 break-words text-2xl font-bold bg-gray-50 dark:bg-gray-800 rounded-md md:text-3xl">
+    <div className="word-wrap bg-gray-50 my-4 px-2 py-4 text-center text-gray-600 break-words text-2xl font-bold dark:bg-gray-800 rounded-md md:text-3xl">
       <p>No Burn Rate Data Available</p>
     </div>
   );

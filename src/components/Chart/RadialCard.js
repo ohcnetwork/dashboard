@@ -34,7 +34,7 @@ function RadialCard({ label, count, current, previous, col = "" }) {
             d={circlePath}
           />
           <animated.path
-            className="text-green-500 stroke-current stroke-2"
+            className="text-primary-500 stroke-current stroke-2"
             fill="none"
             strokeDasharray={progress}
             d={circlePath}
@@ -57,7 +57,7 @@ function RadialCard({ label, count, current, previous, col = "" }) {
                   {Math.abs(diff)}%
                 </span>
               ) : (
-                <span className="text-green-400">
+                <span className="text-primary-400">
                   <ChevronsDown className="inline h-full" />
                   {Math.abs(diff)}%
                 </span>

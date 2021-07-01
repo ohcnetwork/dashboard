@@ -85,7 +85,7 @@ function TriageTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
             name={s.name}
             data={s.data}
             dataKeys={["avg", "total"]}
-            colors={["var(--color-green-400)", "var(--color-green-500)"]}
+            colors={["var(--color-primary-400)", "var(--color-primary-500)"]}
           />
         ))
       ) : (

@@ -13,7 +13,7 @@
     background: theme("dark:colors.gray-700 colors.gray.100");
   }
   ::-webkit-scrollbar-thumb {
-    background-color: theme(colors.green.500);
+    background-color: theme(colors.primary.500);
     border-radius: 6px;
     border: 3px solid theme(colors.gray.100);
   }
@@ -27,7 +27,7 @@
 }
 .lds-ripple div {
   position: absolute;
-  @apply border-green-500;
+  @apply border-primary-500;
   border-width: 4px;
   border-style: solid;
   opacity: 1;
@@ -118,7 +118,7 @@
 }
 .react-date-picker__button:enabled:hover .react-date-picker__button__icon,
 .react-date-picker__button:enabled:focus .react-date-picker__button__icon {
-  stroke: var(--color-green-500);
+  stroke: var(--color-primary-500);
 }
 .react-date-picker__button:disabled .react-date-picker__button__icon {
   stroke: var(--color-yellow-600);
@@ -223,7 +223,7 @@
 
 /* calender */
 .react-calendar {
-  @apply p-1 dark:text-gray-400 text-gray-600 font-sans dark:bg-gray-900 bg-white border border-green-500 rounded-lg;
+  @apply p-1 dark:text-gray-400 text-gray-600 font-sans dark:bg-gray-900 bg-white border border-primary-500 rounded-lg;
 }
 .react-calendar--doubleView {
   width: 700px;
@@ -312,18 +312,18 @@
   @apply bg-gray-500;
 }
 .react-calendar__tile--hasActive {
-  @apply dark:text-gray-300 text-gray-800 bg-green-500;
+  @apply dark:text-gray-300 text-gray-800 bg-primary-500;
 }
 .react-calendar__tile--hasActive:enabled:hover,
 .react-calendar__tile--hasActive:enabled:focus {
-  @apply bg-green-500;
+  @apply bg-primary-500;
 }
 .react-calendar__tile--active {
-  @apply dark:text-gray-300 text-gray-800 bg-green-500;
+  @apply dark:text-gray-300 text-gray-800 bg-primary-500;
 }
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
-  @apply bg-green-500;
+  @apply bg-primary-500;
 }
 .react-calendar--selectRange .react-calendar__tile--hover {
   @apply bg-gray-300 dark:bg-gray-700;
