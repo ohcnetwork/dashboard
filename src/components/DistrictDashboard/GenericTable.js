@@ -47,7 +47,7 @@ function GenericTable({
         : data
     );
     setPage(0);
-  }, [searchTerm]);
+  }, [searchTerm, data]);
 
   useEffect(() => {
     setTableData(
