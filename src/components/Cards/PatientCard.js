@@ -78,7 +78,7 @@ export function PatientCard({ data }) {
               <div className="dark:text-gray-200 text-xs font-semibold">
                 Home Isolation
               </div>
-              <div className="flex flex-row justify-center ml-3 mt-1 dark:text-gray-200 text-2xl font-semibold">
+              <div className="flex flex-row justify-center mt-1 dark:text-gray-200 text-2xl font-semibold">
                 <div>{data.home_isolation.total}</div>
                 {getSubscriptData(data.home_isolation.today)}
               </div>
@@ -86,7 +86,7 @@ export function PatientCard({ data }) {
           </div>
           <div className="col-span-1">
             <div className="m-auto p-2 w-3/5 h-full text-center dark:bg-gray-900 rounded-lg">
-              <div className="flex flex-row justify-center ml-3 mt-3 dark:text-gray-200 text-2xl font-semibold">
+              <div className="flex flex-row justify-center mt-3 dark:text-gray-200 text-2xl font-semibold">
                 <div>{data.bed_with_oxygen_support.total}</div>
                 {getSubscriptData(data.bed_with_oxygen_support.today)}
               </div>
@@ -98,7 +98,7 @@ export function PatientCard({ data }) {
                 <div className="dark:text-gray-200 text-xs font-semibold">
                   ICU
                 </div>
-                <div className="flex flex-row justify-center ml-3 mt-1 dark:text-gray-200 text-2xl font-semibold">
+                <div className="flex flex-row justify-center mt-1 dark:text-gray-200 text-2xl font-semibold">
                   <div>{data.icu.total}</div>
                   {getSubscriptData(data.icu.today)}
                 </div>
@@ -109,7 +109,7 @@ export function PatientCard({ data }) {
                 <div className="dark:text-gray-200 text-xs font-semibold">
                   Oxygen Support
                 </div>
-                <div className="flex flex-row justify-center ml-3 mt-1 dark:text-gray-200 text-2xl font-semibold">
+                <div className="flex flex-row justify-center mt-1 dark:text-gray-200 text-2xl font-semibold">
                   <div>{data.icu_with_oxygen_support.total}</div>
                   {getSubscriptData(data.icu_with_oxygen_support.today)}
                 </div>
@@ -121,7 +121,7 @@ export function PatientCard({ data }) {
               <div className="dark:text-gray-200 text-xs font-semibold">
                 Gynaecology Ward
               </div>
-              <div className="flex flex-row justify-center ml-3 mt-1 dark:text-gray-200 text-2xl font-semibold">
+              <div className="flex flex-row justify-center mt-1 dark:text-gray-200 text-2xl font-semibold">
                 <div>{data.gynaecology_ward.total}</div>
                 {getSubscriptData(data.gynaecology_ward.today)}
               </div>
@@ -135,7 +135,7 @@ export function PatientCard({ data }) {
               <div className="dark:text-gray-200 text-xs font-semibold">
                 Isolation Room
               </div>
-              <div className="flex flex-row justify-center ml-3 mt-1 dark:text-gray-200 text-2xl font-semibold">
+              <div className="flex flex-row justify-center mt-1 dark:text-gray-200 text-2xl font-semibold">
                 <div>{data.isolation_room.total}</div>
                 {getSubscriptData(data.isolation_room.today)}
               </div>
@@ -148,7 +148,7 @@ export function PatientCard({ data }) {
                 <div className="dark:text-gray-200 text-xs font-semibold">
                   Non Invasive Ventilator
                 </div>
-                <div className="flex flex-row justify-center ml-3 mt-1 dark:text-gray-200 text-2xl font-semibold">
+                <div className="flex flex-row justify-center mt-1 dark:text-gray-200 text-2xl font-semibold">
                   <div>{data.icu_with_non_invasive_ventilator.total}</div>
                   {getSubscriptData(
                     data.icu_with_non_invasive_ventilator.today
@@ -161,7 +161,7 @@ export function PatientCard({ data }) {
                 <div className="dark:text-gray-200 text-xs font-semibold">
                   Invasive Ventilator
                 </div>
-                <div className="flex flex-row justify-center ml-3 mt-1 dark:text-gray-200 text-2xl font-semibold">
+                <div className="flex flex-row justify-center mt-1 dark:text-gray-200 text-2xl font-semibold">
                   <div>{data.icu_with_invasive_ventilator.total}</div>
                   {getSubscriptData(data.icu_with_invasive_ventilator.today)}
                 </div>
@@ -173,7 +173,7 @@ export function PatientCard({ data }) {
               <div className="dark:text-gray-200 text-xs font-semibold">
                 Paediatric Ward
               </div>
-              <div className="flex flex-row justify-center ml-3 mt-1 dark:text-gray-200 text-2xl font-semibold">
+              <div className="flex flex-row justify-center mt-1 dark:text-gray-200 text-2xl font-semibold">
                 <div>{data.paediatric_ward.total}</div>
                 {getSubscriptData(data.paediatric_ward.today)}
               </div>
