@@ -1,8 +1,13 @@
 import React from "react";
 import { Card } from "@windmill/react-ui";
 import { ChevronsDown, ChevronsUp } from "react-feather";
+import { PATIENT_TYPES } from "../../utils/constants";
 
 export function PatientCard({ data }) {
+  const isNullData = Object.keys(PATIENT_TYPES).every(
+    (type) => !(data[`${type}`]["total"] || data[`${type}`]["today"])
+  );
+
   const getSubscriptData = (val) => {
     if (val == 0) return;
     else if (val > 0) {
@@ -22,7 +27,9 @@ export function PatientCard({ data }) {
     }
   };
 
-  return (
+  return isNullData ? (
+    <></>
+  ) : (
     <Card className="flex flex-col mb-4 mt-4 p-4 rounded-xl">
       <div className="flex flex-col justify-between md:flex-row">
         <div className="flex flex-col">
