@@ -58,23 +58,23 @@ export function PatientCard({ data }) {
 
       <div className="grid grid-rows-5 mt-2 pt-2 w-full border-t overflow-x-scroll overflow-y-hidden md:mt-4 md:pt-0 md:border-0 md:overflow-hidden">
         <div className="grid row-span-1 grid-cols-5 mb-2 pt-3 w-800 md:w-full">
-          <div className="col-span-1 text-center dark:text-gray-200 text-gray-600 text-sm font-semibold">
+          <div className="col-span-1 text-center dark:text-gray-200 text-gray-800 text-sm font-semibold">
             ISOLATION
           </div>
-          <div className="col-span-1 text-center dark:text-gray-200 text-gray-600 text-sm font-semibold">
+          <div className="col-span-1 text-center dark:text-gray-200 text-gray-800 text-sm font-semibold">
             OXYGEN BEDS
           </div>
-          <div className="col-span-2 text-center dark:text-gray-200 text-gray-600 text-sm font-semibold">
+          <div className="col-span-2 text-center dark:text-gray-200 text-gray-800 text-sm font-semibold">
             ICU
           </div>
-          <div className="col-span-1 text-center dark:text-gray-200 text-gray-600 text-sm font-semibold">
+          <div className="col-span-1 text-center dark:text-gray-200 text-gray-800 text-sm font-semibold">
             WARDS
           </div>
         </div>
 
         <div className="grid row-span-2 grid-cols-5 mb-4">
           <div className="col-span-1">
-            <div className="m-auto p-2 w-3/5 text-center dark:bg-gray-900 rounded-lg">
+            <div className="m-auto p-2 w-3/5 text-center bg-gray-200 dark:bg-gray-900 rounded-lg">
               <div className="dark:text-gray-200 text-xs font-semibold">
                 Home Isolation
               </div>
@@ -85,8 +85,8 @@ export function PatientCard({ data }) {
             </div>
           </div>
           <div className="col-span-1">
-            <div className="m-auto p-2 w-3/5 h-full text-center dark:bg-gray-900 rounded-lg">
-              <div className="flex flex-row justify-center mt-3 dark:text-gray-200 text-2xl font-semibold">
+            <div className="m-auto p-2 w-3/5 h-full text-center bg-gray-200 dark:bg-gray-900 rounded-lg">
+              <div className="flex flex-row justify-center mt-5 dark:text-gray-200 text-2xl font-semibold md:mt-3">
                 <div>{data.bed_with_oxygen_support.total}</div>
                 {getSubscriptData(data.bed_with_oxygen_support.today)}
               </div>
@@ -94,18 +94,18 @@ export function PatientCard({ data }) {
           </div>
           <div className="grid col-span-2 grid-cols-2">
             <div className="col-span-1">
-              <div className="float-right mr-2 p-2 w-3/5 h-full text-center dark:bg-gray-900 rounded-lg">
+              <div className="float-right mr-2 p-2 w-3/5 h-full text-center bg-gray-200 dark:bg-gray-900 rounded-lg">
                 <div className="dark:text-gray-200 text-xs font-semibold">
                   ICU
                 </div>
-                <div className="flex flex-row justify-center mt-1 dark:text-gray-200 text-2xl font-semibold">
+                <div className="flex flex-row justify-center mt-3 dark:text-gray-200 text-2xl font-semibold md:mt-1">
                   <div>{data.icu.total}</div>
                   {getSubscriptData(data.icu.today)}
                 </div>
               </div>
             </div>
             <div className="col-span-1">
-              <div className="ml-2 p-2 w-3/5 text-center dark:bg-gray-900 rounded-lg">
+              <div className="ml-2 p-2 w-3/5 text-center bg-gray-200 dark:bg-gray-900 rounded-lg">
                 <div className="dark:text-gray-200 text-xs font-semibold">
                   Oxygen Support
                 </div>
@@ -117,7 +117,7 @@ export function PatientCard({ data }) {
             </div>
           </div>
           <div className="col-span-1">
-            <div className="m-auto p-2 w-3/5 text-center dark:bg-gray-900 rounded-lg">
+            <div className="m-auto p-2 w-3/5 text-center bg-gray-200 dark:bg-gray-900 rounded-lg">
               <div className="dark:text-gray-200 text-xs font-semibold">
                 Gynaecology Ward
               </div>
@@ -131,7 +131,7 @@ export function PatientCard({ data }) {
 
         <div className="grid row-span-2 grid-cols-5">
           <div className="col-span-1">
-            <div className="m-auto p-2 w-3/5 text-center dark:bg-gray-900 rounded-lg">
+            <div className="m-auto p-2 w-3/5 text-center bg-gray-200 dark:bg-gray-900 rounded-lg">
               <div className="dark:text-gray-200 text-xs font-semibold">
                 Isolation Room
               </div>
@@ -144,7 +144,7 @@ export function PatientCard({ data }) {
           <div className="col-span-1"></div>
           <div className="grid col-span-2 grid-cols-2">
             <div className="col-span-1">
-              <div className="float-right mr-2 px-1 py-2 w-3/5 text-center dark:bg-gray-900 rounded-lg">
+              <div className="float-right mr-2 px-1 py-2 w-3/5 text-center bg-gray-200 dark:bg-gray-900 rounded-lg">
                 <div className="dark:text-gray-200 text-xs font-semibold">
                   Non Invasive Ventilator
                 </div>
@@ -157,7 +157,7 @@ export function PatientCard({ data }) {
               </div>
             </div>
             <div className="col-span-1">
-              <div className="ml-2 p-2 w-3/5 text-center dark:bg-gray-900 rounded-lg">
+              <div className="ml-2 p-2 w-3/5 text-center bg-gray-200 dark:bg-gray-900 rounded-lg">
                 <div className="dark:text-gray-200 text-xs font-semibold">
                   Invasive Ventilator
                 </div>
@@ -169,7 +169,7 @@ export function PatientCard({ data }) {
             </div>
           </div>
           <div className="col-span-1">
-            <div className="m-auto p-2 w-3/5 text-center dark:bg-gray-900 rounded-lg">
+            <div className="m-auto p-2 w-3/5 text-center bg-gray-200 dark:bg-gray-900 rounded-lg">
               <div className="dark:text-gray-200 text-xs font-semibold">
                 Paediatric Ward
               </div>
