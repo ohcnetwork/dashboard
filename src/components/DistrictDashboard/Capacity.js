@@ -1,6 +1,5 @@
 import { Button, Input } from "@windmill/react-ui";
 import Pagination from "../Pagination";
-import clsx from "clsx";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import fuzzysort from "fuzzysort";

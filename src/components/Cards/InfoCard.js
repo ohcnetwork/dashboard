@@ -18,28 +18,28 @@ const InfoCard = ({ title, value, delta = null, small = false }) => {
       <CardBody className="flex flex-col">
         <div>
           <p
-            className={clsx(
-              small ? "mb-1 text-xs" : "mb-2 text-sm",
-              "dark:text-gray-400 text-gray-600 font-medium"
-            )}
+            className={clsx("dark:text-gray-400 text-gray-600 font-medium", {
+              "mb-1 text-xs": small,
+              "mb-2 text-sm": !small,
+            })}
           >
             {title}
           </p>
           <div className="flex">
             <animated.p
               className={clsx(
-                small ? "text-base" : "text-lg",
-                "dark:text-gray-200 text-gray-700 font-semibold"
+                "dark:text-gray-200 text-gray-700 font-semibold",
+                { "text-base": small, "text-lg": !small }
               )}
             >
               {_value.interpolate((x) => Math.round(x))}
             </animated.p>
             {delta !== null && (
               <animated.span
-                className={clsx(
-                  small ? "text-xs" : "text-sm",
-                  "ml-2 dark:text-gray-400 text-gray-600"
-                )}
+                className={clsx("ml-2 dark:text-gray-400 text-gray-600", {
+                  "text-xs": small,
+                  "text-sm": !small,
+                })}
               >
                 {_delta.interpolate((y) => {
                   const x = Math.round(y);

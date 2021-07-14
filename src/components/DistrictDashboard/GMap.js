@@ -9,15 +9,14 @@ import {
   GMAP_KEY,
 } from "../../utils/constants";
 import Marker from "../Marker";
+import clsx from "clsx";
 
-const selectedButtonClasses = (bool) => {
-  const d = " px-4 py-2 font-bold rounded-lg shadow ";
-  return (
-    d +
-    (bool
-      ? "bg-primary-500 text-white"
-      : "dark:hover:bg-primary-500 hover:text-white hover:bg-primary-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white")
-  );
+const selectedButtonClasses = (isWhite) => {
+  return clsx("px-4 py-2 font-bold rounded-lg shadow", {
+    "bg-primary-500 text-white": isWhite,
+    "dark:hover:bg-primary-500 hover:text-white hover:bg-primary-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white":
+      !isWhite,
+  });
 };
 
 const GMap = ({ district, facilities, className }) => {

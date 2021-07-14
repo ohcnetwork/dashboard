@@ -45,8 +45,8 @@ const Filter = ({
   return (
     <div
       className={clsx(
-        floating ? " mt-10 flex-shrink-0 " : "mb-8 rounded-lg",
-        "flex flex-col items-center justify-between px-1 py-1 dark:bg-gray-800 bg-white shadow-md sm:px-4 sm:py-2 md:flex-row"
+        "flex flex-col items-center justify-between px-1 py-1 dark:bg-gray-800 bg-white shadow-md sm:px-4 sm:py-2 md:flex-row",
+        { "mt-10 flex-shrink-0": floating, "mb-8 rounded-lg": !floating }
       )}
     >
       <p className="inline-flex dark:text-gray-400">Filters</p>

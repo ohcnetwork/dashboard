@@ -1,6 +1,7 @@
 import { Card } from "@windmill/react-ui";
 import React from "react";
 import { OXYGEN_TYPES } from "../../utils/constants";
+import clsx from "clsx";
 
 const OxygenCard = ({ data }) => {
   const getSVG = (parameter) => {
@@ -94,9 +95,12 @@ const OxygenCard = ({ data }) => {
           >
             <div className="flex flex-row justify-center">
               <div
-                className={`text-gray-800 dark:text-gray-200 text-lg font-semibold ${
-                  data.is_low[idx] ? "text-red-500 dark:text-red-500" : ""
-                }`}
+                className={clsx(
+                  "dark:text-gray-200 text-gray-800 text-lg font-semibold",
+                  {
+                    "text-red-500 dark:text-red-500": data.is_low[idx],
+                  }
+                )}
               >
                 {val}
               </div>
