@@ -420,7 +420,7 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
       setPage(0);
     }, 1000);
     return () => clearTimeout(debounce_timer);
-  }, [searchTerm]);
+  }, [searchTerm, oxygenCardData]);
 
   useEffect(() => {
     setTableData(

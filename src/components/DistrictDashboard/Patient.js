@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { lazy, Suspense, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import useSWR from "swr";
 
 import { careSummary } from "../../utils/api";
@@ -14,9 +14,12 @@ import {
 } from "../../utils/utils";
 import { InfoCard } from "../Cards/InfoCard";
 import { ValuePill } from "../Pill/ValuePill";
-import ThemedSuspense from "../ThemedSuspense";
-import GenericTable from "./GenericTable";
-
+import { PatientCard } from "../Cards/PatientCard";
+import { SectionTitle } from "../Typography/Title";
+import { CSVLink } from "react-csv";
+import Pagination from "../Pagination";
+import { Button, Input } from "@windmill/react-ui";
+import fuzzysort from "fuzzysort";
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
@@ -48,7 +51,7 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
       )
   );
 
-  const { facilitiesTrivia, exported, tableData } = useMemo(() => {
+  const { facilitiesTrivia, exported, patientCardData } = useMemo(() => {
     const filtered = processFacilities(data.results, filterFacilityTypes);
     const facilitiesTrivia = filtered.reduce(
       (a, c) => {
@@ -66,29 +69,30 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
       }
     );
 
-    const tableData = filtered.reduce((a, c) => {
-      if (c.date !== dateString(date)) {
-        return a;
-      }
-      return [
-        ...a,
-        [
-          [c.name, c.facilityType, c.phoneNumber, c.id],
-          dayjs(c.modifiedDate, "DD-MM-YYYY HH:mm").fromNow(),
-          ...Object.keys(PATIENT_TYPES).map((k) => {
-            const delta = c[`today_patients_${k}`] || 0;
-            return (
-              <div key={k} className="flex">
-                <p className="">{c[`total_patients_${k}`] || 0}</p>
-                <span className="ml-2 text-sm">
-                  {delta === 0 ? "-" : delta > 0 ? `+${delta}` : delta}
-                </span>
-              </div>
-            );
-          }),
-        ],
+    const patientCardData = filtered.reduce((acc, facility) => {
+      if (facility.date !== dateString(date)) return acc;
+      const details = [
+        ...acc,
+        {
+          id: facility.id,
+          facility_name: facility.name,
+          facility_type: facility.facilityType,
+          phone_number: facility.phoneNumber,
+          last_updated: dayjs(
+            facility.modifiedDate,
+            "DD-MM-YYYY HH:mm"
+          ).fromNow(),
+        },
       ];
+      Object.keys(PATIENT_TYPES).forEach((type) => {
+        details[details.length - 1][type] = {
+          total: facility[`total_patients_${type}`] || 0,
+          today: facility[`today_patients_${type}`] || 0,
+        };
+      });
+      return details;
     }, []);
+
     const exported = {
       filename: "patient_export.csv",
       data: filtered.reduce((a, c) => {
@@ -116,8 +120,41 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
         ];
       }, []),
     };
-    return { facilitiesTrivia, exported, tableData };
+    return { facilitiesTrivia, exported, patientCardData };
   }, [data, filterFacilityTypes]);
+
+  const [filteredData, setFilteredData] = useState(patientCardData);
+  const [tableData, setTableData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(0);
+  const resultsPerPage = 10;
+
+  useEffect(() => {
+    const debounce_timer = setTimeout(() => {
+      setFilteredData(
+        searchTerm
+          ? patientCardData.filter((v) =>
+              fuzzysort
+                .go(
+                  searchTerm,
+                  patientCardData.map((d) => ({ ...d, 0: d.facility_name })),
+                  { key: "0" }
+                )
+                .map((v) => v.target)
+                .includes(v.facility_name)
+            )
+          : patientCardData
+      );
+      setPage(0);
+    }, 1000);
+    return () => clearTimeout(debounce_timer);
+  }, [searchTerm, patientCardData]);
+
+  useEffect(() => {
+    setTableData(
+      filteredData.slice(page * resultsPerPage, (page + 1) * resultsPerPage)
+    );
+  }, [filteredData, page]);
 
   return (
     <>
@@ -138,14 +175,37 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
           />
         ))}
       </div>
-      <Suspense fallback={<ThemedSuspense />}>
-        <GenericTable
-          className="mb-8"
-          columns={["Name", "Last Updated", ...Object.values(PATIENT_TYPES)]}
-          data={tableData}
-          exported={exported}
+
+      <div id="facility-patient-cards" className="mb-16 mt-16">
+        <div className="flex flex-col items-center justify-between md:flex-row">
+          <SectionTitle>Facilities</SectionTitle>
+          <div className="flex max-w-full space-x-4">
+            {exported && (
+              <CSVLink data={exported.data} filename={exported.filename}>
+                <Button block>Export</Button>
+              </CSVLink>
+            )}
+            <Input
+              className="sw-40 rounded-lg sm:w-auto"
+              placeholder="Search Facility"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+            />
+          </div>
+        </div>
+
+        {tableData.map((data) => (
+          <PatientCard data={data} key={data.id} />
+        ))}
+
+        <Pagination
+          resultsPerPage={resultsPerPage}
+          totalResults={filteredData.length}
+          currentPage={page}
+          currentResults={tableData.length}
+          handlePageClick={setPage}
         />
-      </Suspense>
+      </div>
     </>
   );
 }
