@@ -85,7 +85,7 @@ function DistrictDashboard() {
         .find((a) => a[1] === content)[0]
         .toLowerCase()}`
     );
-  }, [content]);
+  }, [content, filterDistrict]);
 
   const renderContent = () => {
     switch (content) {
