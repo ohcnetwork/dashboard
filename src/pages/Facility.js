@@ -17,7 +17,7 @@ import Oxygen from "../components/Facility/Oxygen";
 import ExpectedBurnRate from "../components/Facility/ExpectedBurnRate";
 import FacilityInfo from "../components/Facility/FacilityInfo";
 
-function Facility() {
+const Facility = () => {
   const params = useParams();
   const facility = params.facilityId;
   // const date = Date.parse(query.get("date"));
@@ -80,6 +80,6 @@ function Facility() {
       </div>
     )
   );
-}
+};
 
 export default Facility;

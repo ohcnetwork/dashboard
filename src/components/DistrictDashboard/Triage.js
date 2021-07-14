@@ -12,8 +12,8 @@ import {
   getNDateBefore,
   processFacilities,
 } from "../../utils/utils";
-import { InfoCard } from "../Cards/InfoCard";
-import { ValuePill } from "../Pill/ValuePill";
+import InfoCard from "../Cards/InfoCard";
+import ValuePill from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
 import GenericTable from "./GenericTable";
 
@@ -32,7 +32,7 @@ const initialFacilitiesTrivia = {
   total_patients_home_quarantine: 0,
 };
 
-function Triage({ filterDistrict, filterFacilityTypes, date }) {
+const Triage = ({ filterDistrict, filterFacilityTypes, date }) => {
   const { data } = useSWR(
     ["Triage", date, filterDistrict.id],
     (url, date, district) =>
@@ -149,6 +149,6 @@ function Triage({ filterDistrict, filterFacilityTypes, date }) {
       </Suspense>
     </>
   );
-}
+};
 
 export default Triage;

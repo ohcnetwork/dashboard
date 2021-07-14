@@ -19,7 +19,7 @@ import {
   GOVT_FACILITY_TYPES,
 } from "../../utils/constants";
 
-function Filter({
+const Filter = ({
   timeseries,
   setTimeseries,
   date,
@@ -31,7 +31,7 @@ function Filter({
   filterFacilityTypes,
   setFilterFacilityTypes,
   content,
-}) {
+}) => {
   const [facilityTypesFilterOptions, setFacilityTypesFilterOptions] =
     useState(FACILITY_TYPES);
   const [_filterFacilityTypes, _setFilterFacilityTypes] =
@@ -203,6 +203,6 @@ function Filter({
       </div>
     </div>
   );
-}
+};
 
 export default Filter;

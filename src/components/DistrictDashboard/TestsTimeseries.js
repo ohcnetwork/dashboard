@@ -11,7 +11,7 @@ import {
 import TimeseriesLineChart from "../Chart/TimeseriesLineChart";
 import NoData from "../NoData";
 
-function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
+const TestsTimeseries = ({ filterDistrict, filterFacilityTypes, dates }) => {
   const { data } = useSWR(
     ["TestsTimeseries", dates, filterDistrict.id],
     (url, dates, district) =>
@@ -87,6 +87,6 @@ function TestsTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       )}
     </div>
   );
-}
+};
 
 export default TestsTimeseries;

@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import { SidebarContext } from "../../context/SidebarContext";
 import SidebarContent from "./SidebarContent";
 
-function Sidebar() {
+const Sidebar = () => {
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
 
   return (
@@ -36,6 +36,6 @@ function Sidebar() {
       </>
     </Transition>
   );
-}
+};
 
 export default Sidebar;

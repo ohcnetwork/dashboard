@@ -11,7 +11,7 @@ import {
 import TimeseriesBarChart from "../Chart/TimeseriesBarChart";
 import NoData from "../NoData";
 
-function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
+const PatientTimeseries = ({ filterDistrict, filterFacilityTypes, dates }) => {
   const { data } = useSWR(
     ["PatientTimeseries", dates, filterDistrict.id],
     (url, dates, district) =>
@@ -84,6 +84,6 @@ function PatientTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       )}
     </div>
   );
-}
+};
 
 export default PatientTimeseries;

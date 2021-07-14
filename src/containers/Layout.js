@@ -12,7 +12,7 @@ import Main from "./Main";
 
 const Page404 = lazy(() => import("../pages/404"));
 
-function Layout() {
+const Layout = () => {
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
   const location = useLocation();
 
@@ -23,7 +23,7 @@ function Layout() {
   return (
     <div
       className={clsx(
-        "flex h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 ease-linear",
+        "bg-gray-50 flex h-screen dark:bg-gray-900 transition-colors duration-200 ease-linear",
         isSidebarOpen && "overflow-hidden"
       )}
     >
@@ -53,6 +53,6 @@ function Layout() {
       </div>
     </div>
   );
-}
+};
 
 export default Layout;

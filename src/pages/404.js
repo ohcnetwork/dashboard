@@ -2,7 +2,7 @@ import React from "react";
 import { XOctagon } from "react-feather";
 import { useHistory } from "react-router-dom";
 
-function Page404() {
+const Page404 = () => {
   const history = useHistory();
 
   return (
@@ -27,6 +27,6 @@ function Page404() {
       </p>
     </div>
   );
-}
+};
 
 export default Page404;

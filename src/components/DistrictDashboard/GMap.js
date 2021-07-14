@@ -20,7 +20,7 @@ const selectedButtonClasses = (bool) => {
   );
 };
 
-function GMap({ district, facilities, className }) {
+const GMap = ({ district, facilities, className }) => {
   const [selectedBedType, setSelectedBedType] = useState("All");
   const { mode } = useContext(WindmillContext);
 
@@ -477,6 +477,6 @@ function GMap({ district, facilities, className }) {
       </CardBody>
     </Card>
   );
-}
+};
 
 export default GMap;

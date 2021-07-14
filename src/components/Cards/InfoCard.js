@@ -3,7 +3,7 @@ import clsx from "clsx";
 import React from "react";
 import { animated, config, useSpring } from "react-spring";
 
-export function InfoCard({ title, value, delta = null, small = false }) {
+const InfoCard = ({ title, value, delta = null, small = false }) => {
   const { _value, _delta } = useSpring({
     from: { _value: 0, _delta: 0 },
     to: {
@@ -52,4 +52,6 @@ export function InfoCard({ title, value, delta = null, small = false }) {
       </CardBody>
     </Card>
   );
-}
+};
+
+export default InfoCard;

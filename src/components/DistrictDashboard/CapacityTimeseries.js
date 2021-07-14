@@ -15,7 +15,7 @@ import TimeseriesBarChart from "../Chart/TimeseriesBarChart";
 import TimeseriesLineChart from "../Chart/TimeseriesLineChart";
 import NoData from "../NoData";
 
-function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
+const CapacityTimeseries = ({ filterDistrict, filterFacilityTypes, dates }) => {
   const { data } = useSWR(
     ["CapacityTimeseries", dates, filterDistrict.id],
     (url, dates, district) =>
@@ -136,6 +136,6 @@ function CapacityTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       )}
     </div>
   );
-}
+};
 
 export default CapacityTimeseries;

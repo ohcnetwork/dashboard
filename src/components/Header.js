@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 import { SidebarContext } from "../context/SidebarContext";
 
-function Header() {
+const Header = () => {
   const { mode, toggleMode } = useContext(WindmillContext);
   const { toggleSidebar } = useContext(SidebarContext);
   const history = useHistory();
@@ -79,6 +79,6 @@ function Header() {
       </div>
     </header>
   );
-}
+};
 
 export default Header;

@@ -1,7 +1,7 @@
 import React from "react";
 import { animated, config, useSpring } from "react-spring";
 
-export function ValuePill({ title, value = 0 }) {
+const ValuePill = ({ title, value = 0 }) => {
   const { v } = useSpring({
     from: {
       v: 0,
@@ -25,4 +25,6 @@ export function ValuePill({ title, value = 0 }) {
       </div>
     </div>
   );
-}
+};
+
+export default ValuePill;

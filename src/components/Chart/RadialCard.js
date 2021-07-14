@@ -3,7 +3,7 @@ import React from "react";
 import { ChevronsDown, ChevronsUp } from "react-feather";
 import { animated, config, useSpring } from "react-spring";
 
-function RadialCard({ label, count, current, previous, col = "" }) {
+const RadialCard = ({ label, count, current, previous, col = "" }) => {
   const current_used = Math.round((current.used / current.total) * 100);
   const previous_used = Math.round((previous.used / previous.total) * 100);
   const diff = current_used - previous_used;
@@ -88,6 +88,6 @@ function RadialCard({ label, count, current, previous, col = "" }) {
       </div>
     </Card>
   );
-}
+};
 
 export default RadialCard;

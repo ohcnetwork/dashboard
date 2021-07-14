@@ -1,12 +1,12 @@
 import fetch from "unfetch";
 
-export function careSummary(
+const careSummary = async (
   type,
   start_date,
   end_date,
   district,
   limit = 2000
-) {
+) => {
   return fetch(
     `/api/v1/${type}_summary/?` +
       new URLSearchParams({
@@ -16,9 +16,9 @@ export function careSummary(
         limit,
       })
   ).then((r) => r.json());
-}
+};
 
-export function individualCareSummary(type, start_date, end_date, facility) {
+const individualCareSummary = async (type, start_date, end_date, facility) => {
   return fetch(
     `/api/v1/${type}_summary/?` +
       new URLSearchParams({
@@ -27,4 +27,6 @@ export function individualCareSummary(type, start_date, end_date, facility) {
         facility,
       })
   ).then((r) => r.json());
-}
+};
+
+export { careSummary, individualCareSummary };

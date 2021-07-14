@@ -41,7 +41,7 @@ const OxygenMonitor = lazy(() =>
   import("../components/DistrictDashboard/OxygenMonitor")
 );
 
-function DistrictDashboard() {
+const DistrictDashboard = () => {
   const todayDate = new Date();
   const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -176,7 +176,7 @@ function DistrictDashboard() {
     }
   };
 
-  function ConditionalFilter({ floating }) {
+  const ConditionalFilter = ({ floating }) => {
     return (
       <Filter
         floating={floating}
@@ -192,7 +192,7 @@ function DistrictDashboard() {
         content={content}
       />
     );
-  }
+  };
   const transitions = useTransition(content, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
@@ -285,6 +285,6 @@ function DistrictDashboard() {
       </Suspense>
     </div>
   );
-}
+};
 
 export default DistrictDashboard;

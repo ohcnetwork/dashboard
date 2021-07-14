@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { ChevronDown } from "react-feather";
 import { NavLink, Route } from "react-router-dom";
 
-function SidebarSubmenu({ route }) {
+const SidebarSubmenu = ({ route }) => {
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
 
-  function handleDropdownMenuClick() {
+  const handleDropdownMenuClick = () => {
     setIsDropdownMenuOpen(!isDropdownMenuOpen);
-  }
+  };
 
   return (
     <li className="relative px-6 py-3" key={route.name}>
@@ -60,6 +60,6 @@ function SidebarSubmenu({ route }) {
       </Transition>
     </li>
   );
-}
+};
 
 export default SidebarSubmenu;

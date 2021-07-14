@@ -14,13 +14,13 @@ import fuzzysort from "fuzzysort";
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 
-function FacilityTable({
+const FacilityTable = ({
   columns = [],
   data,
   className,
   exported = null,
   title = "Facilities",
-}) {
+}) => {
   const resultsPerPage = 25;
   const [filteredData, setFilteredData] = useState(data);
   const [page, setPage] = useState(1);
@@ -122,6 +122,6 @@ function FacilityTable({
       </TableContainer>
     </div>
   );
-}
+};
 
 export default FacilityTable;

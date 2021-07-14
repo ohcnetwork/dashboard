@@ -26,16 +26,16 @@ import {
   processFacilities,
 } from "../../utils/utils";
 import NoData from "../NoData";
-import { Pill } from "../Pill/Pill";
+import Pill from "../Pill/Pill";
 
 const arima = wrap(new Worker("../../utils/arima.worker", { type: "module" }));
 
-function CapacityForecast({
+const CapacityForecast = ({
   filterDistrict,
   filterFacilityTypes,
   date,
   setForecast,
-}) {
+}) => {
   const [timespan, setTimespan] = useState({ past: 14, forecast: 14 });
   const { data } = useSWR(
     ["CapacityForecast", date, filterDistrict.id, timespan.past],
@@ -209,9 +209,9 @@ function CapacityForecast({
   ) : (
     <NoData />
   );
-}
+};
 
-function SingleCapacityForecast({ title, past, forecasted }) {
+const SingleCapacityForecast = ({ title, past, forecasted }) => {
   const { mode } = useContext(WindmillContext);
   const { a, mx, mn, fa, fmx, fmn } = useSpring({
     from: { a: 0, mx: 0, mn: 0 },
@@ -360,6 +360,6 @@ function SingleCapacityForecast({ title, past, forecasted }) {
       </div>
     </div>
   );
-}
+};
 
 export default CapacityForecast;

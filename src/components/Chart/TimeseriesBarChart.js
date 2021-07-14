@@ -13,7 +13,7 @@ import {
 
 import { SectionTitle } from "../Typography/Title";
 
-function TimeseriesBarChart({ name, data, dataKeys, colors }) {
+const TimeseriesBarChart = ({ name, data, dataKeys, colors }) => {
   const { mode } = useContext(WindmillContext);
 
   return (
@@ -66,6 +66,6 @@ function TimeseriesBarChart({ name, data, dataKeys, colors }) {
       </Card>
     </div>
   );
-}
+};
 
 export default TimeseriesBarChart;

@@ -2,7 +2,7 @@ import { Card } from "@windmill/react-ui";
 import React from "react";
 import { OXYGEN_TYPES } from "../../utils/constants";
 
-export function OxygenCard({ data }) {
+const OxygenCard = ({ data }) => {
   const getSVG = (parameter) => {
     if (parameter === "Quantity") {
       return (
@@ -183,4 +183,6 @@ export function OxygenCard({ data }) {
       </div>
     </Card>
   );
-}
+};
+
+export default OxygenCard;

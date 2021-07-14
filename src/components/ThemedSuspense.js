@@ -1,6 +1,6 @@
 import React from "react";
 
-function ThemedSuspense({ className }) {
+const ThemedSuspense = ({ className }) => {
   return (
     <div className={`flex justify-center p-6 overflow-hidden ${className}`}>
       <div className="lds-ripple flex self-center">
@@ -9,6 +9,6 @@ function ThemedSuspense({ className }) {
       </div>
     </div>
   );
-}
+};
 
 export default ThemedSuspense;

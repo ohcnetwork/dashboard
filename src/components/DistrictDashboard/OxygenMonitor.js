@@ -17,7 +17,7 @@ import {
   getNDateBefore,
   processFacilities,
 } from "../../utils/utils";
-import { OxygenCard } from "../Cards/OxygenCard";
+import OxygenCard from "../Cards/OxygenCard";
 import { SectionTitle } from "../Typography/Title";
 import { CSVLink } from "react-csv";
 import Pagination from "../Pagination";
@@ -248,7 +248,7 @@ const selectorToText = (selector) => {
   }
 };
 
-function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
+const OxygenMonitor = ({ filterDistrict, filterFacilityTypes, date }) => {
   const [orderBy, setOrderBy] = useState({
     selector: "inventoryModifiedDate",
     order: 1,
@@ -487,6 +487,6 @@ function OxygenMonitor({ filterDistrict, filterFacilityTypes, date }) {
       </div>
     </>
   );
-}
+};
 
 export default OxygenMonitor;

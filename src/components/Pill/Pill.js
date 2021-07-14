@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Pill({ title, children }) {
+const Pill = ({ title, children }) => {
   return (
     <div className="flex items-center justify-between h-6 dark:text-gray-200 dark:bg-gray-800 rounded-lg shadow-xs">
       <span className="mx-2 text-xxs font-medium leading-none xl:text-sm">
@@ -11,4 +11,6 @@ export function Pill({ title, children }) {
       </div>
     </div>
   );
-}
+};
+
+export default Pill;

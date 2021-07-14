@@ -12,8 +12,8 @@ import {
   getNDateBefore,
   processFacilities,
 } from "../../utils/utils";
-import { InfoCard } from "../Cards/InfoCard";
-import { ValuePill } from "../Pill/ValuePill";
+import InfoCard from "../Cards/InfoCard";
+import ValuePill from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
 import GenericTable from "./GenericTable";
 
@@ -36,7 +36,7 @@ const initialFacilitiesTrivia = {
   icu_with_non_invasive_ventilator: { total: 0, today: 0 },
 };
 
-function Patient({ filterDistrict, filterFacilityTypes, date }) {
+const Patient = ({ filterDistrict, filterFacilityTypes, date }) => {
   const { data } = useSWR(
     ["Patient", date, filterDistrict.id],
     (url, date, district) =>
@@ -148,6 +148,6 @@ function Patient({ filterDistrict, filterFacilityTypes, date }) {
       </Suspense>
     </>
   );
-}
+};
 
 export default Patient;

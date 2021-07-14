@@ -14,14 +14,14 @@ import fuzzysort from "fuzzysort";
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 
-function GenericTable({
+const GenericTable = ({
   columns = [],
   setOrderBy,
   data,
   className,
   exported = null,
   title = "Facilities",
-}) {
+}) => {
   const resultsPerPage = 25;
   const [filteredData, setFilteredData] = useState(data);
   const [page, setPage] = useState(0);
@@ -140,6 +140,6 @@ function GenericTable({
       </TableContainer>
     </div>
   );
-}
+};
 
 export default GenericTable;

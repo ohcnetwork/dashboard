@@ -7,7 +7,7 @@ import { register } from "register-service-worker";
 import App from "./App";
 import "./assets/css/tailwind.css";
 import ThemedSuspense from "./components/ThemedSuspense";
-import { SidebarProvider } from "./context/SidebarContext";
+import SidebarProvider from "./context/SidebarContext";
 import myTheme from "./utils/theme";
 
 ReactDOM.render(

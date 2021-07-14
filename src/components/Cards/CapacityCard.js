@@ -1,7 +1,7 @@
 import { Card } from "@windmill/react-ui";
 import React from "react";
 
-export function CapacityCard({ data }) {
+const CapacityCard = ({ data }) => {
   const showBedInfo = (bedData, category) => (
     <div className="grid row-span-2 grid-cols-9 mt-2 h-12">
       <div className="col-span-1 pl-3 pt-3 dark:text-gray-200 text-sm font-medium">
@@ -113,4 +113,6 @@ export function CapacityCard({ data }) {
       </div>
     </Card>
   );
-}
+};
+
+export default CapacityCard;

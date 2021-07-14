@@ -5,7 +5,7 @@ import { ReactComponent as CoronaSafeLogo } from "../../assets/icons/coronaSafeL
 import routes from "../../routes/sidebar";
 import SidebarSubmenu from "./SidebarSubmenu";
 
-function SidebarContent() {
+const SidebarContent = () => {
   return (
     <div className="flex flex-col justify-between py-4 min-h-full dark:text-gray-400 text-gray-500">
       <ul className="mt-2">
@@ -74,6 +74,6 @@ function SidebarContent() {
       </ul>
     </div>
   );
-}
+};
 
 export default SidebarContent;

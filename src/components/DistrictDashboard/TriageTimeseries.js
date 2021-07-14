@@ -11,7 +11,7 @@ import {
 import TimeseriesLineChart from "../Chart/TimeseriesLineChart";
 import NoData from "../NoData";
 
-function TriageTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
+const TriageTimeseries = ({ filterDistrict, filterFacilityTypes, dates }) => {
   const { data } = useSWR(
     ["TriageTimeseries", dates, filterDistrict.id],
     (url, dates, district) =>
@@ -93,6 +93,6 @@ function TriageTimeseries({ filterDistrict, filterFacilityTypes, dates }) {
       )}
     </div>
   );
-}
+};
 
 export default TriageTimeseries;

@@ -12,8 +12,8 @@ import {
   getNDateBefore,
   processFacilities,
 } from "../../utils/utils";
-import { InfoCard } from "../Cards/InfoCard";
-import { ValuePill } from "../Pill/ValuePill";
+import InfoCard from "../Cards/InfoCard";
+import ValuePill from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
 import GenericTable from "./GenericTable";
 
@@ -29,7 +29,7 @@ const initialFacilitiesTrivia = {
   result_positive: 0,
 };
 
-function Tests({ filterDistrict, filterFacilityTypes, date }) {
+const Tests = ({ filterDistrict, filterFacilityTypes, date }) => {
   const { data } = useSWR(
     ["Tests", date, filterDistrict.id],
     (url, date, district) =>
@@ -137,6 +137,6 @@ function Tests({ filterDistrict, filterFacilityTypes, date }) {
       </Suspense>
     </>
   );
-}
+};
 
 export default Tests;

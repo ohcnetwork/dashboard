@@ -5,21 +5,19 @@ import AccessibleNavigationAnnouncer from "./components/AccessibleNavigationAnno
 
 const Layout = lazy(() => import("./containers/Layout"));
 
-function PublicRoute({ component: Component, ...rest }) {
+const PublicRoute = ({ component: Component, ...rest }) => {
   return <Route {...rest} render={(props) => <Component {...props} />} />;
-}
+};
 
-function App() {
+const App = () => {
   return (
-    <>
-      <Router>
-        <AccessibleNavigationAnnouncer />
-        <Switch>
-          <PublicRoute path="/" component={Layout} />
-        </Switch>
-      </Router>
-    </>
+    <Router>
+      <AccessibleNavigationAnnouncer />
+      <Switch>
+        <PublicRoute path="/" component={Layout} />
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;

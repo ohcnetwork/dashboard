@@ -17,7 +17,7 @@ import { SectionTitle } from "../Typography/Title";
 const GMap = lazy(() => import("../DistrictDashboard/GMap"));
 dayjs.extend(relativeTime);
 
-function DistrictMap({ filterDistrict, filterFacilityTypes, date }) {
+const DistrictMap = ({ filterDistrict, filterFacilityTypes, date }) => {
   const { data } = useSWR(
     ["Capacity", date, filterDistrict.id],
     (url, date, district) =>
@@ -54,6 +54,6 @@ function DistrictMap({ filterDistrict, filterFacilityTypes, date }) {
       </Suspense>
     </animated.div>
   ));
-}
+};
 
 export default DistrictMap;

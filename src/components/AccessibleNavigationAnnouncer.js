@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-function AccessibleNavigationAnnouncer() {
+const AccessibleNavigationAnnouncer = () => {
   const [message, setMessage] = useState("");
   const location = useLocation();
 
@@ -26,6 +26,6 @@ function AccessibleNavigationAnnouncer() {
       {message}
     </span>
   );
-}
+};
 
 export default AccessibleNavigationAnnouncer;

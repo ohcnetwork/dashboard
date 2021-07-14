@@ -24,10 +24,10 @@ import {
   getNDateBefore,
   processFacilities,
 } from "../../utils/utils";
-import { CapacityCard } from "../Cards/CapacityCard";
+import CapacityCard from "../Cards/CapacityCard";
 import RadialCard from "../Chart/RadialCard";
-import { Pill } from "../Pill/Pill";
-import { ValuePill } from "../Pill/ValuePill";
+import Pill from "../Pill/Pill";
+import ValuePill from "../Pill/ValuePill";
 import ThemedSuspense from "../ThemedSuspense";
 import { SectionTitle } from "../Typography/Title";
 
@@ -84,7 +84,7 @@ const initialFacilitiesTrivia = {
   oxygen: 0,
 };
 
-function Capacity({ filterDistrict, filterFacilityTypes, date }) {
+const Capacity = ({ filterDistrict, filterFacilityTypes, date }) => {
   const [forecast, setForecast] = useState(false);
   const { data } = useSWR(
     ["Capacity", date, filterDistrict.id],
@@ -336,6 +336,6 @@ function Capacity({ filterDistrict, filterFacilityTypes, date }) {
       </animated.div>
     )
   );
-}
+};
 
 export default Capacity;
