@@ -2,8 +2,10 @@ const windmill = require("@windmill/react-ui/config");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = windmill({
+  mode: "jit",
   purge: [
-    "src/**/*.js",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
     "node_modules/@windmill/react-ui/lib/defaultTheme.js",
     "node_modules/@windmill/react-ui/dist/index.js",
   ],
