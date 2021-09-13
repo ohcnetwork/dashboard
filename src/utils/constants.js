@@ -1,9 +1,9 @@
 // Activated Districts
 export const ACTIVATED_DISTRICTS = [
-  { id: 7, name: "Ernakulam", lat: 10.148_547_6, lng: 76.500_752_4, zoom: 10 },
+  { id: 16, name: "Chennai", lat: 13.0629, lng: 80.2315, zoom: 10 },
 ];
 
-export const GMAP_KEY = "AIzaSyDsBAc3y7deI5ZO3NtK5GuzKwtUzQNJNUk";
+export const GMAP_KEY = "AIzaSyCd-dCJ0kZggouOsYQ9onr87k03CnZxUOg";
 
 export const AVAILABILITY_TYPES_ORDERED = [
   1, 150, 10, 20, 30, 120, 110, 100, 40, 60, 50, 70,
