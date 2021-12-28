@@ -1,6 +1,6 @@
 const routes = [
   {
-    name: "District Dashboard",
+    name: "State Dashboard",
     routes: [
       {
         path: "/district/capacity",

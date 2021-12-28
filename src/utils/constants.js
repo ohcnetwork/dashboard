@@ -1,5 +1,6 @@
 // Activated Districts
 export const ACTIVATED_DISTRICTS = [
+  { id: "99", name: "Tamilnadu", lat: "13.266", lng: "79.9963", zoom: 10 },
   { id: "15", name: "Tiruvallur", lat: "13.266", lng: "79.9331", zoom: 10 },
   { id: "16", name: "Chennai", lat: "13.0629", lng: "80.2315", zoom: 10 },
   { id: "17", name: "Kancheepuram", lat: "12.833", lng: "79.8386", zoom: 10 },
