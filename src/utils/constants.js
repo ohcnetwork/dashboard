@@ -1,7 +1,74 @@
 // Activated Districts
-export const ACTIVATED_DISTRICTS = [
-  { id: 7, name: "Ernakulam", lat: 10.148_547_6, lng: 76.500_752_4, zoom: 10 },
+
+const manipurDistricts = [
+  {
+    id: 0,
+    name: "All",
+    state: 2,
+  },
+  {
+    id: 17,
+    name: "Bishnupur",
+    state: 2,
+  },
+  {
+    id: 23,
+    name: "Chandel",
+    state: 2,
+  },
+  {
+    id: 21,
+    name: "Churachandpur",
+    state: 2,
+  },
+  {
+    id: 16,
+    name: "Imphal East",
+    state: 2,
+  },
+  {
+    id: 18,
+    name: "Imphal West",
+    state: 2,
+  },
+  {
+    id: 19,
+    name: "Jiribam",
+    state: 2,
+  },
+  {
+    id: 15,
+    name: "Kakching",
+    state: 2,
+  },
+  {
+    id: 22,
+    name: "Tamenglong",
+    state: 2,
+  },
+  {
+    id: 20,
+    name: "Thoubal",
+    state: 2,
+  },
+  {
+    id: 24,
+    name: "Ukhrul",
+    state: 2,
+  },
 ];
+
+// export const ACTIVATED_DISTRICTS = [
+//   { id: 7, name: "Ernakulam", lat: 10.148_547_6, lng: 76.500_752_4, zoom: 10 },
+// ];
+
+// Map with Lat, Lng for Manipur India
+export const ACTIVATED_DISTRICTS = manipurDistricts.map((district) => ({
+  id: district.id,
+  name: district.name,
+  lat: 24.813967,
+  lng: 93.950279,
+}));
 
 export const GMAP_KEY = "AIzaSyDsBAc3y7deI5ZO3NtK5GuzKwtUzQNJNUk";
 
@@ -26,10 +93,6 @@ export const AVAILABILITY_TYPES = {
   10: "Non-Covid ICU",
   150: "Non-Covid Oxygen Beds",
   1: "Non-Covid Ordinary Bed",
-  70: "KASP Ventilator",
-  50: "KASP ICU",
-  60: "KASP Oxygen Beds",
-  40: "KASP Ordinary Bed",
   100: "Covid ICU w/ Ventilator",
   110: "Covid ICU",
   120: "Covid Oxygen Beds",
@@ -41,10 +104,6 @@ export const AVAILABILITY_TYPES_PROXY = {
   10: "Non-Covid",
   150: "Non-Covid",
   1: "Non-Covid",
-  70: "KASP",
-  50: "KASP",
-  60: "KASP",
-  40: "KASP",
   100: "Covid",
   110: "Covid",
   120: "Covid",
