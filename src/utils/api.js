@@ -28,3 +28,7 @@ export function individualCareSummary(type, start_date, end_date, facility) {
       })
   ).then((r) => r.json());
 }
+
+export function assetSummary(assetID) {
+  return fetch(`/api/v1/public/asset/${assetID}/`).then((r) => r.json());
+}
