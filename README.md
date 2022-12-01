@@ -1,7 +1,7 @@
-# CoronaSafe Dashboard
 
 This dashboard is no longer being maintained. Check out coronasafe/care_dashboard for the current version of the dashboard
 
+# CoronaSafe Dashboard
 
 [![](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/images/0)](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/links/0)[![](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/images/1)](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/links/1)[![](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/images/2)](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/links/2)[![](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/images/3)](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/links/3)[![](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/images/4)](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/links/4)[![](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/images/5)](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/links/5)[![](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/images/6)](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/links/6)[![](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/images/7)](https://sourcerer.io/fame/tomahawk-pilot/coronasafe/dashboard/links/7)
 
