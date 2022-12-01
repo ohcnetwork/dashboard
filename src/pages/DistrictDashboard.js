@@ -46,7 +46,7 @@ function DistrictDashboard() {
   const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [timeseries, setTimeseries] = useState(false);
-  const [filterDistrict, setFilterDistrict] = useState(ACTIVATED_DISTRICTS[0]);
+  const [filterDistrict, setFilterDistrict] = useState(ACTIVATED_DISTRICTS[1]);
   const [filterFacilityTypes, setFilterFacilityTypes] =
     useState(FACILITY_TYPES);
   const [content, setContent] = useState(
@@ -66,7 +66,7 @@ function DistrictDashboard() {
       (district) => district.name.toLowerCase() === name?.toLowerCase()
     );
 
-    return district === undefined ? ACTIVATED_DISTRICTS[0] : district;
+    return district === undefined ? ACTIVATED_DISTRICTS[1] : district;
   };
 
   useEffect(() => {
@@ -200,7 +200,7 @@ function DistrictDashboard() {
   });
   return (
     <div className="overflow-hidden md:overflow-auto">
-      <PageTitle>District Dashboard</PageTitle>
+      <PageTitle>State Dashboard</PageTitle>
       <div className="flex flex-col items-center justify-between mb-2 px-4 py-2 bg-primary-500 rounded-lg shadow-md md:flex-row">
         <p className="text-white font-semibold">{filterDistrict.name}</p>
         <div className="md:flex md:space-x-2">

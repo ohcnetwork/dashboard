@@ -1,6 +1,6 @@
 const routes = [
   {
-    name: "District Dashboard",
+    name: "State Dashboard",
     routes: [
       {
         path: "/district/capacity",
@@ -25,16 +25,8 @@ const routes = [
     ],
   },
   {
-    href: "https://care.coronasafe.network/",
+    href: "https://care.tncwr.in/",
     name: "Care",
-  },
-  {
-    href: "https://kerala.coronasafe.network/",
-    name: "Kerala Dashboard",
-  },
-  {
-    href: "https://kerala.coronasafe.network/hotspots",
-    name: "Kerala Dashboard: Hotspots",
   },
 ];
 

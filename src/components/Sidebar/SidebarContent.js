@@ -44,13 +44,13 @@ function SidebarContent() {
       <ul className="px-6 space-y-1">
         <ul className="flex text-sm space-x-2">
           <li>
-            <a href="https://github.com/coronasafe/dashboard">Github</a>
+            <a href="https://github.com/tncwr/dashboard">Github</a>
           </li>
           <li>
-            <a href="https://github.com/coronasafe/dashboard/issues">Issues</a>
+            <a href="https://github.com/tncwr/dashboard/issues">Issues</a>
           </li>
           <li>
-            <a href="https://coronasafe.network/volunteer">Volunteer</a>
+            <a href="https://github.com/tncwr">GitHub</a>
           </li>
           <li>
             <a href="mailto:info@coronasafe.network">Contact</a>
@@ -58,14 +58,14 @@ function SidebarContent() {
         </ul>
         <li className="flex flex-col">
           <a
-            href="https://coronasafe.network/"
+            href="https://github.com/tncwr/"
             className="inline-flex text-xs space-x-1"
           >
             <span>Copyright © 2021</span>
             <CoronaSafeLogo className="h-4" aria-hidden="true" />
           </a>
           <a
-            href="https://github.com/coronasafe/dashboard/blob/master/LICENSE"
+            href="https://github.com/tncwr/dashboard/blob/master/LICENSE"
             className="text-xxs"
           >
             Released under the MIT License
