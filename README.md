@@ -1,5 +1,5 @@
 
-This dashboard is no longer being maintained. Check out coronasafe/care_dashboard for the current version of the dashboard
+> :warning: **This dashboard is no longer being maintained.** Check out coronasafe/care_dashboard for the current version of the dashboard
 
 # CoronaSafe Dashboard
 
