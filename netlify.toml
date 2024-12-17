@@ -11,3 +11,19 @@ force = true
 from = "/*"
 to = "/index.html"
 status = 200
+[build]
+  publish = "build" # Ensure this matches your build folder
+  command = "npm run build" # Replace with your actual build command
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    X-Frame-Options = "DENY"
+    Content-Security-Policy = "frame-ancestors 'none';"
+
