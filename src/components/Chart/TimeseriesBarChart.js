@@ -13,8 +13,14 @@ import {
 
 import { SectionTitle } from "../Typography/Title";
 
-function TimeseriesBarChart({ name, data, dataKeys, colors }) {
+function TimeseriesBarChart({ name, data, dataKeys = [], colors = [] }) {
   const { mode } = useContext(WindmillContext);
+
+  // Ensure dataKeys and colors are matched
+  if (dataKeys.length !== colors.length) {
+    console.error("The number of dataKeys must match the number of colors.");
+    return null;
+  }
 
   return (
     <div>
@@ -35,7 +41,7 @@ function TimeseriesBarChart({ name, data, dataKeys, colors }) {
               <XAxis dataKey="date" />
               <YAxis />
               <Tooltip
-                cursor={false}
+                cursor={{ fill: mode === "dark" ? "#333" : "#f5f5f5" }}
                 contentStyle={{
                   backgroundColor:
                     mode === "dark"
@@ -48,6 +54,7 @@ function TimeseriesBarChart({ name, data, dataKeys, colors }) {
                   borderRadius: "0.5rem",
                   borderStyle: "none",
                 }}
+                formatter={(value, name) => [value, name.toUpperCase()]} // Tooltip formatter
               />
               <Legend
                 wrapperStyle={{
